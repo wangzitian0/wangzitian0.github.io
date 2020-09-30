@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/huaji.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/huaji.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/huaji.png">
+  <link rel="mask-icon" href="/images/huaji.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"wangzitian0.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":true,"b2t":false,"scrollpercent":true},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"appID":"1PWF5BJPP1","apiKey":"6a2714c5b665823e7132db2aedb81233","indexName":"wangzitian0.github.io","hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="介绍 web 服务器基本概念，和常见的服务端演替路线。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="WEB 服务器探究">
+<meta property="og:url" content="https://wangzitian0.github.io/2017/06/27/WEB-server-explore/index.html">
+<meta property="og:site_name" content="全栈之路">
+<meta property="og:description" content="介绍 web 服务器基本概念，和常见的服务端演替路线。">
+<meta property="og:locale">
+<meta property="og:image" content="https://wangzitian0.github.io/images/web-server-1.png">
+<meta property="og:image" content="https://wangzitian0.github.io/images/web-server-2.png">
+<meta property="og:image" content="https://wangzitian0.github.io/images/web-server-3.png">
+<meta property="og:image" content="https://wangzitian0.github.io/images/web-server-4.png">
+<meta property="og:image" content="https://wangzitian0.github.io/images/web-server-5.png">
+<meta property="og:image" content="https://wangzitian0.github.io/images/web-server-6.png">
+<meta property="og:image" content="https://wangzitian0.github.io/images/web-server-7.png">
+<meta property="og:image" content="https://wangzitian0.github.io/images/web-server-8.png">
+<meta property="og:image" content="https://wangzitian0.github.io/images/web-server-9.png">
+<meta property="og:image" content="https://wangzitian0.github.io/images/web-server-10.png">
+<meta property="article:published_time" content="2017-06-27T07:40:00.000Z">
+<meta property="article:modified_time" content="2020-09-30T04:59:07.881Z">
+<meta property="article:author" content="田_田">
+<meta property="article:tag" content="Backend">
+<meta property="article:tag" content="Architecture">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://wangzitian0.github.io/images/web-server-1.png">
+
+<link rel="canonical" href="https://wangzitian0.github.io/2017/06/27/WEB-server-explore/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>WEB 服务器探究 | 全栈之路</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?1eeceb0b3f8e550d6211f134646361b6";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="全栈之路" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta custom-logo">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">全栈之路</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">田_田的博客</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="archive fa-fw"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="user fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="tags fa-fw"></i>Tags</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container"></div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="algolia-results">
+  <div id="algolia-stats"></div>
+  <div id="algolia-hits"></div>
+  <div id="algolia-pagination" class="algolia-pagination"></div>
+</div>
+
+      
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://wangzitian0.github.io/2017/06/27/WEB-server-explore/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="田_田">
+      <meta itemprop="description" content="创新需要在一切发生之前研究结局!">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="全栈之路">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          WEB 服务器探究
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-06-27 15:40:00" itemprop="dateCreated datePublished" datetime="2017-06-27T15:40:00+08:00">2017-06-27</time>
+            </span>
+
+          
+            <span id="/2017/06/27/WEB-server-explore/" class="post-meta-item leancloud_visitors" data-flag-title="WEB 服务器探究" title="Views">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>介绍 web 服务器基本概念，和常见的服务端演替路线。</p>
+<a id="more"></a>
+
+<h2 id="几种不同名字的服务器有什么区别？"><a href="#几种不同名字的服务器有什么区别？" class="headerlink" title="几种不同名字的服务器有什么区别？"></a>几种不同名字的服务器有什么区别？</h2><p>WEB服务器、应用程序服务器、HTTP服务器</p>
+<p>具体的内容可以看 <a target="_blank" rel="noopener" href="http://www.javaworld.com/article/2077354/learn-java/app-server-web-server-what-s-the-difference.html">这篇文章</a> 和它的 <a target="_blank" rel="noopener" href="http://blog.csdn.net/flykobesummer/article/details/5024304">翻译版</a></p>
+<p>我只说结论：</p>
+<ul>
+<li>HTTP服务器本质上也是一种应用程序</li>
+<li>Web服务器的基本功能就是提供Web信息浏览服务。它只需支持HTTP协议、HTML文档格式及URL。与客户端的网络浏览器配合。因为Web服务器主要支持的协议就是HTTP，所以通常情况下HTTP服务器和WEB服务器是相等的，说的是一回事。 </li>
+<li>应用服务器可能包含PC机上运行的GUI进程，web服务器，甚至其他的app服务器。app服务器和客户端之间的通信并不局限于简单的显示标记，而是可以由程序逻辑，比如数据表单、方法调用，而非静态的HTML。这样，客户端程序就可以按需去用。</li>
+<li>举个例子，QQ 的后台是应用程序服务器，QQ 空间的后台是WEB服务器。</li>
+</ul>
+<h2 id="tomcat-与-nginx，apache的区别是什么？"><a href="#tomcat-与-nginx，apache的区别是什么？" class="headerlink" title="tomcat 与 nginx，apache的区别是什么？"></a>tomcat 与 nginx，apache的区别是什么？</h2><p>知乎有一个关于这个问题的答案 <a target="_blank" rel="noopener" href="https://www.zhihu.com/question/32212996">tomcat 与 nginx，apache的区别是什么？</a><br>还有一个 Nginx 和 Apache 的对比 <a target="_blank" rel="noopener" href="http://www.sohu.com/a/128940634_468650">三大Web服务器对比分析</a></p>
+<p>总的来说：</p>
+<ul>
+<li><p>应用程序服务器</p>
+<ul>
+<li>Tomcat能够动态的生成资源并返回到客户端。<ul>
+<li>Java Servlet技术以及衍生的Java Server Pages技术可以让Java程序也具有处理HTTP请求并且返回内容。</li>
+<li>它有直接部署 java 程序的能力</li>
+</ul>
+</li>
+<li>Tomcat运行在JVM之上，它和HTTP服务器一样，绑定IP地址并监听TCP端口<ul>
+<li>管理Servlet程序的生命周期</li>
+<li>将URL映射到指定的Servlet进行处理</li>
+<li>与Servlet程序合作处理HTTP请求</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>web 服务器</p>
+<ul>
+<li>Apache和Nginx都能够将某一个静态资源文件的内容通过HTTP协议返回到客户端。<ul>
+<li>无论何时、任何人访问它得到的内容都是完全相同的</li>
+</ul>
+</li>
+<li>Apache和Nginx可以通过其他模块来支持动态资源<ul>
+<li>通过Shell、PHP、Python脚本程序来动态生成内容</li>
+<li>其他语言可以通过 CGI、WSGI 等协议接入 web 服务器。</li>
+</ul>
+</li>
+<li>Apache vs Nginx<ul>
+<li>Apache 的 rewrite 更强大，社区模块非常多，bug极少</li>
+<li>nginx 轻量，用 epoll可以扛并发，可以反向代理</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="各种语言的简易web服务器"><a href="#各种语言的简易web服务器" class="headerlink" title="各种语言的简易web服务器"></a>各种语言的简易web服务器</h2><p>这个地方的 web 服务器应该理解为只能访问静态资源的 web 服务器。</p>
+<p>换句话说，在硬盘某个地方放一些文件，搭起服务器后，可以在浏览器里通过网络协议来访问这些资源。</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/eidheim/Simple-Web-Server">C++</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/itang/gohttp">Golang</a></p>
+<p><a target="_blank" rel="noopener" href="http://coolshell.cn/articles/1480.html">Python</a></p>
+<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/6084360/using-node-js-as-a-simple-web-server">Nodejs</a></p>
+<ul>
+<li>推荐 light-server </li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://github.com/youngj/httpserver">PHP</a></p>
+<h2 id="正经网站的结构"><a href="#正经网站的结构" class="headerlink" title="正经网站的结构"></a>正经网站的结构</h2><p>这部分内容的结构来源于【<a target="_blank" rel="noopener" href="https://book.douban.com/subject/25723064/">大型网站技术架构</a>】，然后加上我自己的理解和常见的工具、现代化 MVP 处理方式。</p>
+<p>正经网站基本上都需要需要存储结构化数据，有不同身份用户交互的，需要存储音乐图片视频等媒体文件的，然后是用网络协议调用外部服务。</p>
+<ul>
+<li>在书里说是 xxx 服务器，但更准确的说法是 xxx 服务，比如缓存，我们很多时候可以和应用程序使用同一个服务器硬件。</li>
+<li>更现代的方式应该是监控各种服务的资源占用情况，然后根据资源占用情况混合部署，充分利用 CPU、内存、硬盘 IO 性能等等</li>
+<li>这里可以把 xxx 服务器理解为抽象概念的服务器，哪怕调用 memcache 这样的插件也是走网络协议 socket 或者 http 协议</li>
+<li>各个部件用不同的协议和端口，所以抽象层逻辑上的单机和多机区别不大，集群带来的效果更多关注总的 CPU 算力、总内存、总硬盘 IO 量等等。</li>
+</ul>
+<h3 id="初始阶段的网站架构"><a href="#初始阶段的网站架构" class="headerlink" title="初始阶段的网站架构"></a>初始阶段的网站架构</h3><p>一般来讲，大型网站都是从小型网站发展而来，一开始的架构都比较简单，随着业务复杂和用户量的激增，才开始做很多架构上的改进。当它还是小型网站的时候，没有太多访客，一般来讲只需要一台服务器就够了，这时应用程序、数据库、文件等所有资源都在一台服务器上，网站架构如下图所示：<br><img src="/images/web-server-1.png" alt="web-server-1"><br>HINT：</p>
+<ul>
+<li>这个级别基本上属于本科生大作业级别</li>
+<li>直接在应用程序里面写东西去连接 client，操作文件，操作数据库</li>
+<li>几乎没有抗风险能力，一挂全挂</li>
+<li>面向自己的程序这么写是没问题的，开发起来很快，也不需要多余的轮子</li>
+<li>比较好的实践是自己封装一些lib，用来隔离各种不相关操作</li>
+</ul>
+<h3 id="应用服务和数据服务分离"><a href="#应用服务和数据服务分离" class="headerlink" title="应用服务和数据服务分离"></a>应用服务和数据服务分离</h3><p>随着网站业务的发展和用户量的增加，一台服务器就无法再满足需求了。大量用户访问导致访问速度越来越慢，而逐渐增加的数据也会导致存储空间不足。这时就需要将应用和数据分离，应用和数据分离后整个网站使用 3 台服务器：应用服务器、文件服务器和数据库服务器。这 3 台服务器对硬件资源的要求各不相同：应用服务器业务逻辑，需要强大的CPU数据库服务器对磁盘读写操作很多，需要更快的磁盘和更大的内存文件服务器存储用户上传的文件，因此需要更大的磁盘空间此时，网站系统的架构如下图所示：<br><img src="/images/web-server-2.png" alt="web-server-2"><br>HINT：</p>
+<ul>
+<li>这个阶段一般关注两件事：数据库索引、缓存系统</li>
+<li>做一个好的数据库设计，让并让绝大多数查询打在索引上，避免掉不必要的多级join 、limit 很大数字 等速度极慢的艹库行为。</li>
+<li>内存 io 实力比硬盘高很多数量级，设计好精巧的缓存能把网站抗压能力提高一到三个数量级。因为很多场景，82原理可以用两次（80%的流量打在20%的页面和数据库上，64%的流量打在4%的页面和数据库上）</li>
+<li>绝大多数时候，认真设计数据模型+靠谱的缓存就能解决大部分并发，比加机器更有效</li>
+</ul>
+<h3 id="使用缓存改善网站性能"><a href="#使用缓存改善网站性能" class="headerlink" title="使用缓存改善网站性能"></a>使用缓存改善网站性能</h3><p>随着用户再增加，网站又会一次面临挑战：数据库压力太大导致整站访问效率再此下降，用户体验受到影响。一个网站，往往 80% 的业务访问集中在 20% 的数据上，比如微博请求量最多的肯定是那些千万级粉丝的大 V 的微博，而几乎没有人关注的你的首页，除了自己想起来之外根本不会被打开。既然大部分业务访问集中在一小部分数据上，那就把这一小部分数据先提前缓存在内存中，而不是每次都去数据库读取，这样就可以减少数据库的访问压力，从而提高整个网站的访问速度。 网站使用的缓存一般分为缓存到应用服务器或者缓存在专门的分布式缓存服务器。缓存到应用服务器自己的访问速度快很多，但是受自身内存限制，往往不太适用。远程分布式缓存使用一个集群专门负责缓存服务，当内存不够还可以轻松得动态扩容。<br><img src="/images/web-server-3.png" alt="web-server-3"><br>HINT：</p>
+<ul>
+<li>缓存是个可以分很多层级的事情<ul>
+<li>全局级别。比如全局的通知，这类东西全局缓存一份就可以。</li>
+<li>页面级别。每个页面缓存一定时间，挡掉别人的连续刷新打库。浏览器也有类似机制。</li>
+<li>模块级别。比如某些资源的计数器，不是强一致性要求的功能一般可以这么做。</li>
+<li>变量级别。最常见的缓存，推荐一篇文章<a target="_blank" rel="noopener" href="http://coolshell.cn/articles/17416.html">缓存更新的套路</a></li>
+</ul>
+</li>
+<li>常用的两个<a target="_blank" rel="noopener" href="http://gnucto.blog.51cto.com/3391516/998509">Redis与Memcached</a><ul>
+<li>redis 内存内核是单线程的，且支持事务，支持丰富的数据结构，不仅仅是全内存、有 swap 空间、支持 CoW 持久化数据。</li>
+<li>memcached 更充分发挥 cpu 等硬件的潜力，有 cas 支持，吞吐量更大。</li>
+<li>分布式集群方案<ul>
+<li>同时支持 redis &amp; memcached：twitter 的方案 <a target="_blank" rel="noopener" href="https://github.com/twitter/twemproxy">twemproxy</a>，NetFlix 的方案  <a target="_blank" rel="noopener" href="https://github.com/Netflix/dynomite">Dynomite</a></li>
+<li>memcached 方案：facebook 的 <a target="_blank" rel="noopener" href="https://github.com/facebook/mcrouter">mcrouter</a>，已经过恐怖的线上流量验证，FB大部分数据直接扔里面</li>
+<li>redis 方案：豌豆荚的<a target="_blank" rel="noopener" href="https://github.com/CodisLabs/codis">Codis</a>，国内用的人比较多。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="使用应用服务器集群改善网站的并发处理能力"><a href="#使用应用服务器集群改善网站的并发处理能力" class="headerlink" title="使用应用服务器集群改善网站的并发处理能力"></a>使用应用服务器集群改善网站的并发处理能力</h3><p>使用缓存后，数据访问压力得到了缓解，但是单一应用服务器能够处理的请求连接有限，在网站访问高峰期，应用服务器就成了整个网站的效率瓶颈。使用分布式集群是网站解决高并发、海量数据问题的常用手段。当一台服务器的处理能力和存储空间不足时，不要尝试去更换更强大的服务器，对大型网站而言，多么强大的服务器，都满足不了网站持续增长的业务需求。这种情况下，更恰当的做法是增加一台服务器分担原有服务器的访问及存储压力。 对网站架构而言，只要能通过增加一台服务器的方式改善负载压力，就可以以同样的方式持续增加服务器不断改善系统性能，从而实现系统的可伸缩性。通过负载均衡调度服务器，可以将来自用户浏览器的访问请求分发到应用服务器集群中的任何一台服务器上，如果有更多用户，就在集群中加入更多的应用服务器，使应用服务器的压力不再成为整个网站的瓶颈。应用服务器实现集群是网站可伸缩架构设计中较为简单成熟的一种，如下图所示：<br><img src="/images/web-server-4.png" alt="web-server-4"></p>
+<ul>
+<li>不同层面有不同做法<ul>
+<li>LVS在操作系统层，构建虚拟服务器集群<ul>
+<li>负责TCP/IP层的转发</li>
+<li>实现负载均衡，与业务无关</li>
+</ul>
+</li>
+<li>nginx 在应用层面<ul>
+<li>nginx 支持反向代理，吞吐量极大，接近物理极限</li>
+<li>提供页面级缓存，通过修改正则式和if-modified-since等 header 可以精准的控制过期策略</li>
+<li>可以当文件服务器，通过修改X-Accel-Redirect等 header 可以完成身份认证</li>
+</ul>
+</li>
+<li>docker 容器、微内核层面<ul>
+<li>OpenStack 可以自建集群</li>
+<li>Paas 平台可以直接用</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="数据库读写分离"><a href="#数据库读写分离" class="headerlink" title="数据库读写分离"></a>数据库读写分离</h3><p>网站在使用缓存后，使对大部分数据读操作访问都可以不通过数据库就能完成，但是仍有一部分读操作（缓存访问不命中、缓存过期）和全部的写操作都需要访问数据库，在网站的用户达到一定规模后，数据库因为负载压力过高而成为网站的瓶颈。 目前大部分的主流数据库都提供主从热备功能，通过配置两台数据库主从关系，可以将一台数据库服务器的数据更新同步到另一台服务器上。网站利用数据库的这一功能，实现数据库读写分离，从而改善数据库负载压力。如下图所示：应用服务器在写数据的时候，访问主数据库，主数据库通过主从复制机制将数据更新同步到从数据库，这样当应用服务器读数据的时候，就可以通过从数据库获得数据。为了便于应用程序访问读写分离后的数据库，通常在应用服务器端使用专门的数据访问模块，使数据库读写分离对应用透明。<br><img src="/images/web-server-5.png" alt="web-server-5"><br>HINT:</p>
+<ul>
+<li>最开始的场景是对单数据库的热备份，后来逐步发展成把读请求全部发到从库上</li>
+<li>不适合强一致性数据，数据从主库复制到从库需要时间。如果强行等待，反而降低了响应时间。</li>
+<li>主从只负责各自的读和写，一般场景是读多写少，通过多加读的从库增加读的性能。</li>
+<li>综上，作者的观点我不认同。主从架构更多是是一种用于数据容错的高可用性解决方案，而不是一种处理高并发压力的解决方案。解决并发只能多数据库分表分库或者newSQL（用paxos 或者两段式提交）。</li>
+</ul>
+<h3 id="使用反向代理和-CDN-加速网站响应"><a href="#使用反向代理和-CDN-加速网站响应" class="headerlink" title="使用反向代理和 CDN 加速网站响应"></a>使用反向代理和 CDN 加速网站响应</h3><p>随着网站业务不断发展，用户规模越来越大，由于中国复杂的网络环境，不同地区的用户访问网站时，速度差别也极大。有研究表明，网站访问延迟和用户流失率正相关，网站访问越慢，用户越容易失去耐心而离开。为了提供更好的用户体验，留住用户，网站需要加速网站访问速度。主要手段有使用 CDN 和反向代理。如下图所示：<br><img src="/images/web-server-6.png" alt="web-server-6"><br>HINT：</p>
+<ul>
+<li>反向代理主要两个作用：安全+加速<ul>
+<li>外部连接是接到反向代理服务器，这样对应用服务器更加安全。</li>
+<li>对于可以缓存的东西，反向代理层可以增加自动化页面级别缓存</li>
+</ul>
+</li>
+<li>CDN 内容分发网络<ul>
+<li>根据网络流量和各节点的状况把用户请求导向离用户最近的服务节点上，让用户可就近取得所需内容</li>
+<li>CDN 的分发能力很强很快，但是由于内容冗余和缓存，默认姿势是写入之后不可变，因此上 cdn 的东西一般要加一个摘要算法判断版本。</li>
+</ul>
+</li>
+</ul>
+<h3 id="使用分布式文件系统和分布式数据库系统"><a href="#使用分布式文件系统和分布式数据库系统" class="headerlink" title="使用分布式文件系统和分布式数据库系统"></a>使用分布式文件系统和分布式数据库系统</h3><p>任何强大的单一服务器都满足不了大型网站持续增长的业务需求。数据库经过读写分离后，从一台服务器拆分成两台服务器，但是随着网站业务的发展依然不能满足需求，这时需要使用分布式数据库。文件系统也一样，需要使用分布式文件系统。分布式数据库是网站数据库拆分的最后手段，只有在单表数据规模非常庞大的时候才使用。不到不得已时，网站更常用的数据库拆分手段是业务分库，将不同业务的数据部署在不同的物理服务器上。如下图所示：<br><img src="/images/web-server-7.png" alt="web-server-7"><br>HINT:</p>
+<ul>
+<li>分布式文件系统<ul>
+<li>最常用自建文件系统的应该是 HDFS ，云服务提供更好的对象存储服务</li>
+<li><a target="_blank" rel="noopener" href="https://linux.cn/thread-14527-1-1.html">常见的分布式文件系统介绍</a></li>
+</ul>
+</li>
+<li>分布式数据库<ul>
+<li>优先注意 CAP 原理，按照自己需要选择</li>
+<li>这篇文章里面有一张图，大致说明了各个数据库如何取舍 cap <a target="_blank" rel="noopener" href="http://www.cnblogs.com/hxsyl/p/4381980.html">分布式系统之CAP理论</a></li>
+<li>Spanner，TiDB，PhxSQL，Oceanbase 这些 newSQL 在数据查询上和 MySQL 几乎没有区别，cap 上有一个比较不错的均衡点，它们基本上都可以解决95% 的 OLTP 场景和 70% 的 OLAP 场景。</li>
+</ul>
+</li>
+</ul>
+<h3 id="使用-NoSQL-和搜索引擎"><a href="#使用-NoSQL-和搜索引擎" class="headerlink" title="使用 NoSQL 和搜索引擎"></a>使用 NoSQL 和搜索引擎</h3><p>随着网站业务越来越复杂，对数据存储和检索的需求也越来越复杂，网站需要采用一些非关系数据库技术如 NoSQL 和非数据库查询技术如搜索引擎。<br>NoSQL 和搜索引擎都是源自互联网的技术手段，对可伸缩的分布式特性具有更好的支持。应用服务器则通过一个统一数据访问模块访问各种数据，减轻应用程序管理诸多数据源的麻烦。如下图所示：<br><img src="/images/web-server-8.png" alt="web-server-8"><br>HINT：</p>
+<ul>
+<li>绝大多数场景和情况，MySQL 加上 Memcache/Redis 已经够用，但是有一些场景用 noSQL 会有更好的效果。</li>
+<li>业内用得比较多的 noSQL 基本介绍<ul>
+<li><a target="_blank" rel="noopener" href="http://www.infoq.com/cn/news/2014/01/12-free-and-open-source-nosql">12款免费与开源的NoSQL数据库</a></li>
+<li><a target="_blank" rel="noopener" href="http://blog.jobbole.com/1344/">8 种 NoSQL 数据库系统对比</a></li>
+</ul>
+</li>
+<li>我说说我用过的和仔细看过介绍的的几款<ul>
+<li>MongoDB。非常火的文档数据库，360、github、几乎所有的大前端团队都用 mongo 来存数据。本身结构无 schema，可以快速 restful，支持基本的索引。</li>
+<li>Redis。数据结构数据库。独特的性质决定用法多样，从队列到计数器，到秒杀系统，各种地方都有它的身影。</li>
+<li>memcached。经典缓存框架，成熟的大公司要么自己就用 memcache，要么实现了一套类似的 kv 内存存储数据库，吞吐量极高。</li>
+<li>Neo4j。图数据库市场上的唯一选择。做复杂的 join 操作极快。本身提供的cypher就是一种图结构的抽象。赤兔的关系链用的这个数据库。</li>
+<li>HDFS/HBase。适合存海量的文件/行数据。几乎是 Apache 生态的基石，Zoomkeeper，MapReduce，kafka 等很多框架存储数据都是用的 hbase。</li>
+</ul>
+</li>
+<li>搜索和推荐<ul>
+<li><a target="_blank" rel="noopener" href="https://elasticsearch.cn/book/elasticsearch_definitive_guide_2.x/">Elasticsearch</a>应该是业内用得最多的搜索开源框架，基于<a target="_blank" rel="noopener" href="https://www.ibm.com/developerworks/cn/java/j-lo-lucene1/index.html">Lucene</a>工具包建全文索引，自带分布式、近实时索引、Schema-Free、RESTful api、面向文档设计等。</li>
+<li>开源推荐系统相对要多一些。我只用过Mahout 里的 itemBase 推荐算法，已经实现好并留下了接口，只需要去覆盖几个函数就能运行。</li>
+<li>机器学习框架，TensorFlow，Torchnet。这俩没玩过，之后有机会仔细研究一下。</li>
+</ul>
+</li>
+</ul>
+<h3 id="业务拆分"><a href="#业务拆分" class="headerlink" title="业务拆分"></a>业务拆分</h3><p>大型网站为了应对日益复杂的业务场景，通过使用分而治之的手段将整个网站业务分成不同的产品线。如大型购物交易网站都会将首页、商铺、订单、买家、卖家等拆分成不同的产品线，分归不同的业务团队负责。具体到技术上，也会根据产品线划分，将一个网站拆分成许多不同的应用，每个应用独立部署。应用之间可以通过一个超链接建立关系（在首页上的导航链接每个都指向不同的应用地址），也可以通过消息队列进行数据分发，当然最多的还是通过访问同一个数据存储系统来构成一个关联的完整系统，如下图所示：<br><img src="/images/web-server-9.png" alt="web-server-9"><br>HINT：</p>
+<ul>
+<li>上面的架构图里出现的最重要的一个东西就是消息队列，之前数据状态变化必须写数据库，有了队列就可以有新的设计方法。八字真言：削峰解耦，提速广播。<ul>
+<li>削峰。消息队列可以帮助抹平峰值，给架构带来巨大弹性</li>
+<li>解耦。复杂任务、耗时任务可以用更好的方式拆解，对应可以为架构带来非常多的可能性</li>
+<li>提速。同样配置服务器下，大部分消息队列的吞吐量都大于 MySQL。像 kafka 这种自带内存 buffer 的队列速度更快。</li>
+<li>广播。可以由队列在协议层完成广播，比自己轮转通知效率高很多。</li>
+</ul>
+</li>
+<li>常见队列介绍<a target="_blank" rel="noopener" href="http://techlog.cn/article/list/10182733">常用消息队列介绍与对比</a><ul>
+<li>我用过 RabbitMQ 和 kafka，两个都是可持久化队列。RabbitMQ是一个很重也很全的分布式队列，当年 OJ 用它来分发判题任务，跨语言实时队列用这个不错。kafka主要场景还是离在线混合任务，比如线上有了访问记录，可以用 kafka 来驱动一个计算函数更新某些数值。然后就是听说 nsq 不错，但是我没用过。</li>
+<li>QPS 1W以下用什么队列都一个样，如果慢肯定是用搓了，高于这个了就得关注关注各家特点了。</li>
+</ul>
+</li>
+</ul>
+<h3 id="分布式服务"><a href="#分布式服务" class="headerlink" title="分布式服务"></a>分布式服务</h3><p>随着业务拆分越来越小，存储系统越来越庞大，应用系统的整体复杂度呈指数级增加，部署维护越来越困难。由于所有应用要和所有数据库系统连接，在数万台服务器规模的网站中，这些连接的数目是服务器规模的平方，导致数据库连接资源不足，拒绝服务。既然每一个应用系统都需要执行许多相同的业务操作，比如用户管理、商品管理等，那么可以将这些共用的业务提取出来，独立部署。由这些可复用的业务连接数据库，提供共用业务服务，而应用系统只需要管理用户界面，通过分布式服务调用共用业务服务完成具体业务操作。大型网站的架构演化到这里，基本上大多数的技术问题都可以得以解决了。<br>如下图所示：<br><img src="/images/web-server-10.png" alt="web-server-10"><br>HINT：</p>
+<ul>
+<li>架构演化到这个地方，最重要的事情是 RPC 和服务治理<ul>
+<li>RPC生态一般要有序列化反序列化工具、数据交换协议、跨语言的自动生成工具等</li>
+<li>服务治理一般要有监控系统、自动化上线回滚系统、负载均衡、版本容错等等</li>
+</ul>
+</li>
+<li>我只做过序列化，没有做过服务治理，大致看过一些资料，欢迎pr这几节。<ul>
+<li><a target="_blank" rel="noopener" href="http://www.grpc.io/">gRPC</a>： 用 google 的 protobuf 序列化，<a target="_blank" rel="noopener" href="https://github.com/grpc-ecosystem/go-grpc-prometheus">grpc服务治理</a>，包括企鹅在内的很多公司在用protobuf，然后 rpc 框架用自研的。</li>
+<li><a target="_blank" rel="noopener" href="http://dubbo.io/">dubbo</a>：阿里和阿里浪在用的 rpc 框架，当你负责人去过北邮校赛讲座，当年没觉得这哥们多牛逼，现在觉得真特么碉堡了。</li>
+<li><a target="_blank" rel="noopener" href="https://thrift.apache.org/">thrift</a>：Facebook 在用的 rpc 框架，应该是目前多语言支持最好的框架。某头条也在用这个。</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/phunt/avro-rpc-quickstart">avro</a>：Apache 系的东西，很多数据分析的人喜欢这个玩意，不明觉厉。</li>
+</ul>
+</li>
+</ul>
+<h2 id="若干个人观点"><a href="#若干个人观点" class="headerlink" title="若干个人观点"></a>若干个人观点</h2><ul>
+<li>只有系统复杂度到了这后面两三步了才有必要开始用 docker 这些 LXC 工具，初期十来二十台服务器直接脚本化就可以解决大部分问题。</li>
+<li>如果基于云的 SaaS 做架构，很多事情会简单很多，甚至一步到位。国外三四十个人撑起十几亿美金估值靠的就是这种结构。运维的压力和系统的风险指数级减少。</li>
+<li>架构师不会失业，各个部件需要多少容量，这个事情接下来很多年还是需要有经验的工程师来做，每家公司也都会有需求。但是大部分 DBA 类的职位危险了。</li>
+<li>搞存储之类的事情，将来只有大厂和云服务商有需求。剩下的工程师会逐步转变成全栈工程师，以业务为基石来调用各种平台的 API，不需要专门一个后台/后端工程师来帮助产后端接口。</li>
+<li>FB 鼓励刚毕业的人做”全栈”工程师，足够了解整个栈且技术素养发展到一定阶段再去选择深入的方向。<ul>
+<li>同样的一个功能在不同技术栈上由同一个人完成，沟通的成本比七八个人同时工作要低</li>
+<li>设计师的工作范围变宽，各种设计工具<a target="_blank" rel="noopener" href="https://juejin.im/entry/5902b801a22b9d0065cd0ada">React-SketchApp</a>帮助生成对程序员更友好的设计稿</li>
+<li>运维架构后端工程师来管理诸如数据库 Schema、自动化流程、开发工具等基础性工具和规范。</li>
+<li>中间的部分归全栈工程师管：自己定数据库 schema，自己定表单验证方式，自己定前端交互数据流，自己定在哪个位置渲染，连接设计师的各种细节。</li>
+</ul>
+</li>
+<li>安卓和 iOS 如果使用 react-native 或者 weex 可以进一步加速研发流程。</li>
+<li>最后来个鸡汤：<a target="_blank" rel="noopener" href="http://blog.jobbole.com/97985/">如何成为一名优秀的全栈工程师？</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Backend/" rel="tag"># Backend</a>
+              <a href="/tags/Architecture/" rel="tag"># Architecture</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2017/06/19/How-to-understand-web-framework/" rel="prev" title="如何理解Web框架">
+      <i class="fa fa-chevron-left"></i> 如何理解Web框架
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2017/06/28/What-is-fullstack-engineer/" rel="next" title="什么是全栈工程师？">
+      什么是全栈工程师？ <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%87%A0%E7%A7%8D%E4%B8%8D%E5%90%8C%E5%90%8D%E5%AD%97%E7%9A%84%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="nav-number">1.</span> <span class="nav-text">几种不同名字的服务器有什么区别？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#tomcat-%E4%B8%8E-nginx%EF%BC%8Capache%E7%9A%84%E5%8C%BA%E5%88%AB%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-number">2.</span> <span class="nav-text">tomcat 与 nginx，apache的区别是什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%84%E7%A7%8D%E8%AF%AD%E8%A8%80%E7%9A%84%E7%AE%80%E6%98%93web%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="nav-number">3.</span> <span class="nav-text">各种语言的简易web服务器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%AD%A3%E7%BB%8F%E7%BD%91%E7%AB%99%E7%9A%84%E7%BB%93%E6%9E%84"><span class="nav-number">4.</span> <span class="nav-text">正经网站的结构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9D%E5%A7%8B%E9%98%B6%E6%AE%B5%E7%9A%84%E7%BD%91%E7%AB%99%E6%9E%B6%E6%9E%84"><span class="nav-number">4.1.</span> <span class="nav-text">初始阶段的网站架构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BA%94%E7%94%A8%E6%9C%8D%E5%8A%A1%E5%92%8C%E6%95%B0%E6%8D%AE%E6%9C%8D%E5%8A%A1%E5%88%86%E7%A6%BB"><span class="nav-number">4.2.</span> <span class="nav-text">应用服务和数据服务分离</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E7%BC%93%E5%AD%98%E6%94%B9%E5%96%84%E7%BD%91%E7%AB%99%E6%80%A7%E8%83%BD"><span class="nav-number">4.3.</span> <span class="nav-text">使用缓存改善网站性能</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E5%BA%94%E7%94%A8%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%9B%86%E7%BE%A4%E6%94%B9%E5%96%84%E7%BD%91%E7%AB%99%E7%9A%84%E5%B9%B6%E5%8F%91%E5%A4%84%E7%90%86%E8%83%BD%E5%8A%9B"><span class="nav-number">4.4.</span> <span class="nav-text">使用应用服务器集群改善网站的并发处理能力</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AF%BB%E5%86%99%E5%88%86%E7%A6%BB"><span class="nav-number">4.5.</span> <span class="nav-text">数据库读写分离</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86%E5%92%8C-CDN-%E5%8A%A0%E9%80%9F%E7%BD%91%E7%AB%99%E5%93%8D%E5%BA%94"><span class="nav-number">4.6.</span> <span class="nav-text">使用反向代理和 CDN 加速网站响应</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E5%88%86%E5%B8%83%E5%BC%8F%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E5%92%8C%E5%88%86%E5%B8%83%E5%BC%8F%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F"><span class="nav-number">4.7.</span> <span class="nav-text">使用分布式文件系统和分布式数据库系统</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-NoSQL-%E5%92%8C%E6%90%9C%E7%B4%A2%E5%BC%95%E6%93%8E"><span class="nav-number">4.8.</span> <span class="nav-text">使用 NoSQL 和搜索引擎</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%9A%E5%8A%A1%E6%8B%86%E5%88%86"><span class="nav-number">4.9.</span> <span class="nav-text">业务拆分</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F%E6%9C%8D%E5%8A%A1"><span class="nav-number">4.10.</span> <span class="nav-text">分布式服务</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%8B%A5%E5%B9%B2%E4%B8%AA%E4%BA%BA%E8%A7%82%E7%82%B9"><span class="nav-number">5.</span> <span class="nav-text">若干个人观点</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">田_田</p>
+  <div class="site-description" itemprop="description">创新需要在一切发生之前研究结局!</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">34</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wangzitian0" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wangzitian0" rel="noopener" target="_blank"><i class="github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wangzitian0@gmail.com" title="E-Mail → mailto:wangzitian0@gmail.com" rel="noopener" target="_blank"><i class="envelope fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.linkedin.com/in/wangzitian0" title="LinkedIn → https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;wangzitian0" rel="noopener" target="_blank"><i class="linkedin fa-fw"></i></a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class=""></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">田_田</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a>
+  </div>
+
+        
+
+
+
+
+
+
+<script>
+  (function() {
+    function leancloudSelector(url) {
+      url = encodeURI(url);
+      return document.getElementById(url).querySelector('.leancloud-visitors-count');
+    }
+
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = decodeURI(visitors.id);
+      var title = visitors.dataset.flagTitle;
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            leancloudSelector(url).innerText = counter.time + 1;
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              });
+          } else {
+              leancloudSelector(url).innerText = 'Counter not initialized! More info at console err msg.';
+              console.error('ATTENTION! LeanCloud counter has security bug, see how to solve it here: https://github.com/theme-next/hexo-leancloud-counter-security. \n However, you can still use LeanCloud without security, by setting `security` option to `false`.');
+            
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return decodeURI(element.id);
+      });
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          for (let url of entries) {
+            let target = results.find(item => item.url === url);
+            leancloudSelector(url).innerText = target ? target.time : 0;
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    let { app_id, app_key, server_url } = {"enable":true,"app_id":"itw5YW53yzX17tr3WAdRd9Dd-gzGzoHsz","app_key":"qLjOt8jjizQl0ys5OSdwf10Y","server_url":null,"security":true,"betterPerformance":true};
+    function fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${api_server}/1.1${url}`, {
+          method,
+          headers: {
+            'X-LC-Id'     : app_id,
+            'X-LC-Key'    : app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    }
+
+    let api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(response => response.json())
+        .then(({ api_server }) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="//cdn.jsdelivr.net/npm/algoliasearch@4/dist/algoliasearch-lite.umd.js"></script>
+<script src="//cdn.jsdelivr.net/npm/instantsearch.js@4/dist/instantsearch.production.min.js"></script>
+<script src="/js/algolia-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

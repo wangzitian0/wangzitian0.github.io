@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/huaji.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/huaji.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/huaji.png">
+  <link rel="mask-icon" href="/images/huaji.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"wangzitian0.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":true,"b2t":false,"scrollpercent":true},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"appID":"1PWF5BJPP1","apiKey":"6a2714c5b665823e7132db2aedb81233","indexName":"wangzitian0.github.io","hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="我现在想写一个从零到一建web 网站的教程。也想留下一个好的工程模板。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="从零到一建站（1）">
+<meta property="og:url" content="https://wangzitian0.github.io/2013/06/29/zero-to-one-1/index.html">
+<meta property="og:site_name" content="全栈之路">
+<meta property="og:description" content="我现在想写一个从零到一建web 网站的教程。也想留下一个好的工程模板。">
+<meta property="og:locale">
+<meta property="article:published_time" content="2013-06-29T12:00:00.000Z">
+<meta property="article:modified_time" content="2020-09-30T04:59:07.882Z">
+<meta property="article:author" content="田_田">
+<meta property="article:tag" content="HTML">
+<meta property="article:tag" content="zero2one">
+<meta property="article:tag" content="golang">
+<meta property="article:tag" content="gin">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://wangzitian0.github.io/2013/06/29/zero-to-one-1/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>从零到一建站（1） | 全栈之路</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?1eeceb0b3f8e550d6211f134646361b6";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="全栈之路" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta custom-logo">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">全栈之路</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">田_田的博客</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="archive fa-fw"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="user fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="tags fa-fw"></i>Tags</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container"></div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="algolia-results">
+  <div id="algolia-stats"></div>
+  <div id="algolia-hits"></div>
+  <div id="algolia-pagination" class="algolia-pagination"></div>
+</div>
+
+      
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://wangzitian0.github.io/2013/06/29/zero-to-one-1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="田_田">
+      <meta itemprop="description" content="创新需要在一切发生之前研究结局!">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="全栈之路">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          从零到一建站（1）
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2013-06-29 20:00:00" itemprop="dateCreated datePublished" datetime="2013-06-29T20:00:00+08:00">2013-06-29</time>
+            </span>
+
+          
+            <span id="/2013/06/29/zero-to-one-1/" class="post-meta-item leancloud_visitors" data-flag-title="从零到一建站（1）" title="Views">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>我现在想写一个从零到一建web 网站的教程。也想留下一个好的工程模板。</p>
+<a id="more"></a>
+
+<h2 id="基本要求"><a href="#基本要求" class="headerlink" title="基本要求"></a>基本要求</h2><h3 id="设想"><a href="#设想" class="headerlink" title="设想"></a>设想</h3><p>麻雀虽小，五脏俱全</p>
+<ul>
+<li>用户邮件或者手机注册</li>
+<li>每个用户看到自己的内容</li>
+<li>就做经典的 todolist 吧</li>
+<li>让用户之间可以共享文档</li>
+<li>前后端做好分离，后端 restful，前端 SPA</li>
+<li>加一点简单的 gis、短信或者其他的云服务。</li>
+</ul>
+<h3 id="后端"><a href="#后端" class="headerlink" title="后端"></a>后端</h3><p>基本要求：</p>
+<ul>
+<li>有一个舒服的框架来帮助实现路由绑定和分级、数据打包。</li>
+<li>有一个好的 orm 插件，帮助处理80%以上的数据库细节</li>
+<li>有一个好的表单验证插件，数据合法性尽可能直接使用配置</li>
+<li>要能方便的实现 RESTFUL，方便实现oauth。</li>
+<li>自己实现几个中间件<br>选型：<br>我自己非常熟悉 django，BOJv3和 BOJv4花费了大量的时间学习和开发，如果使用 pinax，可以使得开发非常快。但是 django 有点重，即使写过一遍，还是会花费极多的时间来看文档。</li>
+</ul>
+<p>基本要求，要么测试覆盖率90%+，要么 github 千星以上。</p>
+<p>这一次试试 golang，工作的时候用了半年的 gin。查了很久的资料，三件事分别使用三个不同插件，剩余的尽可能直接使用 golang 的内置实现，如果不行就弃坑。</p>
+<ul>
+<li>框架选择 gin，赤兔用的框架，flask 风格，路由实现还可以，比对了其他的 beego 和 Gorilla、Revel等几个比较火的，用这个比较清爽的吧。</li>
+<li>Gorm：golang 体系里最火的 orm</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/go-playground/validator">validator</a>: 一个测试覆盖率100%的项目。</li>
+</ul>
+<h3 id="前端"><a href="#前端" class="headerlink" title="前端"></a>前端</h3><p>基本要求：</p>
+<ul>
+<li>最好是 SPA，单页面应用。</li>
+<li>使用好的打包工具与发布流程。</li>
+</ul>
+<p>目前来说前端全家桶世界是三驾马车：Angular，React，Vue。<br>综合来说Angular最老，React人最多，Vue学习曲线最舒服。<br>打包工具选择 gulp 和 webpack，走在世界前列。</p>
+<h3 id="持续集成"><a href="#持续集成" class="headerlink" title="持续集成"></a>持续集成</h3><p>基本要求：</p>
+<ul>
+<li>前后端争取都把覆盖率做到85%+</li>
+<li>放在 github，使用优雅的姿势，把三方的源码检测 icon 加进来</li>
+<li>上线版本管理。</li>
+<li>如果有机会，反作用于开源社区<br>这部分还没有想特别清楚。后期弄完了再专门写一篇文章。</li>
+</ul>
+<h2 id="开工"><a href="#开工" class="headerlink" title="开工"></a>开工</h2><p>信仰不能变，JetBrains Gogland + Webstorm<br>流程类似这样<a target="_blank" rel="noopener" href="http://www.jianshu.com/p/15e6f6ca335e">不和谐</a></p>
+<p>跳转到定义可以直接 cmd+click，这一个功能就能大大提高开发效率。</p>
+<p>前端包管理使用 NPM，后端包管理使用自带的vendor。不明白我在说啥的可以看看这个：<a target="_blank" rel="noopener" href="https://www.tianmaying.com/tutorial/package-manager">各种语言常见的包管理工具</a></p>
+<h3 id="安装-Golang"><a href="#安装-Golang" class="headerlink" title="安装 Golang"></a>安装 Golang</h3><p>官网下一个<a target="_blank" rel="noopener" href="https://golang.org/doc/install">安装包</a><br>.zshrc 里加上环境变量</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">export GOROOT&#x3D;&#x2F;usr&#x2F;local&#x2F;go&#x2F;</span><br><span class="line">export PATH&#x3D;$PATH:&#x2F;usr&#x2F;local&#x2F;go&#x2F;bin</span><br><span class="line">export PATH&#x3D;$PATH:$GOPATH&#x2F;bin:$GOROOT&#x2F;bin</span><br></pre></td></tr></table></figure>
+<p>正常情况看到这个就行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">➜  todolist-backend git:(master) ✗ go version  </span><br><span class="line">go version go1.8.3 darwin&#x2F;amd64</span><br></pre></td></tr></table></figure>
+
+<h3 id="使用-vendor-管理包"><a href="#使用-vendor-管理包" class="headerlink" title="使用 vendor 管理包"></a>使用 vendor 管理包</h3><p>大致是先要指定一个 GOPATH，然后里面建一个 src 文件夹，然后再 src 文件夹里面建立工程。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd &#x2F;tmp&#x2F;test&#x2F;src</span><br><span class="line">mkdir myproj</span><br><span class="line">cd myproj</span><br><span class="line">govendor init</span><br></pre></td></tr></table></figure>
+<p>这个时候出现一个vendor文件夹。</p>
+<p>参考这个资料：<a target="_blank" rel="noopener" href="https://golang.top/articles/9785">vendor的简要说明</a></p>
+<h3 id="安装-Gin"><a href="#安装-Gin" class="headerlink" title="安装  Gin"></a>安装  Gin</h3><p>Gin 的官方地址是 gopkg.in/gin-gonic/gin.v1</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">govendor fetch gopkg.in&#x2F;gin-gonic&#x2F;gin.v1</span><br></pre></td></tr></table></figure>
+<p>此时 vendor 文件夹应该变了：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">	&quot;comment&quot;: &quot;&quot;,</span><br><span class="line">	&quot;ignore&quot;: &quot;test&quot;,</span><br><span class="line">	&quot;package&quot;: [</span><br><span class="line">		&#123;</span><br><span class="line">			&quot;checksumSHA1&quot;: &quot;UsILDoIB2S7ra+w2fMdb85mX3HM&#x3D;&quot;,</span><br><span class="line">			...</span><br><span class="line">		&#125;,</span><br><span class="line">        ...</span><br><span class="line">		&#123;</span><br><span class="line">			&quot;checksumSHA1&quot;: &quot;hT+7DPyl8tQ96kUXW3Sr5o0Pcj0&#x3D;&quot;,</span><br><span class="line">			&quot;path&quot;: &quot;gopkg.in&#x2F;gin-gonic&#x2F;gin.v1&quot;,</span><br><span class="line">			&quot;revision&quot;: &quot;e2212d40c62a98b388a5eb48ecbdcf88534688ba&quot;,</span><br><span class="line">			&quot;revisionTime&quot;: &quot;2016-12-04T22:13:08Z&quot;</span><br><span class="line">		&#125;,</span><br><span class="line">        ...</span><br><span class="line">	],</span><br><span class="line">	&quot;rootPath&quot;: &quot;todolist-backend&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里可以看到很多的包，很有意思，validator和我之前调研的居然是同一个。</p>
+<h3 id="hello-gin"><a href="#hello-gin" class="headerlink" title="hello gin"></a>hello gin</h3><p>这个时候吧 hello world拷贝到工程目录:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">➜  todolist-backend git:(master) ✗ touch hello.go</span><br></pre></td></tr></table></figure>
+<p>内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import &quot;gopkg.in&#x2F;gin-gonic&#x2F;gin.v1&quot;</span><br><span class="line"></span><br><span class="line">func main() &#123;</span><br><span class="line">	r :&#x3D; gin.Default()</span><br><span class="line">	r.GET(&quot;&#x2F;ping&quot;, func(c *gin.Context) &#123;</span><br><span class="line">		c.JSON(200, gin.H&#123;</span><br><span class="line">			&quot;message&quot;: &quot;pong&quot;,</span><br><span class="line">		&#125;)</span><br><span class="line">	&#125;)</span><br><span class="line">	r.Run() &#x2F;&#x2F; listen and serve on 0.0.0.0:8080</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运行之：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">➜  todolist-backend git:(master) ✗ go run hello.go</span><br></pre></td></tr></table></figure>
+<p>浏览器打开<code>http://localhost:8080/ping</code><br>可以看到<code>&#123;&quot;message&quot;:&quot;pong&quot;&#125;</code></p>
+<p>然后把 golang 最热门的 orm 工具 gorm 装上</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">➜  todolist-backend git:(master) ✗ govendor fetch github.com&#x2F;jinzhu&#x2F;gorm</span><br><span class="line">➜  todolist-backend git:(master) ✗ govendor fetch github.com&#x2F;go-sql-driver&#x2F;mysql</span><br></pre></td></tr></table></figure>
+<p>后端基础安装工作完成！</p>
+<h3 id="auto-reload"><a href="#auto-reload" class="headerlink" title="auto reload"></a>auto reload</h3><p>每次改东西都重启服务很不爽，所以找到一个库<a target="_blank" rel="noopener" href="https://github.com/pilu/fresh">gin fresh</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">➜  todolist-backend git:(master) ✗ go get github.com&#x2F;pilu&#x2F;fresh</span><br><span class="line">➜  todolist-backend git:(master) ✗ fresh</span><br></pre></td></tr></table></figure>
+
+<h3 id="跑起来非常非常慢"><a href="#跑起来非常非常慢" class="headerlink" title="跑起来非常非常慢"></a>跑起来非常非常慢</h3><p>查资料发现应该是依赖的 pkg 并没有编译<a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/24341654/go-build-became-very-slow-after-installing-a-new-version-of-go">go build very slow</a></p>
+<h2 id="简单的-RESTFUL-接口"><a href="#简单的-RESTFUL-接口" class="headerlink" title="简单的 RESTFUL 接口"></a>简单的 RESTFUL 接口</h2><p>Restful 的具体要求可以去查看我的博文</p>
+<p>简言之：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">POST todos&#x2F;</span><br><span class="line">GET todos&#x2F;</span><br><span class="line">GET todos&#x2F;&#123;id&#125;</span><br><span class="line">PUT todos&#x2F;&#123;id&#125;</span><br><span class="line">PATCH todos&#x2F;&#123;id&#125;</span><br><span class="line">DELETE todos&#x2F;&#123;id&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="架子"><a href="#架子" class="headerlink" title="架子"></a>架子</h3><p>创建一个文件 main.go</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">➜  todolist-backend git:(master) ✗ touch main.go</span><br></pre></td></tr></table></figure>
+
+<p>输入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import (</span><br><span class="line">    &quot;gopkg.in&#x2F;gin-gonic&#x2F;gin.v1&quot;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">func main() &#123;</span><br><span class="line">    router :&#x3D; gin.Default()</span><br><span class="line">    v1 :&#x3D; router.Group(&quot;&#x2F;api&#x2F;v1&#x2F;todos&quot;)</span><br><span class="line">    &#123;</span><br><span class="line">        v1.POST(&quot;&#x2F;&quot;, CreateTodo)</span><br><span class="line">        v1.GET(&quot;&#x2F;&quot;, FetchAllTodo)</span><br><span class="line">        v1.GET(&quot;&#x2F;:id&quot;, FetchSingleTodo)</span><br><span class="line">        v1.PUT(&quot;&#x2F;:id&quot;, UpdateTodo)</span><br><span class="line">        v1.DELETE(&quot;&#x2F;:id&quot;, DeleteTodo)</span><br><span class="line">    &#125;</span><br><span class="line">    router.Run()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="确认数据库运行"><a href="#确认数据库运行" class="headerlink" title="确认数据库运行"></a>确认数据库运行</h3><p>gorm.Model 包含了基本的一些变量 “ID, CreatedAt, UpdatedAt, DeletedAt”</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">type Todo struct &#123;</span><br><span class="line">    gorm.Model</span><br><span class="line">    Title     string &#96;json:&quot;title&quot;&#96;</span><br><span class="line">    Completed int &#96;json:&quot;completed&quot;&#96;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">type TransformedTodo struct &#123;</span><br><span class="line">    ID        uint &#96;json:&quot;id&quot;&#96;</span><br><span class="line">    Title     string &#96;json:&quot;title&quot;&#96;</span><br><span class="line">    Completed bool &#96;json:&quot;completed&quot;&#96;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>注释掉 main() 里面的其他东西，只保留这一部分</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">db :&#x3D; Database()</span><br><span class="line">db.AutoMigrate(&amp;Todo&#123;&#125;)</span><br><span class="line">defer db.Close()</span><br></pre></td></tr></table></figure>
+<p>此时应该会在工程目录下出现一个 gorm.db 文件。</p>
+<h3 id="先模仿别人的"><a href="#先模仿别人的" class="headerlink" title="先模仿别人的"></a>先模仿别人的</h3><p>请先阅读下面的文章，后端是在他基础上的改进！</p>
+<p>请先阅读下面的文章，后端是在他基础上的改进！</p>
+<p>请先阅读下面的文章，后端是在他基础上的改进！</p>
+<p><a target="_blank" rel="noopener" href="https://medium.com/@thedevsaddam/build-restful-api-service-in-golang-using-gin-gonic-framework-85b1a6e176f3">Build RESTful API with GIN</a></p>
+<p>我把它的代码在本地运行了。<br>好处：</p>
+<ul>
+<li>提供了一个 gin 和 gorm 一起工作的样板</li>
+<li>提供了一个增删改查的能正确运行的架子，减少踩坑的次数<br>问题：</li>
+<li>并不是很标准的 restful，返回值乱包了东西。</li>
+<li>数据接受dataform，不能根据 content-type 来自己适配</li>
+</ul>
+<h2 id="改进代码"><a href="#改进代码" class="headerlink" title="改进代码"></a>改进代码</h2><p>基本要求如下：<br>GET api/v1/todos/ 返回对象全集<br>POST api/v1/todos/ 返回新生成的对象<br>PUT api/v1/todos/id 返回被更新的对象<br>PATCH api/v1/todos/id 返回被更新的对象<br>DELETE api/v1/todos/id 返回成功提示</p>
+<h3 id="CreateTodo"><a href="#CreateTodo" class="headerlink" title="CreateTodo"></a>CreateTodo</h3><h4 id="同时支持-form-data-amp-amp-json-data"><a href="#同时支持-form-data-amp-amp-json-data" class="headerlink" title="同时支持 form_data &amp;&amp; json_data"></a>同时支持 form_data &amp;&amp; json_data</h4><p>我们希望 post 同时支持 form_data &amp;&amp; json_data</p>
+<p>这个部分先去 gin 框架的文档搜，发现它的实现方式是用 c.bind(&amp;something)，大致 就是把 request 数据绑定到一个结构体里面去。</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/gin-gonic/gin#model-binding-and-validation">model-binding-and-validation</a><br>官方这样：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">type Login struct &#123;</span><br><span class="line">	User     string &#96;form:&quot;user&quot; json:&quot;user&quot; binding:&quot;required&quot;&#96;</span><br><span class="line">	Password string &#96;form:&quot;password&quot; json:&quot;password&quot; binding:&quot;required&quot;&#96;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我自己把域改成类似的样子，经过 postman 的测试，这段代码是可以工作的。但测了几个数据，发现一个天坑，0 和 false 无法被 gin 的 binding接受，然后解决方案是这样： <a target="_blank" rel="noopener" href="https://github.com/gin-gonic/gin/issues/491">use pointer &amp; ‘exists’</a></p>
+<p>大致是说required域在结构体创建的时候会有一个默认值，程序没法知道这个值是由post_data 来的还是默认来的，因此需要使用指针来判断。</p>
+<p>此时大概这样：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">type Todo struct &#123;</span><br><span class="line">    gorm.Model</span><br><span class="line">    Title     string &#96;form:&quot;title&quot; json:&quot;title&quot; binding:&quot;required&quot;&#96;</span><br><span class="line">    Priority  *int &#96;form:&quot;priority&quot; json:&quot;priority&quot; binding:&quot;exists&quot;&#96;</span><br><span class="line">    Completed *bool &#96;form:&quot;completed&quot; json:&quot;completed&quot; binding:&quot;exists&quot;&#96;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后，我进一步常识，发现不需要使用指针，直接把 binding 域改成 exists 就好了。</p>
+<p>动手修改了定义模型的结构体，这样 bind 的时候就会把作用域自动绑定，另外把域修改为 int, bool, string 各一个，麻雀虽小五脏俱全：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">type Todo struct &#123;</span><br><span class="line">    gorm.Model</span><br><span class="line">    Title     string &#96;form:&quot;title&quot; json:&quot;title&quot; binding:&quot;required&quot;&#96;</span><br><span class="line">    Priority  int &#96;form:&quot;priority&quot; json:&quot;priority&quot; binding:&quot;exists&quot;&#96;</span><br><span class="line">    Completed bool &#96;form:&quot;completed&quot; json:&quot;completed&quot; binding:&quot;exists&quot;&#96;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="CreateTodo-1"><a href="#CreateTodo-1" class="headerlink" title="CreateTodo"></a>CreateTodo</h4><p>然后这个时候我们去修改CreateTodo</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">func CreateTodo(c *gin.Context) &#123;</span><br><span class="line">    var todo Todo</span><br><span class="line">    fmt.Println(todo)</span><br><span class="line">    if err :&#x3D; c.Bind(&amp;todo); err !&#x3D; nil &#123;</span><br><span class="line">        fmt.Println(err)</span><br><span class="line">        c.JSON(http.StatusBadRequest, gin.H&#123;&quot;Data binding error&quot; : err&#125;)</span><br><span class="line">        return</span><br><span class="line">    &#125;</span><br><span class="line">    db :&#x3D; Database()</span><br><span class="line">    defer db.Close()</span><br><span class="line"></span><br><span class="line">    if err :&#x3D; db.Save(&amp;todo).Error; err !&#x3D; nil &#123;</span><br><span class="line">        c.JSON(http.StatusBadRequest, gin.H&#123;&quot;Database error&quot; : err&#125;)</span><br><span class="line">        return</span><br><span class="line">    &#125;</span><br><span class="line">    c.JSON(http.StatusCreated, todo)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>此时已经比较接近我想要的 CreateTodo</p>
+<h4 id="定制-Response"><a href="#定制-Response" class="headerlink" title="定制 Response"></a>定制 Response</h4><p>看了几个资料之后觉得这种是最好的<a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/26303694/json-marshalling-unmarshalling-same-struct-to-different-json-format-in-go">different marshalling &amp; unmarshalling</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;自制一个 Response，可以自由插入元素个数</span><br><span class="line"></span><br><span class="line">type TodoResponse struct &#123;</span><br><span class="line">    ID        uint &#96;json:&quot;id&quot; xml:&quot;id&quot;&#96;</span><br><span class="line">    Title     string &#96;json:&quot;title&quot; xml:&quot;title&quot;&#96;</span><br><span class="line">    Priority  int &#96;json:&quot;priority&quot; xml:&quot;priority&quot;&#96;</span><br><span class="line">    Completed bool &#96;json:&quot;completed&quot; xml:&quot;completed&quot;&#96;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func (todo Todo) Response() (interface&#123;&#125;)&#123;</span><br><span class="line">    return TodoResponse&#123;</span><br><span class="line">        ID: todo.ID,</span><br><span class="line">        Title: todo.Title,</span><br><span class="line">        Priority: todo.Priority,</span><br><span class="line">        Completed: todo.Completed,</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;把CreateTodo()里的返回改成自制的函数</span><br><span class="line">...</span><br><span class="line">c.JSON(http.StatusCreated, todo.Response())</span><br><span class="line">&#x2F;&#x2F;注释掉上面一句，取消下面一句可以返回 xml</span><br><span class="line">&#x2F;&#x2F;c.XML(http.StatusCreated, todo.Response())</span><br><span class="line">...</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>用 json marshul 自带的功能来反序列化，这样使用框架自带的 binding 功能，一次性支持多种格式。<br>然后序列化自己写函数来生成一个对象，然后由框架根据 header 完成序列化。</p>
+<p>Todo:</p>
+<ul>
+<li>理想情况应该是根据 header 里的 Accept 选项来选择 response 的 content-type</li>
+<li>没有记录 log，包括 error 的收集和用户访问 tracking。</li>
+<li>Schema 没有严格的数据校验，应该加入一个 validater 的库</li>
+</ul>
+<h3 id="FetchAllTodo"><a href="#FetchAllTodo" class="headerlink" title="FetchAllTodo"></a>FetchAllTodo</h3><p>先把返回形式改成我自己接受的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">func FetchAllTodo(c *gin.Context) &#123;</span><br><span class="line">    var todos []Todo</span><br><span class="line">    var _todos []interface&#123;&#125;</span><br><span class="line"></span><br><span class="line">    db :&#x3D; Database()</span><br><span class="line">    db.Find(&amp;todos)</span><br><span class="line"></span><br><span class="line">    if (len(todos) &lt;&#x3D; 0) &#123;</span><br><span class="line">        c.JSON(http.StatusNotFound, gin.H&#123;&quot;error&quot; : &quot;No todo found!&quot;&#125;)</span><br><span class="line">        return</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F;transforms the todos for building a good response</span><br><span class="line">    for _, todo :&#x3D; range todos &#123;</span><br><span class="line">        _todos &#x3D; append(_todos, todo.Response())</span><br><span class="line">    &#125;</span><br><span class="line">    &#x2F;&#x2F;c.JSON(http.StatusOK, _todos)</span><br><span class="line">    c.XML(http.StatusOK, _todos)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>理论上这个接口应该承接搜索和分页的内容：<br>api/v1/todos/?min_priority=2<br>api/v1/todos/?page=0&amp;per_page=10<br>api/v1/todos/?min_priority=2&amp;page=0&amp;per_page=10<br>此时搜索一下 gorm 的 limit where offset 的用法，然后用 Query Param把参数传递到 gin。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">func FetchAllTodo(c *gin.Context) &#123;</span><br><span class="line">    var todos []Todo</span><br><span class="line">    var _todos []interface&#123;&#125;</span><br><span class="line"></span><br><span class="line">    db :&#x3D; Database()</span><br><span class="line"></span><br><span class="line">    page_str :&#x3D; c.Query(&quot;page&quot;);</span><br><span class="line">    page, err :&#x3D; strconv.Atoi(page_str);</span><br><span class="line">    if  err!&#x3D;nil &#123;</span><br><span class="line">        page &#x3D; 0</span><br><span class="line">    &#125;</span><br><span class="line">    per_page_str :&#x3D; c.Query(&quot;per_page&quot;)</span><br><span class="line">    per_page, err :&#x3D; strconv.Atoi(per_page_str);</span><br><span class="line">    if  err!&#x3D;nil &#123;</span><br><span class="line">        per_page &#x3D; 10</span><br><span class="line">    &#125;</span><br><span class="line">    db &#x3D; db.Limit(per_page).Offset(per_page * page)</span><br><span class="line"></span><br><span class="line">    min_priority_str :&#x3D; c.Query(&quot;min_priority&quot;)</span><br><span class="line">    min_priority, err :&#x3D; strconv.Atoi(min_priority_str);</span><br><span class="line">    if  err&#x3D;&#x3D;nil &#123;</span><br><span class="line">        db &#x3D; db.Where(&quot;priority &gt;&#x3D; ?&quot;, min_priority)</span><br><span class="line">    &#125;</span><br><span class="line">    db.Find(&amp;todos)</span><br><span class="line"></span><br><span class="line">    if (len(todos) &lt;&#x3D; 0) &#123;</span><br><span class="line">        c.JSON(http.StatusNotFound, gin.H&#123;&quot;error&quot; : &quot;No todo found!&quot;&#125;)</span><br><span class="line">        return</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F;transforms the todos for building a good response</span><br><span class="line">    for _, todo :&#x3D; range todos &#123;</span><br><span class="line">        _todos &#x3D; append(_todos, todo.Response())</span><br><span class="line">    &#125;</span><br><span class="line">    c.JSON(http.StatusOK, _todos)</span><br><span class="line">    &#x2F;&#x2F;c.XML(http.StatusOK, _todos)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Todo：</p>
+<ul>
+<li>搜索这类功能最好引入 ElasticSearch，直接暴力叠参数和查关系数据库效率低，容易把库拖垮</li>
+<li>分页器最好写成中间件，然后应用到所有的 list。</li>
+</ul>
+<h3 id="GET-amp-PUT-amp-PATCH-SingleTodo"><a href="#GET-amp-PUT-amp-PATCH-SingleTodo" class="headerlink" title="GET &amp; PUT &amp; PATCH SingleTodo"></a>GET &amp; PUT &amp; PATCH SingleTodo</h3><p>这个部分直接改动返回值，然后PUT &amp; PATCH做出区别。<br>PUT 没有值是设置为默认值，PATCH没有值是设置为原来的值。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">func FetchSingleTodo(c *gin.Context) &#123;</span><br><span class="line">    var todo Todo</span><br><span class="line">    todoId :&#x3D; c.Param(&quot;id&quot;)</span><br><span class="line"></span><br><span class="line">    db :&#x3D; Database()</span><br><span class="line">    db.First(&amp;todo, todoId)</span><br><span class="line"></span><br><span class="line">    if (todo.ID &#x3D;&#x3D; 0) &#123;</span><br><span class="line">        c.JSON(http.StatusNotFound, gin.H&#123;&quot;error&quot; : &quot;No todo found!&quot;&#125;)</span><br><span class="line">        return</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    c.JSON(http.StatusOK, todo.Response())</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func UpdateTodo(c *gin.Context) &#123;</span><br><span class="line">    var todo, todoTmp Todo</span><br><span class="line">    todoId :&#x3D; c.Param(&quot;id&quot;)</span><br><span class="line">    db :&#x3D; Database()</span><br><span class="line">    db.First(&amp;todoTmp, todoId)</span><br><span class="line"></span><br><span class="line">    if (todoTmp.ID &#x3D;&#x3D; 0) &#123;</span><br><span class="line">        c.JSON(http.StatusNotFound, gin.H&#123;&quot;message&quot; : &quot;No todo found!&quot;&#125;)</span><br><span class="line">    &#125;else if err :&#x3D; c.Bind(&amp;todo); err &#x3D;&#x3D; nil &#123;</span><br><span class="line">        fmt.Println(todoTmp)</span><br><span class="line">        todo.ID &#x3D; todoTmp.ID</span><br><span class="line">        db.Save(&amp;todo)</span><br><span class="line">        c.JSON(http.StatusOK, todo.Response())</span><br><span class="line">    &#125;else &#123;</span><br><span class="line">        c.JSON(http.StatusBadRequest, gin.H&#123;&quot;Bind Error&quot; : err &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func PartialUpdateTodo(c *gin.Context) &#123;</span><br><span class="line">    var todo Todo</span><br><span class="line">    todoId :&#x3D; c.Param(&quot;id&quot;)</span><br><span class="line">    db :&#x3D; Database()</span><br><span class="line">    db.First(&amp;todo, todoId)</span><br><span class="line"></span><br><span class="line">    if (todo.ID &#x3D;&#x3D; 0) &#123;</span><br><span class="line">        c.JSON(http.StatusNotFound, gin.H&#123;&quot;message&quot; : &quot;No todo found!&quot;&#125;)</span><br><span class="line">    &#125;else if err :&#x3D; c.Bind(&amp;todo); err &#x3D;&#x3D; nil &#123;</span><br><span class="line">        &#x2F;&#x2F;--- 可以手工一个个域更新，也可以一次性更新 todo ---</span><br><span class="line">        &#x2F;&#x2F;db.Model(&amp;todo).Update(&quot;title&quot;, c.PostForm(&quot;title&quot;))</span><br><span class="line">        &#x2F;&#x2F;db.Model(&amp;todo).Update(&quot;completed&quot;, c.PostForm(&quot;completed&quot;))</span><br><span class="line">        db.Model(&amp;todo).Update(todo)</span><br><span class="line">        c.JSON(http.StatusOK, todo.Response())</span><br><span class="line">    &#125;else &#123;</span><br><span class="line">        c.JSON(http.StatusBadRequest, gin.H&#123;&quot;Bind Error&quot; : err &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="DeleteTodo"><a href="#DeleteTodo" class="headerlink" title="DeleteTodo"></a>DeleteTodo</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">func DeleteTodo(c *gin.Context) &#123;</span><br><span class="line">    var todo Todo</span><br><span class="line">    todoId :&#x3D; c.Param(&quot;id&quot;)</span><br><span class="line">    db :&#x3D; Database()</span><br><span class="line">    db.First(&amp;todo, todoId)</span><br><span class="line"></span><br><span class="line">    if (todo.ID &#x3D;&#x3D; 0) &#123;</span><br><span class="line">        c.JSON(http.StatusNotFound, gin.H&#123; &quot;error&quot; : &quot;No todo found!&quot;&#125;)</span><br><span class="line">        return</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    db.Delete(&amp;todo)</span><br><span class="line">    c.JSON(http.StatusOK, gin.H&#123;&quot;message&quot; : &quot;Todo deleted successfully!&quot;&#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="总结-1"><a href="#总结-1" class="headerlink" title="总结"></a>总结</h2><p>至此，RESTFUL 的架子搭好了。完整的代码在<a target="_blank" rel="noopener" href="https://github.com/wangzitian0/todolist-backend/tree/v0.01">github</a><br>说句实话，开发的速度大大低于我的预期，而且连英文的文档也支持非常不好，几乎只能直接读代码，我还是喜欢 rails 和 django 这种The Web framework for perfectionists with deadlines的框架。</p>
+<p>todo：</p>
+<ul>
+<li>缺少一些批量的接口，比如batch_POST<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">v1.POST(&quot;&#x2F;&quot;, BatchCreateTodo)</span><br><span class="line">v1.GET(&quot;&#x2F;&quot;, BatchFetchTodo)</span><br></pre></td></tr></table></figure></li>
+<li>还没有实现 auth</li>
+<li>对 header 的控制不够，缺少根据 header 对内容进行转变的中间件。</li>
+<li>无埋点方案的 log 和 tracking</li>
+<li>gorm 还没有使用一对多、多对多关系</li>
+<li>Hypermedia，我希望搞成类似 django 处理模板 url 的 URL reverse技术</li>
+</ul>
+<p>调研了一下，有两个需求做起来非常的困难。所以我接下来会去尝试其他的框架或者类库。</p>
+<p><a target="_blank" rel="noopener" href="http://www.techempower.com/benchmarks/#section=data-r8&hw=ph&test=plaintext">Go 的框架基本上不慢</a>。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/HTML/" rel="tag"># HTML</a>
+              <a href="/tags/zero2one/" rel="tag"># zero2one</a>
+              <a href="/tags/golang/" rel="tag"># golang</a>
+              <a href="/tags/gin/" rel="tag"># gin</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2012/10/17/Plan-2013/" rel="prev" title="《蓝海精英》与个人规划">
+      <i class="fa fa-chevron-left"></i> 《蓝海精英》与个人规划
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2013/07/12/zero-to-one-2/" rel="next" title="从零到一建站（2）">
+      从零到一建站（2） <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E8%A6%81%E6%B1%82"><span class="nav-number">1.</span> <span class="nav-text">基本要求</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%BE%E6%83%B3"><span class="nav-number">1.1.</span> <span class="nav-text">设想</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%8E%E7%AB%AF"><span class="nav-number">1.2.</span> <span class="nav-text">后端</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%89%8D%E7%AB%AF"><span class="nav-number">1.3.</span> <span class="nav-text">前端</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90"><span class="nav-number">1.4.</span> <span class="nav-text">持续集成</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%80%E5%B7%A5"><span class="nav-number">2.</span> <span class="nav-text">开工</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85-Golang"><span class="nav-number">2.1.</span> <span class="nav-text">安装 Golang</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-vendor-%E7%AE%A1%E7%90%86%E5%8C%85"><span class="nav-number">2.2.</span> <span class="nav-text">使用 vendor 管理包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85-Gin"><span class="nav-number">2.3.</span> <span class="nav-text">安装  Gin</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#hello-gin"><span class="nav-number">2.4.</span> <span class="nav-text">hello gin</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#auto-reload"><span class="nav-number">2.5.</span> <span class="nav-text">auto reload</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B7%91%E8%B5%B7%E6%9D%A5%E9%9D%9E%E5%B8%B8%E9%9D%9E%E5%B8%B8%E6%85%A2"><span class="nav-number">2.6.</span> <span class="nav-text">跑起来非常非常慢</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AE%80%E5%8D%95%E7%9A%84-RESTFUL-%E6%8E%A5%E5%8F%A3"><span class="nav-number">3.</span> <span class="nav-text">简单的 RESTFUL 接口</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9E%B6%E5%AD%90"><span class="nav-number">3.1.</span> <span class="nav-text">架子</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A1%AE%E8%AE%A4%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BF%90%E8%A1%8C"><span class="nav-number">3.2.</span> <span class="nav-text">确认数据库运行</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%88%E6%A8%A1%E4%BB%BF%E5%88%AB%E4%BA%BA%E7%9A%84"><span class="nav-number">3.3.</span> <span class="nav-text">先模仿别人的</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%94%B9%E8%BF%9B%E4%BB%A3%E7%A0%81"><span class="nav-number">4.</span> <span class="nav-text">改进代码</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#CreateTodo"><span class="nav-number">4.1.</span> <span class="nav-text">CreateTodo</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%90%8C%E6%97%B6%E6%94%AF%E6%8C%81-form-data-amp-amp-json-data"><span class="nav-number">4.1.1.</span> <span class="nav-text">同时支持 form_data &amp;&amp; json_data</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CreateTodo-1"><span class="nav-number">4.1.2.</span> <span class="nav-text">CreateTodo</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%9A%E5%88%B6-Response"><span class="nav-number">4.1.3.</span> <span class="nav-text">定制 Response</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">4.1.4.</span> <span class="nav-text">总结</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#FetchAllTodo"><span class="nav-number">4.2.</span> <span class="nav-text">FetchAllTodo</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GET-amp-PUT-amp-PATCH-SingleTodo"><span class="nav-number">4.3.</span> <span class="nav-text">GET &amp; PUT &amp; PATCH SingleTodo</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DeleteTodo"><span class="nav-number">4.4.</span> <span class="nav-text">DeleteTodo</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93-1"><span class="nav-number">5.</span> <span class="nav-text">总结</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">田_田</p>
+  <div class="site-description" itemprop="description">创新需要在一切发生之前研究结局!</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">34</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wangzitian0" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wangzitian0" rel="noopener" target="_blank"><i class="github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wangzitian0@gmail.com" title="E-Mail → mailto:wangzitian0@gmail.com" rel="noopener" target="_blank"><i class="envelope fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.linkedin.com/in/wangzitian0" title="LinkedIn → https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;wangzitian0" rel="noopener" target="_blank"><i class="linkedin fa-fw"></i></a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class=""></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">田_田</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a>
+  </div>
+
+        
+
+
+
+
+
+
+<script>
+  (function() {
+    function leancloudSelector(url) {
+      url = encodeURI(url);
+      return document.getElementById(url).querySelector('.leancloud-visitors-count');
+    }
+
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = decodeURI(visitors.id);
+      var title = visitors.dataset.flagTitle;
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            leancloudSelector(url).innerText = counter.time + 1;
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              });
+          } else {
+              leancloudSelector(url).innerText = 'Counter not initialized! More info at console err msg.';
+              console.error('ATTENTION! LeanCloud counter has security bug, see how to solve it here: https://github.com/theme-next/hexo-leancloud-counter-security. \n However, you can still use LeanCloud without security, by setting `security` option to `false`.');
+            
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return decodeURI(element.id);
+      });
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          for (let url of entries) {
+            let target = results.find(item => item.url === url);
+            leancloudSelector(url).innerText = target ? target.time : 0;
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    let { app_id, app_key, server_url } = {"enable":true,"app_id":"itw5YW53yzX17tr3WAdRd9Dd-gzGzoHsz","app_key":"qLjOt8jjizQl0ys5OSdwf10Y","server_url":null,"security":true,"betterPerformance":true};
+    function fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${api_server}/1.1${url}`, {
+          method,
+          headers: {
+            'X-LC-Id'     : app_id,
+            'X-LC-Key'    : app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    }
+
+    let api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(response => response.json())
+        .then(({ api_server }) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="//cdn.jsdelivr.net/npm/algoliasearch@4/dist/algoliasearch-lite.umd.js"></script>
+<script src="//cdn.jsdelivr.net/npm/instantsearch.js@4/dist/instantsearch.production.min.js"></script>
+<script src="/js/algolia-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

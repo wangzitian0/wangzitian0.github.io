@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/huaji.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/huaji.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/huaji.png">
+  <link rel="mask-icon" href="/images/huaji.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"wangzitian0.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":true,"b2t":false,"scrollpercent":true},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"appID":"1PWF5BJPP1","apiKey":"6a2714c5b665823e7132db2aedb81233","indexName":"wangzitian0.github.io","hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="谈一下我理解的全栈工程师和为什么我希望成为全栈工程师。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="什么是全栈工程师？">
+<meta property="og:url" content="https://wangzitian0.github.io/2017/06/28/What-is-fullstack-engineer/index.html">
+<meta property="og:site_name" content="全栈之路">
+<meta property="og:description" content="谈一下我理解的全栈工程师和为什么我希望成为全栈工程师。">
+<meta property="og:locale">
+<meta property="article:published_time" content="2017-06-28T12:35:00.000Z">
+<meta property="article:modified_time" content="2020-09-30T04:59:07.881Z">
+<meta property="article:author" content="田_田">
+<meta property="article:tag" content="Fullstack">
+<meta property="article:tag" content="Engineering">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://wangzitian0.github.io/2017/06/28/What-is-fullstack-engineer/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>什么是全栈工程师？ | 全栈之路</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?1eeceb0b3f8e550d6211f134646361b6";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="全栈之路" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta custom-logo">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">全栈之路</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">田_田的博客</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="archive fa-fw"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="user fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="tags fa-fw"></i>Tags</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container"></div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="algolia-results">
+  <div id="algolia-stats"></div>
+  <div id="algolia-hits"></div>
+  <div id="algolia-pagination" class="algolia-pagination"></div>
+</div>
+
+      
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://wangzitian0.github.io/2017/06/28/What-is-fullstack-engineer/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="田_田">
+      <meta itemprop="description" content="创新需要在一切发生之前研究结局!">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="全栈之路">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          什么是全栈工程师？
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-06-28 20:35:00" itemprop="dateCreated datePublished" datetime="2017-06-28T20:35:00+08:00">2017-06-28</time>
+            </span>
+
+          
+            <span id="/2017/06/28/What-is-fullstack-engineer/" class="post-meta-item leancloud_visitors" data-flag-title="什么是全栈工程师？" title="Views">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>谈一下我理解的全栈工程师和为什么我希望成为全栈工程师。</p>
+<a id="more"></a>
+<h2 id="什么是全栈工程师？"><a href="#什么是全栈工程师？" class="headerlink" title="什么是全栈工程师？"></a>什么是全栈工程师？</h2><h3 id="源于-Facebook"><a href="#源于-Facebook" class="headerlink" title="源于 Facebook"></a>源于 Facebook</h3><p>Quora 上有一个答案：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">A full stack developer is capable of performing tasks at any level of the technical stack in which they reside. It means:</span><br><span class="line"></span><br><span class="line">Working with systems infrastructure (knowing what hardware to ask for , what OS to install, how to prepare the system and dependencies for all software)</span><br><span class="line">Understanding, creating, manipulating, and querying databases</span><br><span class="line">API &#x2F; back-end code in one or more languages, e.g. Ruby, Java, Python, etc.</span><br><span class="line">Front-end code in one or more languages, e.g. HTML, JavaScript, Java, etc.</span><br><span class="line">Project management &#x2F; client work, e.g. gathering requirements, creating technical specifications and architecture documents, creating good documentation, managing a project timeline (e.g., someone who knows Agile&#x2F;SCRUM&#x2F;Kanban) </span><br></pre></td></tr></table></figure>
+<p>全栈工程师是指能在任何能在一个技术栈的任何层次完成工作的工程师。</p>
+<ul>
+<li>知道计算机操作系统的基本运行原理</li>
+<li>知道如何操作数据库</li>
+<li>用一种语言写后端的 API 代码</li>
+<li>前端合适的技术可以实现业务逻辑</li>
+<li>工程管理，包括不限于需求分析、敏捷开发、文档管理等等</li>
+</ul>
+<p>这种说法最开始源于 Facebook，“Nothing at Facebook is Somebody Else’s Problem”，换句话说，有问题就马上评估是否值得解决。如果值得解决，你就应该着手去解决，而不是假设别人比你更合适解决这个问题。</p>
+<h3 id="Why"><a href="#Why" class="headerlink" title="Why?"></a>Why?</h3><p>举个例子，你原本是一个后端工程师，在做响应时间的调优，初期后端上改进很大，后期效果已经不明显，但是你发现网络传输和前端有很大空间。假设现在前端的工程师对这两块也不是很了解，这个时候怎么办？</p>
+<ul>
+<li>顺其自然，不了了之。</li>
+<li>从外面招一个会的工程师。</li>
+<li>自己学相关知识然后直接去调整。</li>
+</ul>
+<p>Facebook 之所以选择第三种，有这么几点理由：</p>
+<ul>
+<li>本身的挑战已经非常大了，极大的用户量带来极大的问题，很难从市面上直接找一个能解决问题的人。</li>
+<li>如果解决掉新发现的一个问题大于手里正在做的事情，哪怕它不是自己擅长的，也应该自己去把它做好。</li>
+<li>真正高素质的人不仅仅是掌握知识，而是拥有学习知识的知识，也就是学习能力。有了学习能力，具体的知识总能学会。</li>
+<li>每个技术都有自己的背景和优势劣势。有时候强行规定使用的技术反而会限制大家的产出。倒不如根据需求去选择合适的技术。</li>
+<li>关注整个公司的产出和效率。大部分提升效率的地方往往来源于别人没有思考过的问题，不如谁发现，谁解决。</li>
+</ul>
+<h3 id="外行看把式，内行看门道"><a href="#外行看把式，内行看门道" class="headerlink" title="外行看把式，内行看门道"></a>外行看把式，内行看门道</h3><p>并不是深究技术不重要，顺着业务的发展，技术的难度和深度会自然而然的增加。但是，过分在某一种技术实现方案上过分深究是没有必要的，工程师应该去深度研究计算机工程学的基本原理，以解决问题的心态来选择合适的技术。在现有方案都不完美的情况下，甚至可以自己造轮子。好的开发者，即使不是全栈，也要融会贯通多种技术。学习门道需要充分研究各种把式，不可能凭空学。</p>
+<p>回到刚才的话题，Facebook鼓励的是刚毕业不太久的这群人全栈，面向产品快速迭代，面向价值产出效率的提升，技术上追求的是切实解决问题，而不是局限于自己原有的技术知识。到了一定的阶段，工程师自然而然地在在某些方面变得资深。</p>
+<h3 id="为什么在国内会招黑？"><a href="#为什么在国内会招黑？" class="headerlink" title="为什么在国内会招黑？"></a>为什么在国内会招黑？</h3><p>仔细想想，其实全栈工程师也可以分为这几种类型。</p>
+<h4 id="装逼型"><a href="#装逼型" class="headerlink" title="装逼型"></a>装逼型</h4><p>连栈是啥玩意儿都没明白，自称”全栈工程师”比较高端。</p>
+<p>不招黑才怪。</p>
+<h4 id="菜鸟型"><a href="#菜鸟型" class="headerlink" title="菜鸟型"></a>菜鸟型</h4><p>追求『 ▇ 』 型人才是好事，但是一个普通智商的人能做到『 T 』型人才就很牛逼了，实在不行也可以做『 l 』型人才。</p>
+<p>但是一个 『一』型的跑过来说自己是 ▇  不被黑才怪。</p>
+<h4 id="创业型"><a href="#创业型" class="headerlink" title="创业型"></a>创业型</h4><p>在互联网早期，程序员基本都是『全栈』。</p>
+<p>全民创业的背景下，这种全栈工程师也称为demo工程师</p>
+<p>还有一类，可以别称“因为老板加不了钱请不起人所以全部得干的加班狗”</p>
+<h4 id="前端型"><a href="#前端型" class="headerlink" title="前端型"></a>前端型</h4><p>原来搞 H5 的人，研究了一下 nodejs。</p>
+<p>这种至少好于前三种，是对于技术场景的自然延伸。为了适应网络特点，而使用更先进的架构，让服务端处理更多的数据，减小客户端尤其是移动端的计算压力。</p>
+<p>前端工程师一直处于鄙视链的底端。这么几个原因：</p>
+<ul>
+<li>很多H5工程师是培训班出来的，素质堪忧，基本上只会做一做简单的交互。</li>
+<li>相比于其他工种，前端工程的发展时间相对较短【06年左右，前端工程真正开始发展以XHR纳入 W3c 为标志，而后端是1996年左右就开始发展了】，这里的原理和这句话一样：“震惊！九零后程序员竟然无一人超过三十岁！”。</li>
+<li>前端这三四年很乱，天天有人造轮子。WEB发展早期有各大语言框架之争，而前端是 JavaScript 一统天下，自然而然会涌现出各种框架。</li>
+</ul>
+<p>鄙视链如此，前端级别不太高的工程师想往全栈发展的特别多。</p>
+<p>如同俄国是资本主义的薄弱环节，十月革命从俄国发起。前端是计算机工程的薄弱环节，全栈的风潮是从前端发起。</p>
+<p>但是，个人觉得全栈应该从“后端”学起。</p>
+<h4 id="架构型"><a href="#架构型" class="headerlink" title="架构型"></a>架构型</h4><p>这个级别的人都是全栈工程师。知识太局限的人无法成为重要项目的负责人，也无法创造业界影响力。</p>
+<p>关注了很久的一个有趣的问题：<a target="_blank" rel="noopener" href="https://www.zhihu.com/question/29910703">腾讯T4专家工程师是什么水平？</a></p>
+<p>比如滴滴在业务暴增期用了腾讯云的业务，这时候会找一些T4资深的架构师来 review，目的就是规避不可预知的风险。</p>
+<p>试问，怎样才能规避海量流量接入的系统风险？没有各个层面的知识能做到么？</p>
+<h4 id="极客型"><a href="#极客型" class="headerlink" title="极客型"></a>极客型</h4><p>Twitter 早期创业使用的 RoR 框架，一种开发非常高效的 MVC 框架，用极短的时间可以做出非常多的事情，<a target="_blank" rel="noopener" href="http://www.guokr.com/blog/388679/">采访Ruby语言创始人松本行弘</a>。</p>
+<p>Instagram 在被 Facebook 10亿美金收购的时候，整个公司团队有惊人的13个，怎么做到的？使用的框架是 Django，一个类似 RoR 的高效全家桶WEB开发框架。<a target="_blank" rel="noopener" href="http://blog.sae.sina.com.cn/archives/4215">Instagram的技术架构</a></p>
+<p>不错的互联网公司人均产值是百万美金，腾讯阿里级别的生态公司一般是1000万美金，而Instagram的早期，直接接近亿级别。</p>
+<p>国外很多的小公司使用 RoR，国内更多的是 Python 系的人。然后就是黑客与画家的作者极度推崇 Lisp，也是这种风格的语言。</p>
+<h4 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h4><p>招黑的是前三类和第四类的一部分人。</p>
+<h2 id="工程师分级"><a href="#工程师分级" class="headerlink" title="工程师分级"></a>工程师分级</h2><p>摘录自吴军博士《硅谷之谜》的等级划分，非常有意思。</p>
+<h3 id="第五等工程师"><a href="#第五等工程师" class="headerlink" title="第五等工程师"></a>第五等工程师</h3><p>第五等工程师，是能够独立设计和实现一项功能的人。这是对工程师的基本要求，如果一个人只是懂一点工程实现的手段，需要别人告诉他怎么做，那最多算是助理工程师或技工。</p>
+<h3 id="第四等工程师"><a href="#第四等工程师" class="headerlink" title="第四等工程师"></a>第四等工程师</h3><p>第四等的工程师就需要有点产品头脑了，也就是说他们在做一件事之前，要知道所作出来的东西是否有用、易用，是否便于维护，是否性能稳定，等等。除了要具备产品设计方面的基本知识，还要具有一定的领导才能，能在整个产品的生命周期从头到尾将一个产品负责到底。这在很多硅谷的公司里，基本上是一个高级工程师所应有的基本素质，对大部分工程师来讲，这些素质不是一个工学院能培养出来的，而是需要在工业界实际锻炼三四年甚至更长的时间。当然，个别天赋很好的年轻人在学校里就具备了这种素质，但这是可遇不可求的。</p>
+<h3 id="第三等工程师"><a href="#第三等工程师" class="headerlink" title="第三等工程师"></a>第三等工程师</h3><p>第三等的工程师可以做出行业里最好的产品。他们与第四等工程师有着质的区别，这不仅反映在技术水平、对市场的了解、对用户心理的了解以及组织能力等诸多方面，而且也反应在悟性的差异上。当然，这种悟性很多是后天培养出来的，但这就需要更长的时间了。有些人从工作一开始，可能需要十年八年，经过多次失败，不断总结，终于在某个时间点豁然开朗。而另一些人可能非常幸运，在一开始就有幸和最优秀的人一起工作，加上善于学习，五六年下来就能达到第三等的水平。在硅谷，有极少数工程师只花了五六年时间就达到了这个水平。但是，即使一个人再聪明，基础再好，也需要在工程上花足够的时间才能达到这个水平，一个年轻人工作了四五年就开始做行政管理工作，基础上就和这个水平无缘了。</p>
+<h3 id="第二等工程师"><a href="#第二等工程师" class="headerlink" title="第二等工程师"></a>第二等工程师</h3><p>第二等的工程师是那些可以给世界带来惊喜的人，比如实现第一台实用化个人计算机的沃兹尼亚克、DSL之父约翰·西奥菲、iPhone和Google Glass的总设计师，以及开发Android系统的如宾等等。他们与第三四五等工程师的差别在于其工作的原创性以及对世界的影响力。当然，他们的工作不是科学研究，这一点和科学家毕竟不同。</p>
+<h3 id="第一等工程师"><a href="#第一等工程师" class="headerlink" title="第一等工程师"></a>第一等工程师</h3><p>第一等的工程师是开创一个全新行业的人，历史上有爱迪生、特斯拉、福特，二战后有保时捷博士、本田宗一郎和硅谷的诺伊斯等人。这些工程师不仅在技术和产品等各个方面上与第二等的工程师有了质的差别，而且在经验和管理上也是好手，他们通常也是企业家，并通过自己的产品改变了世界。这一类人常常是可遇不可求的，正如朗道列出的第一等物理学家只有个位数一样，第一等的工程师也是如此。朗道认为每一等物理学家之间的贡献相差十倍，每一等工程师的差距也是这么大。</p>
+<h3 id="感想"><a href="#感想" class="headerlink" title="感想"></a>感想</h3><p>工程师不应该束缚自己，不应该固定方向。</p>
+<p>工程师应该动用一切可以用的资源，造出好用的东西。</p>
+<p>伟大的工程师要能发现并解决有十倍百倍增长空间的事情。</p>
+<p>保三争二学一。</p>
+<h2 id="我的理解"><a href="#我的理解" class="headerlink" title="我的理解"></a>我的理解</h2><p>逛 github 的时候发现一个毕业还只有三年，但知识结构很完整的哥们 <a target="_blank" rel="noopener" href="https://github.com/phodal/growth-ebook">phodal’s Github</a>，知识结构在创业公司里面会非常有用。虽说感觉这哥们在性能调优方面理解不是很到位，但是综合实力应该碾压绝大多数毕业三年左右的本科生。</p>
+<p>往小了说，WEB 技术栈是一个技能集，往大了说，WEB 技术栈是一个知识树：</p>
+<h3 id="WEB-技术栈"><a href="#WEB-技术栈" class="headerlink" title="WEB 技术栈"></a>WEB 技术栈</h3><ul>
+<li>熟悉*nix操作系统命令行和脚本</li>
+<li>熟悉常见开源数据库的使用</li>
+<li>熟悉主流的几种编程语言</li>
+<li>熟悉一种后端框架</li>
+<li>熟悉一种前端框架</li>
+<li>熟悉各种缓存策略</li>
+<li>熟悉一种数据分析工具</li>
+<li>熟悉如何给产品加跟踪器</li>
+<li>熟悉如何部署代码</li>
+<li>了解前后端分离技术</li>
+<li>了解基本的虚拟机和容器技术</li>
+<li>了解 CDN 技术</li>
+<li>了解基本的队列技术</li>
+<li>了解基本的微服务、混合云技术</li>
+</ul>
+<h3 id="WEB-知识栈"><a href="#WEB-知识栈" class="headerlink" title="WEB 知识栈"></a>WEB 知识栈</h3><h4 id="程序编码"><a href="#程序编码" class="headerlink" title="程序编码"></a>程序编码</h4><ul>
+<li>语言语法</li>
+<li>数据结构</li>
+<li>基本算法</li>
+<li>设计模式</li>
+</ul>
+<h4 id="体系结构"><a href="#体系结构" class="headerlink" title="体系结构"></a>体系结构</h4><ul>
+<li>操作系统原理</li>
+<li>数据库原理</li>
+<li>计算机网络原理</li>
+<li>编译原理</li>
+</ul>
+<h4 id="软件工程"><a href="#软件工程" class="headerlink" title="软件工程"></a>软件工程</h4><ul>
+<li>测试开发</li>
+<li>持续集成</li>
+<li>部署和运维</li>
+<li>工程架构</li>
+<li>性能调优</li>
+<li>自动化处理琐事</li>
+</ul>
+<h4 id="编码效率"><a href="#编码效率" class="headerlink" title="编码效率"></a>编码效率</h4><ul>
+<li>IDE 使用配置</li>
+<li>版本管理</li>
+<li>重构技巧</li>
+<li>会逛github</li>
+</ul>
+<h4 id="宽广的知识面"><a href="#宽广的知识面" class="headerlink" title="宽广的知识面"></a>宽广的知识面</h4><ul>
+<li>UX 入门</li>
+<li>SEO 入门</li>
+<li>经济学原理入门</li>
+<li>商业知识入门</li>
+<li>数据分析入门</li>
+<li>公司运作的原理</li>
+<li>行业趋势的认知</li>
+<li>文史知识</li>
+<li>讲故事的能力</li>
+</ul>
+<h2 id="END"><a href="#END" class="headerlink" title="END"></a>END</h2><p>不知道我理解的全栈和你理解的是不是一个东西？<br>是与不是都欢迎交流。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Fullstack/" rel="tag"># Fullstack</a>
+              <a href="/tags/Engineering/" rel="tag"># Engineering</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2017/06/27/WEB-server-explore/" rel="prev" title="WEB 服务器探究">
+      <i class="fa fa-chevron-left"></i> WEB 服务器探究
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2017/12/15/Bigdata-interview-problem/" rel="next" title="大数据面试题">
+      大数据面试题 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E5%85%A8%E6%A0%88%E5%B7%A5%E7%A8%8B%E5%B8%88%EF%BC%9F"><span class="nav-number">1.</span> <span class="nav-text">什么是全栈工程师？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%BA%90%E4%BA%8E-Facebook"><span class="nav-number">1.1.</span> <span class="nav-text">源于 Facebook</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Why"><span class="nav-number">1.2.</span> <span class="nav-text">Why?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%96%E8%A1%8C%E7%9C%8B%E6%8A%8A%E5%BC%8F%EF%BC%8C%E5%86%85%E8%A1%8C%E7%9C%8B%E9%97%A8%E9%81%93"><span class="nav-number">1.3.</span> <span class="nav-text">外行看把式，内行看门道</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E5%9C%A8%E5%9B%BD%E5%86%85%E4%BC%9A%E6%8B%9B%E9%BB%91%EF%BC%9F"><span class="nav-number">1.4.</span> <span class="nav-text">为什么在国内会招黑？</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%A3%85%E9%80%BC%E5%9E%8B"><span class="nav-number">1.4.1.</span> <span class="nav-text">装逼型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%8F%9C%E9%B8%9F%E5%9E%8B"><span class="nav-number">1.4.2.</span> <span class="nav-text">菜鸟型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%9B%E4%B8%9A%E5%9E%8B"><span class="nav-number">1.4.3.</span> <span class="nav-text">创业型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%89%8D%E7%AB%AF%E5%9E%8B"><span class="nav-number">1.4.4.</span> <span class="nav-text">前端型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9E%B6%E6%9E%84%E5%9E%8B"><span class="nav-number">1.4.5.</span> <span class="nav-text">架构型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9E%81%E5%AE%A2%E5%9E%8B"><span class="nav-number">1.4.6.</span> <span class="nav-text">极客型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BB%93%E8%AE%BA"><span class="nav-number">1.4.7.</span> <span class="nav-text">结论</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B7%A5%E7%A8%8B%E5%B8%88%E5%88%86%E7%BA%A7"><span class="nav-number">2.</span> <span class="nav-text">工程师分级</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E4%BA%94%E7%AD%89%E5%B7%A5%E7%A8%8B%E5%B8%88"><span class="nav-number">2.1.</span> <span class="nav-text">第五等工程师</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E5%9B%9B%E7%AD%89%E5%B7%A5%E7%A8%8B%E5%B8%88"><span class="nav-number">2.2.</span> <span class="nav-text">第四等工程师</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E4%B8%89%E7%AD%89%E5%B7%A5%E7%A8%8B%E5%B8%88"><span class="nav-number">2.3.</span> <span class="nav-text">第三等工程师</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%E7%AD%89%E5%B7%A5%E7%A8%8B%E5%B8%88"><span class="nav-number">2.4.</span> <span class="nav-text">第二等工程师</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E7%AD%89%E5%B7%A5%E7%A8%8B%E5%B8%88"><span class="nav-number">2.5.</span> <span class="nav-text">第一等工程师</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%84%9F%E6%83%B3"><span class="nav-number">2.6.</span> <span class="nav-text">感想</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%88%91%E7%9A%84%E7%90%86%E8%A7%A3"><span class="nav-number">3.</span> <span class="nav-text">我的理解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#WEB-%E6%8A%80%E6%9C%AF%E6%A0%88"><span class="nav-number">3.1.</span> <span class="nav-text">WEB 技术栈</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#WEB-%E7%9F%A5%E8%AF%86%E6%A0%88"><span class="nav-number">3.2.</span> <span class="nav-text">WEB 知识栈</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%A8%8B%E5%BA%8F%E7%BC%96%E7%A0%81"><span class="nav-number">3.2.1.</span> <span class="nav-text">程序编码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84"><span class="nav-number">3.2.2.</span> <span class="nav-text">体系结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B"><span class="nav-number">3.2.3.</span> <span class="nav-text">软件工程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BC%96%E7%A0%81%E6%95%88%E7%8E%87"><span class="nav-number">3.2.4.</span> <span class="nav-text">编码效率</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%BD%E5%B9%BF%E7%9A%84%E7%9F%A5%E8%AF%86%E9%9D%A2"><span class="nav-number">3.2.5.</span> <span class="nav-text">宽广的知识面</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#END"><span class="nav-number">4.</span> <span class="nav-text">END</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">田_田</p>
+  <div class="site-description" itemprop="description">创新需要在一切发生之前研究结局!</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">34</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wangzitian0" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wangzitian0" rel="noopener" target="_blank"><i class="github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wangzitian0@gmail.com" title="E-Mail → mailto:wangzitian0@gmail.com" rel="noopener" target="_blank"><i class="envelope fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.linkedin.com/in/wangzitian0" title="LinkedIn → https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;wangzitian0" rel="noopener" target="_blank"><i class="linkedin fa-fw"></i></a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class=""></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">田_田</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a>
+  </div>
+
+        
+
+
+
+
+
+
+<script>
+  (function() {
+    function leancloudSelector(url) {
+      url = encodeURI(url);
+      return document.getElementById(url).querySelector('.leancloud-visitors-count');
+    }
+
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = decodeURI(visitors.id);
+      var title = visitors.dataset.flagTitle;
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            leancloudSelector(url).innerText = counter.time + 1;
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              });
+          } else {
+              leancloudSelector(url).innerText = 'Counter not initialized! More info at console err msg.';
+              console.error('ATTENTION! LeanCloud counter has security bug, see how to solve it here: https://github.com/theme-next/hexo-leancloud-counter-security. \n However, you can still use LeanCloud without security, by setting `security` option to `false`.');
+            
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return decodeURI(element.id);
+      });
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          for (let url of entries) {
+            let target = results.find(item => item.url === url);
+            leancloudSelector(url).innerText = target ? target.time : 0;
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    let { app_id, app_key, server_url } = {"enable":true,"app_id":"itw5YW53yzX17tr3WAdRd9Dd-gzGzoHsz","app_key":"qLjOt8jjizQl0ys5OSdwf10Y","server_url":null,"security":true,"betterPerformance":true};
+    function fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${api_server}/1.1${url}`, {
+          method,
+          headers: {
+            'X-LC-Id'     : app_id,
+            'X-LC-Key'    : app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    }
+
+    let api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(response => response.json())
+        .then(({ api_server }) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="//cdn.jsdelivr.net/npm/algoliasearch@4/dist/algoliasearch-lite.umd.js"></script>
+<script src="//cdn.jsdelivr.net/npm/instantsearch.js@4/dist/instantsearch.production.min.js"></script>
+<script src="/js/algolia-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/huaji.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/huaji.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/huaji.png">
+  <link rel="mask-icon" href="/images/huaji.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"wangzitian0.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":true,"b2t":false,"scrollpercent":true},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"appID":"1PWF5BJPP1","apiKey":"6a2714c5b665823e7132db2aedb81233","indexName":"wangzitian0.github.io","hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="记录一下近期写 css 用到的一些属性。然后把相关的东西仔细查了一下。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CSS样式笔记">
+<meta property="og:url" content="https://wangzitian0.github.io/2016/09/20/CSS-style-notes/index.html">
+<meta property="og:site_name" content="全栈之路">
+<meta property="og:description" content="记录一下近期写 css 用到的一些属性。然后把相关的东西仔细查了一下。">
+<meta property="og:locale">
+<meta property="article:published_time" content="2016-09-20T11:06:00.000Z">
+<meta property="article:modified_time" content="2020-09-30T04:59:07.877Z">
+<meta property="article:author" content="田_田">
+<meta property="article:tag" content="HTML">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://wangzitian0.github.io/2016/09/20/CSS-style-notes/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>CSS样式笔记 | 全栈之路</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?1eeceb0b3f8e550d6211f134646361b6";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="全栈之路" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta custom-logo">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">全栈之路</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">田_田的博客</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="archive fa-fw"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="user fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="tags fa-fw"></i>Tags</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container"></div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="algolia-results">
+  <div id="algolia-stats"></div>
+  <div id="algolia-hits"></div>
+  <div id="algolia-pagination" class="algolia-pagination"></div>
+</div>
+
+      
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://wangzitian0.github.io/2016/09/20/CSS-style-notes/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="田_田">
+      <meta itemprop="description" content="创新需要在一切发生之前研究结局!">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="全栈之路">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          CSS样式笔记
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2016-09-20 19:06:00" itemprop="dateCreated datePublished" datetime="2016-09-20T19:06:00+08:00">2016-09-20</time>
+            </span>
+
+          
+            <span id="/2016/09/20/CSS-style-notes/" class="post-meta-item leancloud_visitors" data-flag-title="CSS样式笔记" title="Views">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>记录一下近期写 css 用到的一些属性。然后把相关的东西仔细查了一下。</p>
+<a id="more"></a>
+
+<h1 id="选择器"><a href="#选择器" class="headerlink" title="选择器"></a>选择器</h1><h2 id="基本常识"><a href="#基本常识" class="headerlink" title="基本常识"></a>基本常识</h2><h3 id="选择器大小写不敏感"><a href="#选择器大小写不敏感" class="headerlink" title="选择器大小写不敏感"></a>选择器大小写不敏感</h3><p>选择器语法不是大小写敏感的，a:hover等价于a:HOVER，但标签名和属性名以及属性值是大小写敏感的（取决于HTML，必须保持一致）</p>
+<h3 id="选择器的分类"><a href="#选择器的分类" class="headerlink" title="选择器的分类"></a>选择器的分类</h3><p>type selector——类型选择器（标记选择器）<br>universal selector——通配选择器<br>attribute selector——属性选择器<br>class selector——类选择器<br>ID selector——ID选择器<br>pseudo-class——伪类</p>
+<h3 id="伪类-amp-amp-伪元素"><a href="#伪类-amp-amp-伪元素" class="headerlink" title="伪类&amp;&amp;伪元素"></a>伪类&amp;&amp;伪元素</h3><p>形式上，伪类有一个冒号，而伪元素有两个冒号。</p>
+<p>意义上，伪类相当于给现有元素添加了class属性值，而伪元素相当于创建了一个新的元素。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">p:first-child匹配p的第一个子元素，相当给第一个子元素设置了匿名class；</span><br><span class="line">p::first-line匹配段落第一行内容，相当于创建了一个span）</span><br><span class="line">特别的，伪类要遵循LVHA爱恨原则；</span><br><span class="line">before, after不是伪类而是伪元素（最容易混淆，原因是浏览器兼容问题——某些浏览器不支持双冒号）</span><br></pre></td></tr></table></figure>
+
+<h3 id="选择器特殊性计算"><a href="#选择器特殊性计算" class="headerlink" title="选择器特殊性计算"></a>选择器特殊性计算</h3><p>特殊性高的样式会覆盖特殊性低的样式，比如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#cnblogspost_body &gt; p          &#123;&#x2F;*style1*&#x2F;&#125;</span><br><span class="line">p                              &#123;&#x2F;*style2*&#x2F;&#125;</span><br><span class="line">&#123;&#x2F;*共存时，表现出来的是特殊性更高的style1，*&#x2F;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>特殊性的计算规则如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">a &#x3D; ID选择器的个数</span><br><span class="line">b &#x3D; （类选择器 + 属性选择器 + 伪类）的个数</span><br><span class="line">c &#x3D; （标记选择器 + 伪元素）的个数</span><br></pre></td></tr></table></figure>
+<p>P.S.1.忽略通配选择器</p>
+<p>P.S.2.取反选择器不算数（取反选择器本身不计入伪类的个数，但左右的都算），例如#s12:not(FOO) /* a=1 b=0 c=1 -&gt; specificity = 101 */</p>
+<p>P.S.3.重复出现相同的简单选择器都算有效计数</p>
+<h2 id="常用选择器"><a href="#常用选择器" class="headerlink" title="常用选择器"></a>常用选择器</h2><table>
+<thead>
+<tr>
+<th align="left">选择器</th>
+<th align="left">例子</th>
+<th align="left">例子描述</th>
+<th align="left">CSS</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">.class</td>
+<td align="left">.intro</td>
+<td align="left">选择 class=”intro” 的所有元素。</td>
+<td align="left">1</td>
+</tr>
+<tr>
+<td align="left">#id</td>
+<td align="left">#firstname</td>
+<td align="left">选择 id=”firstname” 的所有元素。</td>
+<td align="left">1</td>
+</tr>
+<tr>
+<td align="left">*</td>
+<td align="left">*</td>
+<td align="left">选择所有元素。</td>
+<td align="left">2</td>
+</tr>
+<tr>
+<td align="left">element</td>
+<td align="left">p</td>
+<td align="left">选择所有 <code>&lt;p&gt;</code> 元素。</td>
+<td align="left">1</td>
+</tr>
+<tr>
+<td align="left">element,element</td>
+<td align="left">div,p</td>
+<td align="left">选择所有 <code>&lt;div&gt;</code> 元素和所有 <code>&lt;p&gt;</code> 元素。</td>
+<td align="left">1</td>
+</tr>
+<tr>
+<td align="left">element element</td>
+<td align="left">div p</td>
+<td align="left">选择 <code>&lt;div&gt;</code> 元素内部的所有 <code>&lt;p&gt;</code> 元素。</td>
+<td align="left">1</td>
+</tr>
+<tr>
+<td align="left">element&gt;element</td>
+<td align="left">div&gt;p</td>
+<td align="left">选择父元素为 <code>&lt;div&gt;</code> 元素的所有 <code>&lt;p&gt;</code> 元素。</td>
+<td align="left">2</td>
+</tr>
+<tr>
+<td align="left">element+element</td>
+<td align="left">div+p</td>
+<td align="left">选择紧接在 <code>&lt;div&gt;</code> 元素之后的所有 <code>&lt;p&gt;</code> 元素。</td>
+<td align="left">2</td>
+</tr>
+<tr>
+<td align="left">[attribute]</td>
+<td align="left">[target]</td>
+<td align="left">选择带有 target 属性所有元素。</td>
+<td align="left">2</td>
+</tr>
+<tr>
+<td align="left">[attribute=value]</td>
+<td align="left">[target=_blank]</td>
+<td align="left">选择 target=”_blank” 的所有元素。</td>
+<td align="left">2</td>
+</tr>
+<tr>
+<td align="left">[attribute~=value]</td>
+<td align="left">[title~=flower]</td>
+<td align="left">选择 title 属性包含单词 “flower” 的所有元素。</td>
+<td align="left">2</td>
+</tr>
+<tr>
+<td align="left">[attribute&#124;=value]</td>
+<td align="left">[lang&#124;=en]</td>
+<td align="left">选择 lang 属性值以 “en” 开头的所有元素。</td>
+<td align="left">2</td>
+</tr>
+<tr>
+<td align="left">:link</td>
+<td align="left">a:link</td>
+<td align="left">选择所有未被访问的链接。</td>
+<td align="left">1</td>
+</tr>
+<tr>
+<td align="left">:visited</td>
+<td align="left">a:visited</td>
+<td align="left">选择所有已被访问的链接。</td>
+<td align="left">1</td>
+</tr>
+<tr>
+<td align="left">:active</td>
+<td align="left">a:active</td>
+<td align="left">选择活动链接。</td>
+<td align="left">1</td>
+</tr>
+<tr>
+<td align="left">:hover</td>
+<td align="left">a:hover</td>
+<td align="left">选择鼠标指针位于其上的链接。</td>
+<td align="left">1</td>
+</tr>
+<tr>
+<td align="left">:focus</td>
+<td align="left">input:focus</td>
+<td align="left">选择获得焦点的 input 元素。</td>
+<td align="left">2</td>
+</tr>
+<tr>
+<td align="left">:first-letter</td>
+<td align="left">p:first-letter</td>
+<td align="left">选择每个 <code>&lt;p&gt;</code> 元素的首字母。</td>
+<td align="left">1</td>
+</tr>
+<tr>
+<td align="left">:first-line</td>
+<td align="left">p:first-line</td>
+<td align="left">选择每个 <code>&lt;p&gt;</code> 元素的首行。</td>
+<td align="left">1</td>
+</tr>
+<tr>
+<td align="left">:first-child</td>
+<td align="left">p:first-child</td>
+<td align="left">选择属于父元素的第一个子元素的每个 <code>&lt;p&gt;</code> 元素。</td>
+<td align="left">2</td>
+</tr>
+<tr>
+<td align="left">:before</td>
+<td align="left">p:before</td>
+<td align="left">在每个 <code>&lt;p&gt;</code> 元素的内容之前插入内容。</td>
+<td align="left">2</td>
+</tr>
+<tr>
+<td align="left">:after</td>
+<td align="left">p:after</td>
+<td align="left">在每个 <code>&lt;p&gt;</code> 元素的内容之后插入内容。</td>
+<td align="left">2</td>
+</tr>
+<tr>
+<td align="left">:lang(language)</td>
+<td align="left">p:lang(it)</td>
+<td align="left">选择带有以 “it” 开头的 lang 属性值的每个 <code>&lt;p&gt;</code> 元素。</td>
+<td align="left">2</td>
+</tr>
+<tr>
+<td align="left">element1~element2</td>
+<td align="left">p~ul</td>
+<td align="left">选择前面有 <code>&lt;p&gt;</code> 元素的每个 <ul> 元素。</td>
+<td align="left">3</td>
+</tr>
+<tr>
+<td align="left">[attribute^=value]</td>
+<td align="left">a[src^=”https”]</td>
+<td align="left">选择其 src 属性值以 “https” 开头的每个 <code>&lt;a&gt;</code> 元素。</td>
+<td align="left">3</td>
+</tr>
+<tr>
+<td align="left">[attribute$=value]</td>
+<td align="left">a[src$=”.pdf”]</td>
+<td align="left">选择其 src 属性以 “.pdf” 结尾的所有 <code>&lt;a&gt;</code> 元素。</td>
+<td align="left">3</td>
+</tr>
+<tr>
+<td align="left">[attribute*=value]</td>
+<td align="left">a[src*=”abc”]</td>
+<td align="left">选择其 src 属性中包含 “abc” 子串的每个 <code>&lt;a&gt;</code> 元素。</td>
+<td align="left">3</td>
+</tr>
+<tr>
+<td align="left">:first-of-type</td>
+<td align="left">p:first-of-type</td>
+<td align="left">选择属于其父元素的首个 <code>&lt;p&gt;</code> 元素的每个 <code>&lt;p&gt;</code> 元素。</td>
+<td align="left">3</td>
+</tr>
+<tr>
+<td align="left">:last-of-type</td>
+<td align="left">p:last-of-type</td>
+<td align="left">选择属于其父元素的最后 <code>&lt;p&gt;</code> 元素的每个 <code>&lt;p&gt;</code> 元素。</td>
+<td align="left">3</td>
+</tr>
+<tr>
+<td align="left">:only-of-type</td>
+<td align="left">p:only-of-type</td>
+<td align="left">选择属于其父元素唯一的 <code>&lt;p&gt;</code> 元素的每个 <code>&lt;p&gt;</code> 元素。</td>
+<td align="left">3</td>
+</tr>
+<tr>
+<td align="left">:only-child</td>
+<td align="left">p:only-child</td>
+<td align="left">选择属于其父元素的唯一子元素的每个 <code>&lt;p&gt;</code> 元素。</td>
+<td align="left">3</td>
+</tr>
+<tr>
+<td align="left">:nth-child(n)</td>
+<td align="left">p:nth-child(2)</td>
+<td align="left">选择属于其父元素的第二个子元素的每个 <code>&lt;p&gt;</code> 元素。</td>
+<td align="left">3</td>
+</tr>
+<tr>
+<td align="left">:nth-last-child(n)</td>
+<td align="left">p:nth-last-child(2)</td>
+<td align="left">同上，从最后一个子元素开始计数。</td>
+<td align="left">3</td>
+</tr>
+<tr>
+<td align="left">:nth-of-type(n)</td>
+<td align="left">p:nth-of-type(2)</td>
+<td align="left">选择属于其父元素第二个 <code>&lt;p&gt;</code> 元素的每个 <code>&lt;p&gt;</code> 元素。</td>
+<td align="left">3</td>
+</tr>
+<tr>
+<td align="left">:nth-last-of-type(n)</td>
+<td align="left">p:nth-last-of-type(2)</td>
+<td align="left">同上，但是从最后一个子元素开始计数。</td>
+<td align="left">3</td>
+</tr>
+<tr>
+<td align="left">:last-child</td>
+<td align="left">p:last-child</td>
+<td align="left">选择属于其父元素最后一个子元素每个 <code>&lt;p&gt;</code> 元素。</td>
+<td align="left">3</td>
+</tr>
+<tr>
+<td align="left">:root</td>
+<td align="left">:root</td>
+<td align="left">选择文档的根元素。</td>
+<td align="left">3</td>
+</tr>
+<tr>
+<td align="left">:empty</td>
+<td align="left">p:empty</td>
+<td align="left">选择没有子元素的每个 <code>&lt;p&gt;</code> 元素（包括文本节点）。</td>
+<td align="left">3</td>
+</tr>
+<tr>
+<td align="left">:target</td>
+<td align="left">#news:target</td>
+<td align="left">选择当前活动的 #news 元素。</td>
+<td align="left">3</td>
+</tr>
+<tr>
+<td align="left">:enabled</td>
+<td align="left">input:enabled</td>
+<td align="left">选择每个启用的 <code>&lt;input&gt;</code> 元素。</td>
+<td align="left">3</td>
+</tr>
+<tr>
+<td align="left">:disabled</td>
+<td align="left">input:disabled</td>
+<td align="left">选择每个禁用的 <code>&lt;input&gt;</code> 元素</td>
+<td align="left">3</td>
+</tr>
+<tr>
+<td align="left">:checked</td>
+<td align="left">input:checked</td>
+<td align="left">选择每个被选中的 <code>&lt;input&gt;</code> 元素。</td>
+<td align="left">3</td>
+</tr>
+<tr>
+<td align="left">:not(selector)</td>
+<td align="left">:not(p)</td>
+<td align="left">选择非 <code>&lt;p&gt;</code> 元素的每个元素。</td>
+<td align="left">3</td>
+</tr>
+<tr>
+<td align="left">::selection</td>
+<td align="left">::selection</td>
+<td align="left">选择被用户选取的元素部分。</td>
+<td align="left">3</td>
+</tr>
+</tbody></table>
+<h1 id="定位"><a href="#定位" class="headerlink" title="定位"></a>定位</h1><h2 id="flex笔记"><a href="#flex笔记" class="headerlink" title="flex笔记"></a>flex笔记</h2><p>现在的浏览器对 flex 的支持非常好，因此如果不能一眼想好怎么用 absolute 和 float 实现的布局都可以使用 flex。</p>
+<h3 id="期望"><a href="#期望" class="headerlink" title="期望"></a>期望</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">在任何流动的方向上(包括上下左右)都能进行良好的布局</span><br><span class="line">可以以逆序 或者 以任意顺序排列布局</span><br><span class="line">可以线性的沿着主轴一字排开 或者 沿着侧轴换行排列</span><br><span class="line">可以弹性的在任意的容器中伸缩大小（今天重点研究的主题）</span><br><span class="line">可以使子元素们在容器主轴方向上 或者 在容器侧轴方向上 进行对齐</span><br><span class="line">可以动态的 沿着主轴方向 伸缩子级的尺寸，与此同时保证父级侧轴方向上的尺寸</span><br></pre></td></tr></table></figure>
+<h3 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h3><ul>
+<li>设为 Flex 布局以后，子元素的float、clear和vertical-align属性将失效。</li>
+<li>容器默认存在两根轴：水平的主轴（main axis）和垂直的交叉轴（cross axis）。<ul>
+<li>主轴的开始位置（与边框的交叉点）叫做main start，结束位置叫做main end；</li>
+<li>交叉轴的开始位置叫做cross start，结束位置叫做cross end。</li>
+</ul>
+</li>
+<li>项目默认沿主轴排列。</li>
+<li>单个项目占据的主轴空间叫做main size，占据的交叉轴空间叫做cross size。<br>阮老师的两篇文章：</li>
+</ul>
+<p>这一篇可以当字典用 <a target="_blank" rel="noopener" href="http://www.ruanyifeng.com/blog/2015/07/flex-grammar.html">Flex 布局教程</a></p>
+<p>这一篇可以辅助理解 <a target="_blank" rel="noopener" href="http://www.ruanyifeng.com/blog/2015/07/flex-examples.html">Flex 布局教程</a></p>
+<h3 id="备忘"><a href="#备忘" class="headerlink" title="备忘"></a>备忘</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">主轴的方向</span><br><span class="line">flex-direction: row | row-reverse | column | column-reverse;</span><br><span class="line">如何换行</span><br><span class="line">flex-wrap: nowrap | wrap | wrap-reverse;</span><br><span class="line">主轴对齐方式</span><br><span class="line">justify-content: flex-start | flex-end | center | space-between | space-around;</span><br><span class="line">交叉轴如何对齐</span><br><span class="line">align-items: flex-start | flex-end | center | baseline | stretch;</span><br><span class="line">多根轴线的对齐方式</span><br><span class="line">align-content</span><br><span class="line">align-content: flex-start | flex-end | center | space-between | space-around | stretch;</span><br><span class="line"></span><br><span class="line">flex属性是flex-grow, flex-shrink 和 flex-basis的简写，默认值为0 1 auto。</span><br><span class="line">存在剩余空间，放大flex-grow倍，默认为0，即如果存在剩余空间，也不放大。</span><br><span class="line">空间不足，缩小flex-shrink倍，默认为1，即如果空间不足，该项目将缩小。</span><br><span class="line">分配多余空间之前项目占据的主轴空间flex-basis。默认值为auto，即项目的本来大小。</span><br><span class="line">flex: none | [ &lt;&#39;flex-grow&#39;&gt; &lt;&#39;flex-shrink&#39;&gt;? || &lt;&#39;flex-basis&#39;&gt; ]</span><br></pre></td></tr></table></figure>
+
+
+<h1 id="杂七杂八"><a href="#杂七杂八" class="headerlink" title="杂七杂八"></a>杂七杂八</h1><h2 id="常用常查的"><a href="#常用常查的" class="headerlink" title="常用常查的"></a>常用常查的</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">border-radius: 30px;</span><br><span class="line">圆角</span><br><span class="line">box-shadow: 3px 3px 4px #ffffff; </span><br><span class="line">盒状阴影|  x轴偏移值、y轴偏移值、阴影的模糊度、以及阴影颜色。</span><br><span class="line">background: linear-gradient(to bottom, blue, white);</span><br><span class="line">background: linear-gradient(&lt;angle&gt;, blue, white 80%, orange);</span><br><span class="line">线性渐变</span><br><span class="line">background: linear-gradient(to right, rgba(255,255,255,0), rgba(255,255,255,1)), url(http:&#x2F;&#x2F;foo.com&#x2F;image.jpg);</span><br><span class="line">图片线性渐变透明 | 0为透明，1为不透</span><br><span class="line">background: repeating-linear-gradient(-45deg, red, red 5px, white 5px, white 10px);</span><br><span class="line">重复的线性渐变</span><br><span class="line"></span><br><span class="line">background: radial-gradient(red 5%, yellow 25%, #1E90FF 50%);</span><br><span class="line">径向渐变</span><br><span class="line">background: radial-gradient(ellipse closest-side, red, yellow 10%, #1E90FF 50%, white);</span><br><span class="line">椭圆的渐变</span><br><span class="line">background: repeating-radial-gradient(black, black 5px, white 5px, white 10px);</span><br><span class="line">重复的径向渐变</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">background-color: rgba(180, 180, 144, 0.6); </span><br><span class="line">opacity:0.5;</span><br><span class="line">透明度</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><a target="_blank" rel="noopener" href="http://www.daqianduan.com/2959.html">旋转拉伸</a></p>
+<p>可以实现立体效果，远近效果，3D房间效果等等</p>
+<h2 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h2><h3 id="compass"><a href="#compass" class="headerlink" title="compass"></a>compass</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">@import &quot;compass&#x2F;css3&quot;;</span><br><span class="line">.rounded &#123;</span><br><span class="line">    @include border-radius(5px);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>编译成如下代码，帮助做好适配工作：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">.rounded &#123;</span><br><span class="line">    -moz-border-radius: 5px;</span><br><span class="line">    -webkit-border-radius: 5px;</span><br><span class="line">    -o-border-radius: 5px;</span><br><span class="line">    -ms-border-radius: 5px;</span><br><span class="line">    -khtml-border-radius: 5px;</span><br><span class="line">    border-radius: 5px;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>更加具体的介绍可以看这个链接： <a target="_blank" rel="noopener" href="https://ruby-china.org/topics/4396">SASS 和 Compass 指南</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/HTML/" rel="tag"># HTML</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2016/09/04/Golang-notes/" rel="prev" title="Golang 笔记">
+      <i class="fa fa-chevron-left"></i> Golang 笔记
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2016/12/31/Never-forgot-why-you-start/" rel="next" title="不忘初心，方得始终">
+      不忘初心，方得始终 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%80%89%E6%8B%A9%E5%99%A8"><span class="nav-number">1.</span> <span class="nav-text">选择器</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E5%B8%B8%E8%AF%86"><span class="nav-number">1.1.</span> <span class="nav-text">基本常识</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%89%E6%8B%A9%E5%99%A8%E5%A4%A7%E5%B0%8F%E5%86%99%E4%B8%8D%E6%95%8F%E6%84%9F"><span class="nav-number">1.1.1.</span> <span class="nav-text">选择器大小写不敏感</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%89%E6%8B%A9%E5%99%A8%E7%9A%84%E5%88%86%E7%B1%BB"><span class="nav-number">1.1.2.</span> <span class="nav-text">选择器的分类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BC%AA%E7%B1%BB-amp-amp-%E4%BC%AA%E5%85%83%E7%B4%A0"><span class="nav-number">1.1.3.</span> <span class="nav-text">伪类&amp;&amp;伪元素</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%89%E6%8B%A9%E5%99%A8%E7%89%B9%E6%AE%8A%E6%80%A7%E8%AE%A1%E7%AE%97"><span class="nav-number">1.1.4.</span> <span class="nav-text">选择器特殊性计算</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E9%80%89%E6%8B%A9%E5%99%A8"><span class="nav-number">1.2.</span> <span class="nav-text">常用选择器</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%9A%E4%BD%8D"><span class="nav-number">2.</span> <span class="nav-text">定位</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#flex%E7%AC%94%E8%AE%B0"><span class="nav-number">2.1.</span> <span class="nav-text">flex笔记</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%9F%E6%9C%9B"><span class="nav-number">2.1.1.</span> <span class="nav-text">期望</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="nav-number">2.1.2.</span> <span class="nav-text">基本概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%87%E5%BF%98"><span class="nav-number">2.1.3.</span> <span class="nav-text">备忘</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB"><span class="nav-number">3.</span> <span class="nav-text">杂七杂八</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E5%B8%B8%E6%9F%A5%E7%9A%84"><span class="nav-number">3.1.</span> <span class="nav-text">常用常查的</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B7%A5%E5%85%B7"><span class="nav-number">3.2.</span> <span class="nav-text">工具</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#compass"><span class="nav-number">3.2.1.</span> <span class="nav-text">compass</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">田_田</p>
+  <div class="site-description" itemprop="description">创新需要在一切发生之前研究结局!</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">34</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wangzitian0" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wangzitian0" rel="noopener" target="_blank"><i class="github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wangzitian0@gmail.com" title="E-Mail → mailto:wangzitian0@gmail.com" rel="noopener" target="_blank"><i class="envelope fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.linkedin.com/in/wangzitian0" title="LinkedIn → https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;wangzitian0" rel="noopener" target="_blank"><i class="linkedin fa-fw"></i></a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class=""></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">田_田</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a>
+  </div>
+
+        
+
+
+
+
+
+
+<script>
+  (function() {
+    function leancloudSelector(url) {
+      url = encodeURI(url);
+      return document.getElementById(url).querySelector('.leancloud-visitors-count');
+    }
+
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = decodeURI(visitors.id);
+      var title = visitors.dataset.flagTitle;
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            leancloudSelector(url).innerText = counter.time + 1;
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              });
+          } else {
+              leancloudSelector(url).innerText = 'Counter not initialized! More info at console err msg.';
+              console.error('ATTENTION! LeanCloud counter has security bug, see how to solve it here: https://github.com/theme-next/hexo-leancloud-counter-security. \n However, you can still use LeanCloud without security, by setting `security` option to `false`.');
+            
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return decodeURI(element.id);
+      });
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          for (let url of entries) {
+            let target = results.find(item => item.url === url);
+            leancloudSelector(url).innerText = target ? target.time : 0;
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    let { app_id, app_key, server_url } = {"enable":true,"app_id":"itw5YW53yzX17tr3WAdRd9Dd-gzGzoHsz","app_key":"qLjOt8jjizQl0ys5OSdwf10Y","server_url":null,"security":true,"betterPerformance":true};
+    function fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${api_server}/1.1${url}`, {
+          method,
+          headers: {
+            'X-LC-Id'     : app_id,
+            'X-LC-Key'    : app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    }
+
+    let api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(response => response.json())
+        .then(({ api_server }) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="//cdn.jsdelivr.net/npm/algoliasearch@4/dist/algoliasearch-lite.umd.js"></script>
+<script src="//cdn.jsdelivr.net/npm/instantsearch.js@4/dist/instantsearch.production.min.js"></script>
+<script src="/js/algolia-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

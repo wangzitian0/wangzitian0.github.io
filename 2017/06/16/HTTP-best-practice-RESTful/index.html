@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/huaji.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/huaji.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/huaji.png">
+  <link rel="mask-icon" href="/images/huaji.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"wangzitian0.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":true,"b2t":false,"scrollpercent":true},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"appID":"1PWF5BJPP1","apiKey":"6a2714c5b665823e7132db2aedb81233","indexName":"wangzitian0.github.io","hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="记录一下我学习 http 协议和 RESTful 最佳实践的学习过程。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HTTP协议的最佳实践RESTful">
+<meta property="og:url" content="https://wangzitian0.github.io/2017/06/16/HTTP-best-practice-RESTful/index.html">
+<meta property="og:site_name" content="全栈之路">
+<meta property="og:description" content="记录一下我学习 http 协议和 RESTful 最佳实践的学习过程。">
+<meta property="og:locale">
+<meta property="article:published_time" content="2017-06-16T06:44:00.000Z">
+<meta property="article:modified_time" content="2020-09-30T04:59:07.878Z">
+<meta property="article:author" content="田_田">
+<meta property="article:tag" content="HTML">
+<meta property="article:tag" content="Best Practice">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://wangzitian0.github.io/2017/06/16/HTTP-best-practice-RESTful/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>HTTP协议的最佳实践RESTful | 全栈之路</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?1eeceb0b3f8e550d6211f134646361b6";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="全栈之路" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta custom-logo">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">全栈之路</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">田_田的博客</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="archive fa-fw"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="user fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="tags fa-fw"></i>Tags</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container"></div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="algolia-results">
+  <div id="algolia-stats"></div>
+  <div id="algolia-hits"></div>
+  <div id="algolia-pagination" class="algolia-pagination"></div>
+</div>
+
+      
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://wangzitian0.github.io/2017/06/16/HTTP-best-practice-RESTful/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="田_田">
+      <meta itemprop="description" content="创新需要在一切发生之前研究结局!">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="全栈之路">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          HTTP协议的最佳实践RESTful
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-06-16 14:44:00" itemprop="dateCreated datePublished" datetime="2017-06-16T14:44:00+08:00">2017-06-16</time>
+            </span>
+
+          
+            <span id="/2017/06/16/HTTP-best-practice-RESTful/" class="post-meta-item leancloud_visitors" data-flag-title="HTTP协议的最佳实践RESTful" title="Views">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>记录一下我学习 http 协议和 RESTful 最佳实践的学习过程。</p>
+<a id="more"></a>
+
+<blockquote>
+<p>HTTP协议是Hyper Text Transfer Protocol（超文本传输协议）的缩写,是用于从万维网（WWW:World Wide Web ）服务器传输超文本到本地浏览器的传送协议。</p>
+</blockquote>
+<p>换句话说，http 的表现是文本，所有的数据都通过文本来体现，各个控制传输的参数也是文本来提现。（ps：http2协议是二进制协议，但是核心思想没有变）</p>
+<h2 id="知识储备-amp-预备"><a href="#知识储备-amp-预备" class="headerlink" title="知识储备&amp;预备"></a>知识储备&amp;预备</h2><h3 id="what-happens-after-enter-url"><a href="#what-happens-after-enter-url" class="headerlink" title="what happens after enter url"></a>what happens after enter url</h3><p>首先要对整个 web 栈有一个理解，最典型的问题就是问自己，输入 url 到页面完整的完成，过程中发生了什么：<br><a target="_blank" rel="noopener" href="https://github.com/skyline75489/what-happens-when-zh_CN">https://github.com/skyline75489/what-happens-when-zh_CN</a></p>
+<h3 id="tcp-协议"><a href="#tcp-协议" class="headerlink" title="tcp 协议"></a>tcp 协议</h3><p><a target="_blank" rel="noopener" href="http://www.jianshu.com/p/ef892323e68f">http://www.jianshu.com/p/ef892323e68f</a><br>理解一下 http 为什么是可靠连接</p>
+<h3 id="osi-七层协议"><a href="#osi-七层协议" class="headerlink" title="osi 七层协议"></a>osi 七层协议</h3><p><a target="_blank" rel="noopener" href="http://www.jianshu.com/p/4b9d43c0571a">http://www.jianshu.com/p/4b9d43c0571a</a><br>我们主要是在应用层使用 http 协议</p>
+<h2 id="http主要特点"><a href="#http主要特点" class="headerlink" title="http主要特点"></a>http主要特点</h2><p>基础知识在这：<br><a target="_blank" rel="noopener" href="http://www.jianshu.com/p/80e25cb1d81a">http://www.jianshu.com/p/80e25cb1d81a</a></p>
+<p>现在的 web 框架本质上是对 http 的Request &amp;&amp; Response请求的封装。</p>
+<h3 id="http-协议的Request和Response由哪几个部分组成？服务器和客户端如何相互确定需要的信息？"><a href="#http-协议的Request和Response由哪几个部分组成？服务器和客户端如何相互确定需要的信息？" class="headerlink" title="http 协议的Request和Response由哪几个部分组成？服务器和客户端如何相互确定需要的信息？"></a>http 协议的Request和Response由哪几个部分组成？服务器和客户端如何相互确定需要的信息？</h3><p><a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Overview">https://developer.mozilla.org/en-US/docs/Web/HTTP/Overview</a></p>
+<h4 id="Request"><a href="#Request" class="headerlink" title="Request"></a>Request</h4><p>http methed，请求方法。可以使动词方法 GET, POST，或者名词OPTIONS or  HEAD，协议头。定义一次请求想干啥。 </p>
+<ul>
+<li><a target="_blank" rel="noopener" href="http://honglu.me/2015/07/13/%E5%BC%80%E5%8F%91%E4%B8%AD%E5%B8%B8%E7%94%A8%E7%9A%84HTTP-header/">常用 header</a>，<a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods">常用 methed</a></li>
+<li>header 的内容包括不限于缓存控制，语言，数据格式，用户身份认证等</li>
+<li>header 里的重点  <a target="_blank" rel="noopener" href="http://javascript.ruanyifeng.com/bom/cookie.html">cookies</a>，<a target="_blank" rel="noopener" href="http://www.cnblogs.com/xinzhao/p/5099807.html">缓存控制策略相关 header</a>，<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Access_control_CORS">CORS 跨域相关的 header</a>，注意<a target="_blank" rel="noopener" href="https://tools.ietf.org/html/rfc7231#section-5.3.2">Accept</a>和<a target="_blank" rel="noopener" href="http://honglu.me/2015/07/13/%E5%B8%B8%E7%94%A8%E7%9A%84%E5%87%A0%E7%A7%8DContent-Type/">Content-Type</a>的不同，一个是来一个是回。</li>
+</ul>
+<p>Path of resource，资源路径。 定义和标识需要操作的资源。包括一个协议头、地址、端口等。</p>
+<ul>
+<li>路径的的表示方法分为<a target="_blank" rel="noopener" href="http://web.jobbole.com/83452/">url urn uri</a>。</li>
+<li>常用的<a target="_blank" rel="noopener" href="https://wsgzao.github.io/post/service-names-port-numbers/">协议和端口</a></li>
+</ul>
+<p>HTTP version，协议版本.</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="http://www.jianshu.com/p/52d86558ca57">优雅的谈论http版本</a></li>
+</ul>
+<p>Body，正文，比如 POST 请求，数据会放在 body 里。</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://imququ.com/post/four-ways-to-post-data-in-http.html">常见的 POST 提交数据</a>，<code>Content-Type</code>控制。</li>
+</ul>
+<h4 id="response"><a href="#response" class="headerlink" title="response"></a>response</h4><p>HTTP version，协议版本，同上。</p>
+<p>Status code, 状态号，告知你请求是否成功，怎样成功或者失败。</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="http://www.runoob.com/http/http-status-codes.html">状态码</a></li>
+</ul>
+<p>Status message, 一段简单的文字状态描述。</p>
+<p>HTTP headers,请求头，同上。</p>
+<ul>
+<li>header 进一步详细的的介绍可以看这个 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers">mozilla docs</a> </li>
+<li>对 header 如果很熟悉就可以试着去玩一下 Nginx，有各种通过正则式改写 header 和 url 的技巧</li>
+<li>写 header 可以完成某些转发、跨域、缓存、身份验证、文件下载等需求。</li>
+</ul>
+<p>Body，应该返回的数据或者媒体资源文件。</p>
+<ul>
+<li>json 是 JavaScript 的经典数据描述，但是表示一个对象有更多的 <a target="_blank" rel="noopener" href="http://www.infoq.com/cn/articles/serialization-and-deserialization">序列化和反序列化</a> 工具。</li>
+</ul>
+<h3 id="post-和-get-有什么区别？put-和-patch-有什么区别？"><a href="#post-和-get-有什么区别？put-和-patch-有什么区别？" class="headerlink" title="post 和 get 有什么区别？put 和 patch 有什么区别？"></a>post 和 get 有什么区别？put 和 patch 有什么区别？</h3><p>细节可以看这个<a target="_blank" rel="noopener" href="http://www.w3school.com.cn/tags/html_ref_httpmethods.asp">post&amp;get对比</a></p>
+<p>post 和 get 设计上主要的区别是有没有幂等性，get执行一次和执行 n 次结果一样。符合范式的 get 应该是请求无数次后也不会改变服务器状态。其他的特性都是为了保障幂等性而做的限制：</p>
+<ul>
+<li>get 可以缓存，post 不能。因为执行 n 次对结果没有影响，那么只要记录一次，再执行 n 次结果也应该一样。</li>
+<li>get 只能 ASCII 字符编码，数据以 param 的形式被编码进URL，而且有长度限制，是为了对数据进行更好的标识，方便缓存等行为。而 post 可以提交的数据类型可以是 multipart/form-data 甚至是 file存贮在 body 中，数据不会被暴露在 url 里。url 在传输的时候是不会对 header 和 url 进行加密的。</li>
+<li>post 刷新之后数据会被重新提交，参数不会被保存在浏览器历史中，是为了防止 post被多次提交改变服务器状态。</li>
+</ul>
+<p>patch 是新版 http 协议里支持的方法，在RESTful里面，put 是把应该对象完整的放到 uri，而 patch 是对一个对象的部分属性进行更新。举个例子：<br>服务器有对象 {a:1, b:2},<br>请求 PUT {a:2} 之后，服务器的对象变为{a:2}。<br>请求 PATCH {a:2} 之后，服务器的对象变为{a:2, b:2}</p>
+<h3 id="http协议栈如何分层，更高一层使用了哪些技术。"><a href="#http协议栈如何分层，更高一层使用了哪些技术。" class="headerlink" title="http协议栈如何分层，更高一层使用了哪些技术。"></a>http协议栈如何分层，更高一层使用了哪些技术。</h3><p><a target="_blank" rel="noopener" href="http://blog.csdn.net/xijiaohuangcao/article/details/6105623">HTTP、TCP、UDP、Socket</a></p>
+<h2 id="RESTful"><a href="#RESTful" class="headerlink" title="RESTful"></a>RESTful</h2><h3 id="what？"><a href="#what？" class="headerlink" title="what？"></a>what？</h3><h4 id="origin"><a href="#origin" class="headerlink" title="origin"></a>origin</h4><p>REST这个词，是Roy Thomas Fielding在他2000年的博士论文中提出的。</p>
+<p>Fielding是一个非常重要的人，他是HTTP协议（1.0版和1.1版）的主要设计者、Apache服务器软件的作者之一、Apache基金会的第一任主席。所以，他的这篇论文一经发表，就引起了关注，并且立即对互联网开发产生了深远的影响。</p>
+<p>论文中给了很多的建议，以至于这些建议很多都已经成为开源世界的默认标准。</p>
+<h4 id="define"><a href="#define" class="headerlink" title="define"></a>define</h4><p>REST，是Representational State Transfer的缩写。我对这个词组的翻译是”表现层状态转化”。如果一个架构符合REST原则，就称它为RESTful架构。</p>
+<h4 id="details"><a href="#details" class="headerlink" title="details"></a>details</h4><p>REST的名称”表现层状态转化”中，省略了主语。”表现层”其实指的是”资源”（Resources）的”表现层”。所谓”资源”，就是网络上的一个实体，或者说是网络上的一个具体信息，它可以是一段文本、一张图片、一首歌曲、一种服务。</p>
+<p>所谓”上网”，就是与互联网上一系列的”资源”互动，然后 RESTful 现在定义了 一组能唯一标识资源的 path 和对资源进行的操作的一种规范，RESTful 架构的意思就是，满足与网上一系列资源互动的一组规范的架构。</p>
+<h3 id="why？"><a href="#why？" class="headerlink" title="why？"></a>why？</h3><h4 id="scene"><a href="#scene" class="headerlink" title="scene"></a>scene</h4><p>现在考虑这样的资源和操作，我们要分为两个不相关的步骤：</p>
+<ul>
+<li>第一步，通过某些标识唯一指定某个资源</li>
+<li>第二步，骤以及对这个资源进行操作，转换成我想要的样子。</li>
+</ul>
+<h4 id="define-1"><a href="#define-1" class="headerlink" title="define"></a>define</h4><p>前者叫做表现层RE（Representation），后者叫做状态转换ST（State Transfer）</p>
+<p>具体来说，我要从服务器拿一段文本。可以用txt格式表现，也可以用HTML格式、XML格式、JSON格式表现，甚至可以采用二进制格式；它可以是不同的语言。<br>现在我们希望分成这两个要素 RE 和 ST</p>
+<ul>
+<li>RE: URI只代表资源的实体，不代表它的形式。比如网址最后的”.html”后缀名是不必要的，因为这个后缀名表示格式，属于 ST 范畴，而 URI 应该只代表”资源”的位置。</li>
+<li>ST: 它的具体表现形式，应该在HTTP请求的头信息中用Accept和Content-Type字段指定，这两个字段才是对”表现层”的描述。它的语言应该在Accept-Language中指定</li>
+</ul>
+<h4 id="RESTful-1"><a href="#RESTful-1" class="headerlink" title="RESTful"></a>RESTful</h4><p>互联网通信协议HTTP协议，是一个无状态协议。这意味着，所有的状态都保存在服务器端。因此，如果客户端想要操作服务器，必须通过某种手段，让服务器端发生”状态转化”（State Transfer）。而这种转化是建立在表现层之上的，所以就是”表现层状态转化”。</p>
+<p>客户端用到的手段，只能是HTTP协议。具体来说，就是HTTP协议里面的操作方式动词：GET、POST、PUT、PATCH、DELETE。它们分别对应增删改查基本操作：GET用来获取资源，POST用来新建资源（也可以用于更新资源），PUT、PATCH用来更新资源，DELETE用来删除资源。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">（1）每一个URI代表一种资源；</span><br><span class="line">（2）客户端和服务器之间，传递这种资源的某种表现层；</span><br><span class="line">（3）客户端通过HTTP动词，对服务器端资源进行操作，实现&quot;表现层状态转化&quot;。</span><br></pre></td></tr></table></figure>
+
+<h3 id="how"><a href="#how" class="headerlink" title="how?"></a>how?</h3><h4 id="basic"><a href="#basic" class="headerlink" title="basic"></a>basic</h4><p>常见增删改查，注意下安全性和幂等性。</p>
+<ul>
+<li>安全性：不会改变资源状态，可以理解为只读的；</li>
+<li>幂等性：执行1次和执行N次，对资源状态改变的效果是等价的。</li>
+</ul>
+<p>安全性和幂等性均不保证反复请求能拿到相同的response。以 DELETE 为例，第一次DELETE返回200表示删除成功，第二次返回404提示资源不存在，这是允许的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">GET &#x2F;zoos：列出所有动物园</span><br><span class="line">POST &#x2F;zoos：新建一个动物园</span><br><span class="line">GET &#x2F;zoos&#x2F;ID：获取某个指定动物园的信息</span><br><span class="line">PUT &#x2F;zoos&#x2F;ID：更新某个指定动物园的信息（提供该动物园的全部信息）</span><br><span class="line">PATCH &#x2F;zoos&#x2F;ID：更新某个指定动物园的信息（提供该动物园的部分信息）</span><br><span class="line">DELETE &#x2F;zoos&#x2F;ID：删除某个动物园</span><br><span class="line">GET &#x2F;zoos&#x2F;ID&#x2F;animals：列出某个指定动物园的所有动物</span><br><span class="line">DELETE &#x2F;zoos&#x2F;ID&#x2F;animals&#x2F;ID：删除某个指定动物园的指定动物</span><br></pre></td></tr></table></figure>
+<h4 id="common"><a href="#common" class="headerlink" title="common"></a>common</h4><p>花式GET，并且所有请求都是可以缓存的，在浏览器，nginx，服务端代码里都应该可以缓存。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">GET &#x2F;zoos</span><br><span class="line">GET &#x2F;zoos&#x2F;1</span><br><span class="line">GET &#x2F;zoos&#x2F;1&#x2F;employees     &#x2F;&#x2F;为id为1的动物园雇佣员工</span><br><span class="line">GET &#x2F;zoos?type&#x3D;1&amp;age&#x3D;16	  &#x2F;&#x2F;允许一定的uri冗余，如&#x2F;zoos&#x2F;1与&#x2F;zoos?id&#x3D;1</span><br><span class="line">GET &#x2F;zoos?sort&#x3D;age,desc	  &#x2F;&#x2F;age 第一参数，desc 第二参数排序</span><br><span class="line">GET &#x2F;zoos?whitelist&#x3D;email &#x2F;&#x2F;指定额外参数</span><br><span class="line">GET &#x2F;zoos?whitelist&#x3D;id1,id2 &#x2F;&#x2F;指定额外参数</span><br><span class="line">GET &#x2F;zoos?limit&#x3D;10&amp;offset&#x3D;3  &#x2F;&#x2F;分页器</span><br></pre></td></tr></table></figure>
+<p>花式POST：创建单个资源。POST一般向“资源集合”型uri发起</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">POST &#x2F;animals  &#x2F;&#x2F;新增动物</span><br><span class="line">POST &#x2F;zoos&#x2F;1&#x2F;employees &#x2F;&#x2F;为id为1的动物园加入雇佣员工</span><br></pre></td></tr></table></figure>
+<p>花式PUT：更新单个资源（全量），客户端提供完整的更新后的资源。与之对应的是 PATCH，PATCH 负责部分更新，客户端提供要更新的那些字段。PUT/PATCH一般向“单个资源”型uri发起</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">PUT &#x2F;animals&#x2F;1</span><br><span class="line">PUT &#x2F;zoos&#x2F;1</span><br></pre></td></tr></table></figure>
+<p>花式DELETE</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">DELETE &#x2F;zoos&#x2F;1&#x2F;employees&#x2F;2</span><br><span class="line">DELETE &#x2F;zoos&#x2F;1&#x2F;employees&#x2F;2;4;5  &#x2F;&#x2F;花式删除关系，一般这种 url 代表关系，不一定要Delete雇员对象，这个可以自己定。</span><br><span class="line">DELETE &#x2F;zoos&#x2F;1&#x2F;animals  &#x2F;&#x2F;删除id为1的动物园内的所有动物</span><br></pre></td></tr></table></figure>
+<p>HEAD / OPTION 作为简单请求，在 RESTful 不重要，毕竟，RESTful 可以方便的一键生成单个资源的 CRUD，快速的生成资源之间的相互 join。</p>
+<h4 id="more"><a href="#more" class="headerlink" title="more"></a>more</h4><ul>
+<li><p>API的身份认证应该使用OAuth框架，增加一个 login、logout 接口，使用 token 来确认身份。</p>
+</li>
+<li><p>Hypermedia API</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;RESTful API最好做到Hypermedia，即返回结果中提供链接，连向其他API方法，使得用户不查文档，也知道下一步应该做什么。</span><br><span class="line">&#x2F;&#x2F;比如 angular ember react-redux 都对标准的 RESTful 有一定支持，而且倾向于拿单个的对象，然后每个对象单独更新，这样每个对象都容易更新。</span><br><span class="line">&#x2F;&#x2F;在某些情况下可以把下面 zoos 对应的 url 换成一个 list，tiger 换成一个 object，框架很容易完成这件事。</span><br><span class="line">&#123;</span><br><span class="line">  &quot;zoos&quot;:  &quot;https:&#x2F;&#x2F;api.example.com&#x2F;zoos&quot;,</span><br><span class="line">  &quot;tiger&quot;:  &quot;https:&#x2F;&#x2F;api.example.com&#x2F;zoos&#x2F;1&quot;,</span><br><span class="line">  &quot;title&quot;: &quot;List of zoos&quot;,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>服务的 URL 设计<br>服务应该使用名词，比如计算应该使用calculation，不应该使用calc或者calculate。</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;应该根据幂等性来使用GET 和 Post，典型的就是一个函数式计算任务和一个队列提交任务。</span><br><span class="line">GET &#x2F;distance-calculation?lats&#x3D;47.480&amp;lngs&#x3D;-122.389&amp;late&#x3D;37.108&amp;lnge&#x3D;-122.448</span><br><span class="line"></span><br><span class="line">POST &#x2F;tasks</span><br><span class="line">[&#123;&quot;from&quot;:0,&quot;to&quot;:1,&quot;text&quot;:&quot;abc&quot;&#125;,&#123;&#125;,&#123;&#125;...]</span><br></pre></td></tr></table></figure>
+
+<p>设计的时候应该要保证服务可以单独部署，对多个资源操作的事务由单独部署的服务来管理。</p>
+<ul>
+<li><p>各HTTP方法成功处理后Response的数据格式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">response	格式</span><br><span class="line">GET			单个对象、集合</span><br><span class="line">POST		新增成功的对象</span><br><span class="line">PUT&#x2F;PATCH	更新成功的对象</span><br><span class="line">DELETE		空, 通过状态码确认</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>json格式的约定：<br>时间用长整形(毫秒数)</p>
+</li>
+<li><p>URI规范</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">不用大写；</span><br><span class="line">用中杠-不用下杠_；</span><br><span class="line">参数列表要encode；</span><br><span class="line">URI中的名词表示资源集合，使用复数形式。</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>避免层级过深的URI<br>一般根据id导航。过深的导航容易导致url膨胀，不易维护。尽量使用查询参数代替路径中的实体导航。 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">相对不好的设计</span><br><span class="line">GET &#x2F;zoos&#x2F;1&#x2F;areas&#x2F;3&#x2F;animals&#x2F;4</span><br><span class="line">相对好的设计</span><br><span class="line">GET &#x2F;animals?zoo&#x3D;1&amp;area&#x3D;3；</span><br></pre></td></tr></table></figure>
+
+
+</li>
+</ul>
+<ul>
+<li><p>对Composite资源的访问</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">它的生命周期完全依赖父实体，无法独立存在，不直接对应表，也无id。服务器端的组合实体必须在uri中通过父实体的id导航访问。一个常见的例子是 User — Address，Address是对User表中zipCode&#x2F;country&#x2F;city三个字段的简单抽象，无法独立于User存在。必须通过User索引到Address：GET &#x2F;user&#x2F;1&#x2F;addresses</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>URI失效<br>应该添加301到新地址，或者有一个错误提示。</p>
+</li>
+<li><p>版本<br>GITHUB 的处理方式是这样的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https:&#x2F;&#x2F;api.example.com&#x2F;v1&#x2F;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>不要瞎JB搞，乱包东西很丑</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;H5前端工程师非常讨厌这种搞法，开源世界的库都不能愉快的使用。</span><br><span class="line">&#123;</span><br><span class="line">    &quot;success&quot;:true,</span><br><span class="line">    &quot;data&quot;:&#123;&quot;id&quot;:1,&quot;name&quot;:&quot;xiaotuan&quot;&#125;,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="So-what"><a href="#So-what" class="headerlink" title="So what?"></a>So what?</h3><p>正如前文所说，RESTful 几乎是开源世界里非rpc调用最通用的接口。很多的开源 web 框架都有对应的 RESTful 库类，可以用极少量的配置完成对对象的序列化。</p>
+<p>典型的如 Django的django-restful-framework，100行代码可以完成一个支持邮件收发、注册改密码、身份验证、序列化反序列化、数据 schema，持久化增删改查等的 todoMVC项目。</p>
+<p>符合规范可以可以极大的提高开发效率！</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/HTML/" rel="tag"># HTML</a>
+              <a href="/tags/Best-Practice/" rel="tag"># Best Practice</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2017/01/04/hello-world/" rel="prev" title="Hello World">
+      <i class="fa fa-chevron-left"></i> Hello World
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2017/06/19/How-to-understand-web-framework/" rel="next" title="如何理解Web框架">
+      如何理解Web框架 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9F%A5%E8%AF%86%E5%82%A8%E5%A4%87-amp-%E9%A2%84%E5%A4%87"><span class="nav-number">1.</span> <span class="nav-text">知识储备&amp;预备</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#what-happens-after-enter-url"><span class="nav-number">1.1.</span> <span class="nav-text">what happens after enter url</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#tcp-%E5%8D%8F%E8%AE%AE"><span class="nav-number">1.2.</span> <span class="nav-text">tcp 协议</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#osi-%E4%B8%83%E5%B1%82%E5%8D%8F%E8%AE%AE"><span class="nav-number">1.3.</span> <span class="nav-text">osi 七层协议</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#http%E4%B8%BB%E8%A6%81%E7%89%B9%E7%82%B9"><span class="nav-number">2.</span> <span class="nav-text">http主要特点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#http-%E5%8D%8F%E8%AE%AE%E7%9A%84Request%E5%92%8CResponse%E7%94%B1%E5%93%AA%E5%87%A0%E4%B8%AA%E9%83%A8%E5%88%86%E7%BB%84%E6%88%90%EF%BC%9F%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8C%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%A6%82%E4%BD%95%E7%9B%B8%E4%BA%92%E7%A1%AE%E5%AE%9A%E9%9C%80%E8%A6%81%E7%9A%84%E4%BF%A1%E6%81%AF%EF%BC%9F"><span class="nav-number">2.1.</span> <span class="nav-text">http 协议的Request和Response由哪几个部分组成？服务器和客户端如何相互确定需要的信息？</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Request"><span class="nav-number">2.1.1.</span> <span class="nav-text">Request</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#response"><span class="nav-number">2.1.2.</span> <span class="nav-text">response</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#post-%E5%92%8C-get-%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%EF%BC%9Fput-%E5%92%8C-patch-%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="nav-number">2.2.</span> <span class="nav-text">post 和 get 有什么区别？put 和 patch 有什么区别？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#http%E5%8D%8F%E8%AE%AE%E6%A0%88%E5%A6%82%E4%BD%95%E5%88%86%E5%B1%82%EF%BC%8C%E6%9B%B4%E9%AB%98%E4%B8%80%E5%B1%82%E4%BD%BF%E7%94%A8%E4%BA%86%E5%93%AA%E4%BA%9B%E6%8A%80%E6%9C%AF%E3%80%82"><span class="nav-number">2.3.</span> <span class="nav-text">http协议栈如何分层，更高一层使用了哪些技术。</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RESTful"><span class="nav-number">3.</span> <span class="nav-text">RESTful</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#what%EF%BC%9F"><span class="nav-number">3.1.</span> <span class="nav-text">what？</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#origin"><span class="nav-number">3.1.1.</span> <span class="nav-text">origin</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#define"><span class="nav-number">3.1.2.</span> <span class="nav-text">define</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#details"><span class="nav-number">3.1.3.</span> <span class="nav-text">details</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#why%EF%BC%9F"><span class="nav-number">3.2.</span> <span class="nav-text">why？</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#scene"><span class="nav-number">3.2.1.</span> <span class="nav-text">scene</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#define-1"><span class="nav-number">3.2.2.</span> <span class="nav-text">define</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#RESTful-1"><span class="nav-number">3.2.3.</span> <span class="nav-text">RESTful</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#how"><span class="nav-number">3.3.</span> <span class="nav-text">how?</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#basic"><span class="nav-number">3.3.1.</span> <span class="nav-text">basic</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#common"><span class="nav-number">3.3.2.</span> <span class="nav-text">common</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#more"><span class="nav-number">3.3.3.</span> <span class="nav-text">more</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#So-what"><span class="nav-number">3.4.</span> <span class="nav-text">So what?</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">田_田</p>
+  <div class="site-description" itemprop="description">创新需要在一切发生之前研究结局!</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">34</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wangzitian0" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wangzitian0" rel="noopener" target="_blank"><i class="github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wangzitian0@gmail.com" title="E-Mail → mailto:wangzitian0@gmail.com" rel="noopener" target="_blank"><i class="envelope fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.linkedin.com/in/wangzitian0" title="LinkedIn → https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;wangzitian0" rel="noopener" target="_blank"><i class="linkedin fa-fw"></i></a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class=""></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">田_田</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a>
+  </div>
+
+        
+
+
+
+
+
+
+<script>
+  (function() {
+    function leancloudSelector(url) {
+      url = encodeURI(url);
+      return document.getElementById(url).querySelector('.leancloud-visitors-count');
+    }
+
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = decodeURI(visitors.id);
+      var title = visitors.dataset.flagTitle;
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            leancloudSelector(url).innerText = counter.time + 1;
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              });
+          } else {
+              leancloudSelector(url).innerText = 'Counter not initialized! More info at console err msg.';
+              console.error('ATTENTION! LeanCloud counter has security bug, see how to solve it here: https://github.com/theme-next/hexo-leancloud-counter-security. \n However, you can still use LeanCloud without security, by setting `security` option to `false`.');
+            
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return decodeURI(element.id);
+      });
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          for (let url of entries) {
+            let target = results.find(item => item.url === url);
+            leancloudSelector(url).innerText = target ? target.time : 0;
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    let { app_id, app_key, server_url } = {"enable":true,"app_id":"itw5YW53yzX17tr3WAdRd9Dd-gzGzoHsz","app_key":"qLjOt8jjizQl0ys5OSdwf10Y","server_url":null,"security":true,"betterPerformance":true};
+    function fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${api_server}/1.1${url}`, {
+          method,
+          headers: {
+            'X-LC-Id'     : app_id,
+            'X-LC-Key'    : app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    }
+
+    let api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(response => response.json())
+        .then(({ api_server }) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="//cdn.jsdelivr.net/npm/algoliasearch@4/dist/algoliasearch-lite.umd.js"></script>
+<script src="//cdn.jsdelivr.net/npm/instantsearch.js@4/dist/instantsearch.production.min.js"></script>
+<script src="/js/algolia-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

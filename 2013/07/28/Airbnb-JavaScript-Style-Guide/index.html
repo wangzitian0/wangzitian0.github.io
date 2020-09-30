@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/huaji.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/huaji.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/huaji.png">
+  <link rel="mask-icon" href="/images/huaji.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"wangzitian0.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":true,"b2t":false,"scrollpercent":true},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"appID":"1PWF5BJPP1","apiKey":"6a2714c5b665823e7132db2aedb81233","indexName":"wangzitian0.github.io","hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="A mostly reasonable approach to JavaScript一个最讲道理的JavaScript方法论">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Airbnb JavaScript Style Guide (1)">
+<meta property="og:url" content="https://wangzitian0.github.io/2013/07/28/Airbnb-JavaScript-Style-Guide/index.html">
+<meta property="og:site_name" content="全栈之路">
+<meta property="og:description" content="A mostly reasonable approach to JavaScript一个最讲道理的JavaScript方法论">
+<meta property="og:locale">
+<meta property="article:published_time" content="2013-07-28T08:22:00.000Z">
+<meta property="article:modified_time" content="2020-09-30T04:59:07.876Z">
+<meta property="article:author" content="田_田">
+<meta property="article:tag" content="Language">
+<meta property="article:tag" content="JavaScript">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://wangzitian0.github.io/2013/07/28/Airbnb-JavaScript-Style-Guide/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>Airbnb JavaScript Style Guide (1) | 全栈之路</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?1eeceb0b3f8e550d6211f134646361b6";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="全栈之路" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta custom-logo">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">全栈之路</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">田_田的博客</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="archive fa-fw"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="user fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="tags fa-fw"></i>Tags</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container"></div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="algolia-results">
+  <div id="algolia-stats"></div>
+  <div id="algolia-hits"></div>
+  <div id="algolia-pagination" class="algolia-pagination"></div>
+</div>
+
+      
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://wangzitian0.github.io/2013/07/28/Airbnb-JavaScript-Style-Guide/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="田_田">
+      <meta itemprop="description" content="创新需要在一切发生之前研究结局!">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="全栈之路">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Airbnb JavaScript Style Guide (1)
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2013-07-28 16:22:00" itemprop="dateCreated datePublished" datetime="2013-07-28T16:22:00+08:00">2013-07-28</time>
+            </span>
+
+          
+            <span id="/2013/07/28/Airbnb-JavaScript-Style-Guide/" class="post-meta-item leancloud_visitors" data-flag-title="Airbnb JavaScript Style Guide (1)" title="Views">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><em>A mostly reasonable approach to JavaScript</em><br><em>一个最讲道理的JavaScript方法论</em></p>
+<a id="more"></a>
+
+<p>Other Style Guides</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/airbnb/javascript/tree/es5-deprecated/es5">ES5 (Deprecated)</a></li>
+<li><a href="react/">React</a></li>
+<li><a href="css-in-javascript/">CSS-in-JavaScript</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/airbnb/css">CSS &amp; Sass</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/airbnb/ruby">Ruby</a></li>
+</ul>
+<h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><p>略</p>
+<h2 id="Types-类型"><a href="#Types-类型" class="headerlink" title="Types 类型"></a>Types 类型</h2><ul>
+<li>[1.1] <strong>Primitives</strong>: When you access a primitive type you work directly on its value.</li>
+</ul>
+<p>  <strong>基本类型</strong>: 存取原始值的时候直接操作它的值。<br>    - <code>string</code><br>    - <code>number</code><br>    - <code>boolean</code><br>    - <code>null</code><br>    - <code>undefined</code></p>
+<pre><code><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> foo = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">let</span> bar = foo;</span><br><span class="line"></span><br><span class="line">bar = <span class="number">9</span>;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(foo, bar); <span class="comment">// =&gt; 1, 9</span></span><br></pre></td></tr></table></figure></code></pre>
+<ul>
+<li>[1.2]  <strong>Complex</strong>: When you access a complex type you work on a reference to its value.</li>
+</ul>
+<p>  <strong>复杂类型</strong>: 存取复杂值的时候直接操作它的引用。</p>
+<pre><code>- `object`
+- `array`
+- `function`
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> foo = [<span class="number">1</span>, <span class="number">2</span>];</span><br><span class="line"><span class="keyword">const</span> bar = foo;</span><br><span class="line"></span><br><span class="line">bar[<span class="number">0</span>] = <span class="number">9</span>;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(foo[<span class="number">0</span>], bar[<span class="number">0</span>]); <span class="comment">// =&gt; 9, 9</span></span><br></pre></td></tr></table></figure></code></pre>
+<h2 id="References-引用"><a href="#References-引用" class="headerlink" title="References 引用"></a>References 引用</h2><ul>
+<li><p>[2.1] Use <code>const</code> for all of your references; avoid using <code>var</code>. eslint: <a target="_blank" rel="noopener" href="http://eslint.org/docs/rules/prefer-const.html"><code>prefer-const</code></a>, <a target="_blank" rel="noopener" href="http://eslint.org/docs/rules/no-const-assign.html"><code>no-const-assign</code></a><br>所有引用都使用 <code>const</code> ，避免使用 <code>var</code>。</p>
+<blockquote>
+<p>Why? This ensures that you can’t reassign your references, which can lead to bugs and difficult to comprehend code.</p>
+</blockquote>
+<blockquote>
+<p>为什么？这样可以保证你不重新赋值引用导致 bug，另外更加容易理解。</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="keyword">var</span> a = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">var</span> b = <span class="number">2</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="keyword">const</span> a = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">const</span> b = <span class="number">2</span>;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>[2.2] If you must reassign references, use <code>let</code> instead of <code>var</code>. eslint: <a target="_blank" rel="noopener" href="http://eslint.org/docs/rules/no-var.html"><code>no-var</code></a> jscs: <a target="_blank" rel="noopener" href="http://jscs.info/rule/disallowVar"><code>disallowVar</code></a><br>如果一定要重新赋值，用 <code>let</code> 而不是 <code>var</code>。</p>
+<blockquote>
+<p>Why? <code>let</code> is block-scoped rather than function-scoped like <code>var</code>. </p>
+</blockquote>
+<blockquote>
+<p>为什么? <code>let</code> 其作用域为该语句所在的代码块，而不像 <code>var</code> 的作用域为该语句所在的函数。  PS：<code>let</code> 没有变量提升。</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="keyword">var</span> count = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">if</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">  count += <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// good, use the let.</span></span><br><span class="line"><span class="keyword">let</span> count = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">if</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">  count += <span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>[2.3] Note that both <code>let</code> and <code>const</code> are block-scoped.<br>注意<code>let</code> 和 <code>const</code> 都是块作用域。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// const and let only exist in the blocks they are defined in.</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">let</span> a = <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">const</span> b = <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">console</span>.log(a); <span class="comment">// ReferenceError</span></span><br><span class="line"><span class="built_in">console</span>.log(b); <span class="comment">// ReferenceError</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="Objects-对象"><a href="#Objects-对象" class="headerlink" title="Objects  对象"></a>Objects  对象</h2><ul>
+<li><p>[3.1]  Use the literal syntax for object creation. eslint: <a target="_blank" rel="noopener" href="http://eslint.org/docs/rules/no-new-object.html"><code>no-new-object</code></a><br>创建对象的时候使用字面语法。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="keyword">const</span> item = <span class="keyword">new</span> <span class="built_in">Object</span>();</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="keyword">const</span> item = &#123;&#125;;</span><br></pre></td></tr></table></figure></li>
+<li><p>[3.2] Use computed property names when creating objects with dynamic property names.<br>有动态计算属性名需求的时候使用计算属性名。</p>
+<blockquote>
+<p>Why? They allow you to define all the properties of an object in one place.</p>
+</blockquote>
+<blockquote>
+<p>为什么？他们允许你在一个地方定义一个对象所有的属性。</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getKey</span>(<span class="params">k</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="string">`a key named <span class="subst">$&#123;k&#125;</span>`</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="keyword">const</span> obj = &#123;</span><br><span class="line">  id: <span class="number">5</span>,</span><br><span class="line">  name: <span class="string">&#x27;San Francisco&#x27;</span>,</span><br><span class="line">&#125;;</span><br><span class="line">obj[getKey(<span class="string">&#x27;enabled&#x27;</span>)] = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="keyword">const</span> obj = &#123;</span><br><span class="line">  id: <span class="number">5</span>,</span><br><span class="line">  name: <span class="string">&#x27;San Francisco&#x27;</span>,</span><br><span class="line">  [getKey(<span class="string">&#x27;enabled&#x27;</span>)]: <span class="literal">true</span>,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>[3.3] Use object method shorthand. eslint: <a target="_blank" rel="noopener" href="http://eslint.org/docs/rules/object-shorthand.html"><code>object-shorthand</code></a> jscs: <a target="_blank" rel="noopener" href="http://jscs.info/rule/requireEnhancedObjectLiterals"><code>requireEnhancedObjectLiterals</code></a><br>使用速记法的对象方法。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="keyword">const</span> atom = &#123;</span><br><span class="line">  value: <span class="number">1</span>,</span><br><span class="line"></span><br><span class="line">  addValue: <span class="function"><span class="keyword">function</span> (<span class="params">value</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> atom.value + value;</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="keyword">const</span> atom = &#123;</span><br><span class="line">  value: <span class="number">1</span>,</span><br><span class="line"></span><br><span class="line">  addValue(value) &#123;</span><br><span class="line">    <span class="keyword">return</span> atom.value + value;</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></li>
+<li><p>[3.4] Use property value shorthand. eslint: <a target="_blank" rel="noopener" href="http://eslint.org/docs/rules/object-shorthand.html"><code>object-shorthand</code></a> jscs: <a target="_blank" rel="noopener" href="http://jscs.info/rule/requireEnhancedObjectLiterals"><code>requireEnhancedObjectLiterals</code></a><br>使用速记法的对象属性。</p>
+<blockquote>
+<p>Why? It is shorter to write and descriptive.</p>
+</blockquote>
+<blockquote>
+<p>为什么？写起来和描述更短。</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> lukeSkywalker = <span class="string">&#x27;Luke Skywalker&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="keyword">const</span> obj = &#123;</span><br><span class="line">  lukeSkywalker: lukeSkywalker,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="keyword">const</span> obj = &#123;</span><br><span class="line">  lukeSkywalker,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>[3.5] Group your shorthand properties at the beginning of your object declaration.<br>给你的速记对象分组并放在对象定义的头部。</p>
+<blockquote>
+<p>Why? It’s easier to tell which properties are using the shorthand.<br>为什么？更容易了解哪些变量使用了速记法。</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> anakinSkywalker = <span class="string">&#x27;Anakin Skywalker&#x27;</span>;</span><br><span class="line"><span class="keyword">const</span> lukeSkywalker = <span class="string">&#x27;Luke Skywalker&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="keyword">const</span> obj = &#123;</span><br><span class="line">  episodeOne: <span class="number">1</span>,</span><br><span class="line">  twoJediWalkIntoACantina: <span class="number">2</span>,</span><br><span class="line">  lukeSkywalker,</span><br><span class="line">  episodeThree: <span class="number">3</span>,</span><br><span class="line">  mayTheFourth: <span class="number">4</span>,</span><br><span class="line">  anakinSkywalker,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="keyword">const</span> obj = &#123;</span><br><span class="line">  lukeSkywalker,</span><br><span class="line">  anakinSkywalker,</span><br><span class="line">  episodeOne: <span class="number">1</span>,</span><br><span class="line">  twoJediWalkIntoACantina: <span class="number">2</span>,</span><br><span class="line">  episodeThree: <span class="number">3</span>,</span><br><span class="line">  mayTheFourth: <span class="number">4</span>,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>[3.6] Only quote properties that are invalid identifiers. eslint: <a target="_blank" rel="noopener" href="http://eslint.org/docs/rules/quote-props.html"><code>quote-props</code></a> jscs: <a target="_blank" rel="noopener" href="http://jscs.info/rule/disallowQuotedKeysInObjects"><code>disallowQuotedKeysInObjects</code></a><br>只有属性名不合法的时候使用引号。</p>
+<blockquote>
+<p>Why? In general we consider it subjectively easier to read. It improves syntax highlighting, and is also more easily optimized by many JS engines.</p>
+</blockquote>
+<blockquote>
+<p>为什么？一般来说我们主观上认为它更容易阅读，它提升了语法高亮，还更容易被 JS 引擎优化。</p>
+</blockquote>
+</li>
+</ul>
+<pre><code><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="keyword">const</span> bad = &#123;</span><br><span class="line">  <span class="string">&#x27;foo&#x27;</span>: <span class="number">3</span>,</span><br><span class="line">  <span class="string">&#x27;bar&#x27;</span>: <span class="number">4</span>,</span><br><span class="line">  <span class="string">&#x27;data-blah&#x27;</span>: <span class="number">5</span>,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="keyword">const</span> good = &#123;</span><br><span class="line">  foo: <span class="number">3</span>,</span><br><span class="line">  bar: <span class="number">4</span>,</span><br><span class="line">  <span class="string">&#x27;data-blah&#x27;</span>: <span class="number">5</span>,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></code></pre>
+<ul>
+<li><p>[3.7] Do not call <code>Object.prototype</code> methods directly, such as <code>hasOwnProperty</code>, <code>propertyIsEnumerable</code>, and <code>isPrototypeOf</code>.<br>不要直接调用 <code>Object.prototype</code> 的方法，比如<code>hasOwnProperty</code>，<code>propertyIsEnumerable</code> 和 <code>isPrototypeOf</code>。</p>
+<blockquote>
+<p>Why? These methods may be shadowed by properties on the object in question - consider <code>&#123; hasOwnProperty: false &#125;</code> - or, the object may be a null object (<code>Object.create(null)</code>).<br>为什么？ 这些方法可能被属性遮挡掉，考虑这种情况<code>&#123; hasOwnProperty: false &#125;</code> 或者它本身是个空对象(<code>Object.create(null)</code>).</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="built_in">console</span>.log(object.hasOwnProperty(key));</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="built_in">Object</span>.prototype.hasOwnProperty.call(object, key));</span><br><span class="line"></span><br><span class="line"><span class="comment">// best</span></span><br><span class="line"><span class="keyword">const</span> has = <span class="built_in">Object</span>.prototype.hasOwnProperty; <span class="comment">// cache the lookup once, in module scope.</span></span><br><span class="line"><span class="comment">/* or */</span></span><br><span class="line"><span class="keyword">import</span> has <span class="keyword">from</span> <span class="string">&#x27;has&#x27;</span>;</span><br><span class="line"><span class="comment">// ...</span></span><br><span class="line"><span class="built_in">console</span>.log(has.call(object, key));</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>[3.8]  Prefer the object spread operator over <a target="_blank" rel="noopener" href="https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Object/assign"><code>Object.assign</code></a> to shallow-copy objects. Use the object rest operator to get a new object with certain properties omitted.<br>浅拷贝对象最好通过 <code>Object.assign</code> 传递对象。使用对象剩余操作符来得到包含省略属性的新对象。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// very bad</span></span><br><span class="line"><span class="keyword">const</span> original = &#123; <span class="attr">a</span>: <span class="number">1</span>, <span class="attr">b</span>: <span class="number">2</span> &#125;;</span><br><span class="line"><span class="keyword">const</span> copy = <span class="built_in">Object</span>.assign(original, &#123; <span class="attr">c</span>: <span class="number">3</span> &#125;); <span class="comment">// this mutates `original` ಠ_ಠ</span></span><br><span class="line"><span class="keyword">delete</span> copy.a; <span class="comment">// so does this</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="keyword">const</span> original = &#123; <span class="attr">a</span>: <span class="number">1</span>, <span class="attr">b</span>: <span class="number">2</span> &#125;;</span><br><span class="line"><span class="keyword">const</span> copy = <span class="built_in">Object</span>.assign(&#123;&#125;, original, &#123; <span class="attr">c</span>: <span class="number">3</span> &#125;); <span class="comment">// copy =&gt; &#123; a: 1, b: 2, c: 3 &#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="keyword">const</span> original = &#123; <span class="attr">a</span>: <span class="number">1</span>, <span class="attr">b</span>: <span class="number">2</span> &#125;;</span><br><span class="line"><span class="keyword">const</span> copy = &#123; ...original, <span class="attr">c</span>: <span class="number">3</span> &#125;; <span class="comment">// copy =&gt; &#123; a: 1, b: 2, c: 3 &#125;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> &#123; a, ...noA &#125; = copy; <span class="comment">// noA =&gt; &#123; b: 2, c: 3 &#125;</span></span><br><span class="line"><span class="comment">//PS: ES7 feature</span></span><br></pre></td></tr></table></figure>
+
+
+</li>
+</ul>
+<h2 id="Arrays-数组"><a href="#Arrays-数组" class="headerlink" title="Arrays 数组"></a>Arrays 数组</h2><ul>
+<li><p>[4.1] Use the literal syntax for array creation. eslint: <a target="_blank" rel="noopener" href="http://eslint.org/docs/rules/no-array-constructor.html"><code>no-array-constructor</code></a><br>数组创建使用字面语法。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="keyword">const</span> items = <span class="keyword">new</span> <span class="built_in">Array</span>();</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="keyword">const</span> items = [];</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>[4.2] Use <a target="_blank" rel="noopener" href="https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Array/push">Array#push</a> instead of direct assignment to add items to an array.<br>使用 Array.push 而不要直接通过直接赋值来添加元素</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> someStack = [];</span><br><span class="line"></span><br><span class="line"><span class="comment">// bad</span></span><br><span class="line">someStack[someStack.length] = <span class="string">&#x27;abracadabra&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line">someStack.push(<span class="string">&#x27;abracadabra&#x27;</span>);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>[4.3] Use array spreads <code>...</code> to copy arrays.<br>使用数组传递 <code>...</code> 来拷贝数组。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="keyword">const</span> len = items.length;</span><br><span class="line"><span class="keyword">const</span> itemsCopy = [];</span><br><span class="line"><span class="keyword">let</span> i;</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; len; i += <span class="number">1</span>) &#123;</span><br><span class="line">  itemsCopy[i] = items[i];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="keyword">const</span> itemsCopy = [...items];</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>[4.4] To convert an array-like object to an array, use <a target="_blank" rel="noopener" href="https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Array/from">Array.from</a>.<br>使用 Array.from 来把长得像数组的对象转换成数组。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> foo = <span class="built_in">document</span>.querySelectorAll(<span class="string">&#x27;.foo&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> nodes = <span class="built_in">Array</span>.from(foo);</span><br><span class="line"></span><br><span class="line"><span class="comment">//PS: array-like object是有 length 属性且key为非负数的对象</span></span><br><span class="line"><span class="comment">//const x = &#123;1:1,2:3,3:8,length:4&#125;</span></span><br><span class="line"><span class="comment">//const y = Array.from(x)</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>[4.5] Use return statements in array method callbacks. It’s ok to omit the return if the function body consists of a single statement returning an expression without side effects, following [8.2]. eslint: <a target="_blank" rel="noopener" href="http://eslint.org/docs/rules/array-callback-return"><code>array-callback-return</code></a><br>在数组回调方法里使用返回语句。如果函数主体只有一个句子，且返回无副作用的表达式，可以省略 return。 </p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// good</span></span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>].map(<span class="function">(<span class="params">x</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> y = x + <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">return</span> x * y;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>].map(<span class="function"><span class="params">x</span> =&gt;</span> x + <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="keyword">const</span> flat = &#123;&#125;;</span><br><span class="line">[[<span class="number">0</span>, <span class="number">1</span>], [<span class="number">2</span>, <span class="number">3</span>], [<span class="number">4</span>, <span class="number">5</span>]].reduce(<span class="function">(<span class="params">memo, item, index</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> flatten = memo.concat(item);</span><br><span class="line">  flat[index] = flatten;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="keyword">const</span> flat = &#123;&#125;;</span><br><span class="line">[[<span class="number">0</span>, <span class="number">1</span>], [<span class="number">2</span>, <span class="number">3</span>], [<span class="number">4</span>, <span class="number">5</span>]].reduce(<span class="function">(<span class="params">memo, item, index</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> flatten = memo.concat(item);</span><br><span class="line">  flat[index] = flatten;</span><br><span class="line">  <span class="keyword">return</span> flatten;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// bad</span></span><br><span class="line">inbox.filter(<span class="function">(<span class="params">msg</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> &#123; subject, author &#125; = msg;</span><br><span class="line">  <span class="keyword">if</span> (subject === <span class="string">&#x27;Mockingbird&#x27;</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> author === <span class="string">&#x27;Harper Lee&#x27;</span>;</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line">inbox.filter(<span class="function">(<span class="params">msg</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> &#123; subject, author &#125; = msg;</span><br><span class="line">  <span class="keyword">if</span> (subject === <span class="string">&#x27;Mockingbird&#x27;</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> author === <span class="string">&#x27;Harper Lee&#x27;</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>[4.6] Use line breaks after open and before close array brackets if an array has multiple lines.<br>如果一个数组有多行，在左数组括号之前或者右数组括号之后使用分行。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="keyword">const</span> arr = [</span><br><span class="line">  [<span class="number">0</span>, <span class="number">1</span>], [<span class="number">2</span>, <span class="number">3</span>], [<span class="number">4</span>, <span class="number">5</span>],</span><br><span class="line">];</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> objectInArray = [&#123;</span><br><span class="line">  id: <span class="number">1</span>,</span><br><span class="line">&#125;, &#123;</span><br><span class="line">  id: <span class="number">2</span>,</span><br><span class="line">&#125;];</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> numberInArray = [</span><br><span class="line">  <span class="number">1</span>, <span class="number">2</span>,</span><br><span class="line">];</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="keyword">const</span> arr = [[<span class="number">0</span>, <span class="number">1</span>], [<span class="number">2</span>, <span class="number">3</span>], [<span class="number">4</span>, <span class="number">5</span>]];</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> objectInArray = [</span><br><span class="line">  &#123;</span><br><span class="line">    id: <span class="number">1</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">  &#123;</span><br><span class="line">    id: <span class="number">2</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">];</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> numberInArray = [</span><br><span class="line">  <span class="number">1</span>,</span><br><span class="line">  <span class="number">2</span>,</span><br><span class="line">];</span><br></pre></td></tr></table></figure>
+
+
+</li>
+</ul>
+<h2 id="Destructuring-解构"><a href="#Destructuring-解构" class="headerlink" title="Destructuring 解构"></a>Destructuring 解构</h2><ul>
+<li><p>[5.1] Use object destructuring when accessing and using multiple properties of an object. jscs: <a target="_blank" rel="noopener" href="http://jscs.info/rule/requireObjectDestructuring"><code>requireObjectDestructuring</code></a><br>当存取或者使用一个对象的多个属性时，使用对象解构。</p>
+<blockquote>
+<p>Why? Destructuring saves you from creating temporary references for those properties.<br>为什么？ 解构可以帮助你为这些属性创建临时的引用。</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getFullName</span>(<span class="params">user</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> firstName = user.firstName;</span><br><span class="line">  <span class="keyword">const</span> lastName = user.lastName;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="string">`<span class="subst">$&#123;firstName&#125;</span> <span class="subst">$&#123;lastName&#125;</span>`</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getFullName</span>(<span class="params">user</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> &#123; firstName, lastName &#125; = user;</span><br><span class="line">  <span class="keyword">return</span> <span class="string">`<span class="subst">$&#123;firstName&#125;</span> <span class="subst">$&#123;lastName&#125;</span>`</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// best</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getFullName</span>(<span class="params">&#123; firstName, lastName &#125;</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="string">`<span class="subst">$&#123;firstName&#125;</span> <span class="subst">$&#123;lastName&#125;</span>`</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>[5.2]Use array destructuring. jscs: <a target="_blank" rel="noopener" href="http://jscs.info/rule/requireArrayDestructuring"><code>requireArrayDestructuring</code></a><br>使用数组解构。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> arr = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>];</span><br><span class="line"></span><br><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="keyword">const</span> first = arr[<span class="number">0</span>];</span><br><span class="line"><span class="keyword">const</span> second = arr[<span class="number">1</span>];</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="keyword">const</span> [first, second] = arr;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>[5.3] Use object destructuring for multiple return values, not array destructuring. jscs: <a target="_blank" rel="noopener" href="http://jscs.info/rule/disallowArrayDestructuringReturn"><code>disallowArrayDestructuringReturn</code></a><br>为了返回对个值可以使用对象解构，不要用数组解构。</p>
+<blockquote>
+<p>Why? You can add new properties over time or change the order of things without breaking call sites.</p>
+</blockquote>
+<blockquote>
+<p>为什么？ 过一段时间你还可以加新的属性，改变东西的顺序的时候不改变调用函数。</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">processInput</span>(<span class="params">input</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// then a miracle occurs</span></span><br><span class="line">  <span class="keyword">return</span> [left, right, top, bottom];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// the caller needs to think about the order of return data</span></span><br><span class="line"><span class="keyword">const</span> [left, __, top] = processInput(input);</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">processInput</span>(<span class="params">input</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// then a miracle occurs</span></span><br><span class="line">  <span class="keyword">return</span> &#123; left, right, top, bottom &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// the caller selects only the data they need</span></span><br><span class="line"><span class="keyword">const</span> &#123; left, top &#125; = processInput(input);</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="Strings-字符串"><a href="#Strings-字符串" class="headerlink" title="Strings 字符串"></a>Strings 字符串</h2><ul>
+<li><p>[6.1] Use single quotes <code>&#39;&#39;</code> for strings. eslint: <a target="_blank" rel="noopener" href="http://eslint.org/docs/rules/quotes.html"><code>quotes</code></a> jscs: <a target="_blank" rel="noopener" href="http://jscs.info/rule/validateQuoteMarks"><code>validateQuoteMarks</code></a><br>使用单引号当字符串。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="keyword">const</span> name = <span class="string">&quot;Capt. Janeway&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// bad - template literals should contain interpolation or newlines</span></span><br><span class="line"><span class="comment">//模板语法应该包含插入变量或者本身是多行</span></span><br><span class="line"><span class="keyword">const</span> name = <span class="string">`Capt. Janeway`</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="keyword">const</span> name = <span class="string">&#x27;Capt. Janeway&#x27;</span>;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>[6.2] Strings that cause the line to go over 100 characters should not be written across multiple lines using string concatenation.<br>导致某行超过100个字符的字符串应该使用连接符写成多行。</p>
+<blockquote>
+<p>Why? Broken strings are painful to work with and make code less searchable.</p>
+</blockquote>
+<blockquote>
+<p>为什么？ 打断字符串是一个十分蛋疼的事情，导致它不好被搜索。</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="keyword">const</span> errorMessage = <span class="string">&#x27;This is a super long error that was thrown because \</span></span><br><span class="line"><span class="string">of Batman. When you stop to think about how Batman had anything to do \</span></span><br><span class="line"><span class="string">with this, you would get nowhere \</span></span><br><span class="line"><span class="string">fast.&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="keyword">const</span> errorMessage = <span class="string">&#x27;This is a super long error that was thrown because &#x27;</span> +</span><br><span class="line">  <span class="string">&#x27;of Batman. When you stop to think about how Batman had anything to do &#x27;</span> +</span><br><span class="line">  <span class="string">&#x27;with this, you would get nowhere fast.&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="keyword">const</span> errorMessage = <span class="string">&#x27;This is a super long error that was thrown because of Batman. When you stop to think about how Batman had anything to do with this, you would get nowhere fast.&#x27;</span>;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>[6.3]When programmatically building up strings, use template strings instead of concatenation. eslint: <a target="_blank" rel="noopener" href="http://eslint.org/docs/rules/prefer-template.html"><code>prefer-template</code></a> <a target="_blank" rel="noopener" href="http://eslint.org/docs/rules/template-curly-spacing"><code>template-curly-spacing</code></a> jscs: <a target="_blank" rel="noopener" href="http://jscs.info/rule/requireTemplateStrings"><code>requireTemplateStrings</code></a><br>用编程的方式构建字符串的时候，应该使用模板字符串而不是连接符。</p>
+<blockquote>
+<p>Why? Template strings give you a readable, concise syntax with proper newlines and string interpolation features.</p>
+</blockquote>
+<blockquote>
+<p>为什么？模板字符串给了一个更可读，更简明的语法来包含换行符和插入字符串变量。</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">sayHi</span>(<span class="params">name</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="string">&#x27;How are you, &#x27;</span> + name + <span class="string">&#x27;?&#x27;</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">sayHi</span>(<span class="params">name</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> [<span class="string">&#x27;How are you, &#x27;</span>, name, <span class="string">&#x27;?&#x27;</span>].join();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">sayHi</span>(<span class="params">name</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="string">`How are you, <span class="subst">$&#123; name &#125;</span>?`</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">sayHi</span>(<span class="params">name</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="string">`How are you, <span class="subst">$&#123;name&#125;</span>?`</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>[6.4] Never use <code>eval()</code> on a string, it opens too many vulnerabilities. eslint: <a target="_blank" rel="noopener" href="http://eslint.org/docs/rules/no-eval"><code>no-eval</code></a><br>永远不要在字符串里面使用 eval() ，这玩意缺陷太多。</p>
+</li>
+<li><p>[6.5] Do not unnecessarily escape characters in strings. eslint: <a target="_blank" rel="noopener" href="http://eslint.org/docs/rules/no-useless-escape"><code>no-useless-escape</code></a><br>字符串里不要使用不必要的转义字符。</p>
+<blockquote>
+<p>Why? Backslashes harm readability, thus they should only be present when necessary.</p>
+</blockquote>
+<blockquote>
+<p>为什么？反斜杠伤害可读性，因此它们应该只在需要的时候出现。</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="keyword">const</span> foo = <span class="string">&#x27;\&#x27;this\&#x27; \i\s \&quot;quoted\&quot;&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="keyword">const</span> foo = <span class="string">&#x27;\&#x27;this\&#x27; is &quot;quoted&quot;&#x27;</span>;</span><br><span class="line"><span class="keyword">const</span> foo = <span class="string">`my name is &#x27;<span class="subst">$&#123;name&#125;</span>&#x27;`</span>;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="Functions-函数"><a href="#Functions-函数" class="headerlink" title="Functions 函数"></a>Functions 函数</h2><ul>
+<li><p>[7.1]Use named function expressions instead of function declarations. eslint: <a target="_blank" rel="noopener" href="http://eslint.org/docs/rules/func-style"><code>func-style</code></a> jscs: <a target="_blank" rel="noopener" href="http://jscs.info/rule/disallowFunctionDeclarations"><code>disallowFunctionDeclarations</code></a><br>使用命名函数表达式而不是函数声明。</p>
+<blockquote>
+<p>Why? Function declarations are hoisted, which means that it’s easy - too easy - to reference the function before it is defined in the file. This harms readability and maintainability. If you find that a function’s definition is large or complex enough that it is interfering with understanding the rest of the file, then perhaps it’s time to extract it to its own module! Don’t forget to name the expression - anonymous functions can make it harder to locate the problem in an Error’s call stack. (<a target="_blank" rel="noopener" href="https://github.com/airbnb/javascript/issues/794">Discussion</a>)</p>
+</blockquote>
+<blockquote>
+<p>为什么？ 函数声明会变量提升，意味着很容易发生在定义之前产生引用。这很伤可读性和可维护性。如果发现一个函数足够大或者足够复杂，甚至会影响你理解剩下的代码，那么<br>或许此时应该把它提取出来放到它自己的模块里去。别忘了命名表达式，在错误调用栈里匿名函数可能更加难定位问题。</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="keyword">const</span> foo = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="keyword">const</span> foo = <span class="function"><span class="keyword">function</span> <span class="title">bar</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>[7.2] Wrap immediately invoked function expressions in parentheses. eslint: <a target="_blank" rel="noopener" href="http://eslint.org/docs/rules/wrap-iife.html"><code>wrap-iife</code></a> jscs: <a target="_blank" rel="noopener" href="http://jscs.info/rule/requireParenthesesAroundIIFE"><code>requireParenthesesAroundIIFE</code></a><br>使用小括号把立即调用的函数表达式包起来。</p>
+<blockquote>
+<p>Why? An immediately invoked function expression is a single unit - wrapping both it, and its invocation parens, in parens, cleanly expresses this. Note that in a world with modules everywhere, you almost never need an IIFE.</p>
+</blockquote>
+<blockquote>
+<p>为什么？一个立即调用的函数表达式是一个单独的单元，把它和它的调用括号括起来可以清楚的表达这个意思。值得注意的是，一个到处是模块的世界里，你几乎不需要立即调用表达式。</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// immediately-invoked function expression (IIFE)</span></span><br><span class="line">(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">&#x27;Welcome to the Internet. Please follow me.&#x27;</span>);</span><br><span class="line">&#125;());</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>[7.3] Never declare a function in a non-function block (<code>if</code>, <code>while</code>, etc). Assign the function to a variable instead. Browsers will allow you to do it, but they all interpret it differently, which is bad news bears. eslint: <a target="_blank" rel="noopener" href="http://eslint.org/docs/rules/no-loop-func.html"><code>no-loop-func</code></a><br>绝对不要在一个非函数块里面定义一个函数，比如 if while。应该把函数赋值给一个变量。浏览器会允许你这么做，但是他们用不同的方式解释，这是坏的空头支票。</p>
+</li>
+<li><p>[7.4] <strong>Note:</strong> ECMA-262 defines a <code>block</code> as a list of statements. A function declaration is not a statement. <a target="_blank" rel="noopener" href="http://www.ecma-international.org/publications/files/ECMA-ST/Ecma-262.pdf#page=97">Read ECMA-262’s note on this issue</a>.</p>
+</li>
+</ul>
+<p>  <strong>注意:</strong> ECMA-262 定义了一个 <code>block</code> 作为句子列表。函数声明不是一个句子</p>
+<pre><code><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="keyword">if</span> (currentUser) &#123;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">test</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;Nope.&#x27;</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="keyword">let</span> test;</span><br><span class="line"><span class="keyword">if</span> (currentUser) &#123;</span><br><span class="line">  test = <span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;Yup.&#x27;</span>);</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></code></pre>
+<ul>
+<li><p>[7.5] Never name a parameter <code>arguments</code>. This will take precedence over the <code>arguments</code> object that is given to every function scope.<br>绝对不要命名成 <code>arguments</code>，这个优先于 <code>arguments</code> 对象，被给到每个函数作用域。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params">name, options, arguments</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params">name, options, args</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>[7.6] Never use <code>arguments</code>, opt to use rest syntax <code>...</code> instead. eslint: <a target="_blank" rel="noopener" href="http://eslint.org/docs/rules/prefer-rest-params"><code>prefer-rest-params</code></a><br>绝对不要使用 <code>arguments</code>，可以使用剩余操作符 <code>...</code> 替代. </p>
+<blockquote>
+<p>Why? <code>...</code> is explicit about which arguments you want pulled. Plus, rest arguments are a real Array, and not merely Array-like like <code>arguments</code>.</p>
+</blockquote>
+<blockquote>
+<p>为什么？<code>...</code> 你想要拉的变量是非常明确的，另外，剩余操作符是一个真的数组，不仅仅是一个 Array-list 的对象 <code>arguments</code>.</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">concatenateAll</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> args = <span class="built_in">Array</span>.prototype.slice.call(<span class="built_in">arguments</span>);</span><br><span class="line">  <span class="keyword">return</span> args.join(<span class="string">&#x27;&#x27;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">concatenateAll</span>(<span class="params">...args</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> args.join(<span class="string">&#x27;&#x27;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>[7.7] Use default parameter syntax rather than mutating function arguments.<br>使用默认参数语法而不要使用变化的函数参数。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// really bad</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">handleThings</span>(<span class="params">opts</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// No! We shouldn’t mutate function arguments.</span></span><br><span class="line">  <span class="comment">// Double bad: if opts is falsy it&#x27;ll be set to an object which may</span></span><br><span class="line">  <span class="comment">// be what you want but it can introduce subtle bugs.</span></span><br><span class="line">  opts = opts || &#123;&#125;;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// still bad</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">handleThings</span>(<span class="params">opts</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (opts === <span class="keyword">void</span> <span class="number">0</span>) &#123;</span><br><span class="line">    opts = &#123;&#125;;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">handleThings</span>(<span class="params">opts = &#123;&#125;</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>[7.8] Avoid side effects with default parameters.<br>避免默认参数的副作用</p>
+<blockquote>
+<p>Why? They are confusing to reason about.<br>为什么？他们令人困惑到难以推论</p>
+</blockquote>
+</li>
+</ul>
+<pre><code><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> b = <span class="number">1</span>;</span><br><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">count</span>(<span class="params">a = b++</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(a);</span><br><span class="line">&#125;</span><br><span class="line">count();  <span class="comment">// 1</span></span><br><span class="line">count();  <span class="comment">// 2</span></span><br><span class="line">count(<span class="number">3</span>); <span class="comment">// 3</span></span><br><span class="line">count();  <span class="comment">// 3</span></span><br></pre></td></tr></table></figure></code></pre>
+<ul>
+<li><p>[7.9] Always put default parameters last.<br>总是把默认参数放最后。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">handleThings</span>(<span class="params">opts = &#123;&#125;, name</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">handleThings</span>(<span class="params">name, opts = &#123;&#125;</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>[7.10] Never use the Function constructor to create a new function. eslint: <a target="_blank" rel="noopener" href="http://eslint.org/docs/rules/no-new-func"><code>no-new-func</code></a><br>绝对不要使用函数构造函数来创造一个新的函数。</p>
+<blockquote>
+<p>Why? Creating a function in this way evaluates a string similarly to eval(), which opens vulnerabilities.<br>为什么？用这种方法创造一个函数会计算出一个类似于 eval()的字符串，会带来一堆缺陷。</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="keyword">var</span> add = <span class="keyword">new</span> <span class="built_in">Function</span>(<span class="string">&#x27;a&#x27;</span>, <span class="string">&#x27;b&#x27;</span>, <span class="string">&#x27;return a + b&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// still bad</span></span><br><span class="line"><span class="keyword">var</span> subtract = <span class="built_in">Function</span>(<span class="string">&#x27;a&#x27;</span>, <span class="string">&#x27;b&#x27;</span>, <span class="string">&#x27;return a - b&#x27;</span>);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>[7.11] Spacing in a function signature. eslint: <a target="_blank" rel="noopener" href="http://eslint.org/docs/rules/space-before-function-paren"><code>space-before-function-paren</code></a> <a target="_blank" rel="noopener" href="http://eslint.org/docs/rules/space-before-blocks"><code>space-before-blocks</code></a><br>函数和括号之间放一个空格。</p>
+<blockquote>
+<p>Why? Consistency is good, and you shouldn’t have to add or remove a space when adding or removing a name.<br>为什么？连贯性更好，当你加或者删除名字的时候，没必要去加或者删除一个空格。</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="keyword">const</span> f = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;&#125;;</span><br><span class="line"><span class="keyword">const</span> g = <span class="function"><span class="keyword">function</span> (<span class="params"></span>)</span>&#123;&#125;;</span><br><span class="line"><span class="keyword">const</span> h = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="keyword">const</span> x = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;&#125;;</span><br><span class="line"><span class="keyword">const</span> y = <span class="function"><span class="keyword">function</span> <span class="title">a</span>(<span class="params"></span>) </span>&#123;&#125;;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>[7.12] Never mutate parameters. eslint: <a target="_blank" rel="noopener" href="http://eslint.org/docs/rules/no-param-reassign.html"><code>no-param-reassign</code></a><br>永远不要改变参数</p>
+<blockquote>
+<p>Why? Manipulating objects passed in as parameters can cause unwanted variable side effects in the original caller.<br>为什么？操作参数传递进来的对象，可能给原始调用者引起预料之外的副作用。</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">f1</span>(<span class="params">obj</span>) </span>&#123;</span><br><span class="line">  obj.key = <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">f2</span>(<span class="params">obj</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> key = <span class="built_in">Object</span>.prototype.hasOwnProperty.call(obj, <span class="string">&#x27;key&#x27;</span>) ? obj.key : <span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>[7.13] Never reassign parameters. eslint: <a target="_blank" rel="noopener" href="http://eslint.org/docs/rules/no-param-reassign.html"><code>no-param-reassign</code></a><br>不要给参数重新赋值。</p>
+<blockquote>
+<p>Why? Reassigning parameters can lead to unexpected behavior, especially when accessing the <code>arguments</code> object. It can also cause optimization issues, especially in V8.<br>为什么？给参数重新赋值可能导致预期之外的行为，尤其是赋值给<code>arguments</code>对象。它还会造成性能问题，尤其是 V8 引擎。</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">f1</span>(<span class="params">a</span>) </span>&#123;</span><br><span class="line">  a = <span class="number">1</span>;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">f2</span>(<span class="params">a</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (!a) &#123; a = <span class="number">1</span>; &#125;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">f3</span>(<span class="params">a</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> b = a || <span class="number">1</span>;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">f4</span>(<span class="params">a = <span class="number">1</span></span>) </span>&#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>[7.14] Prefer the use of the spread operator <code>...</code> to call variadic functions. eslint: <a target="_blank" rel="noopener" href="http://eslint.org/docs/rules/prefer-spread"><code>prefer-spread</code></a><br>使用传参符号 <code>...</code> 来调用可变参函数。</p>
+<blockquote>
+<p>Why? It’s cleaner, you don’t need to supply a context, and you can not easily compose <code>new</code> with <code>apply</code>.<br>为什么？ 它更加干净，你不需要提供上下文，你很难去比较<code>new</code> 和 <code>apply</code>。</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="keyword">const</span> x = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>];</span><br><span class="line"><span class="built_in">console</span>.log.apply(<span class="built_in">console</span>, x);</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="keyword">const</span> x = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>];</span><br><span class="line"><span class="built_in">console</span>.log(...x);</span><br><span class="line"></span><br><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="keyword">new</span> (<span class="built_in">Function</span>.prototype.bind.apply(<span class="built_in">Date</span>, [<span class="literal">null</span>, <span class="number">2016</span>, <span class="number">8</span>, <span class="number">5</span>]));</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="keyword">new</span> <span class="built_in">Date</span>(...[<span class="number">2016</span>, <span class="number">8</span>, <span class="number">5</span>]);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>[7.15]Functions with multiline signatures, or invocations, should be indented just like every other multiline list in this guide: with each item on a line by itself, with a trailing comma on the last item.<br>多行声明或者调用的函数应该像任何其他的多行列表一样。每个元素自己占一行，最后一个元素拖一个逗号。<br>PS: Functions signatures:一个函数由这么几部分组成，函数名、参数个数、参数类型、返回值，函数签名由参数个数与其类型组成。函数在重载时，利用函数签名的不同（即参数个数与类型的不同）来区别调用者到底调用的是那个方法！ </p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params">bar,</span></span></span><br><span class="line"><span class="function"><span class="params">             baz,</span></span></span><br><span class="line"><span class="function"><span class="params">             quux</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span></span></span><br><span class="line"><span class="function"><span class="params">  bar,</span></span></span><br><span class="line"><span class="function"><span class="params">  baz,</span></span></span><br><span class="line"><span class="function"><span class="params">  quux,</span></span></span><br><span class="line"><span class="function"><span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="built_in">console</span>.log(foo,</span><br><span class="line">  bar,</span><br><span class="line">  baz);</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="built_in">console</span>.log(</span><br><span class="line">  foo,</span><br><span class="line">  bar,</span><br><span class="line">  baz,</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="Arrow-Functions-箭头函数"><a href="#Arrow-Functions-箭头函数" class="headerlink" title="Arrow Functions 箭头函数"></a>Arrow Functions 箭头函数</h2><ul>
+<li><p>[8.1] When you must use function expressions (as when passing an anonymous function), use arrow function notation. eslint: <a target="_blank" rel="noopener" href="http://eslint.org/docs/rules/prefer-arrow-callback.html"><code>prefer-arrow-callback</code></a>, <a target="_blank" rel="noopener" href="http://eslint.org/docs/rules/arrow-spacing.html"><code>arrow-spacing</code></a> jscs: <a target="_blank" rel="noopener" href="http://jscs.info/rule/requireArrowFunctions"><code>requireArrowFunctions</code></a><br>当你一定要用一个函数表达式，比如一个匿名函数，使用箭头符号。</p>
+<blockquote>
+<p>Why? It creates a version of the function that executes in the context of <code>this</code>, which is usually what you want, and is a more concise syntax.</p>
+</blockquote>
+<blockquote>
+<p>Why not? If you have a fairly complicated function, you might move that logic out into its own function declaration.<br>为什么？它创造了一个在 <code>this</code> 上下文的函数版本，这一般都是你想要的更简单的写法。<br>为什么不？如果你有一个巨复杂的函数，你也许应该把逻辑移动到它函数定义的地方。</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bad</span></span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>].map(<span class="function"><span class="keyword">function</span> (<span class="params">x</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> y = x + <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">return</span> x * y;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>].map(<span class="function">(<span class="params">x</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> y = x + <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">return</span> x * y;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>[8.2]If the function body consists of a single statement returning an <a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Expressions_and_Operators#Expressions">expression</a> without side effects, omit the braces and use the implicit return. Otherwise, keep the braces and use a <code>return</code> statement. eslint: <a target="_blank" rel="noopener" href="http://eslint.org/docs/rules/arrow-parens.html"><code>arrow-parens</code></a>, <a target="_blank" rel="noopener" href="http://eslint.org/docs/rules/arrow-body-style.html"><code>arrow-body-style</code></a> jscs:  <a target="_blank" rel="noopener" href="http://jscs.info/rule/disallowParenthesesAroundArrowParam"><code>disallowParenthesesAroundArrowParam</code></a>, <a target="_blank" rel="noopener" href="http://jscs.info/rule/requireShorthandArrowFunctions"><code>requireShorthandArrowFunctions</code></a></p>
+</li>
+</ul>
+<p>如果一个函数的主要只有一个句子，返回一个无副作用的表达式，省略括号、返回一个隐式返回值。否则，应该保留括号并且有一个 return 语句。<br>    &gt; Why? Syntactic sugar. It reads well when multiple functions are chained together.<br>    &gt; 为什么？句法糖。多个函数链式调用的时候读起来爽。</p>
+<pre><code><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bad</span></span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>].map(<span class="function"><span class="params">number</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> nextNumber = number + <span class="number">1</span>;</span><br><span class="line">  <span class="string">`A string containing the <span class="subst">$&#123;nextNumber&#125;</span>.`</span>;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>].map(<span class="function"><span class="params">number</span> =&gt;</span> <span class="string">`A string containing the <span class="subst">$&#123;number&#125;</span>.`</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>].map(<span class="function">(<span class="params">number</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> nextNumber = number + <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">return</span> <span class="string">`A string containing the <span class="subst">$&#123;nextNumber&#125;</span>.`</span>;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>].map(<span class="function">(<span class="params">number, index</span>) =&gt;</span> (&#123;</span><br><span class="line">  [index]: number,</span><br><span class="line">&#125;));</span><br><span class="line"></span><br><span class="line"><span class="comment">// No implicit return with side effects</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params">callback</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> val = callback();</span><br><span class="line">  <span class="keyword">if</span> (val === <span class="literal">true</span>) &#123;</span><br><span class="line">    <span class="comment">// Do something if callback returns true</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> bool = <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// bad</span></span><br><span class="line">foo(<span class="function">() =&gt;</span> bool = <span class="literal">true</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line">foo(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">  bool = <span class="literal">true</span>;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></code></pre>
+<ul>
+<li><p>[8.3] In case the expression spans over multiple lines, wrap it in parentheses for better readability.<br>万一这个表达式有多行，用圆括号把它包起来可以得到更好的可读性。</p>
+<blockquote>
+<p>Why? It shows clearly where the function starts and ends.<br>为什么？它更清楚的告诉你这个函数从哪开始到哪结束。</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bad</span></span><br><span class="line">[<span class="string">&#x27;get&#x27;</span>, <span class="string">&#x27;post&#x27;</span>, <span class="string">&#x27;put&#x27;</span>].map(<span class="function"><span class="params">httpMethod</span> =&gt;</span> <span class="built_in">Object</span>.prototype.hasOwnProperty.call(</span><br><span class="line">    httpMagicObjectWithAVeryLongName,</span><br><span class="line">    httpMethod,</span><br><span class="line">  )</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line">[<span class="string">&#x27;get&#x27;</span>, <span class="string">&#x27;post&#x27;</span>, <span class="string">&#x27;put&#x27;</span>].map(<span class="function"><span class="params">httpMethod</span> =&gt;</span> (</span><br><span class="line">  <span class="built_in">Object</span>.prototype.hasOwnProperty.call(</span><br><span class="line">    httpMagicObjectWithAVeryLongName,</span><br><span class="line">    httpMethod,</span><br><span class="line">  )</span><br><span class="line">));</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>[8.4] If your function takes a single argument and doesn’t use braces, omit the parentheses. Otherwise, always include parentheses around arguments for clarity and consistency. Note: it is also acceptable to always use parentheses, in which case use the <a target="_blank" rel="noopener" href="http://eslint.org/docs/rules/arrow-parens#always">“always” option</a> for eslint or do not include <a target="_blank" rel="noopener" href="http://jscs.info/rule/disallowParenthesesAroundArrowParam"><code>disallowParenthesesAroundArrowParam</code></a> for jscs. eslint: <a target="_blank" rel="noopener" href="http://eslint.org/docs/rules/arrow-parens.html"><code>arrow-parens</code></a> jscs:  <a target="_blank" rel="noopener" href="http://jscs.info/rule/disallowParenthesesAroundArrowParam"><code>disallowParenthesesAroundArrowParam</code></a><br>如果你的函数只有一个参数且不适用花括号，那么不使用圆括号。否则，始终使用圆括号包裹参数来保持清晰和一致。</p>
+<blockquote>
+<p>Why? Less visual clutter.</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bad</span></span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>].map(<span class="function">(<span class="params">x</span>) =&gt;</span> x * x);</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>].map(<span class="function"><span class="params">x</span> =&gt;</span> x * x);</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>].map(<span class="function"><span class="params">number</span> =&gt;</span> (</span><br><span class="line">  <span class="string">`A long string with the <span class="subst">$&#123;number&#125;</span>. It’s so long that we don’t want it to take up space on the .map line!`</span></span><br><span class="line">));</span><br><span class="line"></span><br><span class="line"><span class="comment">// bad</span></span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>].map(<span class="function"><span class="params">x</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> y = x + <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">return</span> x * y;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>].map(<span class="function">(<span class="params">x</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> y = x + <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">return</span> x * y;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>[8.5] Avoid confusing arrow function syntax (<code>=&gt;</code>) with comparison operators (<code>&lt;=</code>, <code>&gt;=</code>). eslint: <a target="_blank" rel="noopener" href="http://eslint.org/docs/rules/no-confusing-arrow"><code>no-confusing-arrow</code></a><br>避免使用混淆的箭头符号和比较符号(<code>=&gt;</code>) (<code>&lt;=</code>, <code>&gt;=</code>)。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="keyword">const</span> itemHeight = <span class="function"><span class="params">item</span> =&gt;</span> item.height &gt; <span class="number">256</span> ? item.largeSize : item.smallSize;</span><br><span class="line"></span><br><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="keyword">const</span> itemHeight = <span class="function">(<span class="params">item</span>) =&gt;</span> item.height &gt; <span class="number">256</span> ? item.largeSize : item.smallSize;</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="keyword">const</span> itemHeight = <span class="function"><span class="params">item</span> =&gt;</span> (item.height &gt; <span class="number">256</span> ? item.largeSize : item.smallSize);</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="keyword">const</span> itemHeight = <span class="function">(<span class="params">item</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> &#123; height, largeSize, smallSize &#125; = item;</span><br><span class="line">  <span class="keyword">return</span> height &gt; <span class="number">256</span> ? largeSize : smallSize;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="Classes-amp-Constructors-类-amp-构造器"><a href="#Classes-amp-Constructors-类-amp-构造器" class="headerlink" title="Classes &amp; Constructors 类&amp;构造器"></a>Classes &amp; Constructors 类&amp;构造器</h2><ul>
+<li><p>[9.1]Always use <code>class</code>. Avoid manipulating <code>prototype</code> directly.<br>经常使用 <code>class</code>，避免直接操作 <code>prototype</code></p>
+<blockquote>
+<p>Why? <code>class</code> syntax is more concise and easier to reason about.<br>为什么？class语法更简明，更容易推断。</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Queue</span>(<span class="params">contents = []</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">this</span>.queue = [...contents];</span><br><span class="line">&#125;</span><br><span class="line">Queue.prototype.pop = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> value = <span class="built_in">this</span>.queue[<span class="number">0</span>];</span><br><span class="line">  <span class="built_in">this</span>.queue.splice(<span class="number">0</span>, <span class="number">1</span>);</span><br><span class="line">  <span class="keyword">return</span> value;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Queue</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>(contents = []) &#123;</span><br><span class="line">    <span class="built_in">this</span>.queue = [...contents];</span><br><span class="line">  &#125;</span><br><span class="line">  pop() &#123;</span><br><span class="line">    <span class="keyword">const</span> value = <span class="built_in">this</span>.queue[<span class="number">0</span>];</span><br><span class="line">    <span class="built_in">this</span>.queue.splice(<span class="number">0</span>, <span class="number">1</span>);</span><br><span class="line">    <span class="keyword">return</span> value;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>[9.2] Use <code>extends</code> for inheritance.<br>使用<code>extends</code> 来继承。</p>
+<blockquote>
+<p>Why? It is a built-in way to inherit prototype functionality without breaking <code>instanceof</code>.<br>为什么？它是一个内置的方法来继承函数原型，并且不打破<code>instanceof</code>法则。</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="keyword">const</span> inherits = <span class="built_in">require</span>(<span class="string">&#x27;inherits&#x27;</span>);</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">PeekableQueue</span>(<span class="params">contents</span>) </span>&#123;</span><br><span class="line">  Queue.apply(<span class="built_in">this</span>, contents);</span><br><span class="line">&#125;</span><br><span class="line">inherits(PeekableQueue, Queue);</span><br><span class="line">PeekableQueue.prototype.peek = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="built_in">this</span>.queue[<span class="number">0</span>];</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">PeekableQueue</span> <span class="keyword">extends</span> <span class="title">Queue</span> </span>&#123;</span><br><span class="line">  peek() &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">this</span>.queue[<span class="number">0</span>];</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>[9.3] Methods can return <code>this</code> to help with method chaining.<br>方法可以返回 <code>this</code> 来帮助实现方法链.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bad</span></span><br><span class="line">Jedi.prototype.jump = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">this</span>.jumping = <span class="literal">true</span>;</span><br><span class="line">  <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">Jedi.prototype.setHeight = <span class="function"><span class="keyword">function</span> (<span class="params">height</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">this</span>.height = height;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> luke = <span class="keyword">new</span> Jedi();</span><br><span class="line">luke.jump(); <span class="comment">// =&gt; true</span></span><br><span class="line">luke.setHeight(<span class="number">20</span>); <span class="comment">// =&gt; undefined</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Jedi</span> </span>&#123;</span><br><span class="line">  jump() &#123;</span><br><span class="line">    <span class="built_in">this</span>.jumping = <span class="literal">true</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">this</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  setHeight(height) &#123;</span><br><span class="line">    <span class="built_in">this</span>.height = height;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">this</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> luke = <span class="keyword">new</span> Jedi();</span><br><span class="line"></span><br><span class="line">luke.jump()</span><br><span class="line">  .setHeight(<span class="number">20</span>);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>[9.4]It’s okay to write a custom toString() method, just make sure it works successfully and causes no side effects.<br>写一个定制的 tostring 函数是可以接受的，但是确保它能正常运行且没有副作用。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Jedi</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>(options = &#123;&#125;) &#123;</span><br><span class="line">    <span class="built_in">this</span>.name = options.name || <span class="string">&#x27;no name&#x27;</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  getName() &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">this</span>.name;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  toString() &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">`Jedi - <span class="subst">$&#123;<span class="built_in">this</span>.getName()&#125;</span>`</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>[9.5] Classes have a default constructor if one is not specified. An empty constructor function or one that just delegates to a parent class is unnecessary. eslint: <a target="_blank" rel="noopener" href="http://eslint.org/docs/rules/no-useless-constructor"><code>no-useless-constructor</code></a><br>无特别声明，类自己有一个默认的构造器。一个空的或者直接委托给父类的构造器没必要。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Jedi</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>() &#123;&#125;</span><br><span class="line"></span><br><span class="line">  getName() &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">this</span>.name;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Rey</span> <span class="keyword">extends</span> <span class="title">Jedi</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>(...args) &#123;</span><br><span class="line">    <span class="built_in">super</span>(...args);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Rey</span> <span class="keyword">extends</span> <span class="title">Jedi</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>(...args) &#123;</span><br><span class="line">    <span class="built_in">super</span>(...args);</span><br><span class="line">    <span class="built_in">this</span>.name = <span class="string">&#x27;Rey&#x27;</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>[9.6]Avoid duplicate class members. eslint: <a target="_blank" rel="noopener" href="http://eslint.org/docs/rules/no-dupe-class-members"><code>no-dupe-class-members</code></a><br>避免重复类的成员。</p>
+<blockquote>
+<p>Why? Duplicate class member declarations will silently prefer the last one - having duplicates is almost certainly a bug.<br>为什么？重复的对象成员声可能默默的选了后一个，有重复声明基本上肯定是个 bug。</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Foo</span> </span>&#123;</span><br><span class="line">  bar() &#123; <span class="keyword">return</span> <span class="number">1</span>; &#125;</span><br><span class="line">  bar() &#123; <span class="keyword">return</span> <span class="number">2</span>; &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Foo</span> </span>&#123;</span><br><span class="line">  bar() &#123; <span class="keyword">return</span> <span class="number">1</span>; &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Foo</span> </span>&#123;</span><br><span class="line">  bar() &#123; <span class="keyword">return</span> <span class="number">2</span>; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Language/" rel="tag"># Language</a>
+              <a href="/tags/JavaScript/" rel="tag"># JavaScript</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2013/07/26/zero-to-one-4/" rel="prev" title="从零到一建站（4）">
+      <i class="fa fa-chevron-left"></i> 从零到一建站（4）
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2013/08/08/Airbnb-JavaScript-Style-Guide-2/" rel="next" title="Airbnb JavaScript Style Guide (2)">
+      Airbnb JavaScript Style Guide (2) <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%AE%E5%BD%95"><span class="nav-number">1.</span> <span class="nav-text">目录</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Types-%E7%B1%BB%E5%9E%8B"><span class="nav-number">2.</span> <span class="nav-text">Types 类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#References-%E5%BC%95%E7%94%A8"><span class="nav-number">3.</span> <span class="nav-text">References 引用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Objects-%E5%AF%B9%E8%B1%A1"><span class="nav-number">4.</span> <span class="nav-text">Objects  对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Arrays-%E6%95%B0%E7%BB%84"><span class="nav-number">5.</span> <span class="nav-text">Arrays 数组</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Destructuring-%E8%A7%A3%E6%9E%84"><span class="nav-number">6.</span> <span class="nav-text">Destructuring 解构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Strings-%E5%AD%97%E7%AC%A6%E4%B8%B2"><span class="nav-number">7.</span> <span class="nav-text">Strings 字符串</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Functions-%E5%87%BD%E6%95%B0"><span class="nav-number">8.</span> <span class="nav-text">Functions 函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Arrow-Functions-%E7%AE%AD%E5%A4%B4%E5%87%BD%E6%95%B0"><span class="nav-number">9.</span> <span class="nav-text">Arrow Functions 箭头函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Classes-amp-Constructors-%E7%B1%BB-amp-%E6%9E%84%E9%80%A0%E5%99%A8"><span class="nav-number">10.</span> <span class="nav-text">Classes &amp; Constructors 类&amp;构造器</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">田_田</p>
+  <div class="site-description" itemprop="description">创新需要在一切发生之前研究结局!</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">34</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wangzitian0" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wangzitian0" rel="noopener" target="_blank"><i class="github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wangzitian0@gmail.com" title="E-Mail → mailto:wangzitian0@gmail.com" rel="noopener" target="_blank"><i class="envelope fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.linkedin.com/in/wangzitian0" title="LinkedIn → https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;wangzitian0" rel="noopener" target="_blank"><i class="linkedin fa-fw"></i></a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class=""></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">田_田</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a>
+  </div>
+
+        
+
+
+
+
+
+
+<script>
+  (function() {
+    function leancloudSelector(url) {
+      url = encodeURI(url);
+      return document.getElementById(url).querySelector('.leancloud-visitors-count');
+    }
+
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = decodeURI(visitors.id);
+      var title = visitors.dataset.flagTitle;
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            leancloudSelector(url).innerText = counter.time + 1;
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              });
+          } else {
+              leancloudSelector(url).innerText = 'Counter not initialized! More info at console err msg.';
+              console.error('ATTENTION! LeanCloud counter has security bug, see how to solve it here: https://github.com/theme-next/hexo-leancloud-counter-security. \n However, you can still use LeanCloud without security, by setting `security` option to `false`.');
+            
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return decodeURI(element.id);
+      });
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          for (let url of entries) {
+            let target = results.find(item => item.url === url);
+            leancloudSelector(url).innerText = target ? target.time : 0;
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    let { app_id, app_key, server_url } = {"enable":true,"app_id":"itw5YW53yzX17tr3WAdRd9Dd-gzGzoHsz","app_key":"qLjOt8jjizQl0ys5OSdwf10Y","server_url":null,"security":true,"betterPerformance":true};
+    function fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${api_server}/1.1${url}`, {
+          method,
+          headers: {
+            'X-LC-Id'     : app_id,
+            'X-LC-Key'    : app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    }
+
+    let api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(response => response.json())
+        .then(({ api_server }) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="//cdn.jsdelivr.net/npm/algoliasearch@4/dist/algoliasearch-lite.umd.js"></script>
+<script src="//cdn.jsdelivr.net/npm/instantsearch.js@4/dist/instantsearch.production.min.js"></script>
+<script src="/js/algolia-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

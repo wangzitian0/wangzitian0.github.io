@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/huaji.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/huaji.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/huaji.png">
+  <link rel="mask-icon" href="/images/huaji.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"wangzitian0.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":true,"b2t":false,"scrollpercent":true},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"appID":"1PWF5BJPP1","apiKey":"6a2714c5b665823e7132db2aedb81233","indexName":"wangzitian0.github.io","hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="基本语句golang 的一些杂七杂八的笔记">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Golang 笔记">
+<meta property="og:url" content="https://wangzitian0.github.io/2016/09/04/Golang-notes/index.html">
+<meta property="og:site_name" content="全栈之路">
+<meta property="og:description" content="基本语句golang 的一些杂七杂八的笔记">
+<meta property="og:locale">
+<meta property="article:published_time" content="2016-09-04T12:50:00.000Z">
+<meta property="article:modified_time" content="2020-09-30T04:59:07.878Z">
+<meta property="article:author" content="田_田">
+<meta property="article:tag" content="Language">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://wangzitian0.github.io/2016/09/04/Golang-notes/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>Golang 笔记 | 全栈之路</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?1eeceb0b3f8e550d6211f134646361b6";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="全栈之路" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta custom-logo">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">全栈之路</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">田_田的博客</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="archive fa-fw"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="user fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="tags fa-fw"></i>Tags</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container"></div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="algolia-results">
+  <div id="algolia-stats"></div>
+  <div id="algolia-hits"></div>
+  <div id="algolia-pagination" class="algolia-pagination"></div>
+</div>
+
+      
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://wangzitian0.github.io/2016/09/04/Golang-notes/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="田_田">
+      <meta itemprop="description" content="创新需要在一切发生之前研究结局!">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="全栈之路">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Golang 笔记
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2016-09-04 20:50:00" itemprop="dateCreated datePublished" datetime="2016-09-04T20:50:00+08:00">2016-09-04</time>
+            </span>
+
+          
+            <span id="/2016/09/04/Golang-notes/" class="post-meta-item leancloud_visitors" data-flag-title="Golang 笔记" title="Views">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="基本语句"><a href="#基本语句" class="headerlink" title="基本语句"></a>基本语句</h2><p>golang 的一些杂七杂八的笔记</p>
+<a id="more"></a>
+<h3 id="if"><a href="#if" class="headerlink" title="if"></a>if</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 可以执行一句话之后根据结果作条件判断</span><br><span class="line">if num :&#x3D; 9; num &lt; 0 &#123;</span><br><span class="line">	fmt.Println(num, &quot;is negative&quot;)</span><br><span class="line">&#125; else if num &lt; 10 &#123;</span><br><span class="line">	fmt.Println(num, &quot;has 1 digit&quot;)</span><br><span class="line">&#125; else &#123;</span><br><span class="line">	fmt.Println(num, &quot;has multiple digits&quot;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="优美的常量"><a href="#优美的常量" class="headerlink" title="优美的常量"></a>优美的常量</h2><h3 id="基本用法"><a href="#基本用法" class="headerlink" title="基本用法"></a>基本用法</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">const (</span><br><span class="line">    CategoryBooks    &#x3D; 0</span><br><span class="line">    CategoryHealth   &#x3D; 1</span><br><span class="line">    CategoryClothing &#x3D; 2</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;自增长</span><br><span class="line">const (</span><br><span class="line">    CategoryBooks &#x3D; iota &#x2F;&#x2F; 0</span><br><span class="line">    CategoryHealth       &#x2F;&#x2F; 1</span><br><span class="line">    CategoryClothing     &#x2F;&#x2F; 2</span><br><span class="line">)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="hint"><a href="#hint" class="headerlink" title="hint"></a>hint</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">const (</span><br><span class="line">    _           &#x3D; iota </span><br><span class="line">    &#x2F;&#x2F; ignore first value by assigning to blank identifier</span><br><span class="line">    KB ByteSize &#x3D; 1 &lt;&lt; (10 * iota) &#x2F;&#x2F; 1 &lt;&lt; (10*1)</span><br><span class="line">    MB                                   &#x2F;&#x2F; 1 &lt;&lt; (10*2)</span><br><span class="line">    GB                                   &#x2F;&#x2F; 1 &lt;&lt; (10*3)</span><br><span class="line">    TB                                   &#x2F;&#x2F; 1 &lt;&lt; (10*4)</span><br><span class="line">    PB                                   &#x2F;&#x2F; 1 &lt;&lt; (10*5)</span><br><span class="line">    EB                                   &#x2F;&#x2F; 1 &lt;&lt; (10*6)</span><br><span class="line">    ZB                                   &#x2F;&#x2F; 1 &lt;&lt; (10*7)</span><br><span class="line">    YB                                   &#x2F;&#x2F; 1 &lt;&lt; (10*8)</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;每一行的 iota 值是相等的</span><br><span class="line">const (</span><br><span class="line">    Apple, Banana &#x3D; iota + 1, iota + 2</span><br><span class="line">    Cherimoya, Durian</span><br><span class="line">    Elderberry, Fig</span><br><span class="line">)</span><br><span class="line">&#x2F;&#x2F;另外，如果一个函数以 int 作为它的参数而不是 Datatype，如果你给它传递一个 Datatype，它将在编译器期出现问题</span><br><span class="line">&#x2F;&#x2F;cannot use i (type int) as type Datatype in argument to balabala</span><br></pre></td></tr></table></figure>
+
+<h2 id="反射"><a href="#反射" class="headerlink" title="反射"></a>反射</h2><h3 id="基本用法-1"><a href="#基本用法-1" class="headerlink" title="基本用法"></a>基本用法</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">func Info(o interface&#123;&#125;) &#123;</span><br><span class="line">    t :&#x3D; reflect.TypeOf(o)         &#x2F;&#x2F;获取接口的类型</span><br><span class="line">    fmt.Println(&quot;Type:&quot;, t.Name()) &#x2F;&#x2F;t.Name() 获取接口的名称</span><br><span class="line"></span><br><span class="line">    if t.Kind() !&#x3D; refelct.Struct &#123; &#x2F;&#x2F;通过Kind()来判断反射出的类型是否为需要的类型</span><br><span class="line">        fmt.Println(&quot;err: type invalid!&quot;)        </span><br><span class="line">        return</span><br><span class="line">    &#125;        </span><br><span class="line"></span><br><span class="line">    v :&#x3D; reflect.ValueOf(o) &#x2F;&#x2F;获取接口的值类型</span><br><span class="line">    fmt.Println(&quot;Fields:&quot;)</span><br><span class="line"></span><br><span class="line">    for i :&#x3D; 0; i &lt; t.NumField(); i++ &#123; &#x2F;&#x2F;NumField取出这个接口所有的字段数量</span><br><span class="line">    f :&#x3D; t.Field(i)                                   &#x2F;&#x2F;取得结构体的第i个字段</span><br><span class="line">    val :&#x3D; v.Field(i).Interface()                     &#x2F;&#x2F;取得字段的值</span><br><span class="line">    fmt.Printf(&quot;%6s: %v &#x3D; %v\n&quot;, f.Name, f.Type, val) &#x2F;&#x2F;第i个字段的名称,类型,值</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    for i :&#x3D; 0; i &lt; t.NumMethod(); i++&#123;</span><br><span class="line">        m :&#x3D; t.Method(i)</span><br><span class="line">        fmt.Printf(&quot;%6s: %v\n&quot;, m.Name,m.Type) &#x2F;&#x2F;获取方法的名称和类型       </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="通过反射改对象"><a href="#通过反射改对象" class="headerlink" title="通过反射改对象"></a>通过反射改对象</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">func SetInfo(o interface&#123;&#125;) &#123;</span><br><span class="line">        v :&#x3D; reflect.ValueOf(o)</span><br><span class="line"></span><br><span class="line">        if v.Kind() &#x3D;&#x3D; reflect.Ptr &amp;&amp; !v.Elem().CanSet() &#123; &#x2F;&#x2F;判断是否为指针类型 元素是否可以修改</span><br><span class="line">            fmt.Println(&quot;cannot set&quot;)</span><br><span class="line">                return</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            v &#x3D; v.Elem() &#x2F;&#x2F;实际取得的对象</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        &#x2F;&#x2F;判断字段是否存在</span><br><span class="line">        f :&#x3D; v.FieldByName(&quot;Name&quot;)</span><br><span class="line">        if !f.IsValid() &#123;</span><br><span class="line">            fmt.Println(&quot;wuxiao&quot;)</span><br><span class="line">                return</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        &#x2F;&#x2F;设置字段</span><br><span class="line">        if f :&#x3D; v.FieldByName(&quot;Name&quot;); f.Kind() &#x3D;&#x3D; reflect.String &#123;</span><br><span class="line">            f.SetString(&quot;BY&quot;)</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="反射动态调用"><a href="#反射动态调用" class="headerlink" title="反射动态调用"></a>反射动态调用</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;u 是一个 interface&#123;&#125;</span><br><span class="line">v :&#x3D; reflect.ValueOf(u)</span><br><span class="line">...</span><br><span class="line">make sure v is a reflect.Struct </span><br><span class="line">mv :&#x3D; v.MethodByName(&quot;Hello&quot;) &#x2F;&#x2F;获取对应的方法</span><br><span class="line">...</span><br><span class="line">make sure mv is exsit</span><br><span class="line">res :&#x3D; mv.Call(args)</span><br></pre></td></tr></table></figure>
+
+<h3 id="json"><a href="#json" class="headerlink" title="json"></a>json</h3><h4 id="json-to-struct"><a href="#json-to-struct" class="headerlink" title="json to struct"></a>json to struct</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 如果在我们不知道他的结构的情况下，我们把他解析到interface&#123;&#125;里面</span><br><span class="line"></span><br><span class="line">b :&#x3D; []byte(&#96;&#123;&quot;Name&quot;:&quot;Wednesday&quot;,&quot;Age&quot;:6,&quot;Parents&quot;:[&quot;Gomez&quot;,&quot;Morticia&quot;]&#125;&#96;)</span><br><span class="line">var f interface&#123;&#125;</span><br><span class="line">err :&#x3D; json.Unmarshal(b, &amp;f)</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;结果如下</span><br><span class="line">f &#x3D; map[string]interface&#123;&#125;&#123;</span><br><span class="line">	&quot;Name&quot;: &quot;Wednesday&quot;,</span><br><span class="line">	&quot;Age&quot;:  6,</span><br><span class="line">	&quot;Parents&quot;: []interface&#123;&#125;&#123;</span><br><span class="line">		&quot;Gomez&quot;,</span><br><span class="line">		&quot;Morticia&quot;,</span><br><span class="line">	&#125;,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 遍历</span><br><span class="line">m :&#x3D; f.(map[string]interface&#123;&#125;)</span><br><span class="line"></span><br><span class="line">for k, v :&#x3D; range m &#123;</span><br><span class="line">	switch vv :&#x3D; v.(type) &#123;</span><br><span class="line">        &#x2F;&#x2F; balabala</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="struct-to-json"><a href="#struct-to-json" class="headerlink" title="struct to json"></a>struct to json</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var s Serverslice</span><br><span class="line">s.Servers &#x3D; append(s.Servers, Server&#123;ServerName: &quot;Shanghai_VPN&quot;, ServerIP: &quot;127.0.0.1&quot;&#125;)</span><br><span class="line">s.Servers &#x3D; append(s.Servers, Server&#123;ServerName: &quot;Beijing_VPN&quot;, ServerIP: &quot;127.0.0.2&quot;&#125;)</span><br><span class="line">b, err :&#x3D; json.Marshal(s)</span><br><span class="line">   &#x2F;&#x2F;  assert(balabala)</span><br><span class="line">fmt.Println(string(b))</span><br></pre></td></tr></table></figure>
+
+<h4 id="auto-marshal-amp-unmarshal"><a href="#auto-marshal-amp-unmarshal" class="headerlink" title="auto marshal &amp; unmarshal"></a>auto marshal &amp; unmarshal</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">type Server struct &#123;</span><br><span class="line">	&#x2F;&#x2F; ID 不会导出到JSON中</span><br><span class="line">	ID int &#96;json:&quot;-&quot;&#96;</span><br><span class="line"></span><br><span class="line">	&#x2F;&#x2F; ServerName2 的值会进行二次JSON编码</span><br><span class="line">	ServerName  string &#96;json:&quot;serverName&quot;&#96;</span><br><span class="line">	ServerName2 string &#96;json:&quot;serverName2,string&quot;&#96;</span><br><span class="line"></span><br><span class="line">	&#x2F;&#x2F; 如果 ServerIP 为空，则不输出到JSON串中</span><br><span class="line">	ServerIP   string &#96;json:&quot;serverIP,omitempty&quot;&#96;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">s :&#x3D; Server &#123;</span><br><span class="line">	ID:         3,</span><br><span class="line">	ServerName:  &#96;Go &quot;1.0&quot; &#96;,</span><br><span class="line">	ServerName2: &#96;Go &quot;1.0&quot; &#96;,</span><br><span class="line">	ServerIP:   &#96;&#96;,</span><br><span class="line">&#125;</span><br><span class="line">b, _ :&#x3D; json.Marshal(s)</span><br><span class="line">os.Stdout.Write(b)</span><br></pre></td></tr></table></figure>
+
+<h3 id="rune"><a href="#rune" class="headerlink" title="rune"></a>rune</h3><p>s:=”Go编程” fmt.Println(len(s)) 输出结果应该是8因为中文字符是用3个字节存的。</p>
+<p>len(string(rune(‘编’)))的结果是3</p>
+<p>如果想要获得我们想要的情况的话，需要先转换为rune切片再使用内置的len函数</p>
+<p>fmt.Println(len([]rune(s)))</p>
+<p>所以用string存储unicode的话，如果有中文，按下标是访问不到的，因为你只能得到一个byte。 要想访问中文的话，还是要用rune切片，这样就能按下表访问。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Language/" rel="tag"># Language</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2016/07/26/JavaScript-notes/" rel="prev" title="JavaScript教程&笔记">
+      <i class="fa fa-chevron-left"></i> JavaScript教程&笔记
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2016/09/20/CSS-style-notes/" rel="next" title="CSS样式笔记">
+      CSS样式笔记 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E8%AF%AD%E5%8F%A5"><span class="nav-number">1.</span> <span class="nav-text">基本语句</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#if"><span class="nav-number">1.1.</span> <span class="nav-text">if</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BC%98%E7%BE%8E%E7%9A%84%E5%B8%B8%E9%87%8F"><span class="nav-number">2.</span> <span class="nav-text">优美的常量</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95"><span class="nav-number">2.1.</span> <span class="nav-text">基本用法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#hint"><span class="nav-number">2.2.</span> <span class="nav-text">hint</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%8D%E5%B0%84"><span class="nav-number">3.</span> <span class="nav-text">反射</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95-1"><span class="nav-number">3.1.</span> <span class="nav-text">基本用法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%9A%E8%BF%87%E5%8F%8D%E5%B0%84%E6%94%B9%E5%AF%B9%E8%B1%A1"><span class="nav-number">3.2.</span> <span class="nav-text">通过反射改对象</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%8D%E5%B0%84%E5%8A%A8%E6%80%81%E8%B0%83%E7%94%A8"><span class="nav-number">3.3.</span> <span class="nav-text">反射动态调用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#json"><span class="nav-number">3.4.</span> <span class="nav-text">json</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#json-to-struct"><span class="nav-number">3.4.1.</span> <span class="nav-text">json to struct</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#struct-to-json"><span class="nav-number">3.4.2.</span> <span class="nav-text">struct to json</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#auto-marshal-amp-unmarshal"><span class="nav-number">3.4.3.</span> <span class="nav-text">auto marshal &amp; unmarshal</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#rune"><span class="nav-number">3.5.</span> <span class="nav-text">rune</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">田_田</p>
+  <div class="site-description" itemprop="description">创新需要在一切发生之前研究结局!</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">34</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wangzitian0" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wangzitian0" rel="noopener" target="_blank"><i class="github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wangzitian0@gmail.com" title="E-Mail → mailto:wangzitian0@gmail.com" rel="noopener" target="_blank"><i class="envelope fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.linkedin.com/in/wangzitian0" title="LinkedIn → https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;wangzitian0" rel="noopener" target="_blank"><i class="linkedin fa-fw"></i></a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class=""></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">田_田</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a>
+  </div>
+
+        
+
+
+
+
+
+
+<script>
+  (function() {
+    function leancloudSelector(url) {
+      url = encodeURI(url);
+      return document.getElementById(url).querySelector('.leancloud-visitors-count');
+    }
+
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = decodeURI(visitors.id);
+      var title = visitors.dataset.flagTitle;
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            leancloudSelector(url).innerText = counter.time + 1;
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              });
+          } else {
+              leancloudSelector(url).innerText = 'Counter not initialized! More info at console err msg.';
+              console.error('ATTENTION! LeanCloud counter has security bug, see how to solve it here: https://github.com/theme-next/hexo-leancloud-counter-security. \n However, you can still use LeanCloud without security, by setting `security` option to `false`.');
+            
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return decodeURI(element.id);
+      });
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          for (let url of entries) {
+            let target = results.find(item => item.url === url);
+            leancloudSelector(url).innerText = target ? target.time : 0;
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    let { app_id, app_key, server_url } = {"enable":true,"app_id":"itw5YW53yzX17tr3WAdRd9Dd-gzGzoHsz","app_key":"qLjOt8jjizQl0ys5OSdwf10Y","server_url":null,"security":true,"betterPerformance":true};
+    function fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${api_server}/1.1${url}`, {
+          method,
+          headers: {
+            'X-LC-Id'     : app_id,
+            'X-LC-Key'    : app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    }
+
+    let api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(response => response.json())
+        .then(({ api_server }) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="//cdn.jsdelivr.net/npm/algoliasearch@4/dist/algoliasearch-lite.umd.js"></script>
+<script src="//cdn.jsdelivr.net/npm/instantsearch.js@4/dist/instantsearch.production.min.js"></script>
+<script src="/js/algolia-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

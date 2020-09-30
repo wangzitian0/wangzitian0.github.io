@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/huaji.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/huaji.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/huaji.png">
+  <link rel="mask-icon" href="/images/huaji.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"wangzitian0.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":true,"b2t":false,"scrollpercent":true},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"appID":"1PWF5BJPP1","apiKey":"6a2714c5b665823e7132db2aedb81233","indexName":"wangzitian0.github.io","hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="稍微总结一下近期看的无人车相关的资料。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="无人驾驶技术简介">
+<meta property="og:url" content="https://wangzitian0.github.io/2017/12/23/Autopilot-tech/index.html">
+<meta property="og:site_name" content="全栈之路">
+<meta property="og:description" content="稍微总结一下近期看的无人车相关的资料。">
+<meta property="og:locale">
+<meta property="article:published_time" content="2017-12-23T15:52:26.000Z">
+<meta property="article:modified_time" content="2020-09-30T04:59:07.876Z">
+<meta property="article:author" content="田_田">
+<meta property="article:tag" content="Zitian, Wang, Fullstack Engineer">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://wangzitian0.github.io/2017/12/23/Autopilot-tech/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>无人驾驶技术简介 | 全栈之路</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?1eeceb0b3f8e550d6211f134646361b6";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="全栈之路" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta custom-logo">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">全栈之路</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">田_田的博客</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="archive fa-fw"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="user fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="tags fa-fw"></i>Tags</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container"></div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="algolia-results">
+  <div id="algolia-stats"></div>
+  <div id="algolia-hits"></div>
+  <div id="algolia-pagination" class="algolia-pagination"></div>
+</div>
+
+      
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://wangzitian0.github.io/2017/12/23/Autopilot-tech/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="田_田">
+      <meta itemprop="description" content="创新需要在一切发生之前研究结局!">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="全栈之路">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          无人驾驶技术简介
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-12-23 23:52:26" itemprop="dateCreated datePublished" datetime="2017-12-23T23:52:26+08:00">2017-12-23</time>
+            </span>
+
+          
+            <span id="/2017/12/23/Autopilot-tech/" class="post-meta-item leancloud_visitors" data-flag-title="无人驾驶技术简介" title="Views">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>稍微总结一下近期看的无人车相关的资料。</p>
+<a id="more"></a>
+<p>巨巨任少卿看完之后的几点勘误：<br>“双目感知用于 3D 建模，人眼开车本质也是视觉” 人开车用的是单目视觉<br>“KITTI 数据集包括6小时 1M 张 140w 像素的彩色图片，目前业内顶尖水平的平均处理时间约需要0.3s” 30fps是必须的<br>”寒武纪！！还是发了几个处理器，名字有点傻傻的：DianNao，DaDianNao，PuDianNao，ShiDianNao”是他们paper的名字:)</p>
+<h2 id="自动驾驶分级简介"><a href="#自动驾驶分级简介" class="headerlink" title="自动驾驶分级简介"></a>自动驾驶分级简介</h2><p>一个大致的介绍可以看这个文档：<a target="_blank" rel="noopener" href="http://www.wetouchsky.com/sae-levels-of-driving-automation/">无人驾驶五级分类</a>，另外附上一个 <a target="_blank" rel="noopener" href="https://www.huxiu.com/article/113258/1.html">主流的高端车的自动驾驶级别</a>，还有一个是知乎上一个自动驾驶工程师写的文章 <a target="_blank" rel="noopener" href="https://www.zhihu.com/question/65799732/answer/238516359">自动驾驶攻破的难点在哪，何时能到Level 5？</a>。</p>
+<p>主流的分级有两个，一个是美国机动车工程师协会 SAE（L0-L5），另一个是美国国家公路交通安全管理局 NHTSA（L0-L4）。</p>
+<p>这边给一个NHTSA的汽车自动化分级：</p>
+<ul>
+<li>L0 - 无自动化<ul>
+<li>车辆操控上无智能化，可能实现了某些辅助功能。</li>
+<li>自动雨刷，自动车灯，转向车辆检测等</li>
+<li>EBD/CBC制动力分配系统，ABS防抱死系统等，这些功能介于 L0 和 L1之间，总的来说可以放 L0。</li>
+</ul>
+</li>
+<li>L1 - 单一功能级别的自动化<ul>
+<li>和上一级别的主要区别是，开车会省力很多。</li>
+<li>ACC自适应巡航，根据前车以及本车的行驶状态来自动加减速。</li>
+<li>EBA应急刹车，驾驶员用了和平时不一样的节奏踩刹车，就会自动全力刹车。</li>
+<li>LKS车道保持，通过传感器使得车在车道中间行驶。</li>
+<li>中档车多多少少会有一点。</li>
+</ul>
+</li>
+<li>L2 - 部分自动化<ul>
+<li>和上一级的主要区别是，一般场景可以手脚同时离开车，人不再是主要操控者。</li>
+<li>典型的，如结合 ACC 和 LKS 我们可以认为实现了 L2。</li>
+<li>只有很高档车的会有这些。特斯拉介于 L2 和 L3 之间，低速场景堵车场景可以不用人操作。</li>
+</ul>
+</li>
+<li>L3 - 有条件自动化<ul>
+<li>和上一级别的主要区别是某些场景下，车辆可以完全接管汽车。</li>
+<li>保留驾驶员接管车辆的可能，预留足够的预警时间让驾驶员接管车辆。</li>
+<li>目前只有奥迪 A8 一款车号称 L3，五年之内应该会加大份额。</li>
+</ul>
+</li>
+<li>L4 - 完全自动化<ul>
+<li>和上一级的区别是，空车也能跑。</li>
+<li>可以理解为不需要人操作车辆，在指定范围内点到点。</li>
+<li>波士顿咨询给的时间表：预计2021，进场。预计2035，市场份额25%。</li>
+</ul>
+</li>
+</ul>
+<p>L0-L2应该正经叫法是 ADAS，L3-L4才能叫自动驾驶。可能大家为了 PR 会故意叫高端一些吧。</p>
+<h2 id="无人驾驶系统"><a href="#无人驾驶系统" class="headerlink" title="无人驾驶系统"></a>无人驾驶系统</h2><p>大的来说，系统分为三个大块：系统端，算法端，云端。系统端更多指传感器驱动和数据融合，算法端主要做感知和决策，云端用来建模追踪等等。</p>
+<h3 id="系统端"><a href="#系统端" class="headerlink" title="系统端"></a>系统端</h3><h4 id="传感器"><a href="#传感器" class="headerlink" title="传感器"></a>传感器</h4><p>一般来说还是需要很多传感器的数据融合的，毕竟有些传感器在某些场景下会失效。</p>
+<ul>
+<li><p>GPS 全球定位系统</p>
+<ul>
+<li>关注新一代GPS：差分 GPS系统</li>
+<li>精度可以到达 30 厘米级别，数据刷新频率大概10 Hz</li>
+<li>城市内由于多路径问题造成的误差可以大大减小。</li>
+<li><a target="_blank" rel="noopener" href="http://tech.feng.com/2017-10-02/Broadcom-has-released-a-new-generation-of-GPS-chip-positioning-accuracy-of-30-cm_692199.shtml">博通新一代芯片，BCM47755</a></li>
+</ul>
+</li>
+<li><p>IMU 惯性传感器</p>
+<ul>
+<li>价差巨大，消费者电子产品里的几美分到几美元，车载几百上千，洲际导弹几十万美元。</li>
+<li>刷新频率轻松 1 kHz，结合 GPS 就可以得到非常精确的定位。</li>
+<li>距离是加速度的二次积分，误差累计非常大。</li>
+<li>MEMS的传感器还有测角速度的版本，然后 A 股里有 MEMS 的厂商给电子产品供货（逃</li>
+</ul>
+</li>
+<li><p>LIDAR 激光雷达</p>
+<ul>
+<li>检测位置信息，检测距离100米以上，形成“点云”可以充分表征周围的环境。</li>
+<li>10Hz 旋转扫描四周，数据量巨大无比，16线雷达每秒需要处理 300 K 个点，64线雷达每秒需要处理 2200 K 个点。</li>
+<li>空气有悬浮物，大雾霾大雨直接跪</li>
+<li>很贵，16线目前 8000 刀，64线 10w 刀。据说今年 CES 发布的固态设备会降到300。</li>
+<li>特斯拉没有用。。。</li>
+</ul>
+</li>
+<li><p>摄像头</p>
+<ul>
+<li>几乎所有的方案都用了 8 个以上的摄像头。</li>
+<li>车道线检测，交通灯检测，行人检测都是以摄像头的数据为主。</li>
+<li>60 Hz 拍照，1080P 的数据的话，一张图2M，每秒G级别的数据。</li>
+</ul>
+</li>
+<li><p>雷达/声呐</p>
+<ul>
+<li>底线级别的安全保障，检测到近距离障碍物就避让或者制动。</li>
+<li>很多高端车现在已经有类似套系统。</li>
+</ul>
+</li>
+</ul>
+<h4 id="车载平台"><a href="#车载平台" class="headerlink" title="车载平台"></a>车载平台</h4><ul>
+<li>硬件系统<ul>
+<li>由于数据量太大，基本上不可能实时上报，大部分东西都要在车载设备上算。<ul>
+<li>车载专属类 GPU 芯片，主流芯片算力是 5-20 TFlops这个级别，当然功率也极高。FPGA 或者类 ARM 移动 SoC在这个场景可以获得更高的能效。</li>
+<li>各家芯片商都开始出自己的驾驶芯片了，<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/29751954">特斯拉捅翻了马蜂窝！自动驾驶芯片战争爆发</a></li>
+<li>某度的车怼了一个 XEON E5 cpu 和4-8个 Nvidia K80 gpu，峰值功率 5 kw。</li>
+</ul>
+</li>
+<li>V2X车联网。<ul>
+<li>5G 协议的一部分，普及情况非常不明朗。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>软件系统<ul>
+<li>大的来说都是 linux/unix 下，部分模块可能上实时操作系统，或者弄成嵌入式系统来保障安全性。<ul>
+<li>有很多是基于 ROS 来做的。ROS 本身可以接管通信机制，发现同步机制之类的事情。但问题很多：1. 安全性，可用性都需要自己弄解决方案，2.广播、消息系统的性能不太好。等等</li>
+<li>也有很多直接自己糊程序，不使用框架。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="算法端"><a href="#算法端" class="headerlink" title="算法端"></a>算法端</h3><h4 id="定位算法"><a href="#定位算法" class="headerlink" title="定位算法"></a>定位算法</h4><ul>
+<li>GPS/IMU方案<ul>
+<li>可以通过 Kalman Filter 进行数据融合得到精准的坐标。</li>
+<li>精度在米级别，寻路没问题，车道不好说，肯定需要配合其他方案</li>
+<li>多路径问题干扰，封闭隧道之类不可用</li>
+</ul>
+</li>
+<li>视觉方案<ul>
+<li>立体图可以获得深度信息</li>
+<li>连续的深度图可以预估运动情况</li>
+<li>配合地图上的特征点可以得到厘米级别的精准位置</li>
+</ul>
+</li>
+<li>雷达方案<ul>
+<li>粒子滤波算法，和已知地图进行比较，得到精准信息</li>
+<li>配合地图上的特征点可以得到厘米级别的精准位置</li>
+</ul>
+</li>
+</ul>
+<h4 id="物体识别和感知"><a href="#物体识别和感知" class="headerlink" title="物体识别和感知"></a>物体识别和感知</h4><ul>
+<li>KITTI 数据集。一个集成了刚才说过的各种传感器的开源标注数据集。</li>
+<li>Optical Flow。图片序列或者视频的像素密集对应关系。如每个像素得到一个二维偏移矢量。</li>
+<li>MDP 马尔科夫决策过程 MOT 算法。把识别出来的图像进一步识别为 active，tracked，lost，inactive 四种状态。</li>
+<li>CNN 算法</li>
+</ul>
+<h4 id="CNN-花式玩法"><a href="#CNN-花式玩法" class="headerlink" title="CNN 花式玩法"></a>CNN 花式玩法</h4><p>这部分将来再去多研究一下吧，连接口都没全看明白。先把索引列在这里：</p>
+<ul>
+<li>双目感知 <ul>
+<li>用于 3D 建模，人眼开车本质也是视觉</li>
+<li>Matching-Cost CNN</li>
+<li>FlowNet</li>
+</ul>
+</li>
+<li>物体检测<ul>
+<li>必不可少的部分，提供周边环境的物体信息是很重要的。</li>
+<li>Deformable Parts Model</li>
+<li>R-CNN &amp; Faster R-CNN &amp; MS-CNN<ul>
+<li>大致来说 R-CNN 是把 CNN 分为两段式，一段想办法做高召回率的区域划分，另一段做高准确率的区域内对象识别。</li>
+<li>Faster R-CNN是一个比较新的版本，合理的手段能快速得到区域并且复用一部分数据到第二阶段。</li>
+<li>在无人车这种尺度变化比较大的场景，Faster R-CNN 效果上还有空间，然后 MS-CNN 通过一些做法能得到更好的效果，但是要慢一些。</li>
+</ul>
+</li>
+<li>SSD<ul>
+<li>实时运行，更有准确度的算法。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="增强学习"><a href="#增强学习" class="headerlink" title="增强学习"></a>增强学习</h4><p>同样不明觉厉。。。。。。唯一看懂的事情是有个叫 Torcs 的游戏，可以用 Deep Q-Learning 跑出很厉害的结果。</p>
+<ul>
+<li>REINFORCE</li>
+<li>Deep Q-Learning</li>
+<li>用来帮助决策</li>
+</ul>
+<h4 id="决策"><a href="#决策" class="headerlink" title="决策"></a>决策</h4><ul>
+<li>路径规划<ul>
+<li>本质上还一个有向带权图吧，然后是Dijstra 和 <code>A*</code>算法</li>
+<li>车辆行驶的基本路径取决于车道规划，车道处理上会有特殊技巧</li>
+</ul>
+</li>
+<li>行为决策<ul>
+<li>对车辆而言行驶、跟车、转弯、变道、停车几个大类场景</li>
+<li>对每一个障碍物而言，会有停车、超车、让行、停车、躲避几个典型的决策</li>
+<li>具体的参数非常多</li>
+</ul>
+</li>
+<li>动作规划<ul>
+<li>轨迹规划</li>
+<li>速度规划</li>
+<li>需要考虑的参数也很多</li>
+</ul>
+</li>
+<li>反馈控制<ul>
+<li>自行车模型</li>
+<li>PID 反馈控制</li>
+</ul>
+</li>
+</ul>
+<h3 id="云端"><a href="#云端" class="headerlink" title="云端"></a>云端</h3><ul>
+<li><p>现在大部分公司的策略是 人工模型覆盖主要负责驾驶策略，云平台负责常规的模拟器回放和回归测试，然后剩下的部分直接路测。</p>
+<ul>
+<li>KITTI 数据集包括6小时 1M 张 140w 像素的彩色图片，目前业内顶尖水平的平均处理时间约需要0.3s。单机跑至少100小时。</li>
+</ul>
+</li>
+<li><p>长期来说一定会形成闭环，采集的新数据可以通过模型反馈到算法决策端。</p>
+<ul>
+<li>目前纯算法建模的问题很多，而且出现了 edge case 几乎没有办法调试，所以几乎没有采用。</li>
+<li>闭环的形成主要是一个工程问题，需要建设可靠且性能要求高的平台。</li>
+</ul>
+</li>
+<li><p>汇总数据，更新驾驶模型，更新策略</p>
+</li>
+</ul>
+<h3 id="高精度地图"><a href="#高精度地图" class="headerlink" title="高精度地图"></a>高精度地图</h3><ul>
+<li>这个部分是典型的数据越多，地图精度越高的互联网闭环系统。</li>
+<li>传统地图可以做到米级别的精度，但是无人驾驶需要的是厘米级别的精度。</li>
+<li>激光雷达可以覆盖方圆100m，一次的数据约4MB。路面宽度假设20米，理论极限每次扫描可以下降到0.8M。1T 硬盘可以存10w km 的公路。</li>
+</ul>
+<h2 id="商业现状"><a href="#商业现状" class="headerlink" title="商业现状"></a>商业现状</h2><h3 id="概要"><a href="#概要" class="headerlink" title="概要"></a>概要</h3><p>一方面，各种传感器和各种算法都有可能成为无人驾驶的瓶颈，处处体现 trade off。另一方面，可以去买股票啊！！！<br>需要集成多种技术，多个传感器，有强实时性和可靠性要求，需要兼顾成本和功率、体积等因素。<br>车辆的微机控制器 ECU 和目前的计算机系统不是一个体系，车控需要主动去融合车厂的车规。</p>
+<h3 id="传感器-1"><a href="#传感器-1" class="headerlink" title="传感器"></a>传感器</h3><h4 id="激光雷达"><a href="#激光雷达" class="headerlink" title="激光雷达"></a>激光雷达</h4><p>原理：可见和近红外波发射和接收来探测物体。<br>有效距离： 0 - 150 m。<br>价格：巨高，几千美元到几十万美元。主流市场4，8… 64，128线雷达。激光线数越多价格越高。<br>例子：Velodyne HDL-64 是一款 64 线雷达，价格大概10w 刀左右，扫描距离120米左右，精度为2厘米，每秒产生1.3M个像素，功率60w。<br>发展情况：很多厂商的环境感知是以激光雷达为主要信息。Velodyne，Quanergy 还有不少国内厂商都号称要量产成本在百元美金级别的固态激光雷达。总的来说一旦量产，激光雷达会满足摩尔定律。<br>缺陷：大雾大雨等不好的天气效果不好。<br>周边：<br><a target="_blank" rel="noopener" href="http://36kr.com/p/5096700.html">已经有的激光雷达玩家</a></p>
+<h4 id="毫米波雷达"><a href="#毫米波雷达" class="headerlink" title="毫米波雷达"></a>毫米波雷达</h4><p>原理：1-10mm 波长的无线电新号反射。分长中短几种，范围略有不同。<br>价格：很低，200-600美元<br>例子：奥迪 A4用1长+4短的组合，可以用来实现自动跟车功能。<br>发展情况：已经在开始在中高端车使用了。分24Ghz 和77Ghz 两个频段，24G 主要应用车后方应用，在前方和侧向也有使用。77G 是汽车前向的主流方向，一般是相互搭配的。将来逐步会全部使用77Ghz。几个大玩家出货量已经可以到千万片级别。77Ghz 目前被大厂垄断。24Ghz 的雷达已经有几个靠谱的中国供应商了。<br>缺陷：无法检测上漆的木头或者塑料（隐形飞机），难以检测行人，弯曲金属如易拉罐可能被误认为大型平面。<br>周边：<br><a target="_blank" rel="noopener" href="http://blog.csdn.net/segments/article/details/52037785">毫米波雷达的开发与应用技术</a></p>
+<h4 id="摄像头"><a href="#摄像头" class="headerlink" title="摄像头"></a>摄像头</h4><p>原理：图像识别，模式识别，匹配算法，最后估算相对距离和相对速度。<br>价格：看情况，不同摄像头价格差距很大。30-100美金<br>例子：特斯拉装了8个摄像头（前3，左右各2，后方1），提供360度环视功能，最远能够测量 250 米范围内的物体。<br>发展情况：<br>1.单目摄像头安装在挡风玻璃上面、车位、车的侧面等等，可以很好的还原四周的场景。难点是如何适应恶劣的环境和如何提升模式识别精度、智能程度。2，双目立体摄像头，可以利用双目视差得到好的距离信息，需要维护的东西远远小于单目。难点是如何双目同步和双目定位。3.半自动化的 ADAS  系统一般用 6+ 个摄像头，配合广角和单双目。<br>直接说车载系统需要的特点，就能看出和传统摄像头的区别，每一条都需要商业上的权衡：1高动态适应快速明暗变化，2帧率60或120，3角度要求苛刻，135°广角+55°高视距摄像头，4温度适应 -40° - 80°，5防磁，6抗震，7预期寿命至少10年。<br>缺陷：<br>上面的几点很难再低成本下同时完成。</p>
+<h4 id="GPS-IMU"><a href="#GPS-IMU" class="headerlink" title="GPS/IMU"></a>GPS/IMU</h4><p>GPS 和 IMU 两个传感器都太成熟了，但是导弹上和玩具上的传感器完全不是一个概念。10-100000美元。这个没太多说的</p>
+<h4 id="V2X"><a href="#V2X" class="headerlink" title="V2X"></a>V2X</h4><p>Vehicle to Vehicle车车，Vehicle to Instruction车路，Vehicle to Pedestrian车人，车和各种其他东西的通信，有一个车厂联盟，这里面故事和利益纠葛非常多，美国已经开始推行轻型新车都要安装 V2V 系统的法规。而且本身 LTE-V 极有可能被纳入5G 的标准。</p>
+<h4 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h4><p>红外线传感器 探测距离0.2 - 120 m，600-2000美元，夜视效果很好，被国外垄断。<br>超声波传感器 仅仅用于超近距离防撞，15-20美元，倒车和侧面车辆检测，已经很成熟。</p>
+<h3 id="计算平台"><a href="#计算平台" class="headerlink" title="计算平台"></a>计算平台</h3><p>某些公司把元件怼一起 至强E5 12核+8个 K80 GPU，做成计算盒。一个盒算力64.5TOP/S。然后怼俩计算盒提升可用性和效果，极端功率到达了车辆上比较难处理的 5000W。</p>
+<h4 id="GPU-方案"><a href="#GPU-方案" class="headerlink" title="GPU 方案"></a>GPU 方案</h4><p>单个 GPU 能做到同价格 CPU 吞吐量的10-100倍。<br>NVIDIA 发布了多个芯片，帕斯卡架构的深度学习芯片Tesla P4和 Tesla P40，价格约6000刀一块。还有解决方案PX2，两个 SoC 和两个 Pascal GPU 组合，1.5w美元，处理能力可以到2800帧/s。</p>
+<h4 id="DSP-方案"><a href="#DSP-方案" class="headerlink" title="DSP 方案"></a>DSP 方案</h4><p>（很神奇，以前没觉得这玩意可以做这事<br>数字信号处理是使用数据总线和地址总线分开的架构，允许同时取出和执行指令。德州仪器 TDA2x SoC 有两个 DSP 内核 + 四个视觉加速器，比 arm 的 cortex-15快8倍。3K 刀。</p>
+<h4 id="FPGA-方案"><a href="#FPGA-方案" class="headerlink" title="FPGA 方案"></a>FPGA 方案</h4><p>深度学习有很多云服务商用了 FPGA 方案，无人驾驶有潜力。<br>Altera 公司的 Cyclone 5，已经用在奥迪 A8L 里的无人驾驶模块。 Zynq 公司的 Ultra ScaleMpSoC，能效14帧/瓦/秒，高于Tesla P40的4帧/瓦/秒。</p>
+<h4 id="ASIC-方案"><a href="#ASIC-方案" class="headerlink" title="ASIC 方案"></a>ASIC 方案</h4><p>MobilEye 的 EyeQ5 SOC 装备了四种异构全编程加速器。为各种任务分配不同的处理单元。<br>全定制设计周期最长，半定制，用FPGA设计：从左至右，设计成本依次降低，芯片成本依次升高。</p>
+<h4 id="其他方案"><a href="#其他方案" class="headerlink" title="其他方案"></a>其他方案</h4><p>这部分值得多看看，中国芯片有希望弯道超车。<br>1.Google TPU。用来训练后的决策分析速度快。<br>2.概率芯片。概率算法牺牲精度提升性能，物体追踪之类的场景比传统芯片速度快100倍，能耗还低10倍以上。还是08年的麻省理工十大科技评论<br>3.寒武纪！！还是发了几个处理器，名字有点傻傻的：DianNao，DaDianNao，PuDianNao，ShiDianNao，<br>4.中星微！！嵌入式神经网络处理器 NPU</p>
+<h4 id="总结？"><a href="#总结？" class="headerlink" title="总结？"></a>总结？</h4><p>肯定将来是混着用的，GPU 做卷积什么的快且节能，CPU 擅长逻辑控制，FPGA 适合做多分支任务，DSP 适合做特征提取之类的流任务。<br>可能将来需要拼拼凑凑去弄计算平台吧，然后应用层的东西抽象成相同的计算任务。</p>
+<h3 id="控制平台"><a href="#控制平台" class="headerlink" title="控制平台"></a>控制平台</h3><h4 id="电子控制单元ECU"><a href="#电子控制单元ECU" class="headerlink" title="电子控制单元ECU"></a>电子控制单元ECU</h4><ul>
+<li><p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/24217391">什么是汽车ECU？</a></p>
+</li>
+<li><p>也可以叫车用单片机，可以理解为一种更加可靠的单片机。 基本单元包括不限于 CPU，ROM，RAM，I/O接口，A/D 转换器。</p>
+</li>
+<li><p>现在的中高端车的电气化程度非常的高，可能一台车包含100个 ECU 系统和200+芯片。</p>
+</li>
+<li><p>中国加油，这部分几乎是片空白。。。</p>
+</li>
+</ul>
+<h4 id="车控总线"><a href="#车控总线" class="headerlink" title="车控总线"></a>车控总线</h4><ul>
+<li>SAE 把总线分为 ABCD 四类，速度依次增加。</li>
+<li>A 类总线面向传感器或执行器管理的低速网络。&lt;20Kb/s<ul>
+<li>典型代表 本地互联网协议（Local Interconnect Network）</li>
+<li>电动门窗，座椅灯光，车锁等</li>
+</ul>
+</li>
+<li>B 类总线面向独立控制权共享信息的中速网络。10~125 Kb/s<ul>
+<li>典型代表 控制器局域网 CAN 协议（ Controller Area Network）</li>
+<li>车辆控制，测试仪表等</li>
+</ul>
+</li>
+<li>C 类总线面向闭环实时控制的多路高速网络。125~1000 Kb/s<ul>
+<li>复用 CAN 协议，ISO 11898-1覆盖了 BC 两种速率。但是实际上可能高低速部署到两条总线上。</li>
+</ul>
+</li>
+<li>D 类总线面向多媒体和高速数据流的高性能网络。&gt;1000 Kb/s<ul>
+<li>典型代表 FlexRay 协议</li>
+<li>可以同时监控各个部件的车速、加速度、角度。高速响应特性可以用到类似电子减震系统里。</li>
+</ul>
+</li>
+</ul>
+<h3 id="高精地图"><a href="#高精地图" class="headerlink" title="高精地图"></a>高精地图</h3><p>传统 GPS 地图已经很成熟，高精度地图国内玩家也都是刚起步，百度高德四维之类。<br>一辆测绘车需要几百万美金，采集数据可以做到厘米级别。考虑到车道线，路障，车道标记，立交桥等极端情况，目前可以实现95%+的路标和车道标记准确度。<br>不排除车辆公司基于自己的数据做高精地图的可能性。毕竟自动驾驶车辆的传感器十分丰富。但是涉及牌照问题，地图在中国是敏感信息。。。</p>
+<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><h3 id="安全性"><a href="#安全性" class="headerlink" title="安全性"></a>安全性</h3><p>据说很严重，连特斯拉量产的 Model S都被人轻松 Hack 了。其他的非量产 demo 车估计全是漏洞。</p>
+<h3 id="伦理道德"><a href="#伦理道德" class="headerlink" title="伦理道德"></a>伦理道德</h3><p>1.肯定长期是要人做驾驶席的，有人背锅，有人在危险情况接管车辆。<br>2.类似不转弯撞死5个人，转弯撞死一个人，该怎么操作这种问题？我的理解是都撞死就好了，只有在无人驾驶出现了这样的 case 且全撞死，数量上还远远小于人类开车的时候，真正的无人驾驶才会出现。</p>
+<h3 id="隐私"><a href="#隐私" class="headerlink" title="隐私"></a>隐私</h3><p>车辆产品很容易拿到用户的长相，坐标，常用生活地址之类的信息，对应的缺陷就是，对着车内的传感器，你没有隐私。</p>
+<h3 id="极端天气"><a href="#极端天气" class="headerlink" title="极端天气"></a>极端天气</h3><p>目前可能没有好的解决方案，只能多传感融合。</p>
+<h3 id="通信协议"><a href="#通信协议" class="headerlink" title="通信协议"></a>通信协议</h3><p>目前 5G 也没确定完整的技术标准，V2X 可以解决很多问题，但是目前遥遥无期。</p>
+<h2 id="前景"><a href="#前景" class="headerlink" title="前景"></a>前景</h2><h3 id="Taas"><a href="#Taas" class="headerlink" title="Taas"></a>Taas</h3><p>类似滴滴现在的模式。拼车成本变为原来三分之一至五分之一。</p>
+<h3 id="快递"><a href="#快递" class="headerlink" title="快递"></a>快递</h3><p>快递行业最重要的成本就是人力，可以释放的潜力很大。</p>
+<h3 id="工业场景"><a href="#工业场景" class="headerlink" title="工业场景"></a>工业场景</h3><p>大卡车很可能是第一个商用的自动驾驶场景。还有一些需要在封闭场景的工业场景，码头、高速之类快速投递。</p>
+<h2 id="最后，关于汽车行业"><a href="#最后，关于汽车行业" class="headerlink" title="最后，关于汽车行业"></a>最后，关于汽车行业</h2><p>车辆行业早期用市场换技术，但是传统燃油车的核心技术落后别的国家很多年。最后这场游戏只剩了四个玩家，美日德中，中国没捡到什么便宜，但是好歹上桌了，借此培养出大量的世界级零部件供应商。<br>电动车在不久的将来会对汽车制造进行洗牌，车辆电动带来的影响就是三电系统（电池、电机、电控）几乎需要完全重构，汽车智能化志在必行。无人驾驶这件事也许还需要走至少十年的路，但高级别的 ADAS 一定会在不久的将来迅速提升装车率。<br>目前，看起来只有中国和美国两个玩家。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2017/12/15/Bigdata-interview-problem/" rel="prev" title="大数据面试题">
+      <i class="fa fa-chevron-left"></i> 大数据面试题
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/03/10/Index-of-JS-and-Web/" rel="next" title="调整博客结构 + 文档索引">
+      调整博客结构 + 文档索引 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%87%AA%E5%8A%A8%E9%A9%BE%E9%A9%B6%E5%88%86%E7%BA%A7%E7%AE%80%E4%BB%8B"><span class="nav-number">1.</span> <span class="nav-text">自动驾驶分级简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%97%A0%E4%BA%BA%E9%A9%BE%E9%A9%B6%E7%B3%BB%E7%BB%9F"><span class="nav-number">2.</span> <span class="nav-text">无人驾驶系统</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B3%BB%E7%BB%9F%E7%AB%AF"><span class="nav-number">2.1.</span> <span class="nav-text">系统端</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BC%A0%E6%84%9F%E5%99%A8"><span class="nav-number">2.1.1.</span> <span class="nav-text">传感器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BD%A6%E8%BD%BD%E5%B9%B3%E5%8F%B0"><span class="nav-number">2.1.2.</span> <span class="nav-text">车载平台</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AE%97%E6%B3%95%E7%AB%AF"><span class="nav-number">2.2.</span> <span class="nav-text">算法端</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%9A%E4%BD%8D%E7%AE%97%E6%B3%95"><span class="nav-number">2.2.1.</span> <span class="nav-text">定位算法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%89%A9%E4%BD%93%E8%AF%86%E5%88%AB%E5%92%8C%E6%84%9F%E7%9F%A5"><span class="nav-number">2.2.2.</span> <span class="nav-text">物体识别和感知</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CNN-%E8%8A%B1%E5%BC%8F%E7%8E%A9%E6%B3%95"><span class="nav-number">2.2.3.</span> <span class="nav-text">CNN 花式玩法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A2%9E%E5%BC%BA%E5%AD%A6%E4%B9%A0"><span class="nav-number">2.2.4.</span> <span class="nav-text">增强学习</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%86%B3%E7%AD%96"><span class="nav-number">2.2.5.</span> <span class="nav-text">决策</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%91%E7%AB%AF"><span class="nav-number">2.3.</span> <span class="nav-text">云端</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%AB%98%E7%B2%BE%E5%BA%A6%E5%9C%B0%E5%9B%BE"><span class="nav-number">2.4.</span> <span class="nav-text">高精度地图</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%95%86%E4%B8%9A%E7%8E%B0%E7%8A%B6"><span class="nav-number">3.</span> <span class="nav-text">商业现状</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A6%82%E8%A6%81"><span class="nav-number">3.1.</span> <span class="nav-text">概要</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BC%A0%E6%84%9F%E5%99%A8-1"><span class="nav-number">3.2.</span> <span class="nav-text">传感器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%BF%80%E5%85%89%E9%9B%B7%E8%BE%BE"><span class="nav-number">3.2.1.</span> <span class="nav-text">激光雷达</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%AF%AB%E7%B1%B3%E6%B3%A2%E9%9B%B7%E8%BE%BE"><span class="nav-number">3.2.2.</span> <span class="nav-text">毫米波雷达</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%91%84%E5%83%8F%E5%A4%B4"><span class="nav-number">3.2.3.</span> <span class="nav-text">摄像头</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#GPS-IMU"><span class="nav-number">3.2.4.</span> <span class="nav-text">GPS&#x2F;IMU</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#V2X"><span class="nav-number">3.2.5.</span> <span class="nav-text">V2X</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%B6%E4%BB%96"><span class="nav-number">3.2.6.</span> <span class="nav-text">其他</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%A1%E7%AE%97%E5%B9%B3%E5%8F%B0"><span class="nav-number">3.3.</span> <span class="nav-text">计算平台</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#GPU-%E6%96%B9%E6%A1%88"><span class="nav-number">3.3.1.</span> <span class="nav-text">GPU 方案</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#DSP-%E6%96%B9%E6%A1%88"><span class="nav-number">3.3.2.</span> <span class="nav-text">DSP 方案</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#FPGA-%E6%96%B9%E6%A1%88"><span class="nav-number">3.3.3.</span> <span class="nav-text">FPGA 方案</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ASIC-%E6%96%B9%E6%A1%88"><span class="nav-number">3.3.4.</span> <span class="nav-text">ASIC 方案</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%B6%E4%BB%96%E6%96%B9%E6%A1%88"><span class="nav-number">3.3.5.</span> <span class="nav-text">其他方案</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%80%BB%E7%BB%93%EF%BC%9F"><span class="nav-number">3.3.6.</span> <span class="nav-text">总结？</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8E%A7%E5%88%B6%E5%B9%B3%E5%8F%B0"><span class="nav-number">3.4.</span> <span class="nav-text">控制平台</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%94%B5%E5%AD%90%E6%8E%A7%E5%88%B6%E5%8D%95%E5%85%83ECU"><span class="nav-number">3.4.1.</span> <span class="nav-text">电子控制单元ECU</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BD%A6%E6%8E%A7%E6%80%BB%E7%BA%BF"><span class="nav-number">3.4.2.</span> <span class="nav-text">车控总线</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%AB%98%E7%B2%BE%E5%9C%B0%E5%9B%BE"><span class="nav-number">3.5.</span> <span class="nav-text">高精地图</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%97%AE%E9%A2%98"><span class="nav-number">4.</span> <span class="nav-text">问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E5%85%A8%E6%80%A7"><span class="nav-number">4.1.</span> <span class="nav-text">安全性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BC%A6%E7%90%86%E9%81%93%E5%BE%B7"><span class="nav-number">4.2.</span> <span class="nav-text">伦理道德</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9A%90%E7%A7%81"><span class="nav-number">4.3.</span> <span class="nav-text">隐私</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9E%81%E7%AB%AF%E5%A4%A9%E6%B0%94"><span class="nav-number">4.4.</span> <span class="nav-text">极端天气</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE"><span class="nav-number">4.5.</span> <span class="nav-text">通信协议</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E6%99%AF"><span class="nav-number">5.</span> <span class="nav-text">前景</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Taas"><span class="nav-number">5.1.</span> <span class="nav-text">Taas</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BF%AB%E9%80%92"><span class="nav-number">5.2.</span> <span class="nav-text">快递</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B7%A5%E4%B8%9A%E5%9C%BA%E6%99%AF"><span class="nav-number">5.3.</span> <span class="nav-text">工业场景</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%80%E5%90%8E%EF%BC%8C%E5%85%B3%E4%BA%8E%E6%B1%BD%E8%BD%A6%E8%A1%8C%E4%B8%9A"><span class="nav-number">6.</span> <span class="nav-text">最后，关于汽车行业</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">田_田</p>
+  <div class="site-description" itemprop="description">创新需要在一切发生之前研究结局!</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">34</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wangzitian0" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wangzitian0" rel="noopener" target="_blank"><i class="github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wangzitian0@gmail.com" title="E-Mail → mailto:wangzitian0@gmail.com" rel="noopener" target="_blank"><i class="envelope fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.linkedin.com/in/wangzitian0" title="LinkedIn → https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;wangzitian0" rel="noopener" target="_blank"><i class="linkedin fa-fw"></i></a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class=""></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">田_田</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a>
+  </div>
+
+        
+
+
+
+
+
+
+<script>
+  (function() {
+    function leancloudSelector(url) {
+      url = encodeURI(url);
+      return document.getElementById(url).querySelector('.leancloud-visitors-count');
+    }
+
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = decodeURI(visitors.id);
+      var title = visitors.dataset.flagTitle;
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            leancloudSelector(url).innerText = counter.time + 1;
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              });
+          } else {
+              leancloudSelector(url).innerText = 'Counter not initialized! More info at console err msg.';
+              console.error('ATTENTION! LeanCloud counter has security bug, see how to solve it here: https://github.com/theme-next/hexo-leancloud-counter-security. \n However, you can still use LeanCloud without security, by setting `security` option to `false`.');
+            
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return decodeURI(element.id);
+      });
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          for (let url of entries) {
+            let target = results.find(item => item.url === url);
+            leancloudSelector(url).innerText = target ? target.time : 0;
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    let { app_id, app_key, server_url } = {"enable":true,"app_id":"itw5YW53yzX17tr3WAdRd9Dd-gzGzoHsz","app_key":"qLjOt8jjizQl0ys5OSdwf10Y","server_url":null,"security":true,"betterPerformance":true};
+    function fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${api_server}/1.1${url}`, {
+          method,
+          headers: {
+            'X-LC-Id'     : app_id,
+            'X-LC-Key'    : app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    }
+
+    let api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(response => response.json())
+        .then(({ api_server }) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="//cdn.jsdelivr.net/npm/algoliasearch@4/dist/algoliasearch-lite.umd.js"></script>
+<script src="//cdn.jsdelivr.net/npm/instantsearch.js@4/dist/instantsearch.production.min.js"></script>
+<script src="/js/algolia-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

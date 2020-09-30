@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/huaji.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/huaji.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/huaji.png">
+  <link rel="mask-icon" href="/images/huaji.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"wangzitian0.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":true,"b2t":false,"scrollpercent":true},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"appID":"1PWF5BJPP1","apiKey":"6a2714c5b665823e7132db2aedb81233","indexName":"wangzitian0.github.io","hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="A mostly reasonable approach to JavaScript一个最讲道理的JavaScript方法论">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Airbnb JavaScript Style Guide (3)">
+<meta property="og:url" content="https://wangzitian0.github.io/2013/08/08/Airbnb-JavaScript-Style-Guide-3/index.html">
+<meta property="og:site_name" content="全栈之路">
+<meta property="og:description" content="A mostly reasonable approach to JavaScript一个最讲道理的JavaScript方法论">
+<meta property="og:locale">
+<meta property="article:published_time" content="2013-08-08T08:25:00.000Z">
+<meta property="article:modified_time" content="2020-09-30T04:59:07.875Z">
+<meta property="article:author" content="田_田">
+<meta property="article:tag" content="Language">
+<meta property="article:tag" content="JavaScript">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://wangzitian0.github.io/2013/08/08/Airbnb-JavaScript-Style-Guide-3/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>Airbnb JavaScript Style Guide (3) | 全栈之路</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?1eeceb0b3f8e550d6211f134646361b6";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="全栈之路" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta custom-logo">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">全栈之路</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">田_田的博客</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="archive fa-fw"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="user fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="tags fa-fw"></i>Tags</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container"></div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="algolia-results">
+  <div id="algolia-stats"></div>
+  <div id="algolia-hits"></div>
+  <div id="algolia-pagination" class="algolia-pagination"></div>
+</div>
+
+      
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://wangzitian0.github.io/2013/08/08/Airbnb-JavaScript-Style-Guide-3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="田_田">
+      <meta itemprop="description" content="创新需要在一切发生之前研究结局!">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="全栈之路">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Airbnb JavaScript Style Guide (3)
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2013-08-08 16:25:00" itemprop="dateCreated datePublished" datetime="2013-08-08T16:25:00+08:00">2013-08-08</time>
+            </span>
+
+          
+            <span id="/2013/08/08/Airbnb-JavaScript-Style-Guide-3/" class="post-meta-item leancloud_visitors" data-flag-title="Airbnb JavaScript Style Guide (3)" title="Views">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><em>A mostly reasonable approach to JavaScript</em><br><em>一个最讲道理的JavaScript方法论</em></p>
+<a id="more"></a>
+
+<h2 id="Commas-逗号"><a href="#Commas-逗号" class="headerlink" title="Commas  逗号"></a>Commas  逗号</h2><ul>
+<li><p>[20.1] Leading commas: <strong>Nope.</strong> eslint: <a target="_blank" rel="noopener" href="http://eslint.org/docs/rules/comma-style.html"><code>comma-style</code></a> jscs: <a target="_blank" rel="noopener" href="http://jscs.info/rule/requireCommaBeforeLineBreak"><code>requireCommaBeforeLineBreak</code></a><br>一定不要前导逗号。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="keyword">const</span> story = [</span><br><span class="line">    once</span><br><span class="line">  , upon</span><br><span class="line">  , aTime</span><br><span class="line">];</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="keyword">const</span> story = [</span><br><span class="line">  once,</span><br><span class="line">  upon,</span><br><span class="line">  aTime,</span><br><span class="line">];</span><br><span class="line"></span><br><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="keyword">const</span> hero = &#123;</span><br><span class="line">    firstName: <span class="string">&#x27;Ada&#x27;</span></span><br><span class="line">  , <span class="attr">lastName</span>: <span class="string">&#x27;Lovelace&#x27;</span></span><br><span class="line">  , <span class="attr">birthYear</span>: <span class="number">1815</span></span><br><span class="line">  , <span class="attr">superPower</span>: <span class="string">&#x27;computers&#x27;</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="keyword">const</span> hero = &#123;</span><br><span class="line">  firstName: <span class="string">&#x27;Ada&#x27;</span>,</span><br><span class="line">  lastName: <span class="string">&#x27;Lovelace&#x27;</span>,</span><br><span class="line">  birthYear: <span class="number">1815</span>,</span><br><span class="line">  superPower: <span class="string">&#x27;computers&#x27;</span>,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>[20.2] Additional trailing comma: <strong>Yup.</strong> eslint: <a target="_blank" rel="noopener" href="http://eslint.org/docs/rules/comma-dangle.html"><code>comma-dangle</code></a> jscs: <a target="_blank" rel="noopener" href="http://jscs.info/rule/requireTrailingComma"><code>requireTrailingComma</code></a><br>额外的尾拖逗号，是的。</p>
+<blockquote>
+<p>Why? This leads to cleaner git diffs. Also, transpilers like Babel will remove the additional trailing comma in the transpiled code which means you don’t have to worry about the <a target="_blank" rel="noopener" href="https://github.com/airbnb/javascript/blob/es5-deprecated/es5/README.md#commas">trailing comma problem</a> in legacy browsers.<br>为什么？这可以让 git diffs 更加清楚。另外，编译器如 Babel 会移除多于的尾拖逗号，你不用担心古老浏览器的问题。</p>
+</blockquote>
+<figure class="highlight diff"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">// bad - git diff without trailing comma</span><br><span class="line">const hero = &#123;</span><br><span class="line">     firstName: &#x27;Florence&#x27;,</span><br><span class="line"><span class="deletion">-    lastName: &#x27;Nightingale&#x27;</span></span><br><span class="line"><span class="addition">+    lastName: &#x27;Nightingale&#x27;,</span></span><br><span class="line"><span class="addition">+    inventorOf: [&#x27;coxcomb chart&#x27;, &#x27;modern nursing&#x27;]</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">// good - git diff with trailing comma</span><br><span class="line">const hero = &#123;</span><br><span class="line">     firstName: &#x27;Florence&#x27;,</span><br><span class="line">     lastName: &#x27;Nightingale&#x27;,</span><br><span class="line"><span class="addition">+    inventorOf: [&#x27;coxcomb chart&#x27;, &#x27;modern nursing&#x27;],</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="keyword">const</span> hero = &#123;</span><br><span class="line">  firstName: <span class="string">&#x27;Dana&#x27;</span>,</span><br><span class="line">  lastName: <span class="string">&#x27;Scully&#x27;</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> heroes = [</span><br><span class="line">  <span class="string">&#x27;Batman&#x27;</span>,</span><br><span class="line">  <span class="string">&#x27;Superman&#x27;</span></span><br><span class="line">];</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="keyword">const</span> hero = &#123;</span><br><span class="line">  firstName: <span class="string">&#x27;Dana&#x27;</span>,</span><br><span class="line">  lastName: <span class="string">&#x27;Scully&#x27;</span>,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> heroes = [</span><br><span class="line">  <span class="string">&#x27;Batman&#x27;</span>,</span><br><span class="line">  <span class="string">&#x27;Superman&#x27;</span>,</span><br><span class="line">];</span><br><span class="line"></span><br><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">createHero</span>(<span class="params"></span></span></span><br><span class="line"><span class="function"><span class="params">  firstName,</span></span></span><br><span class="line"><span class="function"><span class="params">  lastName,</span></span></span><br><span class="line"><span class="function"><span class="params">  inventorOf</span></span></span><br><span class="line"><span class="function"><span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="comment">// does nothing</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">createHero</span>(<span class="params"></span></span></span><br><span class="line"><span class="function"><span class="params">  firstName,</span></span></span><br><span class="line"><span class="function"><span class="params">  lastName,</span></span></span><br><span class="line"><span class="function"><span class="params">  inventorOf,</span></span></span><br><span class="line"><span class="function"><span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="comment">// does nothing</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// good (note that a comma must not appear after a &quot;rest&quot; element)</span></span><br><span class="line"><span class="comment">// 注意逗号不应该出现在剩余参数里。</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">createHero</span>(<span class="params"></span></span></span><br><span class="line"><span class="function"><span class="params">  firstName,</span></span></span><br><span class="line"><span class="function"><span class="params">  lastName,</span></span></span><br><span class="line"><span class="function"><span class="params">  inventorOf,</span></span></span><br><span class="line"><span class="function"><span class="params">  ...heroArgs</span></span></span><br><span class="line"><span class="function"><span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="comment">// does nothing</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// bad</span></span><br><span class="line">createHero(</span><br><span class="line">  firstName,</span><br><span class="line">  lastName,</span><br><span class="line">  inventorOf</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line">createHero(</span><br><span class="line">  firstName,</span><br><span class="line">  lastName,</span><br><span class="line">  inventorOf,</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="comment">// good (note that a comma must not appear after a &quot;rest&quot; element)</span></span><br><span class="line">createHero(</span><br><span class="line">  firstName,</span><br><span class="line">  lastName,</span><br><span class="line">  inventorOf,</span><br><span class="line">  ...heroArgs</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+
+</li>
+</ul>
+<h2 id="Semicolons-分号"><a href="#Semicolons-分号" class="headerlink" title="Semicolons  分号"></a>Semicolons  分号</h2><ul>
+<li><p>[21.1]  <strong>Yup.</strong> eslint: <a target="_blank" rel="noopener" href="http://eslint.org/docs/rules/semi.html"><code>semi</code></a> jscs: <a target="_blank" rel="noopener" href="http://jscs.info/rule/requireSemicolons"><code>requireSemicolons</code></a><br>需要。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bad</span></span><br><span class="line">(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> name = <span class="string">&#x27;Skywalker&#x27;</span></span><br><span class="line">  <span class="keyword">return</span> name</span><br><span class="line">&#125;)()</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line">(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> name = <span class="string">&#x27;Skywalker&#x27;</span>;</span><br><span class="line">  <span class="keyword">return</span> name;</span><br><span class="line">&#125;());</span><br><span class="line"></span><br><span class="line"><span class="comment">// good, but legacy (guards against the function becoming an argument when two files with IIFEs are concatenated)</span></span><br><span class="line"><span class="comment">// 好，但是是遗产，保证函数不会变成一个参数，当两个文件立即调用函数的时候。</span></span><br><span class="line">;((<span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> name = <span class="string">&#x27;Skywalker&#x27;</span>;</span><br><span class="line">  <span class="keyword">return</span> name;</span><br><span class="line">&#125;)());</span><br></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/7365172/semicolon-before-self-invoking-function/7365214%237365214">Read more</a>.</p>
+</li>
+</ul>
+<h2 id="Type-Casting-amp-Coercion-类型适配-amp-强制分配"><a href="#Type-Casting-amp-Coercion-类型适配-amp-强制分配" class="headerlink" title="Type Casting &amp; Coercion 类型适配&amp;强制分配"></a>Type Casting &amp; Coercion 类型适配&amp;强制分配</h2><ul>
+<li><p>[22.1] Perform type coercion at the beginning of the statement.<br>执行强制类型在句子一开始的地方</p>
+</li>
+<li><p>[22.2] Strings:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// =&gt; this.reviewScore = 9;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="keyword">const</span> totalScore = <span class="built_in">this</span>.reviewScore + <span class="string">&#x27;&#x27;</span>; <span class="comment">// invokes this.reviewScore.valueOf() 调用this.reviewScore.valueOf</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="keyword">const</span> totalScore = <span class="built_in">this</span>.reviewScore.toString(); <span class="comment">// isn’t guaranteed to return a string 不保证返回字符串</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="keyword">const</span> totalScore = <span class="built_in">String</span>(<span class="built_in">this</span>.reviewScore);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>[22.3] Numbers: Use <code>Number</code> for type casting and <code>parseInt</code> always with a radix for parsing strings. eslint: <a target="_blank" rel="noopener" href="http://eslint.org/docs/rules/radix"><code>radix</code></a><br>数字：使用<code>Number</code>来做类型适配，使用<code>parseInt</code>带上进制来做字符串的转换。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> inputValue = <span class="string">&#x27;4&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="keyword">const</span> val = <span class="keyword">new</span> <span class="built_in">Number</span>(inputValue);</span><br><span class="line"></span><br><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="keyword">const</span> val = +inputValue;</span><br><span class="line"></span><br><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="keyword">const</span> val = inputValue &gt;&gt; <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="keyword">const</span> val = <span class="built_in">parseInt</span>(inputValue);</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="keyword">const</span> val = <span class="built_in">Number</span>(inputValue);</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="keyword">const</span> val = <span class="built_in">parseInt</span>(inputValue, <span class="number">10</span>);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>[22.4] If for whatever reason you are doing something wild and <code>parseInt</code> is your bottleneck and need to use Bitshift for <a target="_blank" rel="noopener" href="https://jsperf.com/coercion-vs-casting/3">performance reasons</a>, leave a comment explaining why and what you’re doing.<br>无论什么原因，parseInt 成为你的瓶颈，出于性能考虑你需要用位运算，记得留一段注释解释你 TM 干了啥。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * parseInt was the reason my code was slow.</span></span><br><span class="line"><span class="comment"> * Bitshifting the String to coerce it to a</span></span><br><span class="line"><span class="comment"> * Number made it a lot faster.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">const</span> val = inputValue &gt;&gt; <span class="number">0</span>;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><a href="#coercion--bitwise">22.5</a> <strong>Note:</strong> Be careful when using bitshift operations. Numbers are represented as <a target="_blank" rel="noopener" href="https://es5.github.io/#x4.3.19">64-bit values</a>, but bitshift operations always return a 32-bit integer (<a target="_blank" rel="noopener" href="https://es5.github.io/#x11.7">source</a>). Bitshift can lead to unexpected behavior for integer values larger than 32 bits. <a target="_blank" rel="noopener" href="https://github.com/airbnb/javascript/issues/109">Discussion</a>. Largest signed 32-bit Int is 2,147,483,647:<br>使用位运算的时候需要十分小心。数字表示成64bit 的值，但是位运算总是返回一个32bit 的整数，大于32bit 的数字位运算可能导致预期之外的行为。最大的32进制整数是 2,147,483,647：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">2147483647</span> &gt;&gt; <span class="number">0</span>; <span class="comment">// =&gt; 2147483647</span></span><br><span class="line"><span class="number">2147483648</span> &gt;&gt; <span class="number">0</span>; <span class="comment">// =&gt; -2147483648</span></span><br><span class="line"><span class="number">2147483649</span> &gt;&gt; <span class="number">0</span>; <span class="comment">// =&gt; -2147483647</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>[22.6] Booleans:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> age = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="keyword">const</span> hasAge = <span class="keyword">new</span> <span class="built_in">Boolean</span>(age);</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="keyword">const</span> hasAge = <span class="built_in">Boolean</span>(age);</span><br><span class="line"></span><br><span class="line"><span class="comment">// best</span></span><br><span class="line"><span class="keyword">const</span> hasAge = !!age;</span><br></pre></td></tr></table></figure>
+
+
+</li>
+</ul>
+<h2 id="Naming-Conventions-命名约定"><a href="#Naming-Conventions-命名约定" class="headerlink" title="Naming Conventions  命名约定"></a>Naming Conventions  命名约定</h2><ul>
+<li><p>[23.1] Avoid single letter names. Be descriptive with your naming. eslint: <a target="_blank" rel="noopener" href="http://eslint.org/docs/rules/id-length"><code>id-length</code></a><br>避免单个字母的名字。名字应该有描述性。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">q</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">query</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>[23.2] Use camelCase when naming objects, functions, and instances. eslint: <a target="_blank" rel="noopener" href="http://eslint.org/docs/rules/camelcase.html"><code>camelcase</code></a> jscs: <a target="_blank" rel="noopener" href="http://jscs.info/rule/requireCamelCaseOrUpperCaseIdentifiers"><code>requireCamelCaseOrUpperCaseIdentifiers</code></a><br>使用小驼峰来命名对象、函数、实例。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="keyword">const</span> OBJEcttsssss = &#123;&#125;;</span><br><span class="line"><span class="keyword">const</span> this_is_my_object = &#123;&#125;;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">c</span>(<span class="params"></span>) </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="keyword">const</span> thisIsMyObject = &#123;&#125;;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">thisIsMyFunction</span>(<span class="params"></span>) </span>&#123;&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>[23.3] Use PascalCase only when naming constructors or classes. eslint: <a target="_blank" rel="noopener" href="http://eslint.org/docs/rules/new-cap.html"><code>new-cap</code></a> jscs: <a target="_blank" rel="noopener" href="http://jscs.info/rule/requireCapitalizedConstructors"><code>requireCapitalizedConstructors</code></a><br>只有命名类和构造器的时候使用大驼峰。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">user</span>(<span class="params">options</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">this</span>.name = options.name;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> bad = <span class="keyword">new</span> user(&#123;</span><br><span class="line">  name: <span class="string">&#x27;nope&#x27;</span>,</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>(options) &#123;</span><br><span class="line">    <span class="built_in">this</span>.name = options.name;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> good = <span class="keyword">new</span> User(&#123;</span><br><span class="line">  name: <span class="string">&#x27;yup&#x27;</span>,</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>[23.4] Do not use trailing or leading underscores. eslint: <a target="_blank" rel="noopener" href="http://eslint.org/docs/rules/no-underscore-dangle.html"><code>no-underscore-dangle</code></a> jscs: <a target="_blank" rel="noopener" href="http://jscs.info/rule/disallowDanglingUnderscores"><code>disallowDanglingUnderscores</code></a><br>不要用前导下划线。</p>
+<blockquote>
+<p>Why? JavaScript does not have the concept of privacy in terms of properties or methods. Although a leading underscore is a common convention to mean “private”, in fact, these properties are fully public, and as such, are part of your public API contract. This convention might lead developers to wrongly think that a change won’t count as breaking, or that tests aren’t needed. tl;dr: if you want something to be “private”, it must not be observably present.<br>为什么？JavaScript 没有私有属性或者方法的概念。尽管前导下划线是一个常用来表达私有的约定，事实上，这些属性全是公开的，是你的 api 协议的一部分。这个约定可能导致开发者错误认为改变一下没关系，或者不需要测试。如果你需要什么真的私有的东西，它必须不显著的出现。</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="built_in">this</span>.__firstName__ = <span class="string">&#x27;Panda&#x27;</span>;</span><br><span class="line"><span class="built_in">this</span>.firstName_ = <span class="string">&#x27;Panda&#x27;</span>;</span><br><span class="line"><span class="built_in">this</span>._firstName = <span class="string">&#x27;Panda&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="built_in">this</span>.firstName = <span class="string">&#x27;Panda&#x27;</span>;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>[23.5] Don’t save references to <code>this</code>. Use arrow functions or <a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/bind">Function#bind</a>. jscs: <a target="_blank" rel="noopener" href="http://jscs.info/rule/disallowNodeTypes"><code>disallowNodeTypes</code></a><br>不要保存指向 this 的引用。使用箭头函数或者 Function.bind </p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> self = <span class="built_in">this</span>;</span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(self);</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> that = <span class="built_in">this</span>;</span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(that);</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="built_in">this</span>);</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>[23.6] A base filename should exactly match the name of its default export.<br>一个级别的文件名应该精确的和默认导入类同名。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// file 1 contents</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CheckBox</span> </span>&#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> CheckBox;</span><br><span class="line"></span><br><span class="line"><span class="comment">// file 2 contents</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="function"><span class="keyword">function</span> <span class="title">fortyTwo</span>(<span class="params"></span>) </span>&#123; <span class="keyword">return</span> <span class="number">42</span>; &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// file 3 contents</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="function"><span class="keyword">function</span> <span class="title">insideDirectory</span>(<span class="params"></span>) </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// in some other file</span></span><br><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="keyword">import</span> CheckBox <span class="keyword">from</span> <span class="string">&#x27;./checkBox&#x27;</span>; <span class="comment">// PascalCase import/export, camelCase filename</span></span><br><span class="line"><span class="keyword">import</span> FortyTwo <span class="keyword">from</span> <span class="string">&#x27;./FortyTwo&#x27;</span>; <span class="comment">// PascalCase import/filename, camelCase export</span></span><br><span class="line"><span class="keyword">import</span> InsideDirectory <span class="keyword">from</span> <span class="string">&#x27;./InsideDirectory&#x27;</span>; <span class="comment">// PascalCase import/filename, camelCase export</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="keyword">import</span> CheckBox <span class="keyword">from</span> <span class="string">&#x27;./check_box&#x27;</span>; <span class="comment">// PascalCase import/export, snake_case filename</span></span><br><span class="line"><span class="keyword">import</span> forty_two <span class="keyword">from</span> <span class="string">&#x27;./forty_two&#x27;</span>; <span class="comment">// snake_case import/filename, camelCase export</span></span><br><span class="line"><span class="keyword">import</span> inside_directory <span class="keyword">from</span> <span class="string">&#x27;./inside_directory&#x27;</span>; <span class="comment">// snake_case import, camelCase export</span></span><br><span class="line"><span class="keyword">import</span> index <span class="keyword">from</span> <span class="string">&#x27;./inside_directory/index&#x27;</span>; <span class="comment">// requiring the index file explicitly</span></span><br><span class="line"><span class="keyword">import</span> insideDirectory <span class="keyword">from</span> <span class="string">&#x27;./insideDirectory/index&#x27;</span>; <span class="comment">// requiring the index file explicitly</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="keyword">import</span> CheckBox <span class="keyword">from</span> <span class="string">&#x27;./CheckBox&#x27;</span>; <span class="comment">// PascalCase export/import/filename</span></span><br><span class="line"><span class="keyword">import</span> fortyTwo <span class="keyword">from</span> <span class="string">&#x27;./fortyTwo&#x27;</span>; <span class="comment">// camelCase export/import/filename</span></span><br><span class="line"><span class="keyword">import</span> insideDirectory <span class="keyword">from</span> <span class="string">&#x27;./insideDirectory&#x27;</span>; <span class="comment">// camelCase export/import/directory name/implicit &quot;index&quot;</span></span><br><span class="line"><span class="comment">// ^ supports both insideDirectory.js and insideDirectory/index.js</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>[23.7] Use camelCase when you export-default a function. Your filename should be identical to your function’s name.<br>需要导出默认函数的时候使用小驼峰。你的名字应该作为你函数的标识名。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">makeStyleGuide</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> makeStyleGuide;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>[23.8] Use PascalCase when you export a constructor / class / singleton / function library / bare object.<br>导出构造器、类、单例、函数库、空对象的时候，使用大驼峰。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> AirbnbStyleGuide = &#123;</span><br><span class="line">  es6: &#123;</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> AirbnbStyleGuide;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>[23.9] Acronyms and initialisms should always be all capitalized, or all lowercased.<br>首字母缩写需要全部大写或者全部小写。</p>
+<blockquote>
+<p>Why? Names are for readability, not to appease a computer algorithm.<br>为什么？命名是为了可读性，而不是为了满足算法。</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="keyword">import</span> SmsContainer <span class="keyword">from</span> <span class="string">&#x27;./containers/SmsContainer&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="keyword">const</span> HttpRequests = [</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">];</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="keyword">import</span> SMSContainer <span class="keyword">from</span> <span class="string">&#x27;./containers/SMSContainer&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="keyword">const</span> HTTPRequests = [</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">];</span><br><span class="line"></span><br><span class="line"><span class="comment">// best</span></span><br><span class="line"><span class="keyword">import</span> TextMessageContainer <span class="keyword">from</span> <span class="string">&#x27;./containers/TextMessageContainer&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// best</span></span><br><span class="line"><span class="keyword">const</span> Requests = [</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">];</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="Accessors-存取器"><a href="#Accessors-存取器" class="headerlink" title="Accessors  存取器"></a>Accessors  存取器</h2><ul>
+<li><p>[24.1] Accessor functions for properties are not required.<br>属性存取函数没必要。</p>
+</li>
+<li><p>[24.2] Do not use JavaScript getters/setters as they cause unexpected side effects and are harder to test, maintain, and reason about. Instead, if you do make accessor functions, use getVal() and setVal(‘hello’).<br>不要用 JavaScript 的getters/setters，它们可能产生难以测试、修理、推断的副作用。用 getVal() 和 setVal(‘hello’) 来做一个存储器。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Dragon</span> </span>&#123;</span><br><span class="line">  <span class="keyword">get</span> <span class="title">age</span>() &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">set</span> <span class="title">age</span>(<span class="params">value</span>) &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Dragon</span> </span>&#123;</span><br><span class="line">  getAge() &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  setAge(value) &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>[24.3] If the property/method is a <code>boolean</code>, use <code>isVal()</code> or <code>hasVal()</code>.<br>如果属性或者方法是一个布尔值，使用 <code>isVal()</code> 或 <code>hasVal()</code>。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="keyword">if</span> (!dragon.age()) &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="keyword">if</span> (!dragon.hasAge()) &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>[24.4] It’s okay to create get() and set() functions, but be consistent.<br>用 get set 也没关系，但是请保持一致性。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Jedi</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>(options = &#123;&#125;) &#123;</span><br><span class="line">    <span class="keyword">const</span> lightsaber = options.lightsaber || <span class="string">&#x27;blue&#x27;</span>;</span><br><span class="line">    <span class="built_in">this</span>.set(<span class="string">&#x27;lightsaber&#x27;</span>, lightsaber);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  set(key, val) &#123;</span><br><span class="line">    <span class="built_in">this</span>[key] = val;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  get(key) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">this</span>[key];</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="Events-事件"><a href="#Events-事件" class="headerlink" title="Events  事件"></a>Events  事件</h2><ul>
+<li><p>[25.1] When attaching data payloads to events (whether DOM events or something more proprietary like Backbone events), pass a hash instead of a raw value. This allows a subsequent contributor to add more data to the event payload without finding and updating every handler for the event. For example, instead of:<br>当荷载带着数据到event之后。传递了一个哈希值而不是原始值。这允许后来的贡献者加上更多的数据到荷载里，同时不需要找到更新每一个处理者。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bad</span></span><br><span class="line">$(<span class="built_in">this</span>).trigger(<span class="string">&#x27;listingUpdated&#x27;</span>, listing.id);</span><br><span class="line"></span><br><span class="line"><span class="comment">// ...</span></span><br><span class="line"></span><br><span class="line">$(<span class="built_in">this</span>).on(<span class="string">&#x27;listingUpdated&#x27;</span>, <span class="function">(<span class="params">e, listingId</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">// do something with listingId</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>prefer:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// good</span></span><br><span class="line">$(<span class="built_in">this</span>).trigger(<span class="string">&#x27;listingUpdated&#x27;</span>, &#123; <span class="attr">listingId</span>: listing.id &#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// ...</span></span><br><span class="line"></span><br><span class="line">$(<span class="built_in">this</span>).on(<span class="string">&#x27;listingUpdated&#x27;</span>, <span class="function">(<span class="params">e, data</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">// do something with data.listingId</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+
+</li>
+</ul>
+<h2 id="j-Query"><a href="#j-Query" class="headerlink" title="j Query"></a>j Query</h2><ul>
+<li><p>[26.1] Prefix jQuery object variables with a <code>$</code>. jscs: <a target="_blank" rel="noopener" href="http://jscs.info/rule/requireDollarBeforejQueryAssignment"><code>requireDollarBeforejQueryAssignment</code></a><br>jQuery对象用美元符号开头更好。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="keyword">const</span> sidebar = $(<span class="string">&#x27;.sidebar&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="keyword">const</span> $sidebar = $(<span class="string">&#x27;.sidebar&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="keyword">const</span> $sidebarBtn = $(<span class="string">&#x27;.sidebar-btn&#x27;</span>);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>[26.2] Cache jQuery lookups.<br>缓存查找器。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">setSidebar</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  $(<span class="string">&#x27;.sidebar&#x27;</span>).hide();</span><br><span class="line"></span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line"></span><br><span class="line">  $(<span class="string">&#x27;.sidebar&#x27;</span>).css(&#123;</span><br><span class="line">    <span class="string">&#x27;background-color&#x27;</span>: <span class="string">&#x27;pink&#x27;</span>,</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">setSidebar</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> $sidebar = $(<span class="string">&#x27;.sidebar&#x27;</span>);</span><br><span class="line">  $sidebar.hide();</span><br><span class="line"></span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line"></span><br><span class="line">  $sidebar.css(&#123;</span><br><span class="line">    <span class="string">&#x27;background-color&#x27;</span>: <span class="string">&#x27;pink&#x27;</span>,</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>[26.3] For DOM queries use Cascading <code>$(&#39;.sidebar ul&#39;)</code> or parent &gt; child <code>$(&#39;.sidebar &gt; ul&#39;)</code>. <a target="_blank" rel="noopener" href="http://jsperf.com/jquery-find-vs-context-sel/16">jsPerf</a><br>dom 查询使用串联之类的选择器。</p>
+</li>
+<li><p>[26.4] Use <code>find</code> with scoped jQuery object queries.<br>已经选了对象查询的 jQuery 使用 find 。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bad</span></span><br><span class="line">$(<span class="string">&#x27;ul&#x27;</span>, <span class="string">&#x27;.sidebar&#x27;</span>).hide();</span><br><span class="line"></span><br><span class="line"><span class="comment">// bad</span></span><br><span class="line">$(<span class="string">&#x27;.sidebar&#x27;</span>).find(<span class="string">&#x27;ul&#x27;</span>).hide();</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line">$(<span class="string">&#x27;.sidebar ul&#x27;</span>).hide();</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line">$(<span class="string">&#x27;.sidebar &gt; ul&#x27;</span>).hide();</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line">$sidebar.find(<span class="string">&#x27;ul&#x27;</span>).hide();</span><br></pre></td></tr></table></figure>
+
+
+</li>
+</ul>
+<h2 id="ECMAScript-5-Compatibility-ES5兼容性"><a href="#ECMAScript-5-Compatibility-ES5兼容性" class="headerlink" title="ECMAScript 5 Compatibility ES5兼容性"></a>ECMAScript 5 Compatibility ES5兼容性</h2><ul>
+<li>[27.1]  Refer to <a target="_blank" rel="noopener" href="https://twitter.com/kangax/">Kangax</a>’s ES5 <a target="_blank" rel="noopener" href="https://kangax.github.io/es5-compat-table/">compatibility table</a>.</li>
+</ul>
+<p><a name="ecmascript-6-styles"></a></p>
+<h2 id="ECMAScript-6-ES-2015-Styles"><a href="#ECMAScript-6-ES-2015-Styles" class="headerlink" title="ECMAScript 6+ (ES 2015+) Styles"></a>ECMAScript 6+ (ES 2015+) Styles</h2><ul>
+<li><p><a href="#tc39-proposals">28.2</a> Do not use <a target="_blank" rel="noopener" href="https://github.com/tc39/proposals">TC39 proposals</a> that have not reached stage 3.</p>
+<blockquote>
+<p>Why? <a target="_blank" rel="noopener" href="https://tc39.github.io/process-document/">They are not finalized</a>, and they are subject to change or to be withdrawn entirely. We want to use JavaScript, and proposals are not JavaScript yet.</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="Testing"><a href="#Testing" class="headerlink" title="Testing"></a>Testing</h2><ul>
+<li><p>[29.1] <strong>Yup.</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>[29.2] <strong>No, but seriously</strong>:</p>
+<ul>
+<li>Whichever testing framework you use, you should be writing tests!</li>
+<li>不管用什么框架，都应该写测试。</li>
+<li>Strive to write many small pure functions, and minimize where mutations occur.</li>
+<li>努力写很多小的纯函数，最小化变化。</li>
+<li>Be cautious about stubs and mocks - they can make your tests more brittle.</li>
+<li>小心使用存档和原型，让测试十分易碎。</li>
+<li>We primarily use <a target="_blank" rel="noopener" href="https://www.npmjs.com/package/mocha"><code>mocha</code></a> at Airbnb. <a target="_blank" rel="noopener" href="https://www.npmjs.com/package/tape"><code>tape</code></a> is also used occasionally for small, separate modules.</li>
+<li>Airbnb 的框架 mocha</li>
+<li>100% test coverage is a good goal to strive for, even if it’s not always practical to reach it.</li>
+<li>追求100%的测试率是个好目标，但有时候难以实现。</li>
+<li>Whenever you fix a bug, <em>write a regression test</em>. A bug fixed without a regression test is almost certainly going to break again in the future.</li>
+<li>无论什么时候修了一个 bug，应该加一个回归测试，没有回归测试的 bug fix 有很大概率将来又坏掉。</li>
+</ul>
+</li>
+</ul>
+<h2 id="Performance-性能"><a href="#Performance-性能" class="headerlink" title="Performance   性能"></a>Performance   性能</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://www.kellegous.com/j/2013/01/26/layout-performance/">On Layout &amp; Web Performance</a></li>
+<li><a target="_blank" rel="noopener" href="https://jsperf.com/string-vs-array-concat/2">String vs Array Concat</a></li>
+<li><a target="_blank" rel="noopener" href="https://jsperf.com/try-catch-in-loop-cost">Try/Catch Cost In a Loop</a></li>
+<li><a target="_blank" rel="noopener" href="https://jsperf.com/bang-function">Bang Function</a></li>
+<li><a target="_blank" rel="noopener" href="https://jsperf.com/jquery-find-vs-context-sel/13">jQuery Find vs Context, Selector</a></li>
+<li><a target="_blank" rel="noopener" href="https://jsperf.com/innerhtml-vs-textcontent-for-script-text">innerHTML vs textContent for script text</a></li>
+<li><a target="_blank" rel="noopener" href="https://jsperf.com/ya-string-concat">Long String Concatenation</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.quora.com/JavaScript-programming-language-Are-Javascript-functions-like-map-reduce-and-filter-already-optimized-for-traversing-array/answer/Quildreen-Motta">Are Javascript functions like <code>map()</code>, <code>reduce()</code>, and <code>filter()</code> optimized for traversing arrays?</a></li>
+<li>Loading…</li>
+</ul>
+<h2 id="Resources-资源"><a href="#Resources-资源" class="headerlink" title="Resources  资源"></a>Resources  资源</h2><p><strong>Learning ES6</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://people.mozilla.org/~jorendorff/es6-draft.html">Draft ECMA 2015 (ES6) Spec</a></li>
+<li><a target="_blank" rel="noopener" href="http://exploringjs.com/">ExploringJS</a></li>
+<li><a target="_blank" rel="noopener" href="https://kangax.github.io/compat-table/es6/">ES6 Compatibility Table</a></li>
+<li><a target="_blank" rel="noopener" href="http://es6-features.org/">Comprehensive Overview of ES6 Features</a></li>
+</ul>
+<p><strong>Read This</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="http://www.ecma-international.org/ecma-262/6.0/index.html">Standard ECMA-262</a></li>
+</ul>
+<p><strong>Tools</strong></p>
+<ul>
+<li>Code Style Linters<ul>
+<li><a target="_blank" rel="noopener" href="http://eslint.org/">ESlint</a> - <a target="_blank" rel="noopener" href="https://github.com/airbnb/javascript/blob/master/linters/.eslintrc">Airbnb Style .eslintrc</a></li>
+<li><a target="_blank" rel="noopener" href="http://jshint.com/">JSHint</a> - <a target="_blank" rel="noopener" href="https://github.com/airbnb/javascript/blob/master/linters/.jshintrc">Airbnb Style .jshintrc</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/jscs-dev/node-jscs">JSCS</a> - <a target="_blank" rel="noopener" href="https://github.com/jscs-dev/node-jscs/blob/master/presets/airbnb.json">Airbnb Style Preset</a> (Deprecated, please use <a target="_blank" rel="noopener" href="https://github.com/airbnb/javascript/tree/master/packages/eslint-config-airbnb-base">ESlint</a>)</li>
+</ul>
+</li>
+<li>Neutrino preset - <a target="_blank" rel="noopener" href="https://neutrino.js.org/presets/neutrino-preset-airbnb-base/">neutrino-preset-airbnb-base</a></li>
+</ul>
+<p><strong>Other Style Guides</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://google.github.io/styleguide/javascriptguide.xml">Google JavaScript Style Guide</a></li>
+<li><a target="_blank" rel="noopener" href="https://contribute.jquery.org/style-guide/js/">jQuery Core Style Guidelines</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/rwaldron/idiomatic.js">Principles of Writing Consistent, Idiomatic JavaScript</a></li>
+</ul>
+<p><strong>Other Styles</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://gist.github.com/cjohansen/4135065">Naming this in nested functions</a> - Christian Johansen</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/airbnb/javascript/issues/52">Conditional Callbacks</a> - Ross Allen</li>
+<li><a target="_blank" rel="noopener" href="http://sideeffect.kr/popularconvention/#javascript">Popular JavaScript Coding Conventions on GitHub</a> - JeongHoon Byun</li>
+<li><a target="_blank" rel="noopener" href="http://benalman.com/news/2012/05/multiple-var-statements-javascript/">Multiple var statements in JavaScript, not superfluous</a> - Ben Alman</li>
+</ul>
+<p><strong>Further Reading</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://javascriptweblog.wordpress.com/2010/10/25/understanding-javascript-closures/">Understanding JavaScript Closures</a> - Angus Croll</li>
+<li><a target="_blank" rel="noopener" href="http://www.2ality.com/2013/06/basic-javascript.html">Basic JavaScript for the impatient programmer</a> - Dr. Axel Rauschmayer</li>
+<li><a target="_blank" rel="noopener" href="http://youmightnotneedjquery.com/">You Might Not Need jQuery</a> - Zack Bloom &amp; Adam Schwartz</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/lukehoban/es6features">ES6 Features</a> - Luke Hoban</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/bendc/frontend-guidelines">Frontend Guidelines</a> - Benjamin De Cock</li>
+</ul>
+<p><strong>Books</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.amazon.com/JavaScript-Good-Parts-Douglas-Crockford/dp/0596517742">JavaScript: The Good Parts</a> - Douglas Crockford</li>
+<li><a target="_blank" rel="noopener" href="https://www.amazon.com/JavaScript-Patterns-Stoyan-Stefanov/dp/0596806752">JavaScript Patterns</a> - Stoyan Stefanov</li>
+<li><a target="_blank" rel="noopener" href="https://www.amazon.com/JavaScript-Design-Patterns-Recipes-Problem-Solution/dp/159059908X">Pro JavaScript Design Patterns</a>  - Ross Harmes and Dustin Diaz</li>
+<li><a target="_blank" rel="noopener" href="https://www.amazon.com/High-Performance-Web-Sites-Essential/dp/0596529309">High Performance Web Sites: Essential Knowledge for Front-End Engineers</a> - Steve Souders</li>
+<li><a target="_blank" rel="noopener" href="https://www.amazon.com/Maintainable-JavaScript-Nicholas-C-Zakas/dp/1449327680">Maintainable JavaScript</a> - Nicholas C. Zakas</li>
+<li><a target="_blank" rel="noopener" href="https://www.amazon.com/JavaScript-Web-Applications-Alex-MacCaw/dp/144930351X">JavaScript Web Applications</a> - Alex MacCaw</li>
+<li><a target="_blank" rel="noopener" href="https://www.amazon.com/Pro-JavaScript-Techniques-John-Resig/dp/1590597273">Pro JavaScript Techniques</a> - John Resig</li>
+<li><a target="_blank" rel="noopener" href="https://www.amazon.com/Smashing-Node-js-JavaScript-Everywhere-Magazine/dp/1119962595">Smashing Node.js: JavaScript Everywhere</a> - Guillermo Rauch</li>
+<li><a target="_blank" rel="noopener" href="https://www.amazon.com/Secrets-JavaScript-Ninja-John-Resig/dp/193398869X">Secrets of the JavaScript Ninja</a> - John Resig and Bear Bibeault</li>
+<li><a target="_blank" rel="noopener" href="http://humanjavascript.com/">Human JavaScript</a> - Henrik Joreteg</li>
+<li><a target="_blank" rel="noopener" href="http://superherojs.com/">Superhero.js</a> - Kim Joar Bekkelund, Mads Mobæk, &amp; Olav Bjorkoy</li>
+<li><a target="_blank" rel="noopener" href="http://jsbooks.revolunet.com/">JSBooks</a> - Julien Bouquillon</li>
+<li><a target="_blank" rel="noopener" href="https://www.manning.com/books/third-party-javascript">Third Party JavaScript</a> - Ben Vinegar and Anton Kovalyov</li>
+<li><a target="_blank" rel="noopener" href="http://amzn.com/0321812182">Effective JavaScript: 68 Specific Ways to Harness the Power of JavaScript</a> - David Herman</li>
+<li><a target="_blank" rel="noopener" href="http://eloquentjavascript.net/">Eloquent JavaScript</a> - Marijn Haverbeke</li>
+<li><a target="_blank" rel="noopener" href="http://shop.oreilly.com/product/0636920033769.do">You Don’t Know JS: ES6 &amp; Beyond</a> - Kyle Simpson</li>
+</ul>
+<p><strong>Blogs</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="http://javascriptweekly.com/">JavaScript Weekly</a></li>
+<li><a target="_blank" rel="noopener" href="https://javascriptweblog.wordpress.com/">JavaScript, JavaScript…</a></li>
+<li><a target="_blank" rel="noopener" href="https://bocoup.com/weblog">Bocoup Weblog</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.adequatelygood.com/">Adequately Good</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.nczonline.net/">NCZOnline</a></li>
+<li><a target="_blank" rel="noopener" href="http://perfectionkills.com/">Perfection Kills</a></li>
+<li><a target="_blank" rel="noopener" href="http://benalman.com/">Ben Alman</a></li>
+<li><a target="_blank" rel="noopener" href="http://dmitry.baranovskiy.com/">Dmitry Baranovskiy</a></li>
+<li><a target="_blank" rel="noopener" href="http://dustindiaz.com/">Dustin Diaz</a></li>
+<li><a target="_blank" rel="noopener" href="http://code.tutsplus.com/?s=javascript">nettuts</a></li>
+</ul>
+<p><strong>Podcasts</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://javascriptair.com/">JavaScript Air</a></li>
+<li><a target="_blank" rel="noopener" href="https://devchat.tv/js-jabber/">JavaScript Jabber</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Language/" rel="tag"># Language</a>
+              <a href="/tags/JavaScript/" rel="tag"># JavaScript</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2013/08/08/Airbnb-JavaScript-Style-Guide-2/" rel="prev" title="Airbnb JavaScript Style Guide (2)">
+      <i class="fa fa-chevron-left"></i> Airbnb JavaScript Style Guide (2)
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2013/10/26/Airbnb-CSS-SASS-Style-Guide/" rel="next" title="Airbnb CSS / SASS Style Guide">
+      Airbnb CSS / SASS Style Guide <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Commas-%E9%80%97%E5%8F%B7"><span class="nav-number">1.</span> <span class="nav-text">Commas  逗号</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Semicolons-%E5%88%86%E5%8F%B7"><span class="nav-number">2.</span> <span class="nav-text">Semicolons  分号</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Type-Casting-amp-Coercion-%E7%B1%BB%E5%9E%8B%E9%80%82%E9%85%8D-amp-%E5%BC%BA%E5%88%B6%E5%88%86%E9%85%8D"><span class="nav-number">3.</span> <span class="nav-text">Type Casting &amp; Coercion 类型适配&amp;强制分配</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Naming-Conventions-%E5%91%BD%E5%90%8D%E7%BA%A6%E5%AE%9A"><span class="nav-number">4.</span> <span class="nav-text">Naming Conventions  命名约定</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Accessors-%E5%AD%98%E5%8F%96%E5%99%A8"><span class="nav-number">5.</span> <span class="nav-text">Accessors  存取器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Events-%E4%BA%8B%E4%BB%B6"><span class="nav-number">6.</span> <span class="nav-text">Events  事件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#j-Query"><span class="nav-number">7.</span> <span class="nav-text">j Query</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ECMAScript-5-Compatibility-ES5%E5%85%BC%E5%AE%B9%E6%80%A7"><span class="nav-number">8.</span> <span class="nav-text">ECMAScript 5 Compatibility ES5兼容性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ECMAScript-6-ES-2015-Styles"><span class="nav-number">9.</span> <span class="nav-text">ECMAScript 6+ (ES 2015+) Styles</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Testing"><span class="nav-number">10.</span> <span class="nav-text">Testing</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Performance-%E6%80%A7%E8%83%BD"><span class="nav-number">11.</span> <span class="nav-text">Performance   性能</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Resources-%E8%B5%84%E6%BA%90"><span class="nav-number">12.</span> <span class="nav-text">Resources  资源</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">田_田</p>
+  <div class="site-description" itemprop="description">创新需要在一切发生之前研究结局!</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">34</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wangzitian0" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wangzitian0" rel="noopener" target="_blank"><i class="github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wangzitian0@gmail.com" title="E-Mail → mailto:wangzitian0@gmail.com" rel="noopener" target="_blank"><i class="envelope fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.linkedin.com/in/wangzitian0" title="LinkedIn → https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;wangzitian0" rel="noopener" target="_blank"><i class="linkedin fa-fw"></i></a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class=""></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">田_田</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a>
+  </div>
+
+        
+
+
+
+
+
+
+<script>
+  (function() {
+    function leancloudSelector(url) {
+      url = encodeURI(url);
+      return document.getElementById(url).querySelector('.leancloud-visitors-count');
+    }
+
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = decodeURI(visitors.id);
+      var title = visitors.dataset.flagTitle;
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            leancloudSelector(url).innerText = counter.time + 1;
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              });
+          } else {
+              leancloudSelector(url).innerText = 'Counter not initialized! More info at console err msg.';
+              console.error('ATTENTION! LeanCloud counter has security bug, see how to solve it here: https://github.com/theme-next/hexo-leancloud-counter-security. \n However, you can still use LeanCloud without security, by setting `security` option to `false`.');
+            
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return decodeURI(element.id);
+      });
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          for (let url of entries) {
+            let target = results.find(item => item.url === url);
+            leancloudSelector(url).innerText = target ? target.time : 0;
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    let { app_id, app_key, server_url } = {"enable":true,"app_id":"itw5YW53yzX17tr3WAdRd9Dd-gzGzoHsz","app_key":"qLjOt8jjizQl0ys5OSdwf10Y","server_url":null,"security":true,"betterPerformance":true};
+    function fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${api_server}/1.1${url}`, {
+          method,
+          headers: {
+            'X-LC-Id'     : app_id,
+            'X-LC-Key'    : app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    }
+
+    let api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(response => response.json())
+        .then(({ api_server }) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="//cdn.jsdelivr.net/npm/algoliasearch@4/dist/algoliasearch-lite.umd.js"></script>
+<script src="//cdn.jsdelivr.net/npm/instantsearch.js@4/dist/instantsearch.production.min.js"></script>
+<script src="/js/algolia-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

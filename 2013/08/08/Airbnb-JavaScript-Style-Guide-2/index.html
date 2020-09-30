@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/huaji.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/huaji.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/huaji.png">
+  <link rel="mask-icon" href="/images/huaji.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"wangzitian0.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":true,"b2t":false,"scrollpercent":true},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"appID":"1PWF5BJPP1","apiKey":"6a2714c5b665823e7132db2aedb81233","indexName":"wangzitian0.github.io","hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="A mostly reasonable approach to JavaScript一个最讲道理的JavaScript方法论">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Airbnb JavaScript Style Guide (2)">
+<meta property="og:url" content="https://wangzitian0.github.io/2013/08/08/Airbnb-JavaScript-Style-Guide-2/index.html">
+<meta property="og:site_name" content="全栈之路">
+<meta property="og:description" content="A mostly reasonable approach to JavaScript一个最讲道理的JavaScript方法论">
+<meta property="og:locale">
+<meta property="article:published_time" content="2013-08-08T03:43:00.000Z">
+<meta property="article:modified_time" content="2020-09-30T04:59:07.875Z">
+<meta property="article:author" content="田_田">
+<meta property="article:tag" content="Language">
+<meta property="article:tag" content="JavaScript">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://wangzitian0.github.io/2013/08/08/Airbnb-JavaScript-Style-Guide-2/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>Airbnb JavaScript Style Guide (2) | 全栈之路</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?1eeceb0b3f8e550d6211f134646361b6";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="全栈之路" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta custom-logo">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">全栈之路</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">田_田的博客</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="archive fa-fw"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="user fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="tags fa-fw"></i>Tags</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container"></div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="algolia-results">
+  <div id="algolia-stats"></div>
+  <div id="algolia-hits"></div>
+  <div id="algolia-pagination" class="algolia-pagination"></div>
+</div>
+
+      
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://wangzitian0.github.io/2013/08/08/Airbnb-JavaScript-Style-Guide-2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="田_田">
+      <meta itemprop="description" content="创新需要在一切发生之前研究结局!">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="全栈之路">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Airbnb JavaScript Style Guide (2)
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2013-08-08 11:43:00" itemprop="dateCreated datePublished" datetime="2013-08-08T11:43:00+08:00">2013-08-08</time>
+            </span>
+
+          
+            <span id="/2013/08/08/Airbnb-JavaScript-Style-Guide-2/" class="post-meta-item leancloud_visitors" data-flag-title="Airbnb JavaScript Style Guide (2)" title="Views">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><em>A mostly reasonable approach to JavaScript</em><br><em>一个最讲道理的JavaScript方法论</em></p>
+<a id="more"></a>
+
+
+<h2 id="Modules-模块"><a href="#Modules-模块" class="headerlink" title="Modules 模块"></a>Modules 模块</h2><ul>
+<li><p>[10.1] Always use modules (<code>import</code>/<code>export</code>) over a non-standard module system. You can always transpile to your preferred module system.<br>在非标准模块系统里总是使用模块 (<code>import</code>/<code>export</code>) 。你可以总是使用你喜欢的反编译系统。</p>
+<blockquote>
+<p>Why? Modules are the future, let’s start using the future now.<br>为什么？模块面向未来，让我们开始使用未来的工具吧。</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="keyword">const</span> AirbnbStyleGuide = <span class="built_in">require</span>(<span class="string">&#x27;./AirbnbStyleGuide&#x27;</span>);</span><br><span class="line"><span class="built_in">module</span>.exports = AirbnbStyleGuide.es6;</span><br><span class="line"></span><br><span class="line"><span class="comment">// ok</span></span><br><span class="line"><span class="keyword">import</span> AirbnbStyleGuide <span class="keyword">from</span> <span class="string">&#x27;./AirbnbStyleGuide&#x27;</span>;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> AirbnbStyleGuide.es6;</span><br><span class="line"></span><br><span class="line"><span class="comment">// best</span></span><br><span class="line"><span class="keyword">import</span> &#123; es6 &#125; <span class="keyword">from</span> <span class="string">&#x27;./AirbnbStyleGuide&#x27;</span>;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> es6;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>[10.2] Do not use wildcard imports.<br>不要使用通配符引入</p>
+<blockquote>
+<p>Why? This makes sure you have a single default export.<br>为什么？ 这个可以保证你有单个默认的输出。</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> AirbnbStyleGuide <span class="keyword">from</span> <span class="string">&#x27;./AirbnbStyleGuide&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="keyword">import</span> AirbnbStyleGuide <span class="keyword">from</span> <span class="string">&#x27;./AirbnbStyleGuide&#x27;</span>;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>[10.3] And do not export directly from an import.<br>不要导入的时候直接导出。</p>
+<blockquote>
+<p>Why? Although the one-liner is concise, having one clear way to import and one clear way to export makes things consistent.<br>为什么？尽管一行很简洁，但是有一个清晰的导入方式和一个清晰的导出让它们更一致。</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="comment">// filename es6.js</span></span><br><span class="line"><span class="keyword">export</span> &#123; es6 <span class="keyword">as</span> <span class="keyword">default</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;./AirbnbStyleGuide&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="comment">// filename es6.js</span></span><br><span class="line"><span class="keyword">import</span> &#123; es6 &#125; <span class="keyword">from</span> <span class="string">&#x27;./AirbnbStyleGuide&#x27;</span>;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> es6;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>[10.4] Only import from a path in one place.<br>eslint: <a target="_blank" rel="noopener" href="http://eslint.org/docs/rules/no-duplicate-imports"><code>no-duplicate-imports</code></a><br>一个路径只在一个地方引入。</p>
+<blockquote>
+<p>Why? Having multiple lines that import from the same path can make code harder to maintain.<br>为什么？有多行的引入可能导致代码难以维护。</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="keyword">import</span> foo <span class="keyword">from</span> <span class="string">&#x27;foo&#x27;</span>;</span><br><span class="line"><span class="comment">// … some other imports … //</span></span><br><span class="line"><span class="keyword">import</span> &#123; named1, named2 &#125; <span class="keyword">from</span> <span class="string">&#x27;foo&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="keyword">import</span> foo, &#123; named1, named2 &#125; <span class="keyword">from</span> <span class="string">&#x27;foo&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="keyword">import</span> foo, &#123;</span><br><span class="line">  named1,</span><br><span class="line">  named2,</span><br><span class="line">&#125; <span class="keyword">from</span> <span class="string">&#x27;foo&#x27;</span>;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>[10.5] Do not export mutable bindings.<br>eslint: <a target="_blank" rel="noopener" href="https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/no-mutable-exports.md"><code>import/no-mutable-exports</code></a><br>可变值不要导出。</p>
+<blockquote>
+<p>Why? Mutation should be avoided in general, but in particular when exporting mutable bindings. While this technique may be needed for some special cases, in general, only constant references should be exported.<br>为什么？变化一般情况下都应该被避免，尤其是导出可变的绑定值。尽管某些特殊情况需要可变绑定这个技术，但是一般情况下只有不可变引用可以导出。</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="keyword">let</span> foo = <span class="number">3</span>;</span><br><span class="line"><span class="keyword">export</span> &#123; foo &#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="keyword">const</span> foo = <span class="number">3</span>;</span><br><span class="line"><span class="keyword">export</span> &#123; foo &#125;;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>[10.6] In modules with a single export, prefer default export over named export.<br>eslint: <a target="_blank" rel="noopener" href="https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/prefer-default-export.md"><code>import/prefer-default-export</code></a><br>模块内有一个单独的导出，通过名字导出更好。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>[10.7] Put all <code>import</code>s above non-import statements.<br>eslint: <a target="_blank" rel="noopener" href="https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/first.md"><code>import/first</code></a><br>把所有的 import 放在非 import 语句之前。</p>
+<blockquote>
+<p>Why? Since <code>import</code>s are hoisted, keeping them all at the top prevents surprising behavior.<br>为什么？尽管import 会变量提升，但是保持他们在头部可以防止奇怪的行为。</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="keyword">import</span> foo <span class="keyword">from</span> <span class="string">&#x27;foo&#x27;</span>;</span><br><span class="line">foo.init();</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> bar <span class="keyword">from</span> <span class="string">&#x27;bar&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="keyword">import</span> foo <span class="keyword">from</span> <span class="string">&#x27;foo&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> bar <span class="keyword">from</span> <span class="string">&#x27;bar&#x27;</span>;</span><br><span class="line"></span><br><span class="line">foo.init();</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>[10.8] Multiline imports should be indented just like multiline array and object literals.<br>多行引入应该缩进成多行数组和对象的语法一样。</p>
+<blockquote>
+<p>Why? The curly braces follow the same indentation rules as every other curly brace block in the style guide, as do the trailing commas.<br>为什么？这个花括号遵守和其他所有花括号的语法规则一样的缩进规则，也同样应该留下末尾的逗号。</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="keyword">import</span> &#123;longNameA, longNameB, longNameC, longNameD, longNameE&#125; <span class="keyword">from</span> <span class="string">&#x27;path&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="keyword">import</span> &#123;</span><br><span class="line">  longNameA,</span><br><span class="line">  longNameB,</span><br><span class="line">  longNameC,</span><br><span class="line">  longNameD,</span><br><span class="line">  longNameE,</span><br><span class="line">&#125; <span class="keyword">from</span> <span class="string">&#x27;path&#x27;</span>;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>[10.9] Disallow Webpack loader syntax in module import statements.<br>eslint: <a target="_blank" rel="noopener" href="https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/no-webpack-loader-syntax.md"><code>import/no-webpack-loader-syntax</code></a><br>模块导入语句不允许 webpack loader 语法。</p>
+<blockquote>
+<p>Why? Since using Webpack syntax in the imports couples the code to a module bundler. Prefer using the loader syntax in <code>webpack.config.js</code>.<br>为什么？ 使用 webpack 的语法在导入语句让模块 bundler 的代码加倍了。更推荐在在<code>webpack.config.js</code>里面使用 loader 语法。</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="keyword">import</span> fooSass <span class="keyword">from</span> <span class="string">&#x27;css!sass!foo.scss&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> barCss <span class="keyword">from</span> <span class="string">&#x27;style!css!bar.css&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="keyword">import</span> fooSass <span class="keyword">from</span> <span class="string">&#x27;foo.scss&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> barCss <span class="keyword">from</span> <span class="string">&#x27;bar.css&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="Iterators-and-Generators-迭代器-amp-生成器"><a href="#Iterators-and-Generators-迭代器-amp-生成器" class="headerlink" title="Iterators and Generators 迭代器&amp;生成器"></a>Iterators and Generators 迭代器&amp;生成器</h2><ul>
+<li><p>[11.1] Don’t use iterators. Prefer JavaScript’s higher-order functions instead of loops like <code>for-in</code> or <code>for-of</code>. eslint: <a target="_blank" rel="noopener" href="http://eslint.org/docs/rules/no-iterator.html"><code>no-iterator</code></a> <a target="_blank" rel="noopener" href="http://eslint.org/docs/rules/no-restricted-syntax"><code>no-restricted-syntax</code></a><br>别用迭代器。推荐 JS 更高阶的函数而不是循环，如<code>for-in</code> 或 <code>for-of</code>。</p>
+<blockquote>
+<p>Why? This enforces our immutable rule. Dealing with pure functions that return values is easier to reason about than side effects.<br>为什么？ 这样强制执行不可变原则。处理返回值的纯函数比推断副作用要容易。</p>
+</blockquote>
+<blockquote>
+<p>Use <code>map()</code> / <code>every()</code> / <code>filter()</code> / <code>find()</code> / <code>findIndex()</code> / <code>reduce()</code> / <code>some()</code> / … to iterate over arrays, and <code>Object.keys()</code> / <code>Object.values()</code> / <code>Object.entries()</code> to produce arrays so you can iterate over objects.<br>用 <code>map()</code> / <code>every()</code> / <code>filter()</code> / <code>find()</code> / <code>findIndex()</code> / <code>reduce()</code> / <code>some()</code> / … 来迭代数组，用 <code>Object.keys()</code> / <code>Object.values()</code> / <code>Object.entries()</code> 来生成用来迭代对象的数组</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> numbers = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>];</span><br><span class="line"></span><br><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="keyword">let</span> sum = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> num <span class="keyword">of</span> numbers) &#123;</span><br><span class="line">  sum += num;</span><br><span class="line">&#125;</span><br><span class="line">sum === <span class="number">15</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="keyword">let</span> sum = <span class="number">0</span>;</span><br><span class="line">numbers.forEach(<span class="function">(<span class="params">num</span>) =&gt;</span> &#123;</span><br><span class="line">  sum += num;</span><br><span class="line">&#125;);</span><br><span class="line">sum === <span class="number">15</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// best (use the functional force)</span></span><br><span class="line"><span class="keyword">const</span> sum = numbers.reduce(<span class="function">(<span class="params">total, num</span>) =&gt;</span> total + num, <span class="number">0</span>);</span><br><span class="line">sum === <span class="number">15</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="keyword">const</span> increasedByOne = [];</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; numbers.length; i++) &#123;</span><br><span class="line">  increasedByOne.push(numbers[i] + <span class="number">1</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="keyword">const</span> increasedByOne = [];</span><br><span class="line">numbers.forEach(<span class="function">(<span class="params">num</span>) =&gt;</span> &#123;</span><br><span class="line">  increasedByOne.push(num + <span class="number">1</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// best (keeping it functional)</span></span><br><span class="line"><span class="keyword">const</span> increasedByOne = numbers.map(<span class="function"><span class="params">num</span> =&gt;</span> num + <span class="number">1</span>);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>[11.2] Don’t use generators for now.<br>现在别用生成器。</p>
+<blockquote>
+<p>Why? They don’t transpile well to ES5.<br>为什么？他们现在很难被编译成 ES5。</p>
+</blockquote>
+</li>
+<li><p><a href="#generators--spacing">11.3</a> If you must use generators, or if you disregard <a href="#generators--nope">our advice</a>, make sure their function signature is spaced properly. eslint: <a target="_blank" rel="noopener" href="http://eslint.org/docs/rules/generator-star-spacing"><code>generator-star-spacing</code></a><br>如果你非要用生成器，或者你无视我们的建议，确保他们的函数签名是空格使用恰当。</p>
+<blockquote>
+<p>Why? <code>function</code> and <code>*</code> are part of the same conceptual keyword - <code>*</code> is not a modifier for <code>function</code>, <code>function*</code> is a unique construct, different from <code>function</code>.<br>为什么？<code>function</code> 和 <code>*</code> 是概念上关键词的一部分，<code>*</code> 不是一个队<code>function</code>的修改者， <code>function*</code> 是一个和 <code>function</code> 不同的特殊构造器。</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> * <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="keyword">const</span> bar = <span class="function"><span class="keyword">function</span> * (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="keyword">const</span> baz = <span class="function"><span class="keyword">function</span> *(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="keyword">const</span> quux = <span class="function"><span class="keyword">function</span>*(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="function"><span class="keyword">function</span>*<span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> *<span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// very bad</span></span><br><span class="line"><span class="function"><span class="keyword">function</span></span></span><br><span class="line"><span class="function">*</span></span><br><span class="line"><span class="function"><span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// very bad</span></span><br><span class="line"><span class="keyword">const</span> wat = <span class="function"><span class="keyword">function</span></span></span><br><span class="line"><span class="function">*</span></span><br><span class="line"><span class="function">(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="function"><span class="keyword">function</span>* <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="keyword">const</span> foo = <span class="function"><span class="keyword">function</span>* (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+
+</li>
+</ul>
+<h2 id="Properties-属性"><a href="#Properties-属性" class="headerlink" title="Properties  属性"></a>Properties  属性</h2><ul>
+<li><p>[12.1] Use dot notation when accessing properties. eslint: <a target="_blank" rel="noopener" href="http://eslint.org/docs/rules/dot-notation.html"><code>dot-notation</code></a> jscs: <a target="_blank" rel="noopener" href="http://jscs.info/rule/requireDotNotation"><code>requireDotNotation</code></a><br>存取属性使用点符号。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> luke = &#123;</span><br><span class="line">  jedi: <span class="literal">true</span>,</span><br><span class="line">  age: <span class="number">28</span>,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="keyword">const</span> isJedi = luke[<span class="string">&#x27;jedi&#x27;</span>];</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="keyword">const</span> isJedi = luke.jedi;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>[12.2] Use bracket notation <code>[]</code> when accessing properties with a variable.<br>存取变量属性的时候使用方括号符号。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> luke = &#123;</span><br><span class="line">  jedi: <span class="literal">true</span>,</span><br><span class="line">  age: <span class="number">28</span>,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getProp</span>(<span class="params">prop</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> luke[prop];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> isJedi = getProp(<span class="string">&#x27;jedi&#x27;</span>);</span><br></pre></td></tr></table></figure></li>
+<li><p>[12.3] Use exponentiation operator <code>**</code> when calculating exponentiations. eslint: <a target="_blank" rel="noopener" href="http://eslint.org/docs/rules/no-restricted-properties"><code>no-restricted-properties</code></a>.<br>使用乘方符号当需要计算幂次方的时候。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="keyword">const</span> binary = <span class="built_in">Math</span>.pow(<span class="number">2</span>, <span class="number">10</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="keyword">const</span> binary = <span class="number">2</span> ** <span class="number">10</span>;</span><br></pre></td></tr></table></figure>
+
+
+</li>
+</ul>
+<h2 id="Variables-变量"><a href="#Variables-变量" class="headerlink" title="Variables  变量"></a>Variables  变量</h2><ul>
+<li><p>[13.1]  Always use <code>const</code> or <code>let</code> to declare variables. Not doing so will result in global variables. We want to avoid polluting the global namespace. Captain Planet warned us of that. eslint: <a target="_blank" rel="noopener" href="http://eslint.org/docs/rules/no-undef"><code>no-undef</code></a> <a target="_blank" rel="noopener" href="http://eslint.org/docs/rules/prefer-const"><code>prefer-const</code></a><br>总是使用 const 或者 let 来声明变量。不这么做会产生全局变量。我们想避免污染全局命名空间。地球超人那样警告了我们。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bad</span></span><br><span class="line">superPower = <span class="keyword">new</span> SuperPower();</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="keyword">const</span> superPower = <span class="keyword">new</span> SuperPower();</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>[13.2] Use one <code>const</code> or <code>let</code> declaration per variable. eslint: <a target="_blank" rel="noopener" href="http://eslint.org/docs/rules/one-var.html"><code>one-var</code></a> jscs: <a target="_blank" rel="noopener" href="http://jscs.info/rule/disallowMultipleVarDecl"><code>disallowMultipleVarDecl</code></a><br>每个变量单独使用声明关键词。</p>
+<blockquote>
+<p>Why? It’s easier to add new variable declarations this way, and you never have to worry about swapping out a <code>;</code> for a <code>,</code> or introducing punctuation-only diffs. You can also step through each declaration with the debugger, instead of jumping through all of them at once.<br>为什么？这样更容易加一个新的变量声明，你不需要担心交换分号、逗号或者其他符号之类的问题。你还可以调试的时候步进调试而不是一次性跳过所有。</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="keyword">const</span> items = getItems(),</span><br><span class="line">    goSportsTeam = <span class="literal">true</span>,</span><br><span class="line">    dragonball = <span class="string">&#x27;z&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="comment">// (compare to above, and try to spot the mistake)</span></span><br><span class="line"><span class="keyword">const</span> items = getItems(),</span><br><span class="line">    goSportsTeam = <span class="literal">true</span>;</span><br><span class="line">    dragonball = <span class="string">&#x27;z&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="keyword">const</span> items = getItems();</span><br><span class="line"><span class="keyword">const</span> goSportsTeam = <span class="literal">true</span>;</span><br><span class="line"><span class="keyword">const</span> dragonball = <span class="string">&#x27;z&#x27;</span>;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>[13.3]Group all your <code>const</code>s and then group all your <code>let</code>s.<br>const 和 let 要进行分组。</p>
+<blockquote>
+<p>Why? This is helpful when later on you might need to assign a variable depending on one of the previous assigned variables.<br>为什么？当你需要给一个依赖先前变量的变量赋值的时候，这是很有用的</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="keyword">let</span> i, len, dragonball,</span><br><span class="line">    items = getItems(),</span><br><span class="line">    goSportsTeam = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="keyword">let</span> i;</span><br><span class="line"><span class="keyword">const</span> items = getItems();</span><br><span class="line"><span class="keyword">let</span> dragonball;</span><br><span class="line"><span class="keyword">const</span> goSportsTeam = <span class="literal">true</span>;</span><br><span class="line"><span class="keyword">let</span> len;</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="keyword">const</span> goSportsTeam = <span class="literal">true</span>;</span><br><span class="line"><span class="keyword">const</span> items = getItems();</span><br><span class="line"><span class="keyword">let</span> dragonball;</span><br><span class="line"><span class="keyword">let</span> i;</span><br><span class="line"><span class="keyword">let</span> length;</span><br></pre></td></tr></table></figure></li>
+<li><p>[13.4] Assign variables where you need them, but place them in a reasonable place.<br>在你需要的地方给变量赋值，但是把他们放在符合逻辑的地方。</p>
+<blockquote>
+<p>Why? <code>let</code> and <code>const</code> are block scoped and not function scoped.<br>为什么？<code>let</code> and <code>const</code> 是块作用域而不是函数作用域。</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bad - unnecessary function call</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">checkName</span>(<span class="params">hasName</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> name = getName();</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (hasName === <span class="string">&#x27;test&#x27;</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (name === <span class="string">&#x27;test&#x27;</span>) &#123;</span><br><span class="line">    <span class="built_in">this</span>.setName(<span class="string">&#x27;&#x27;</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> name;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">checkName</span>(<span class="params">hasName</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (hasName === <span class="string">&#x27;test&#x27;</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> name = getName();</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (name === <span class="string">&#x27;test&#x27;</span>) &#123;</span><br><span class="line">    <span class="built_in">this</span>.setName(<span class="string">&#x27;&#x27;</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> name;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>[13.5] Don’t chain variable assignments.<br>不要链式赋值。</p>
+<blockquote>
+<p>Why? Chaining variable assignments creates implicit global variables.<br>为什么？链式赋值会创造隐式全局变量。</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bad</span></span><br><span class="line">(<span class="function"><span class="keyword">function</span> <span class="title">example</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="comment">// JavaScript interprets this as</span></span><br><span class="line">  <span class="comment">// let a = ( b = ( c = 1 ) );</span></span><br><span class="line">  <span class="comment">// The let keyword only applies to variable a; variables b and c become</span></span><br><span class="line">  <span class="comment">// global variables.</span></span><br><span class="line">  <span class="keyword">let</span> a = b = c = <span class="number">1</span>;</span><br><span class="line">&#125;());</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(a); <span class="comment">// throws ReferenceError</span></span><br><span class="line"><span class="built_in">console</span>.log(b); <span class="comment">// 1</span></span><br><span class="line"><span class="built_in">console</span>.log(c); <span class="comment">// 1</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line">(<span class="function"><span class="keyword">function</span> <span class="title">example</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> a = <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">let</span> b = a;</span><br><span class="line">  <span class="keyword">let</span> c = a;</span><br><span class="line">&#125;());</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(a); <span class="comment">// throws ReferenceError</span></span><br><span class="line"><span class="built_in">console</span>.log(b); <span class="comment">// throws ReferenceError</span></span><br><span class="line"><span class="built_in">console</span>.log(c); <span class="comment">// throws ReferenceError</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// the same applies for `const`</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>[13.6] Avoid using unary increments and decrements (++, –). eslint <a target="_blank" rel="noopener" href="http://eslint.org/docs/rules/no-plusplus"><code>no-plusplus</code></a><br>避免使用单目增减运算符。</p>
+<blockquote>
+<p>Why? Per the eslint documentation, unary increment and decrement statements are subject to automatic semicolon insertion and can cause silent errors with incrementing or decrementing values within an application. It is also more expressive to mutate your values with statements like <code>num += 1</code> instead of <code>num++</code> or <code>num ++</code>. Disallowing unary increment and decrement statements also prevents you from pre-incrementing/pre-decrementing values unintentionally which can also cause unexpected behavior in your programs.<br>为什么？任何一个 eslint 的文档，单目运算符会自动添加分号，可以造成隐式错误。使用 <code>num += 1</code> 这种改变变量值的语句更有表现力。不允许单目运算符还能防止预期之外的预增值或者预减值，这科恩给你造成预期之外的结果。</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bad</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> array = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];</span><br><span class="line"><span class="keyword">let</span> num = <span class="number">1</span>;</span><br><span class="line">num++;</span><br><span class="line">--num;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> sum = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">let</span> truthyCount = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; array.length; i++) &#123;</span><br><span class="line">  <span class="keyword">let</span> value = array[i];</span><br><span class="line">  sum += value;</span><br><span class="line">  <span class="keyword">if</span> (value) &#123;</span><br><span class="line">    truthyCount++;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> array = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];</span><br><span class="line"><span class="keyword">let</span> num = <span class="number">1</span>;</span><br><span class="line">num += <span class="number">1</span>;</span><br><span class="line">num -= <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> sum = array.reduce(<span class="function">(<span class="params">a, b</span>) =&gt;</span> a + b, <span class="number">0</span>);</span><br><span class="line"><span class="keyword">const</span> truthyCount = array.filter(<span class="built_in">Boolean</span>).length;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="Hoisting-变量提升"><a href="#Hoisting-变量提升" class="headerlink" title="Hoisting  变量提升"></a>Hoisting  变量提升</h2><ul>
+<li><p>[14.1] <code>var</code> declarations get hoisted to the top of their scope, their assignment does not. <code>const</code> and <code>let</code> declarations are blessed with a new concept called <a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/let#Temporal_dead_zone_and_errors_with_let">Temporal Dead Zones (TDZ)</a>. It’s important to know why <a target="_blank" rel="noopener" href="http://es-discourse.com/t/why-typeof-is-no-longer-safe/15">typeof is no longer safe</a>.<br>var 的声明会被提升到作用域的头部，但是赋值不会。const 和 let 声明受益于一个新的概念TDZ。了解一下为什么 typeof 是不安全的很重要。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// we know this wouldn’t work (assuming there</span></span><br><span class="line"><span class="comment">// is no notDefined global variable)</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">example</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(notDefined); <span class="comment">// =&gt; throws a ReferenceError</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// creating a variable declaration after you</span></span><br><span class="line"><span class="comment">// reference the variable will work due to</span></span><br><span class="line"><span class="comment">// variable hoisting. Note: the assignment</span></span><br><span class="line"><span class="comment">// value of `true` is not hoisted.</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">example</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(declaredButNotAssigned); <span class="comment">// =&gt; undefined</span></span><br><span class="line">  <span class="keyword">var</span> declaredButNotAssigned = <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// the interpreter is hoisting the variable</span></span><br><span class="line"><span class="comment">// declaration to the top of the scope,</span></span><br><span class="line"><span class="comment">// which means our example could be rewritten as:</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">example</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> declaredButNotAssigned;</span><br><span class="line">  <span class="built_in">console</span>.log(declaredButNotAssigned); <span class="comment">// =&gt; undefined</span></span><br><span class="line">  declaredButNotAssigned = <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// using const and let</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">example</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(declaredButNotAssigned); <span class="comment">// =&gt; throws a ReferenceError</span></span><br><span class="line">  <span class="built_in">console</span>.log(<span class="keyword">typeof</span> declaredButNotAssigned); <span class="comment">// =&gt; throws a ReferenceError</span></span><br><span class="line">  <span class="keyword">const</span> declaredButNotAssigned = <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>[14.2] Anonymous function expressions hoist their variable name, but not the function assignment.<br>匿名函数表达式提升他们的变量名，但是不提升函数赋值。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">example</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(anonymous); <span class="comment">// =&gt; undefined</span></span><br><span class="line"></span><br><span class="line">  anonymous(); <span class="comment">// =&gt; TypeError anonymous is not a function</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">var</span> anonymous = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;anonymous function expression&#x27;</span>);</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>[14.3] Named function expressions hoist the variable name, not the function name or the function body.<br>实名函数表达式提升变量名，不提升函数名和函数主体。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">example</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(named); <span class="comment">// =&gt; undefined</span></span><br><span class="line"></span><br><span class="line">  named(); <span class="comment">// =&gt; TypeError named is not a function</span></span><br><span class="line"></span><br><span class="line">  superPower(); <span class="comment">// =&gt; ReferenceError superPower is not defined</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">var</span> named = <span class="function"><span class="keyword">function</span> <span class="title">superPower</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;Flying&#x27;</span>);</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// the same is true when the function name</span></span><br><span class="line"><span class="comment">// is the same as the variable name.</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">example</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(named); <span class="comment">// =&gt; undefined</span></span><br><span class="line"></span><br><span class="line">  named(); <span class="comment">// =&gt; TypeError named is not a function</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">var</span> named = <span class="function"><span class="keyword">function</span> <span class="title">named</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;named&#x27;</span>);</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>[14.4] Function declarations hoist their name and the function body.<br>函数声明提升名字和函数主体</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">example</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  superPower(); <span class="comment">// =&gt; Flying</span></span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">superPower</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;Flying&#x27;</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>For more information refer to <a target="_blank" rel="noopener" href="http://www.adequatelygood.com/2010/2/JavaScript-Scoping-and-Hoisting/">JavaScript Scoping &amp; Hoisting</a> by <a target="_blank" rel="noopener" href="http://www.adequatelygood.com/">Ben Cherry</a>.</p>
+</li>
+<li><p>了解更多💩特性上这个网站<a target="_blank" rel="noopener" href="http://www.adequatelygood.com/2010/2/JavaScript-Scoping-and-Hoisting/">JavaScript Scoping &amp; Hoisting</a> by <a target="_blank" rel="noopener" href="http://www.adequatelygood.com/">Ben Cherry</a>.</p>
+</li>
+</ul>
+<h2 id="Comparison-Operators-amp-Equality-比较符号-amp-相等判断"><a href="#Comparison-Operators-amp-Equality-比较符号-amp-相等判断" class="headerlink" title="Comparison Operators &amp; Equality 比较符号&amp;相等判断"></a>Comparison Operators &amp; Equality 比较符号&amp;相等判断</h2><ul>
+<li><p>[15.1] Use <code>===</code> and <code>!==</code> over <code>==</code> and <code>!=</code>. eslint: <a target="_blank" rel="noopener" href="http://eslint.org/docs/rules/eqeqeq.html"><code>eqeqeq</code></a><br>使用三等号三不等，不用双等双不等。</p>
+</li>
+<li><p>[15.2] Conditional statements such as the <code>if</code> statement evaluate their expression using coercion with the <code>ToBoolean</code> abstract method and always follow these simple rules:<br>条件语句比如 if 强制使用 toBoolean 抽象方法来判断值：</p>
+<ul>
+<li><strong>Objects</strong> evaluate to <strong>true</strong></li>
+<li><strong>Undefined</strong> evaluates to <strong>false</strong></li>
+<li><strong>Null</strong> evaluates to <strong>false</strong></li>
+<li><strong>Booleans</strong> evaluate to <strong>the value of the boolean</strong></li>
+<li><strong>Numbers</strong> evaluate to <strong>false</strong> if <strong>+0, -0, or NaN</strong>, otherwise <strong>true</strong></li>
+<li><strong>Strings</strong> evaluate to <strong>false</strong> if an empty string <code>&#39;&#39;</code>, otherwise <strong>true</strong></li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> ([<span class="number">0</span>] &amp;&amp; []) &#123;</span><br><span class="line">  <span class="comment">// true</span></span><br><span class="line">  <span class="comment">// an array (even an empty one) is an object, objects will evaluate to true</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>[15.3] Use shortcuts for booleans, but explicit comparisons for strings and numbers.<br>使用布尔值简写，但是严格的比较字符串和数字。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="keyword">if</span> (isValid === <span class="literal">true</span>) &#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="keyword">if</span> (isValid) &#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="keyword">if</span> (name) &#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="keyword">if</span> (name !== <span class="string">&#x27;&#x27;</span>) &#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="keyword">if</span> (collection.length) &#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="keyword">if</span> (collection.length &gt; <span class="number">0</span>) &#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>[15.4] For more information see <a target="_blank" rel="noopener" href="https://javascriptweblog.wordpress.com/2011/02/07/truth-equality-and-javascript/#more-2108">Truth Equality and JavaScript</a> by Angus Croll.<br>更多信息查看这个<a target="_blank" rel="noopener" href="https://javascriptweblog.wordpress.com/2011/02/07/truth-equality-and-javascript/#more-2108">Truth Equality and JavaScript</a> by Angus Croll.</p>
+</li>
+<li><p>[15.5] Use braces to create blocks in <code>case</code> and <code>default</code> clauses that contain lexical declarations (e.g. <code>let</code>, <code>const</code>, <code>function</code>, and <code>class</code>). eslint: <a target="_blank" rel="noopener" href="http://eslint.org/docs/rules/no-case-declarations.html"><code>no-case-declarations</code></a><br>用花括号把包含字符定义的 case  or default 子句起来</p>
+<blockquote>
+<p>Why? Lexical declarations are visible in the entire <code>switch</code> block but only get initialized when assigned, which only happens when its <code>case</code> is reached. This causes problems when multiple <code>case</code> clauses attempt to define the same thing.<br>为什么？字符声明对整个 switch 块可见，但是只有在初始化的时候可以复制，只在 case 到达的时候发生，这可能在多个子句定义同样的东西的时候带来问题。</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="keyword">switch</span> (foo) &#123;</span><br><span class="line">  <span class="keyword">case</span> <span class="number">1</span>:</span><br><span class="line">    <span class="keyword">let</span> x = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">break</span>;</span><br><span class="line">  <span class="keyword">case</span> <span class="number">2</span>:</span><br><span class="line">    <span class="keyword">const</span> y = <span class="number">2</span>;</span><br><span class="line">    <span class="keyword">break</span>;</span><br><span class="line">  <span class="keyword">case</span> <span class="number">3</span>:</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">      <span class="comment">// ...</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">break</span>;</span><br><span class="line">  <span class="keyword">default</span>:</span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">C</span> </span>&#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="keyword">switch</span> (foo) &#123;</span><br><span class="line">  <span class="keyword">case</span> <span class="number">1</span>: &#123;</span><br><span class="line">    <span class="keyword">let</span> x = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">break</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">case</span> <span class="number">2</span>: &#123;</span><br><span class="line">    <span class="keyword">const</span> y = <span class="number">2</span>;</span><br><span class="line">    <span class="keyword">break</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">case</span> <span class="number">3</span>: &#123;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">      <span class="comment">// ...</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">break</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">case</span> <span class="number">4</span>:</span><br><span class="line">    bar();</span><br><span class="line">    <span class="keyword">break</span>;</span><br><span class="line">  <span class="keyword">default</span>: &#123;</span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">C</span> </span>&#123;&#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>[15.6] Ternaries should not be nested and generally be single line expressions. eslint: <a target="_blank" rel="noopener" href="http://eslint.org/docs/rules/no-nested-ternary.html"><code>no-nested-ternary</code></a><br>三目运算不应该嵌套，一般应该一行一个。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="keyword">const</span> foo = maybe1 &gt; maybe2</span><br><span class="line">  ? <span class="string">&quot;bar&quot;</span></span><br><span class="line">  : value1 &gt; value2 ? <span class="string">&quot;baz&quot;</span> : <span class="literal">null</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// better</span></span><br><span class="line"><span class="keyword">const</span> maybeNull = value1 &gt; value2 ? <span class="string">&#x27;baz&#x27;</span> : <span class="literal">null</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> foo = maybe1 &gt; maybe2</span><br><span class="line">  ? <span class="string">&#x27;bar&#x27;</span></span><br><span class="line">  : maybeNull;</span><br><span class="line"></span><br><span class="line"><span class="comment">// best</span></span><br><span class="line"><span class="keyword">const</span> maybeNull = value1 &gt; value2 ? <span class="string">&#x27;baz&#x27;</span> : <span class="literal">null</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> foo = maybe1 &gt; maybe2 ? <span class="string">&#x27;bar&#x27;</span> : maybeNull;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>[15.7] Avoid unneeded ternary statements. eslint: <a target="_blank" rel="noopener" href="http://eslint.org/docs/rules/no-unneeded-ternary.html"><code>no-unneeded-ternary</code></a><br>避免不必要的三目运算。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="keyword">const</span> foo = a ? a : b;</span><br><span class="line"><span class="keyword">const</span> bar = c ? <span class="literal">true</span> : <span class="literal">false</span>;</span><br><span class="line"><span class="keyword">const</span> baz = c ? <span class="literal">false</span> : <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="keyword">const</span> foo = a || b;</span><br><span class="line"><span class="keyword">const</span> bar = !!c;</span><br><span class="line"><span class="comment">//两个感叹号表示某个元素是否存在。 可以理解为强制转 boolean</span></span><br><span class="line"><span class="comment">//还有~~是下取整</span></span><br><span class="line"><span class="keyword">const</span> baz = !c;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="Blocks-块"><a href="#Blocks-块" class="headerlink" title="Blocks 块"></a>Blocks 块</h2><ul>
+<li><p>[16.1] Use braces with all multi-line blocks.<br>使用多行的块用花括号包起来。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="keyword">if</span> (test)</span><br><span class="line">  <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="keyword">if</span> (test) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="keyword">if</span> (test) &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123; <span class="keyword">return</span> <span class="literal">false</span>; &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">bar</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>[16.2] If you’re using multi-line blocks with <code>if</code> and <code>else</code>, put <code>else</code> on the same line as your <code>if</code> block’s closing brace. eslint: <a target="_blank" rel="noopener" href="http://eslint.org/docs/rules/brace-style.html"><code>brace-style</code></a> jscs:  <a target="_blank" rel="noopener" href="http://jscs.info/rule/disallowNewlineBeforeBlockStatements"><code>disallowNewlineBeforeBlockStatements</code></a><br>如果你使用含 if else 的多行块，把上一个右括号和下一个左括号和关键字放一行。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="keyword">if</span> (test) &#123;</span><br><span class="line">  thing1();</span><br><span class="line">  thing2();</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span> &#123;</span><br><span class="line">  thing3();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="keyword">if</span> (test) &#123;</span><br><span class="line">  thing1();</span><br><span class="line">  thing2();</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">  thing3();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+</li>
+</ul>
+<h2 id="Control-Statements-控制语句"><a href="#Control-Statements-控制语句" class="headerlink" title="Control Statements  控制语句"></a>Control Statements  控制语句</h2><ul>
+<li><p>[17.1] In case your control statement (<code>if</code>, <code>while</code> etc.) gets too long or exceeds the maximum line length, each (grouped) condition could be put into a new line. It’s up to you whether the logical operator should begin or end the line.<br>万一你的控制语句（如 if else）太长了或者超过了最大单行长度限制，每个条件应该单独放一行。逻辑符号放行首或行尾你可以自己定。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="keyword">if</span> ((foo === <span class="number">123</span> || bar === <span class="string">&#x27;abc&#x27;</span>) &amp;&amp; doesItLookGoodWhenItBecomesThatLong() &amp;&amp; isThisReallyHappening()) &#123;</span><br><span class="line">  thing1();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="keyword">if</span> (foo === <span class="number">123</span> &amp;&amp;</span><br><span class="line">  bar === <span class="string">&#x27;abc&#x27;</span>) &#123;</span><br><span class="line">  thing1();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="keyword">if</span> (foo === <span class="number">123</span></span><br><span class="line">  &amp;&amp; bar === <span class="string">&#x27;abc&#x27;</span>) &#123;</span><br><span class="line">  thing1();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="keyword">if</span> (</span><br><span class="line">  (foo === <span class="number">123</span> || bar === <span class="string">&quot;abc&quot;</span>) &amp;&amp;</span><br><span class="line">  doesItLookGoodWhenItBecomesThatLong() &amp;&amp;</span><br><span class="line">  isThisReallyHappening()</span><br><span class="line">) &#123;</span><br><span class="line">  thing1();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="keyword">if</span> (foo === <span class="number">123</span> &amp;&amp; bar === <span class="string">&#x27;abc&#x27;</span>) &#123;</span><br><span class="line">  thing1();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="keyword">if</span> (</span><br><span class="line">  foo === <span class="number">123</span> &amp;&amp;</span><br><span class="line">  bar === <span class="string">&#x27;abc&#x27;</span></span><br><span class="line">) &#123;</span><br><span class="line">  thing1();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="keyword">if</span> (</span><br><span class="line">  foo === <span class="number">123</span></span><br><span class="line">  &amp;&amp; bar === <span class="string">&#x27;abc&#x27;</span></span><br><span class="line">) &#123;</span><br><span class="line">  thing1();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="Comments-注释"><a href="#Comments-注释" class="headerlink" title="Comments  注释"></a>Comments  注释</h2><ul>
+<li><p>[18.1] Use <code>/** ... */</code> for multi-line comments.<br>使用<code>/** ... */</code>来做多行注释。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="comment">// make() returns a new element</span></span><br><span class="line"><span class="comment">// based on the passed in tag name</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// @param &#123;String&#125; tag</span></span><br><span class="line"><span class="comment">// @return &#123;Element&#125; element</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">make</span>(<span class="params">tag</span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> element;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * make() returns a new element</span></span><br><span class="line"><span class="comment"> * based on the passed-in tag name</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">make</span>(<span class="params">tag</span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> element;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>[18.2] Use <code>//</code> for single line comments. Place single line comments on a newline above the subject of the comment. Put an empty line before the comment unless it’s on the first line of a block.<br>使用 <code>//</code> 来单行注释。把单行注释放在新行，和要注释的代码的上方。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="keyword">const</span> active = <span class="literal">true</span>;  <span class="comment">// is current tab</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="comment">// is current tab</span></span><br><span class="line"><span class="keyword">const</span> active = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getType</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">&#x27;fetching type...&#x27;</span>);</span><br><span class="line">  <span class="comment">// set the default type to &#x27;no type&#x27;</span></span><br><span class="line">  <span class="keyword">const</span> type = <span class="built_in">this</span>.type || <span class="string">&#x27;no type&#x27;</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> type;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getType</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">&#x27;fetching type...&#x27;</span>);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// set the default type to &#x27;no type&#x27;</span></span><br><span class="line">  <span class="keyword">const</span> type = <span class="built_in">this</span>.type || <span class="string">&#x27;no type&#x27;</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> type;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// also good</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getType</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="comment">// set the default type to &#x27;no type&#x27;</span></span><br><span class="line">  <span class="keyword">const</span> type = <span class="built_in">this</span>.type || <span class="string">&#x27;no type&#x27;</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> type;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>[18.3] Start all comments with a space to make it easier to read. eslint: <a target="_blank" rel="noopener" href="http://eslint.org/docs/rules/spaced-comment"><code>spaced-comment</code></a><br>所有的评论先打一个空格，方便阅读。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="comment">//is current tab</span></span><br><span class="line"><span class="keyword">const</span> active = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="comment">// is current tab</span></span><br><span class="line"><span class="keyword">const</span> active = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> *make() returns a new element</span></span><br><span class="line"><span class="comment"> *based on the passed-in tag name</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">make</span>(<span class="params">tag</span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> element;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * make() returns a new element</span></span><br><span class="line"><span class="comment"> * based on the passed-in tag name</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">make</span>(<span class="params">tag</span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> element;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>[18.4] Prefixing your comments with <code>FIXME</code> or <code>TODO</code> helps other developers quickly understand if you’re pointing out a problem that needs to be revisited, or if you’re suggesting a solution to the problem that needs to be implemented. These are different than regular comments because they are actionable. The actions are <code>FIXME: -- need to figure this out</code> or <code>TODO: -- need to implement</code>.<br>用 <code>FIXME</code> 或 <code>TODO</code>当前缀的评论帮助其他的开发者迅速理解你指出了一个需要重访的问题，或者你推荐一个需要被实现的解决方案。这些不同于普通评论，因为他们可以提出行动要求。功能如：<code>FIXME: -- need to figure this out</code> or <code>TODO: -- need to implement</code>.</p>
+</li>
+<li><p>[18.5] Use <code>// FIXME:</code> to annotate problems.<br>使用 <code>// FIXME:</code> 来注释问题</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Calculator</span> <span class="keyword">extends</span> <span class="title">Abacus</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>() &#123;</span><br><span class="line">    <span class="built_in">super</span>();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// <span class="doctag">FIXME:</span> shouldn’t use a global here</span></span><br><span class="line">    total = <span class="number">0</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>[18.6] Use <code>// TODO:</code> to annotate solutions to problems.<br>使用 <code>// TODO:</code> 来注释需要解决的问题。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Calculator</span> <span class="keyword">extends</span> <span class="title">Abacus</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>() &#123;</span><br><span class="line">    <span class="built_in">super</span>();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// <span class="doctag">TODO:</span> total should be configurable by an options param</span></span><br><span class="line">    <span class="built_in">this</span>.total = <span class="number">0</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="Whitespace-空格"><a href="#Whitespace-空格" class="headerlink" title="Whitespace  空格"></a>Whitespace  空格</h2><ul>
+<li><p>[19.1] Use soft tabs (space character) set to 2 spaces. eslint: <a target="_blank" rel="noopener" href="http://eslint.org/docs/rules/indent.html"><code>indent</code></a> jscs: <a target="_blank" rel="noopener" href="http://jscs.info/rule/validateIndentation"><code>validateIndentation</code></a><br>使用 软TAB/空格 设置两个空格。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">∙∙∙∙<span class="keyword">let</span> name;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">bar</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">∙<span class="keyword">let</span> name;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">baz</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">∙∙<span class="keyword">let</span> name;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>[19.2] Place 1 space before the leading brace. eslint: <a target="_blank" rel="noopener" href="http://eslint.org/docs/rules/space-before-blocks.html"><code>space-before-blocks</code></a> jscs: <a target="_blank" rel="noopener" href="http://jscs.info/rule/requireSpaceBeforeBlockStatements"><code>requireSpaceBeforeBlockStatements</code></a><br>花括号前使用一个空格。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">test</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">&#x27;test&#x27;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">test</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">&#x27;test&#x27;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// bad</span></span><br><span class="line">dog.set(<span class="string">&#x27;attr&#x27;</span>,&#123;</span><br><span class="line">  age: <span class="string">&#x27;1 year&#x27;</span>,</span><br><span class="line">  breed: <span class="string">&#x27;Bernese Mountain Dog&#x27;</span>,</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line">dog.set(<span class="string">&#x27;attr&#x27;</span>, &#123;</span><br><span class="line">  age: <span class="string">&#x27;1 year&#x27;</span>,</span><br><span class="line">  breed: <span class="string">&#x27;Bernese Mountain Dog&#x27;</span>,</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></li>
+<li><p>[19.3] Place 1 space before the opening parenthesis in control statements (<code>if</code>, <code>while</code> etc.). Place no space between the argument list and the function name in function calls and declarations. eslint: <a target="_blank" rel="noopener" href="http://eslint.org/docs/rules/keyword-spacing.html"><code>keyword-spacing</code></a> jscs: <a target="_blank" rel="noopener" href="http://jscs.info/rule/requireSpaceAfterKeywords"><code>requireSpaceAfterKeywords</code></a><br>控制语句的左圆括号前放一个空格。参数列表之间、函数调用和声明里的函数名不要放空格。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="keyword">if</span>(isJedi) &#123;</span><br><span class="line">  fight ();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="keyword">if</span> (isJedi) &#123;</span><br><span class="line">  fight();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fight</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log (<span class="string">&#x27;Swooosh!&#x27;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fight</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">&#x27;Swooosh!&#x27;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>[19.4] Set off operators with spaces. eslint: <a target="_blank" rel="noopener" href="http://eslint.org/docs/rules/space-infix-ops.html"><code>space-infix-ops</code></a> jscs: <a target="_blank" rel="noopener" href="http://jscs.info/rule/requireSpaceBeforeBinaryOperators"><code>requireSpaceBeforeBinaryOperators</code></a>, <a target="_blank" rel="noopener" href="http://jscs.info/rule/requireSpaceAfterBinaryOperators"><code>requireSpaceAfterBinaryOperators</code></a><br>操作符用空格分开。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="keyword">const</span> x=y+<span class="number">5</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="keyword">const</span> x = y + <span class="number">5</span>;</span><br></pre></td></tr></table></figure></li>
+<li><p>[19.5] End files with a single newline character. eslint: <a target="_blank" rel="noopener" href="https://github.com/eslint/eslint/blob/master/docs/rules/eol-last.md"><code>eol-last</code></a><br>文件末尾来一个新行。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="keyword">import</span> &#123; es6 &#125; <span class="keyword">from</span> <span class="string">&#x27;./AirbnbStyleGuide&#x27;</span>;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> es6;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="keyword">import</span> &#123; es6 &#125; <span class="keyword">from</span> <span class="string">&#x27;./AirbnbStyleGuide&#x27;</span>;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> es6;↵</span><br><span class="line">↵</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="keyword">import</span> &#123; es6 &#125; <span class="keyword">from</span> <span class="string">&#x27;./AirbnbStyleGuide&#x27;</span>;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> es6;↵</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>[19.6] Use indentation when making long method chains (more than 2 method chains). Use a leading dot, which emphasizes that the line is a method call, not a new statement. eslint: <a target="_blank" rel="noopener" href="http://eslint.org/docs/rules/newline-per-chained-call"><code>newline-per-chained-call</code></a> <a target="_blank" rel="noopener" href="http://eslint.org/docs/rules/no-whitespace-before-property"><code>no-whitespace-before-property</code></a><br>长的方法调用链应该使用缩进。使用一个前导的点，强调这个行是一个方法调用，不是声明。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bad</span></span><br><span class="line">$(<span class="string">&#x27;#items&#x27;</span>).find(<span class="string">&#x27;.selected&#x27;</span>).highlight().end().find(<span class="string">&#x27;.open&#x27;</span>).updateCount();</span><br><span class="line"></span><br><span class="line"><span class="comment">// bad</span></span><br><span class="line">$(<span class="string">&#x27;#items&#x27;</span>).</span><br><span class="line">  find(<span class="string">&#x27;.selected&#x27;</span>).</span><br><span class="line">    highlight().</span><br><span class="line">    end().</span><br><span class="line">  find(<span class="string">&#x27;.open&#x27;</span>).</span><br><span class="line">    updateCount();</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line">$(<span class="string">&#x27;#items&#x27;</span>)</span><br><span class="line">  .find(<span class="string">&#x27;.selected&#x27;</span>)</span><br><span class="line">    .highlight()</span><br><span class="line">    .end()</span><br><span class="line">  .find(<span class="string">&#x27;.open&#x27;</span>)</span><br><span class="line">    .updateCount();</span><br><span class="line"></span><br><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="keyword">const</span> leds = stage.selectAll(<span class="string">&#x27;.led&#x27;</span>).data(data).enter().append(<span class="string">&#x27;svg:svg&#x27;</span>).classed(<span class="string">&#x27;led&#x27;</span>, <span class="literal">true</span>)</span><br><span class="line">    .attr(<span class="string">&#x27;width&#x27;</span>, (radius + margin) * <span class="number">2</span>).append(<span class="string">&#x27;svg:g&#x27;</span>)</span><br><span class="line">    .attr(<span class="string">&#x27;transform&#x27;</span>, <span class="string">`translate(<span class="subst">$&#123;radius + margin&#125;</span>,<span class="subst">$&#123;radius + margin&#125;</span>)`</span>)</span><br><span class="line">    .call(tron.led);</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="keyword">const</span> leds = stage.selectAll(<span class="string">&#x27;.led&#x27;</span>)</span><br><span class="line">    .data(data)</span><br><span class="line">  .enter().append(<span class="string">&#x27;svg:svg&#x27;</span>)</span><br><span class="line">    .classed(<span class="string">&#x27;led&#x27;</span>, <span class="literal">true</span>)</span><br><span class="line">    .attr(<span class="string">&#x27;width&#x27;</span>, (radius + margin) * <span class="number">2</span>)</span><br><span class="line">  .append(<span class="string">&#x27;svg:g&#x27;</span>)</span><br><span class="line">    .attr(<span class="string">&#x27;transform&#x27;</span>, <span class="string">`translate(<span class="subst">$&#123;radius + margin&#125;</span>,<span class="subst">$&#123;radius + margin&#125;</span>)`</span>)</span><br><span class="line">    .call(tron.led);</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="keyword">const</span> leds = stage.selectAll(<span class="string">&#x27;.led&#x27;</span>).data(data);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>[19.7] Leave a blank line after blocks and before the next statement. jscs: <a target="_blank" rel="noopener" href="http://jscs.info/rule/requirePaddingNewLinesAfterBlocks"><code>requirePaddingNewLinesAfterBlocks</code></a><br>块后面应该加一个空行再写其他句子。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="keyword">if</span> (foo) &#123;</span><br><span class="line">  <span class="keyword">return</span> bar;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">return</span> baz;</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="keyword">if</span> (foo) &#123;</span><br><span class="line">  <span class="keyword">return</span> bar;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> baz;</span><br><span class="line"></span><br><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="keyword">const</span> obj = &#123;</span><br><span class="line">  foo() &#123;</span><br><span class="line">  &#125;,</span><br><span class="line">  bar() &#123;</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">return</span> obj;</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="keyword">const</span> obj = &#123;</span><br><span class="line">  foo() &#123;</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  bar() &#123;</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> obj;</span><br><span class="line"></span><br><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="keyword">const</span> arr = [</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">bar</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  &#125;,</span><br><span class="line">];</span><br><span class="line"><span class="keyword">return</span> arr;</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="keyword">const</span> arr = [</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">bar</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  &#125;,</span><br><span class="line">];</span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> arr;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>[19.8] Do not pad your blocks with blank lines. eslint: <a target="_blank" rel="noopener" href="http://eslint.org/docs/rules/padded-blocks.html"><code>padded-blocks</code></a> jscs:  <a target="_blank" rel="noopener" href="http://jscs.info/rule/disallowPaddingNewlinesInBlocks"><code>disallowPaddingNewlinesInBlocks</code></a><br>不要用空行来填补块。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">bar</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="built_in">console</span>.log(foo);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// also bad</span></span><br><span class="line"><span class="keyword">if</span> (baz) &#123;</span><br><span class="line"></span><br><span class="line">  <span class="built_in">console</span>.log(qux);</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(foo);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">bar</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(foo);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="keyword">if</span> (baz) &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(qux);</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(foo);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>[19.9] Do not add spaces inside parentheses. eslint: <a target="_blank" rel="noopener" href="http://eslint.org/docs/rules/space-in-parens.html"><code>space-in-parens</code></a> jscs: <a target="_blank" rel="noopener" href="http://jscs.info/rule/disallowSpacesInsideParentheses"><code>disallowSpacesInsideParentheses</code></a><br>圆括号内侧不要加空格。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">bar</span>(<span class="params"> foo </span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> foo;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">bar</span>(<span class="params">foo</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> foo;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="keyword">if</span> ( foo ) &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(foo);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="keyword">if</span> (foo) &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(foo);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>[19.10] Do not add spaces inside brackets. eslint: <a target="_blank" rel="noopener" href="http://eslint.org/docs/rules/array-bracket-spacing.html"><code>array-bracket-spacing</code></a> jscs: <a target="_blank" rel="noopener" href="http://jscs.info/rule/disallowSpacesInsideArrayBrackets"><code>disallowSpacesInsideArrayBrackets</code></a><br>方括号内侧不要加空格。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="keyword">const</span> foo = [ <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span> ];</span><br><span class="line"><span class="built_in">console</span>.log(foo[ <span class="number">0</span> ]);</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="keyword">const</span> foo = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];</span><br><span class="line"><span class="built_in">console</span>.log(foo[<span class="number">0</span>]);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>[19.11] Add spaces inside curly braces. eslint: <a target="_blank" rel="noopener" href="http://eslint.org/docs/rules/object-curly-spacing.html"><code>object-curly-spacing</code></a> jscs: <a target="_blank" rel="noopener" href="http://jscs.info/rule/requireSpacesInsideObjectBrackets"><code>requireSpacesInsideObjectBrackets</code></a><br>花括号内侧加空格。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="keyword">const</span> foo = &#123;<span class="attr">clark</span>: <span class="string">&#x27;kent&#x27;</span>&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="keyword">const</span> foo = &#123; <span class="attr">clark</span>: <span class="string">&#x27;kent&#x27;</span> &#125;;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>[19.12] Avoid having lines of code that are longer than 100 characters (including whitespace). Note: per <a href="#strings--line-length">above</a>, long strings are exempt from this rule, and should not be broken up. eslint: <a target="_blank" rel="noopener" href="http://eslint.org/docs/rules/max-len.html"><code>max-len</code></a> jscs: <a target="_blank" rel="noopener" href="http://jscs.info/rule/maximumLineLength"><code>maximumLineLength</code></a><br>避免一个行超过100个字符。注意，所有的长字符串都不应该超过这个限制。应该把他们分开。</p>
+<blockquote>
+<p>Why? This ensures readability and maintainability.<br>为什么？这个包装可读性和可维护性。</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="keyword">const</span> foo = jsonData &amp;&amp; jsonData.foo &amp;&amp; jsonData.foo.bar &amp;&amp; jsonData.foo.bar.baz &amp;&amp; jsonData.foo.bar.baz.quux &amp;&amp; jsonData.foo.bar.baz.quux.xyzzy;</span><br><span class="line"></span><br><span class="line"><span class="comment">// bad</span></span><br><span class="line">$.ajax(&#123; <span class="attr">method</span>: <span class="string">&#x27;POST&#x27;</span>, <span class="attr">url</span>: <span class="string">&#x27;https://airbnb.com/&#x27;</span>, <span class="attr">data</span>: &#123; <span class="attr">name</span>: <span class="string">&#x27;John&#x27;</span> &#125; &#125;).done(<span class="function">() =&gt;</span> <span class="built_in">console</span>.log(<span class="string">&#x27;Congratulations!&#x27;</span>)).fail(<span class="function">() =&gt;</span> <span class="built_in">console</span>.log(<span class="string">&#x27;You have failed this city.&#x27;</span>));</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="keyword">const</span> foo = jsonData</span><br><span class="line">  &amp;&amp; jsonData.foo</span><br><span class="line">  &amp;&amp; jsonData.foo.bar</span><br><span class="line">  &amp;&amp; jsonData.foo.bar.baz</span><br><span class="line">  &amp;&amp; jsonData.foo.bar.baz.quux</span><br><span class="line">  &amp;&amp; jsonData.foo.bar.baz.quux.xyzzy;</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line">$.ajax(&#123;</span><br><span class="line">  method: <span class="string">&#x27;POST&#x27;</span>,</span><br><span class="line">  url: <span class="string">&#x27;https://airbnb.com/&#x27;</span>,</span><br><span class="line">  data: &#123; <span class="attr">name</span>: <span class="string">&#x27;John&#x27;</span> &#125;,</span><br><span class="line">&#125;)</span><br><span class="line">  .done(<span class="function">() =&gt;</span> <span class="built_in">console</span>.log(<span class="string">&#x27;Congratulations!&#x27;</span>))</span><br><span class="line">  .fail(<span class="function">() =&gt;</span> <span class="built_in">console</span>.log(<span class="string">&#x27;You have failed this city.&#x27;</span>));</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Language/" rel="tag"># Language</a>
+              <a href="/tags/JavaScript/" rel="tag"># JavaScript</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2013/07/28/Airbnb-JavaScript-Style-Guide/" rel="prev" title="Airbnb JavaScript Style Guide (1)">
+      <i class="fa fa-chevron-left"></i> Airbnb JavaScript Style Guide (1)
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2013/08/08/Airbnb-JavaScript-Style-Guide-3/" rel="next" title="Airbnb JavaScript Style Guide (3)">
+      Airbnb JavaScript Style Guide (3) <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Modules-%E6%A8%A1%E5%9D%97"><span class="nav-number">1.</span> <span class="nav-text">Modules 模块</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Iterators-and-Generators-%E8%BF%AD%E4%BB%A3%E5%99%A8-amp-%E7%94%9F%E6%88%90%E5%99%A8"><span class="nav-number">2.</span> <span class="nav-text">Iterators and Generators 迭代器&amp;生成器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Properties-%E5%B1%9E%E6%80%A7"><span class="nav-number">3.</span> <span class="nav-text">Properties  属性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Variables-%E5%8F%98%E9%87%8F"><span class="nav-number">4.</span> <span class="nav-text">Variables  变量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Hoisting-%E5%8F%98%E9%87%8F%E6%8F%90%E5%8D%87"><span class="nav-number">5.</span> <span class="nav-text">Hoisting  变量提升</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Comparison-Operators-amp-Equality-%E6%AF%94%E8%BE%83%E7%AC%A6%E5%8F%B7-amp-%E7%9B%B8%E7%AD%89%E5%88%A4%E6%96%AD"><span class="nav-number">6.</span> <span class="nav-text">Comparison Operators &amp; Equality 比较符号&amp;相等判断</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Blocks-%E5%9D%97"><span class="nav-number">7.</span> <span class="nav-text">Blocks 块</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Control-Statements-%E6%8E%A7%E5%88%B6%E8%AF%AD%E5%8F%A5"><span class="nav-number">8.</span> <span class="nav-text">Control Statements  控制语句</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Comments-%E6%B3%A8%E9%87%8A"><span class="nav-number">9.</span> <span class="nav-text">Comments  注释</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Whitespace-%E7%A9%BA%E6%A0%BC"><span class="nav-number">10.</span> <span class="nav-text">Whitespace  空格</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">田_田</p>
+  <div class="site-description" itemprop="description">创新需要在一切发生之前研究结局!</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">34</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wangzitian0" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wangzitian0" rel="noopener" target="_blank"><i class="github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wangzitian0@gmail.com" title="E-Mail → mailto:wangzitian0@gmail.com" rel="noopener" target="_blank"><i class="envelope fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.linkedin.com/in/wangzitian0" title="LinkedIn → https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;wangzitian0" rel="noopener" target="_blank"><i class="linkedin fa-fw"></i></a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class=""></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">田_田</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a>
+  </div>
+
+        
+
+
+
+
+
+
+<script>
+  (function() {
+    function leancloudSelector(url) {
+      url = encodeURI(url);
+      return document.getElementById(url).querySelector('.leancloud-visitors-count');
+    }
+
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = decodeURI(visitors.id);
+      var title = visitors.dataset.flagTitle;
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            leancloudSelector(url).innerText = counter.time + 1;
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              });
+          } else {
+              leancloudSelector(url).innerText = 'Counter not initialized! More info at console err msg.';
+              console.error('ATTENTION! LeanCloud counter has security bug, see how to solve it here: https://github.com/theme-next/hexo-leancloud-counter-security. \n However, you can still use LeanCloud without security, by setting `security` option to `false`.');
+            
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return decodeURI(element.id);
+      });
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          for (let url of entries) {
+            let target = results.find(item => item.url === url);
+            leancloudSelector(url).innerText = target ? target.time : 0;
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    let { app_id, app_key, server_url } = {"enable":true,"app_id":"itw5YW53yzX17tr3WAdRd9Dd-gzGzoHsz","app_key":"qLjOt8jjizQl0ys5OSdwf10Y","server_url":null,"security":true,"betterPerformance":true};
+    function fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${api_server}/1.1${url}`, {
+          method,
+          headers: {
+            'X-LC-Id'     : app_id,
+            'X-LC-Key'    : app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    }
+
+    let api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(response => response.json())
+        .then(({ api_server }) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="//cdn.jsdelivr.net/npm/algoliasearch@4/dist/algoliasearch-lite.umd.js"></script>
+<script src="//cdn.jsdelivr.net/npm/instantsearch.js@4/dist/instantsearch.production.min.js"></script>
+<script src="/js/algolia-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

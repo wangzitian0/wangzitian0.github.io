@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/huaji.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/huaji.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/huaji.png">
+  <link rel="mask-icon" href="/images/huaji.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"wangzitian0.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":true,"b2t":false,"scrollpercent":true},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"appID":"1PWF5BJPP1","apiKey":"6a2714c5b665823e7132db2aedb81233","indexName":"wangzitian0.github.io","hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="embercli翻译自https:&#x2F;&#x2F;ember-cli.com&#x2F;，embercli 文档。 本文原文地址：https:&#x2F;&#x2F;ember-cli.com&#x2F;user-guide&#x2F;#ember-datahttps:&#x2F;&#x2F;ember-cli.com&#x2F;user-guide&#x2F;#testing">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Embercli 文档（3）：Ember Data + 测试">
+<meta property="og:url" content="https://wangzitian0.github.io/2013/11/09/Embercli3/index.html">
+<meta property="og:site_name" content="全栈之路">
+<meta property="og:description" content="embercli翻译自https:&#x2F;&#x2F;ember-cli.com&#x2F;，embercli 文档。 本文原文地址：https:&#x2F;&#x2F;ember-cli.com&#x2F;user-guide&#x2F;#ember-datahttps:&#x2F;&#x2F;ember-cli.com&#x2F;user-guide&#x2F;#testing">
+<meta property="og:locale">
+<meta property="article:published_time" content="2013-11-09T13:14:00.000Z">
+<meta property="article:modified_time" content="2020-09-30T04:59:07.877Z">
+<meta property="article:author" content="田_田">
+<meta property="article:tag" content="Ember">
+<meta property="article:tag" content="Javascript">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://wangzitian0.github.io/2013/11/09/Embercli3/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>Embercli 文档（3）：Ember Data + 测试 | 全栈之路</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?1eeceb0b3f8e550d6211f134646361b6";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="全栈之路" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta custom-logo">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">全栈之路</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">田_田的博客</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="archive fa-fw"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="user fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="tags fa-fw"></i>Tags</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container"></div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="algolia-results">
+  <div id="algolia-stats"></div>
+  <div id="algolia-hits"></div>
+  <div id="algolia-pagination" class="algolia-pagination"></div>
+</div>
+
+      
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://wangzitian0.github.io/2013/11/09/Embercli3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="田_田">
+      <meta itemprop="description" content="创新需要在一切发生之前研究结局!">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="全栈之路">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Embercli 文档（3）：Ember Data + 测试
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2013-11-09 21:14:00" itemprop="dateCreated datePublished" datetime="2013-11-09T21:14:00+08:00">2013-11-09</time>
+            </span>
+
+          
+            <span id="/2013/11/09/Embercli3/" class="post-meta-item leancloud_visitors" data-flag-title="Embercli 文档（3）：Ember Data + 测试" title="Views">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>embercli<br>翻译自<a target="_blank" rel="noopener" href="https://ember-cli.com/%EF%BC%8Cembercli">https://ember-cli.com/，embercli</a> 文档。</p>
+<p>本文原文地址：<br><a target="_blank" rel="noopener" href="https://ember-cli.com/user-guide/#ember-data">https://ember-cli.com/user-guide/#ember-data</a><br><a target="_blank" rel="noopener" href="https://ember-cli.com/user-guide/#testing">https://ember-cli.com/user-guide/#testing</a></p>
+<a id="more"></a>
+<h2 id="Ember-Data"><a href="#Ember-Data" class="headerlink" title="Ember Data"></a>Ember Data</h2><p>现在版本的 Ember Data 被包含在 CLI 里。Ember Data 被彻底的重构过一次，被彻底的简化，因而解释器用起来更简单。这里有几条用 CLI 的几条建议。</p>
+<p>用 ember-cli 但是不用 Ember Data 就把依赖从 package.json 里面删掉<br>(同样适用于 <a target="_blank" rel="noopener" href="https://github.com/rwjblue/ember-cli-ic-ajax">ic-ajax</a>)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm rm ember-data --save-dev</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="模型"><a href="#模型" class="headerlink" title="模型"></a>模型</h3><p>模型对任何一个动态 web 应用都很重要，Ember Data 让模型变得特别简单。<br>举个例子，我们可以创建一个<code>todo</code> 模型：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; models&#x2F;todo.js</span><br><span class="line">import DS from &quot;ember-data&quot;;</span><br><span class="line"></span><br><span class="line">export default DS.Model.extend(&#123;</span><br><span class="line">  title: DS.attr(&#39;string&#39;),</span><br><span class="line">  isCompleted: DS.attr(&#39;boolean&#39;),</span><br><span class="line">  quickNotes: DS.hasMany(&#39;quick-note&#39;)</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; models&#x2F;quick-note.js</span><br><span class="line">import DS from &quot;ember-data&quot;;</span><br><span class="line"></span><br><span class="line">export default DS.Model.extend(&#123;</span><br><span class="line">  name: DS.attr(&#39;string&#39;),</span><br><span class="line">  todo: DS.belongsTo(&#39;todo&#39;)</span><br><span class="line">&#125;);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>注意，文件名应该全小写并且用减号连接(撸串命名法：）)，这是解释器自动解析的方式。</p>
+<h3 id="适配器-amp-序列化器"><a href="#适配器-amp-序列化器" class="headerlink" title="适配器 &amp; 序列化器"></a>适配器 &amp; 序列化器</h3><p>Ember Data 重度使用各种类型的适配器和序列化器。这些对象可以和其他部分一样被解析。</p>
+<p>适配器放在 <code>/app/adapters/type.js</code>:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; adapters&#x2F;post.js</span><br><span class="line">import DS from &quot;ember-data&quot;;</span><br><span class="line"></span><br><span class="line">export default DS.RESTAdapter.extend(&#123;&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>序列化器放在 <code>/app/serializers/type.js</code>:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; serializers&#x2F;post.js</span><br><span class="line">import DS from &quot;ember-data&quot;;</span><br><span class="line"></span><br><span class="line">export default DS.RESTSerializer.extend(&#123;&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>全局 APP 级别（默认）的适配器 &amp; 序列化器应该分别命名成 <code>adapters/application.js</code> 和 <code>serializers/application.js</code>。</p>
+<h3 id="Mocks"><a href="#Mocks" class="headerlink" title="Mocks"></a>Mocks</h3><p>Ember CLI提出了一种 http-mock 生成器，开发和测试样例的首选应该是它。 Mock 的方案比直接写固定数据相比，最主要的好处是可以和应用的适配器交互。尽管最终你会把你的 hook 发到线上 API，但是刚开始的时候就测试适配器是个明智的决定。</p>
+<p>创建一个 <code>posts</code> API 请求的 mock：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ember g http-mock posts</span><br></pre></td></tr></table></figure>
+<p>一个 url 为 <code>/your-app/server/mocks/posts.js</code> 的简易<a target="_blank" rel="noopener" href="http://expressjs.com/">ExpressJS</a>服务器会被架起来。只要你加上合适的 JSON 返回值，就能跑了。之后你运行 <code>ember server</code>，你的新 mock server 会监听你的 Ember app 发出的任何API请求。</p>
+<blockquote>
+<p>注意：Mocks只是用来开发的。运行 <code>ember build</code> 和 <code>ember test</code>的时候，整个 <code>/server</code> 文件夹都会被直接忽略</p>
+</blockquote>
+<h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><h3 id="跑已经有的测试"><a href="#跑已经有的测试" class="headerlink" title="跑已经有的测试"></a>跑已经有的测试</h3><p>随便哪个都能跑你的测试：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ember test            # 当前 shell 跑你一次测试集</span><br><span class="line">ember test --server   # 每次文件改动跑一次测试集</span><br><span class="line">ember t -s -m &#39;Unit | Utility | name&#39; # 每次文件改动都跑 &#39;Unit | Utility | name&#39; 这个模块的所有测试集</span><br><span class="line">ember t -f &#39;match a phrase in test description(s)&#39; # 跑一次描述匹配这段话的测试</span><br></pre></td></tr></table></figure>
+
+<p>另一种选择是在你自己的浏览器里用QUnit接口测试。跑<code>ember server</code>命令，打开<code>http://localhost:4200/tests</code>。在/tests跑的应用是development环境，不是test环境，这点要注意。</p>
+<h3 id="写个测试"><a href="#写个测试" class="headerlink" title="写个测试"></a>写个测试</h3><ul>
+<li>ember-testing</li>
+<li>helpers</li>
+<li>unit/acceptance</li>
+</ul>
+<p>Ember CLI 默认使用 <a target="_blank" rel="noopener" href="http://qunitjs.com/">QUnit</a>，通过 <a target="_blank" rel="noopener" href="http://mochajs.org/">Mocha</a> / <a target="_blank" rel="noopener" href="http://chaijs.com/">Chai</a>来测试，所以可以使用 <a target="_blank" rel="noopener" href="https://github.com/switchfly/ember-cli-mocha">ember-cli-mocha</a>。<br>后面的测试可以告诉你怎么写上面几种测试，用这个包：<a target="_blank" rel="noopener" href="http://ianpetzer.wordpress.com/2013/06/14/getting-started-with-integration-testing-ember-js-using-ember-testing-and-qunit-rails/">ember-testing<br>package</a>.</p>
+<p>测试应该用<code>-test.js</code>作为文件后缀名。</p>
+<p>如果你在 environment.js 手动设置了 locationType 的值为 <code>hash</code> 或者<code>none</code>，你需要更改你的 <code>tests/index.html</code>到绝对路径(<code>/assets/vendor.css</code>、<code>/testem.js</code> 或者默认是相对路径).</p>
+<h3 id="用-Testem-持续集成"><a href="#用-Testem-持续集成" class="headerlink" title="用 Testem 持续集成"></a>用 Testem 持续集成</h3><p><code>ember test</code> 会用 <code>Testem</code> 在持续集成模型下跑所有测试。你可以用配置文件传递任何参数到 <code>Testem</code>。如果你需要<code>Testem</code> xunit报告，用 <code>ember test --silent</code> 可以屏蔽掉类似 ember-cli 版本之类的冗余信息。如果你想把它输出到文件，把 <code>report_file: &quot;path/to/file.xml&quot;</code> 加到 <code>testem.json</code> 配置文件里。</p>
+<p>默认情况，集成测试(integration tests)跑在 <a target="_blank" rel="noopener" href="http://phantomjs.org/">PhantomJS</a> 里。你可以用 <a target="_blank" rel="noopener" href="https://www.npmjs.org/">npm</a> 安装：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g phantomjs-prebuilt</span><br></pre></td></tr></table></figure>
+
+<p><strong>我们计划让测试驱动可拔插，然后你可以用你自己喜欢的驱动程序。</strong></p>
+<h4 id="用-ember-qunit-做集成-integration-测试"><a href="#用-ember-qunit-做集成-integration-测试" class="headerlink" title="用 ember-qunit 做集成(integration)测试"></a>用 ember-qunit 做集成(integration)测试</h4><p>所有的 Ember 应用有内置的 <a target="_blank" rel="noopener" href="https://guides.emberjs.com/v2.0.0/testing/acceptance/#toc_test-helpers">ember测试助手</a>，写集成测试的时候十分有用。使用它需要引入 <code>tests/helpers/start-app.js</code>，它会自己注入需要的助手函数。<br>确保你用 <code>module</code> 函数来调用 <code>beforeEach</code> 和 <code>afterEach</code>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">import Ember from &quot;ember&quot;;</span><br><span class="line">import &#123; module, test &#125; from &#39;qunit&#39;;</span><br><span class="line">import startApp from &#39;..&#x2F;helpers&#x2F;start-app&#39;;</span><br><span class="line">var App;</span><br><span class="line"></span><br><span class="line">module(&#39;An Integration test&#39;, &#123;</span><br><span class="line">  beforeEach: function() &#123;</span><br><span class="line">    App &#x3D; startApp();</span><br><span class="line">  &#125;,</span><br><span class="line">  afterEach: function() &#123;</span><br><span class="line">    Ember.run(App, App.destroy);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">test(&quot;Page contents&quot;, function(assert) &#123;</span><br><span class="line">  assert.expect(2);</span><br><span class="line">  visit(&#39;&#x2F;foos&#39;).then(function() &#123;</span><br><span class="line">    assert.equal(find(&#39;.foos-list&#39;).length, 1, &quot;Page contains list of models&quot;);</span><br><span class="line">    assert.equal(find(&#39;.foos-list .foo-item&#39;).length, 5, &quot;List contains expected number of models&quot;);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h4 id="用-ember-qunit-做单元测试"><a href="#用-ember-qunit-做单元测试" class="headerlink" title="用 ember-qunit 做单元测试"></a>用 ember-qunit 做单元测试</h4><p>一个Ember CLI生成的项目应该预加载<a target="_blank" rel="noopener" href="https://github.com/rpflorence/ember-qunit">ember-qunit</a>，里面包含了<a target="_blank" rel="noopener" href="http://emberjs.com/guides/testing/unit-test-helpers/#toc_unit-testing-helpers">不少助手函数</a>:</p>
+<ul>
+<li>moduleFor</li>
+<li>moduleForModel</li>
+<li>moduleForComponent</li>
+</ul>
+<h5 id="moduleFor-fullName-description-callbacks-delegate"><a href="#moduleFor-fullName-description-callbacks-delegate" class="headerlink" title="moduleFor(fullName, description, callbacks, delegate)"></a>moduleFor(fullName, description, callbacks, delegate)</h5><p>通用解释器会加载你指定的东西，用法非常像 QUnit 的 <code>module</code> 函数。他的用法可以参考这个 <a target="_blank" rel="noopener" href="https://github.com/stefanpenner/ember-app-kit/blob/master/tests/unit/routes/index-test.js">index-test.js</a>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; tests&#x2F;unit&#x2F;routes&#x2F;index-test.js</span><br><span class="line">import &#123; test, moduleFor &#125; from &#39;ember-qunit&#39;;</span><br><span class="line"></span><br><span class="line">moduleFor(&#39;route:index&#39;, &quot;Unit - IndexRoute&quot;, &#123;</span><br><span class="line">  &#x2F;&#x2F; 只有运行时想加载其他对象的时候有必要</span><br><span class="line">  &#x2F;&#x2F; needs: [&#39;controller:index&#39;]</span><br><span class="line">  beforeEach: function () &#123;&#125;,</span><br><span class="line">  afterEach: function () &#123;&#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">test(&quot;it exists&quot;, function(assert)&#123;</span><br><span class="line">  assert.ok(this.subject());</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p><code>fullname</code></p>
+<p>你需要测试的对象名，需要是解释器支持的命名方式。</p>
+<p><code>description</code></p>
+<p>描述会把后面所有的测试当成一个分组。默认和 <code>fullname</code> 值一样。</p>
+<p><code>callbacks</code></p>
+<p>你可以提供一个定制的 beforeEach, afterEach, 或子函数给callbacks参数。如果对象应该被加载到 Ember.js ，用<code>needs</code>属性指定这些对象。</p>
+<p><code>delegate</code></p>
+<p>手动修改一个容器&amp;测试上下文，指定一个函数作为委托，需要满足这个函数签名<code>delegate(container, testing_context)</code>.</p>
+<p><code>this.subject()</code> 调用由全名指定的对象工厂，会返回一个对象实例。</p>
+<h5 id="moduleForModel-name-description-callbacks"><a href="#moduleForModel-name-description-callbacks" class="headerlink" title="moduleForModel(name, description, callbacks)"></a>moduleForModel(name, description, callbacks)</h5><p>继承通用 <code>moduleFor</code> 函数，并装载为模型定制的测试：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; tests&#x2F;unit&#x2F;models&#x2F;post-test.js</span><br><span class="line">import DS from &#39;ember-data&#39;;</span><br><span class="line">import Ember from &#39;ember&#39;;</span><br><span class="line">import &#123; test, moduleForModel &#125; from &#39;ember-qunit&#39;;</span><br><span class="line"></span><br><span class="line">moduleForModel(&#39;post&#39;, &#39;Post Model&#39;, &#123;</span><br><span class="line">  needs: [&#39;model:comment&#39;]</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">test(&#39;Post is a valid ember-data Model&#39;, function (assert) &#123;</span><br><span class="line">  var store &#x3D; this.store();</span><br><span class="line">  var post &#x3D; this.subject(&#123;title: &#39;A title for a post&#39;, user: &#39;bob&#39;&#125;);</span><br><span class="line">  assert.ok(post);</span><br><span class="line">  assert.ok(post instanceof DS.Model);</span><br><span class="line"></span><br><span class="line">  &#x2F;&#x2F; 设置关系</span><br><span class="line">  Ember.run(function() &#123;</span><br><span class="line">    post.set(&#39;comment&#39;, store.createRecord(&#39;comment&#39;, &#123;&#125;))</span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">  assert.ok(post.get(&#39;comment&#39;));</span><br><span class="line">  assert.ok(post.get(&#39;comment&#39;) instanceof DS.Model);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p><code>name</code></p>
+<p>你要测的模型名。重要的是，只给这个名字，不是对象的解释器路径。(<code>model:post</code> =&gt; <code>post</code>).</p>
+<p><code>description</code></p>
+<p>描述可以把后面所有的测试当做一个分组，默认和<code>name</code>一样。</p>
+<p><code>callbacks</code></p>
+<p>你可以提供一个定制的 beforeEach, afterEach, 或子函数给 callbacks 参数。如果对象应该被加载到 Ember.js ，用<code>needs</code>属性指定这些对象。</p>
+<p>注意：如果你要测的模型和其他模型有关系，这些模型需要通过 <code>needs</code> 属性指定。</p>
+<p><code>this.store()</code> 去查询 <code>DS.Store</code>.</p>
+<p><code>this.subject()</code> 会根据全名去调用 <code>DS.Model</code> 工厂，返回一个对象实例。</p>
+<h5 id="moduleForComponent-name-description-callbacks"><a href="#moduleForComponent-name-description-callbacks" class="headerlink" title="moduleForComponent(name, description, callbacks)"></a>moduleForComponent(name, description, callbacks)</h5><p>继承通用 <code>moduleFor</code> 函数，并装载为组件定制的测试：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; tests&#x2F;integration&#x2F;components&#x2F;pretty-color-test.js</span><br><span class="line">import Ember from &quot;ember&quot;;</span><br><span class="line">import &#123; test, moduleForComponent &#125; from &#39;ember-qunit&#39;;</span><br><span class="line"></span><br><span class="line">moduleForComponent(&#39;pretty-color&#39;);</span><br><span class="line"></span><br><span class="line">test(&#39;changing colors&#39;, function(assert)&#123;</span><br><span class="line">  var component &#x3D; this.subject();</span><br><span class="line"></span><br><span class="line">  Ember.run(function()&#123;</span><br><span class="line">    component.set(&#39;name&#39;,&#39;red&#39;);</span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">  &#x2F;&#x2F; first call to $() renders the component.</span><br><span class="line">  assert.equal(this.$().attr(&#39;style&#39;), &#39;color: red;&#39;);</span><br><span class="line"></span><br><span class="line">  Ember.run(function()&#123;</span><br><span class="line">    component.set(&#39;name&#39;, &#39;green&#39;);</span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">  assert.equal(this.$().attr(&#39;style&#39;), &#39;color: green;&#39;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p><code>name</code></p>
+<p><code>name</code></p>
+<p>你要测的组件名。重要的是，只给这个名字，不是对象的解释器路径。(<code>component:pretty-color</code> =&gt; <code>pretty-color</code>)。</p>
+<p><code>description</code></p>
+<p>描述可以把后面所有的测试当做一个分组，默认和<code>name</code>一样。</p>
+<p><code>callbacks</code></p>
+<p>你可以提供一个定制的 beforeEach, afterEach, 或子函数给 callbacks 参数。如果对象应该被加载到 Ember.js ，用<code>needs</code>属性指定这些对象。</p>
+<p>注意：如果你要测的模型和其他模型有关系，这些模型需要通过 <code>needs</code> 属性指定。</p>
+<p><code>this.subject()</code> 会根据全名去调用 <code>Ember.Component</code> 工厂，返回一个对象实例。</p>
+<p>第一个调用 <code>this.$()</code> 的地方会渲染出这个组件，如果你要测试样式，你需要通过 jQuery 。</p>
+<h3 id="写你自己的测试助手函数"><a href="#写你自己的测试助手函数" class="headerlink" title="写你自己的测试助手函数"></a>写你自己的测试助手函数</h3><p>Ember 提供了能力，你可以注册自己的测试助手函数。为了让 ember-cli使用这个功能， 他们必须在 <code>startApp</code> 定义之前注册。</p>
+<p>一个文件定义一个助手函数或者一组助手函数，取决于自己的搞法。</p>
+<h4 id="每个文件一个助手函数"><a href="#每个文件一个助手函数" class="headerlink" title="每个文件一个助手函数"></a>每个文件一个助手函数</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; helpers&#x2F;routes-to.js</span><br><span class="line">import Ember from &quot;ember&quot;;</span><br><span class="line"></span><br><span class="line">export default Ember.Test.registerAsyncHelper(&#39;routesTo&#39;, function (app, assert, url, route_name) &#123;</span><br><span class="line">  visit(url);</span><br><span class="line">  andThen(function () &#123;</span><br><span class="line">    assert.equal(currentRouteName(), route_name, &#39;Expected &#39; + route_name + &#39;, got: &#39; + currentRouteName());</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p><code>start-app.js</code>里就可以用，像这样：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; helpers&#x2F;start-app.js</span><br><span class="line">import routesTo from &#39;.&#x2F;routes-to&#39;;</span><br><span class="line"></span><br><span class="line">export default function startApp(attrs) &#123;</span><br><span class="line">&#x2F;&#x2F;...</span><br></pre></td></tr></table></figure>
+
+<h4 id="一个文件一组助手函数"><a href="#一个文件一组助手函数" class="headerlink" title="一个文件一组助手函数"></a>一个文件一组助手函数</h4><p>可选的方案是创造一堆助手函数放在一个自调函数，比如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; helpers&#x2F;custom-helpers.js</span><br><span class="line">var customHelpers &#x3D; function() &#123;</span><br><span class="line">  Ember.Test.registerHelper(&#39;myGreatHelper&#39;, function (app) &#123;</span><br><span class="line">    &#x2F;&#x2F;do awesome test stuff</span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">  Ember.Test.registerAsyncHelper(&#39;myGreatAsyncHelper&#39;, function (app) &#123;</span><br><span class="line">    &#x2F;&#x2F;do awesome test stuff</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;();</span><br><span class="line"></span><br><span class="line">export default customHelpers;</span><br></pre></td></tr></table></figure>
+
+<p><code>start-app.js</code> 里也可以用：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; helpers&#x2F;start-app.js</span><br><span class="line">import customHelpers from &#39;.&#x2F;custom-helpers&#39;;</span><br><span class="line"></span><br><span class="line">export default function startApp(attrs) &#123;</span><br><span class="line">&#x2F;&#x2F;...</span><br></pre></td></tr></table></figure>
+<p>当你的帮助函数定义好了，你需要要确保他们在 <code>.eslintrc.js</code> 里列出。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; &#x2F;tests&#x2F;.eslintrc.js</span><br><span class="line">&#123;</span><br><span class="line">  &quot;globals&quot;: &#123;</span><br><span class="line">    &quot;myGreatHelper&quot;: true,</span><br><span class="line">    &quot;myGreatAsyncHelper&quot;: true</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Ember/" rel="tag"># Ember</a>
+              <a href="/tags/Javascript/" rel="tag"># Javascript</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2013/11/09/Embercli2/" rel="prev" title="Embercli 文档（2）：模块、解释器、命名惯例">
+      <i class="fa fa-chevron-left"></i> Embercli 文档（2）：模块、解释器、命名惯例
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2013/11/13/Embercli4/" rel="next" title="Embercli 文档（4）：资源编译 + 依赖管理">
+      Embercli 文档（4）：资源编译 + 依赖管理 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Ember-Data"><span class="nav-number">1.</span> <span class="nav-text">Ember Data</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B"><span class="nav-number">1.1.</span> <span class="nav-text">模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%82%E9%85%8D%E5%99%A8-amp-%E5%BA%8F%E5%88%97%E5%8C%96%E5%99%A8"><span class="nav-number">1.2.</span> <span class="nav-text">适配器 &amp; 序列化器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Mocks"><span class="nav-number">1.3.</span> <span class="nav-text">Mocks</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95"><span class="nav-number">2.</span> <span class="nav-text">测试</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B7%91%E5%B7%B2%E7%BB%8F%E6%9C%89%E7%9A%84%E6%B5%8B%E8%AF%95"><span class="nav-number">2.1.</span> <span class="nav-text">跑已经有的测试</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%86%99%E4%B8%AA%E6%B5%8B%E8%AF%95"><span class="nav-number">2.2.</span> <span class="nav-text">写个测试</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%A8-Testem-%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90"><span class="nav-number">2.3.</span> <span class="nav-text">用 Testem 持续集成</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%94%A8-ember-qunit-%E5%81%9A%E9%9B%86%E6%88%90-integration-%E6%B5%8B%E8%AF%95"><span class="nav-number">2.3.1.</span> <span class="nav-text">用 ember-qunit 做集成(integration)测试</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%94%A8-ember-qunit-%E5%81%9A%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95"><span class="nav-number">2.3.2.</span> <span class="nav-text">用 ember-qunit 做单元测试</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#moduleFor-fullName-description-callbacks-delegate"><span class="nav-number">2.3.2.1.</span> <span class="nav-text">moduleFor(fullName, description, callbacks, delegate)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#moduleForModel-name-description-callbacks"><span class="nav-number">2.3.2.2.</span> <span class="nav-text">moduleForModel(name, description, callbacks)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#moduleForComponent-name-description-callbacks"><span class="nav-number">2.3.2.3.</span> <span class="nav-text">moduleForComponent(name, description, callbacks)</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%86%99%E4%BD%A0%E8%87%AA%E5%B7%B1%E7%9A%84%E6%B5%8B%E8%AF%95%E5%8A%A9%E6%89%8B%E5%87%BD%E6%95%B0"><span class="nav-number">2.4.</span> <span class="nav-text">写你自己的测试助手函数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%AF%8F%E4%B8%AA%E6%96%87%E4%BB%B6%E4%B8%80%E4%B8%AA%E5%8A%A9%E6%89%8B%E5%87%BD%E6%95%B0"><span class="nav-number">2.4.1.</span> <span class="nav-text">每个文件一个助手函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%80%E4%B8%AA%E6%96%87%E4%BB%B6%E4%B8%80%E7%BB%84%E5%8A%A9%E6%89%8B%E5%87%BD%E6%95%B0"><span class="nav-number">2.4.2.</span> <span class="nav-text">一个文件一组助手函数</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">田_田</p>
+  <div class="site-description" itemprop="description">创新需要在一切发生之前研究结局!</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">34</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wangzitian0" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wangzitian0" rel="noopener" target="_blank"><i class="github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wangzitian0@gmail.com" title="E-Mail → mailto:wangzitian0@gmail.com" rel="noopener" target="_blank"><i class="envelope fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.linkedin.com/in/wangzitian0" title="LinkedIn → https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;wangzitian0" rel="noopener" target="_blank"><i class="linkedin fa-fw"></i></a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class=""></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">田_田</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a>
+  </div>
+
+        
+
+
+
+
+
+
+<script>
+  (function() {
+    function leancloudSelector(url) {
+      url = encodeURI(url);
+      return document.getElementById(url).querySelector('.leancloud-visitors-count');
+    }
+
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = decodeURI(visitors.id);
+      var title = visitors.dataset.flagTitle;
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            leancloudSelector(url).innerText = counter.time + 1;
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              });
+          } else {
+              leancloudSelector(url).innerText = 'Counter not initialized! More info at console err msg.';
+              console.error('ATTENTION! LeanCloud counter has security bug, see how to solve it here: https://github.com/theme-next/hexo-leancloud-counter-security. \n However, you can still use LeanCloud without security, by setting `security` option to `false`.');
+            
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return decodeURI(element.id);
+      });
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          for (let url of entries) {
+            let target = results.find(item => item.url === url);
+            leancloudSelector(url).innerText = target ? target.time : 0;
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    let { app_id, app_key, server_url } = {"enable":true,"app_id":"itw5YW53yzX17tr3WAdRd9Dd-gzGzoHsz","app_key":"qLjOt8jjizQl0ys5OSdwf10Y","server_url":null,"security":true,"betterPerformance":true};
+    function fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${api_server}/1.1${url}`, {
+          method,
+          headers: {
+            'X-LC-Id'     : app_id,
+            'X-LC-Key'    : app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    }
+
+    let api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(response => response.json())
+        .then(({ api_server }) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="//cdn.jsdelivr.net/npm/algoliasearch@4/dist/algoliasearch-lite.umd.js"></script>
+<script src="//cdn.jsdelivr.net/npm/instantsearch.js@4/dist/instantsearch.production.min.js"></script>
+<script src="/js/algolia-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

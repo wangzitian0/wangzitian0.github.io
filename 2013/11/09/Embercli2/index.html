@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/huaji.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/huaji.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/huaji.png">
+  <link rel="mask-icon" href="/images/huaji.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"wangzitian0.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":true,"b2t":false,"scrollpercent":true},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"appID":"1PWF5BJPP1","apiKey":"6a2714c5b665823e7132db2aedb81233","indexName":"wangzitian0.github.io","hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="embercli翻译自https:&#x2F;&#x2F;ember-cli.com&#x2F;，embercli 文档。 本文原文地址：https:&#x2F;&#x2F;ember-cli.com&#x2F;user-guide&#x2F;#using-moduleshttps:&#x2F;&#x2F;ember-cli.com&#x2F;user-guide&#x2F;#naming-conventions">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Embercli 文档（2）：模块、解释器、命名惯例">
+<meta property="og:url" content="https://wangzitian0.github.io/2013/11/09/Embercli2/index.html">
+<meta property="og:site_name" content="全栈之路">
+<meta property="og:description" content="embercli翻译自https:&#x2F;&#x2F;ember-cli.com&#x2F;，embercli 文档。 本文原文地址：https:&#x2F;&#x2F;ember-cli.com&#x2F;user-guide&#x2F;#using-moduleshttps:&#x2F;&#x2F;ember-cli.com&#x2F;user-guide&#x2F;#naming-conventions">
+<meta property="og:locale">
+<meta property="article:published_time" content="2013-11-09T06:16:00.000Z">
+<meta property="article:modified_time" content="2020-09-30T04:59:07.877Z">
+<meta property="article:author" content="田_田">
+<meta property="article:tag" content="Ember">
+<meta property="article:tag" content="Javascript">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://wangzitian0.github.io/2013/11/09/Embercli2/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>Embercli 文档（2）：模块、解释器、命名惯例 | 全栈之路</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?1eeceb0b3f8e550d6211f134646361b6";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="全栈之路" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta custom-logo">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">全栈之路</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">田_田的博客</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="archive fa-fw"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="user fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="tags fa-fw"></i>Tags</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container"></div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="algolia-results">
+  <div id="algolia-stats"></div>
+  <div id="algolia-hits"></div>
+  <div id="algolia-pagination" class="algolia-pagination"></div>
+</div>
+
+      
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://wangzitian0.github.io/2013/11/09/Embercli2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="田_田">
+      <meta itemprop="description" content="创新需要在一切发生之前研究结局!">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="全栈之路">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Embercli 文档（2）：模块、解释器、命名惯例
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2013-11-09 14:16:00" itemprop="dateCreated datePublished" datetime="2013-11-09T14:16:00+08:00">2013-11-09</time>
+            </span>
+
+          
+            <span id="/2013/11/09/Embercli2/" class="post-meta-item leancloud_visitors" data-flag-title="Embercli 文档（2）：模块、解释器、命名惯例" title="Views">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>embercli<br>翻译自<a target="_blank" rel="noopener" href="https://ember-cli.com/%EF%BC%8Cembercli">https://ember-cli.com/，embercli</a> 文档。</p>
+<p>本文原文地址：<br><a target="_blank" rel="noopener" href="https://ember-cli.com/user-guide/#using-modules">https://ember-cli.com/user-guide/#using-modules</a><br><a target="_blank" rel="noopener" href="https://ember-cli.com/user-guide/#naming-conventions">https://ember-cli.com/user-guide/#naming-conventions</a></p>
+<a id="more"></a>
+
+<h2 id="使用模块-amp-解释器"><a href="#使用模块-amp-解释器" class="headerlink" title="使用模块 &amp; 解释器"></a>使用模块 &amp; 解释器</h2><p>Ember 解释器(Resolver)用来负责在你的应用里检索代码，然后按命名约定转换成真实的类、函数、或者模板，Ember 会处理的需要的依赖。比如，一个给定的路由需要哪些模板。这里有个Ember Resolver的介绍和一个简单案例说明它怎么运行。<a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=OY0PzrltMYc#t=51">Youtube视频链接</a> by <a target="_blank" rel="noopener" href="https://www.twitter.com/@rwjblue">Robert Jackson</a>.</p>
+<p>之前，Ember 的默认解释器把每个东西扔到一个全局命名空间里，你偶尔会遇到这种样子的代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">App.IndexRoute &#x3D; Ember.Route.extend(&#123;</span><br><span class="line">  model: function() &#123;</span><br><span class="line">    return [&#39;red&#39;, &#39;yellow&#39;, &#39;blue&#39;];</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>现在，Ember CLI 用基于 ES6 的 <a target="_blank" rel="noopener" href="https://github.com/stefanpenner/ember-resolver">新版本的Resolver</a>。这意味着你可以用未来的 JavaScript 版本来写你的应用，然后导出 AMD 模块使其被现有版本支持。</p>
+<p>举个栗子，定义在 <code>app/routes/index.js</code> 里的路由会生成一个叫 <code>your-app/routes/index</code> 的模块。Ember解释器在找路由的时候，会自己搜到这个模块和它需要导出的对象。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; app&#x2F;routes&#x2F;index.js</span><br><span class="line">import Ember from &quot;ember&quot;;</span><br><span class="line"></span><br><span class="line">export default Ember.Route.extend(&#123;</span><br><span class="line">  model: function() &#123;</span><br><span class="line">    return [&#39;red&#39;, &#39;yellow&#39;, &#39;blue&#39;];</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>你也可以用这种语法导入模块：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">import FooMixin from &quot;.&#x2F;mixins&#x2F;foo&quot;;</span><br></pre></td></tr></table></figure>
+
+<p>你可以用相对路径和绝对路径引用一个模块。如果你想用绝对路径引用一个模块，用<code>package.json</code>里定义的应用名字加上绝对路径。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">import FooMixin from &quot;appname&#x2F;mixins&#x2F;foo&quot;;</span><br></pre></td></tr></table></figure>
+
+<p>同样，你可以给导入的模块手工命任何名字。看看上面的例子，想想 <code>mixins/foo</code> 模块是如何被赋值给变量 <code>FooMixin</code>。</p>
+<h3 id="用-Ember-或者-Ember-Data"><a href="#用-Ember-或者-Ember-Data" class="headerlink" title="用 Ember 或者 Ember Data"></a>用 Ember 或者 Ember Data</h3><p>在你的模块里用<code>Ember</code>或者<code>DS</code>(Ember Data)，你需要这样引入：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">import Ember from &quot;ember&quot;;</span><br><span class="line">import DS from &quot;ember-data&quot;;</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="使用-Pods"><a href="#使用-Pods" class="headerlink" title="使用 Pods"></a>使用 Pods</h3><p>新版解释器带来的一个改进，它会在查找老版的项目结构前先查找 Pods 结构。</p>
+<h3 id="模块目录命名结构"><a href="#模块目录命名结构" class="headerlink" title="模块目录命名结构"></a>模块目录命名结构</h3><p>目录           | 目的<br>——————–|<br><code>app/adapters/</code>     | 约定适配器命名为 <code>adapter-name.js</code>。<br><code>app/components/</code>   | 约定组件命名为<code>component-name.js</code>。组件必须要有一个<code>-</code>号在名字里，所以<code>blog-post</code>是可以接受的命名，<code>post</code>不是。<br><code>app/helpers/</code>      | 约定助手函数命名为<code>helper-name.js</code>。帮助函数必须有一个<code>-</code>号在名字里。记住你必须通过导出<code>makeBoundHelper</code>来注册助手函数，或者明确调用<code>registerBoundHelper</code>。<br><code>app/initializers/</code> | 约定构造器命名为<code>initializer-name.js</code>。构造器总是自动加载的。<br><code>app/mixins/</code>       | 约定混入继承命名<code>mixin-name.js</code>。<br><code>app/models/</code>       | 约定模型命名为<code>model-name.js</code>。<br><code>app/routes/</code>       | 约定路由命名为<code>route-name.js</code>。子路由被定义在子目录里<code>parent/child.js</code>。为了提供定制化生成路由（等价于全局使用<code>App.Route</code>）使用 <code>app/routes/basic.js</code>。<br><code>app/serializers/</code>  | 模型或者适配器的序列化器，命名成<code>model-name.js</code>或<code>adapter-name.js</code>.<br><code>app/transforms/</code>   | 将Ember Data的属性进行转换，命名为新的属性名<code>attribute-name.js</code>。<br><code>app/utils/</code>        | 约定工具包命名为<code>utility-name.js</code>.</p>
+<p>所有在<code>app</code>里的模块都能被解释器加载，除了特别的类 <code>mixins</code> 和 <code>utils</code> ，应该手动import加载。</p>
+<p>命名转换会更详细的介绍</p>
+<h3 id="处理-Handlebars-助手函数"><a href="#处理-Handlebars-助手函数" class="headerlink" title="处理 Handlebars 助手函数"></a>处理 Handlebars 助手函数</h3><p>定制的Handlebars助手函数可以帮你复用 HTML。注册你的定制助手函数，它可以被任何Handlebars调用。<br>located under <code>app/helpers</code>.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; app&#x2F;helpers&#x2F;upper-case.js</span><br><span class="line">import Ember from &quot;ember&quot;;</span><br><span class="line"></span><br><span class="line">export default Ember.Helper.helper(function([value]) &#123;</span><br><span class="line">  return value.toUpperCase();</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>在<code>some-template.hbs</code>里:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;% raw %&#125;</span><br><span class="line">&#123;&#123;upper-case &quot;foo&quot;&#125;&#125;</span><br><span class="line">&#123;% endraw %&#125;</span><br></pre></td></tr></table></figure>
+<p>先前版本的ember-cli要求自动解释助手函数必须有一个<code>-</code>，现在的版本是有没有都自动解释。</p>
+<p>一种常用的模式是定义一个帮助函数来视觉层使用(如定制字符框，<code>MyTextField</code>定义了助手函数<code>my-text-field</code>)。不推荐，这种直接做成组件更好。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; Given... app&#x2F;components&#x2F;my-text-field.js</span><br><span class="line">import Ember from &quot;ember&quot;;</span><br><span class="line"></span><br><span class="line">export default Ember.TextField.extend(&#123;</span><br><span class="line">  &#x2F;&#x2F; some custom behaviour...</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="使用全局变量或者第三方脚本"><a href="#使用全局变量或者第三方脚本" class="headerlink" title="使用全局变量或者第三方脚本"></a>使用全局变量或者第三方脚本</h3><p>如果你想用第三方的包来写面向全局的东西(如<a target="_blank" rel="noopener" href="http://momentjs.com/">moment.js</a>)，你需要在<code>.eslintrc.js</code>里把他们加到<code>globals</code> 里，并且把它们的值设成 true。然后测试用了的库也一样，只是把东西加到<code>tests/.eslintrc.js</code>里。</p>
+<h2 id="命名惯例"><a href="#命名惯例" class="headerlink" title="命名惯例"></a>命名惯例</h2><ul>
+<li><code>kebab-case</code> （撸串命名法？<ul>
+<li>文件名</li>
+<li>目录名</li>
+<li>html标签、ember 组件</li>
+<li>CSS类名</li>
+<li>URLs</li>
+</ul>
+</li>
+<li><code>camelCase</code> (小驼峰<ul>
+<li>JavaScript</li>
+<li>JSON</li>
+</ul>
+</li>
+</ul>
+<p>用 Ember CLI 的时候小心点，稍不注意就出轨了。<br>这个章节会给你一些命名约定。</p>
+<h3 id="模块的例子"><a href="#模块的例子" class="headerlink" title="模块的例子"></a>模块的例子</h3><h4 id="Adapters"><a href="#Adapters" class="headerlink" title="Adapters"></a>Adapters</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; app&#x2F;adapters&#x2F;application.js</span><br><span class="line">import Ember from &quot;ember&quot;;</span><br><span class="line">import DS from &quot;ember-data&quot;;</span><br><span class="line"></span><br><span class="line">export default DS.RESTAdapter.extend(&#123;&#125;);</span><br></pre></td></tr></table></figure>
+
+<h4 id="Components"><a href="#Components" class="headerlink" title="Components"></a>Components</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; app&#x2F;components&#x2F;time-input.js</span><br><span class="line">import Ember from &quot;ember&quot;;</span><br><span class="line"></span><br><span class="line">export default Ember.TextField.extend(&#123;&#125;);</span><br></pre></td></tr></table></figure>
+
+<h4 id="Controllers"><a href="#Controllers" class="headerlink" title="Controllers"></a>Controllers</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; app&#x2F;controllers&#x2F;stop-watch.js</span><br><span class="line">import Ember from &quot;ember&quot;;</span><br><span class="line"></span><br><span class="line">export default Ember.Controller.extend(&#123;&#125;);</span><br></pre></td></tr></table></figure>
+<p>如果不是嵌套的控制器，我们可以这样声明子控制器：<code>app/controllers/posts/index.js</code>.</p>
+<h4 id="Helpers"><a href="#Helpers" class="headerlink" title="Helpers"></a>Helpers</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; app&#x2F;helpers&#x2F;format-time.js</span><br><span class="line">import Ember from &quot;ember&quot;;</span><br><span class="line"></span><br><span class="line">export default Ember.Helper.helper(function()&#123;&#125;);</span><br></pre></td></tr></table></figure>
+
+<h4 id="Initializers"><a href="#Initializers" class="headerlink" title="Initializers"></a>Initializers</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; app&#x2F;initializers&#x2F;observation.js</span><br><span class="line">export default &#123;</span><br><span class="line">  name: &#39;observation&#39;,</span><br><span class="line">  initialize: function() &#123;</span><br><span class="line">    &#x2F;&#x2F; code</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>注意: <code>initializers</code>是自动加载的。</p>
+<h4 id="Mixins"><a href="#Mixins" class="headerlink" title="Mixins"></a>Mixins</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; app&#x2F;mixins&#x2F;evented.js</span><br><span class="line">import Ember from &quot;ember&quot;;</span><br><span class="line"></span><br><span class="line">export default Ember.Mixin.create(&#123;&#125;);</span><br></pre></td></tr></table></figure>
+
+<h4 id="Models"><a href="#Models" class="headerlink" title="Models"></a>Models</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; app&#x2F;models&#x2F;observation.js</span><br><span class="line">import DS from &quot;ember-data&quot;;</span><br><span class="line"></span><br><span class="line">export default DS.Model.extend(&#123;&#125;);</span><br></pre></td></tr></table></figure>
+
+<h4 id="Routes"><a href="#Routes" class="headerlink" title="Routes"></a>Routes</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; app&#x2F;routes&#x2F;timer.js</span><br><span class="line">import Ember from &quot;ember&quot;;</span><br><span class="line"></span><br><span class="line">export default Ember.Route.extend(&#123;&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>可以这样嵌套路由： <code>app/routes/timer/index.js</code> or <code>app/routes/timer/record.js</code>.</p>
+<h4 id="Serializers"><a href="#Serializers" class="headerlink" title="Serializers"></a>Serializers</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; app&#x2F;serializers&#x2F;observation.js</span><br><span class="line">import DS from &quot;ember-data&quot;;</span><br><span class="line"></span><br><span class="line">export default DS.RESTSerializer.extend(&#123;&#125;);</span><br></pre></td></tr></table></figure>
+
+<h4 id="Transforms"><a href="#Transforms" class="headerlink" title="Transforms"></a>Transforms</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; app&#x2F;transforms&#x2F;time.js</span><br><span class="line">import DS from &quot;ember-data&quot;;</span><br><span class="line"></span><br><span class="line">export default DS.Transform.extend(&#123;&#125;);</span><br></pre></td></tr></table></figure>
+
+<h4 id="Utilities"><a href="#Utilities" class="headerlink" title="Utilities"></a>Utilities</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; app&#x2F;utils&#x2F;my-ajax.js</span><br><span class="line">export default function myAjax() &#123;&#125;;</span><br></pre></td></tr></table></figure>
+
+<h4 id="Views"><a href="#Views" class="headerlink" title="Views"></a>Views</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- app&#x2F;index.hbs --&gt;</span><br><span class="line">&#123;&#123;view &#39;stop-watch&#39;&#125;&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; app&#x2F;views&#x2F;stop-watch.js</span><br><span class="line">import Ember from &quot;ember&quot;;</span><br><span class="line"></span><br><span class="line">export default Ember.View.extend(&#123;&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>视图可以在子目录中引用，但不能继承。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- app&#x2F;index.hbs --&gt;</span><br><span class="line">&#123;% raw %&#125;&#123;&#123;view &#39;inputs&#x2F;time-input&#39;&#125;&#125;&#123;% endraw %&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; app&#x2F;views&#x2F;inputs&#x2F;time-input.js</span><br><span class="line">import Ember from &quot;ember&quot;;</span><br><span class="line"></span><br><span class="line">export default Ember.TextField.extend(&#123;&#125;);</span><br></pre></td></tr></table></figure>
+
+<h3 id="文件名"><a href="#文件名" class="headerlink" title="文件名"></a>文件名</h3><p>Ember 解释器用文件名来组织工程关系，所以记住它们很重要。这可以让你避免每个地方都自己去想命名空间。<br>这里仍有一些你需要知道的事情：</p>
+<h4 id="所有文件名应该小写"><a href="#所有文件名应该小写" class="headerlink" title="所有文件名应该小写"></a>所有文件名应该小写</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; models&#x2F;user.js</span><br><span class="line">import Ember from &quot;ember&quot;;</span><br><span class="line">export default Ember.Model.extend();</span><br></pre></td></tr></table></figure>
+
+<h4 id="文件名和目录名用减号连接"><a href="#文件名和目录名用减号连接" class="headerlink" title="文件名和目录名用减号连接"></a>文件名和目录名用减号连接</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; controllers&#x2F;sign-up.js</span><br><span class="line">import Ember from &quot;ember&quot;;</span><br><span class="line">export default Ember.Controller.extend();</span><br></pre></td></tr></table></figure>
+
+<h4 id="嵌套目录"><a href="#嵌套目录" class="headerlink" title="嵌套目录"></a>嵌套目录</h4><p>如果你你认为嵌套文件可以更好的管理你的应用，你轻而易举的可以这样：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; controllers&#x2F;posts&#x2F;new.js 在控制器里面被命名为&quot;controllers.posts&#x2F;new&quot;</span><br><span class="line">import Ember from &quot;ember&quot;;</span><br><span class="line">export default Ember.Controller.extend();</span><br></pre></td></tr></table></figure>
+
+<p>你不能在模板里面使用包含<code>/</code>，Handlebars会把他们转回<code>.</code>，简单创建一个映射：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; controllers&#x2F;posts.js</span><br><span class="line">import Ember from &quot;ember&quot;;</span><br><span class="line">export default Ember.Controller.extend(&#123;</span><br><span class="line">  needs: [&#39;posts&#x2F;details&#39;],</span><br><span class="line">  postsDetails: Ember.computed.alias(&#39;controllers.posts&#x2F;details&#39;)</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;% raw %&#125;</span><br><span class="line">&lt;!-- templates&#x2F;posts.hbs --&gt;</span><br><span class="line">&lt;!-- because &#123;&#123;controllers.posts&#x2F;details.count&#125;&#125; does not work --&gt;</span><br><span class="line">&#123;&#123;postsDetails.count&#125;&#125;</span><br><span class="line">&#123;% endraw %&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3><p>想让测试文件正常跑，测试应该以<code>-test.js</code>结尾。</p>
+<h4 id="Pod结构"><a href="#Pod结构" class="headerlink" title="Pod结构"></a>Pod结构</h4><p>当应用变大了，功能特性驱动的结构可能更好。把你的应用按照功能、资源划分可以给你更多精力，去掌控运维过程。默认情况，如果文件没在 POD 结构里，解释器会去正常的结构里去解析。</p>
+<p>这个例子里，你可以把文件按照功能命名，给定一个资源<code>Users</code>，目录结构应该是：</p>
+<ul>
+<li><code>app/users/controller.js</code></li>
+<li><code>app/users/route.js</code></li>
+<li><code>app/users/template.hbs</code></li>
+</ul>
+<p>不要把资源文件放在项目根目录，你可以定义一个POD路径，在环境变量里面加入属性<code>podModulePrefix</code>，POD 路径应该是这个形式：<code>&#123;appname&#125;/&#123;poddir&#125;</code>.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; config&#x2F;environment.js</span><br><span class="line">module.exports &#x3D; function(environment) &#123;</span><br><span class="line">  var ENV &#x3D; &#123;</span><br><span class="line">    modulePrefix: &#39;my-new-app&#39;,</span><br><span class="line">    &#x2F;&#x2F; namespaced directory where resolver will look for your resource files</span><br><span class="line">    podModulePrefix: &#39;my-new-app&#x2F;pods&#39;,</span><br><span class="line">    environment: environment,</span><br><span class="line">    baseURL: &#39;&#x2F;&#39;,</span><br><span class="line">    locationType: &#39;auto&#39;</span><br><span class="line">    &#x2F;&#x2F;...</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  return ENV;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>然后你的目录结构会变成：</p>
+<ul>
+<li><code>app/pods/users/controller.js</code></li>
+<li><code>app/pods/users/route.js</code></li>
+<li><code>app/pods/users/template.hbs</code></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Ember/" rel="tag"># Ember</a>
+              <a href="/tags/Javascript/" rel="tag"># Javascript</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2013/11/07/Embercli1/" rel="prev" title="Embercli 文档（1）：开始">
+      <i class="fa fa-chevron-left"></i> Embercli 文档（1）：开始
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2013/11/09/Embercli3/" rel="next" title="Embercli 文档（3）：Ember Data + 测试">
+      Embercli 文档（3）：Ember Data + 测试 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E6%A8%A1%E5%9D%97-amp-%E8%A7%A3%E9%87%8A%E5%99%A8"><span class="nav-number">1.</span> <span class="nav-text">使用模块 &amp; 解释器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%A8-Ember-%E6%88%96%E8%80%85-Ember-Data"><span class="nav-number">1.1.</span> <span class="nav-text">用 Ember 或者 Ember Data</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-Pods"><span class="nav-number">1.2.</span> <span class="nav-text">使用 Pods</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A8%A1%E5%9D%97%E7%9B%AE%E5%BD%95%E5%91%BD%E5%90%8D%E7%BB%93%E6%9E%84"><span class="nav-number">1.3.</span> <span class="nav-text">模块目录命名结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%84%E7%90%86-Handlebars-%E5%8A%A9%E6%89%8B%E5%87%BD%E6%95%B0"><span class="nav-number">1.4.</span> <span class="nav-text">处理 Handlebars 助手函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F%E6%88%96%E8%80%85%E7%AC%AC%E4%B8%89%E6%96%B9%E8%84%9A%E6%9C%AC"><span class="nav-number">1.5.</span> <span class="nav-text">使用全局变量或者第三方脚本</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%91%BD%E5%90%8D%E6%83%AF%E4%BE%8B"><span class="nav-number">2.</span> <span class="nav-text">命名惯例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A8%A1%E5%9D%97%E7%9A%84%E4%BE%8B%E5%AD%90"><span class="nav-number">2.1.</span> <span class="nav-text">模块的例子</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Adapters"><span class="nav-number">2.1.1.</span> <span class="nav-text">Adapters</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Components"><span class="nav-number">2.1.2.</span> <span class="nav-text">Components</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Controllers"><span class="nav-number">2.1.3.</span> <span class="nav-text">Controllers</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Helpers"><span class="nav-number">2.1.4.</span> <span class="nav-text">Helpers</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Initializers"><span class="nav-number">2.1.5.</span> <span class="nav-text">Initializers</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Mixins"><span class="nav-number">2.1.6.</span> <span class="nav-text">Mixins</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Models"><span class="nav-number">2.1.7.</span> <span class="nav-text">Models</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Routes"><span class="nav-number">2.1.8.</span> <span class="nav-text">Routes</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Serializers"><span class="nav-number">2.1.9.</span> <span class="nav-text">Serializers</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Transforms"><span class="nav-number">2.1.10.</span> <span class="nav-text">Transforms</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Utilities"><span class="nav-number">2.1.11.</span> <span class="nav-text">Utilities</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Views"><span class="nav-number">2.1.12.</span> <span class="nav-text">Views</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E5%90%8D"><span class="nav-number">2.2.</span> <span class="nav-text">文件名</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%89%80%E6%9C%89%E6%96%87%E4%BB%B6%E5%90%8D%E5%BA%94%E8%AF%A5%E5%B0%8F%E5%86%99"><span class="nav-number">2.2.1.</span> <span class="nav-text">所有文件名应该小写</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E5%90%8D%E5%92%8C%E7%9B%AE%E5%BD%95%E5%90%8D%E7%94%A8%E5%87%8F%E5%8F%B7%E8%BF%9E%E6%8E%A5"><span class="nav-number">2.2.2.</span> <span class="nav-text">文件名和目录名用减号连接</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B5%8C%E5%A5%97%E7%9B%AE%E5%BD%95"><span class="nav-number">2.2.3.</span> <span class="nav-text">嵌套目录</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95"><span class="nav-number">2.3.</span> <span class="nav-text">测试</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Pod%E7%BB%93%E6%9E%84"><span class="nav-number">2.3.1.</span> <span class="nav-text">Pod结构</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">田_田</p>
+  <div class="site-description" itemprop="description">创新需要在一切发生之前研究结局!</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">34</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wangzitian0" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wangzitian0" rel="noopener" target="_blank"><i class="github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wangzitian0@gmail.com" title="E-Mail → mailto:wangzitian0@gmail.com" rel="noopener" target="_blank"><i class="envelope fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.linkedin.com/in/wangzitian0" title="LinkedIn → https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;wangzitian0" rel="noopener" target="_blank"><i class="linkedin fa-fw"></i></a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class=""></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">田_田</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a>
+  </div>
+
+        
+
+
+
+
+
+
+<script>
+  (function() {
+    function leancloudSelector(url) {
+      url = encodeURI(url);
+      return document.getElementById(url).querySelector('.leancloud-visitors-count');
+    }
+
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = decodeURI(visitors.id);
+      var title = visitors.dataset.flagTitle;
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            leancloudSelector(url).innerText = counter.time + 1;
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              });
+          } else {
+              leancloudSelector(url).innerText = 'Counter not initialized! More info at console err msg.';
+              console.error('ATTENTION! LeanCloud counter has security bug, see how to solve it here: https://github.com/theme-next/hexo-leancloud-counter-security. \n However, you can still use LeanCloud without security, by setting `security` option to `false`.');
+            
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return decodeURI(element.id);
+      });
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          for (let url of entries) {
+            let target = results.find(item => item.url === url);
+            leancloudSelector(url).innerText = target ? target.time : 0;
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    let { app_id, app_key, server_url } = {"enable":true,"app_id":"itw5YW53yzX17tr3WAdRd9Dd-gzGzoHsz","app_key":"qLjOt8jjizQl0ys5OSdwf10Y","server_url":null,"security":true,"betterPerformance":true};
+    function fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${api_server}/1.1${url}`, {
+          method,
+          headers: {
+            'X-LC-Id'     : app_id,
+            'X-LC-Key'    : app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    }
+
+    let api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(response => response.json())
+        .then(({ api_server }) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="//cdn.jsdelivr.net/npm/algoliasearch@4/dist/algoliasearch-lite.umd.js"></script>
+<script src="//cdn.jsdelivr.net/npm/instantsearch.js@4/dist/instantsearch.production.min.js"></script>
+<script src="/js/algolia-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

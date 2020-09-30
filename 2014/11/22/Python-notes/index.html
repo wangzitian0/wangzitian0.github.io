@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/huaji.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/huaji.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/huaji.png">
+  <link rel="mask-icon" href="/images/huaji.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"wangzitian0.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":true,"b2t":false,"scrollpercent":true},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"appID":"1PWF5BJPP1","apiKey":"6a2714c5b665823e7132db2aedb81233","indexName":"wangzitian0.github.io","hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="用过的库这里把自己用过的，并且质量不错的的库做一个汇总">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python教程&amp;笔记">
+<meta property="og:url" content="https://wangzitian0.github.io/2014/11/22/Python-notes/index.html">
+<meta property="og:site_name" content="全栈之路">
+<meta property="og:description" content="用过的库这里把自己用过的，并且质量不错的的库做一个汇总">
+<meta property="og:locale">
+<meta property="article:published_time" content="2014-11-22T08:46:00.000Z">
+<meta property="article:modified_time" content="2020-09-30T04:59:07.880Z">
+<meta property="article:author" content="田_田">
+<meta property="article:tag" content="Language">
+<meta property="article:tag" content="Python">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://wangzitian0.github.io/2014/11/22/Python-notes/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>Python教程&笔记 | 全栈之路</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?1eeceb0b3f8e550d6211f134646361b6";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="全栈之路" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta custom-logo">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">全栈之路</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">田_田的博客</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="archive fa-fw"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="user fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="tags fa-fw"></i>Tags</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container"></div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="algolia-results">
+  <div id="algolia-stats"></div>
+  <div id="algolia-hits"></div>
+  <div id="algolia-pagination" class="algolia-pagination"></div>
+</div>
+
+      
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://wangzitian0.github.io/2014/11/22/Python-notes/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="田_田">
+      <meta itemprop="description" content="创新需要在一切发生之前研究结局!">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="全栈之路">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Python教程&笔记
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2014-11-22 16:46:00" itemprop="dateCreated datePublished" datetime="2014-11-22T16:46:00+08:00">2014-11-22</time>
+            </span>
+
+          
+            <span id="/2014/11/22/Python-notes/" class="post-meta-item leancloud_visitors" data-flag-title="Python教程&笔记" title="Views">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="用过的库"><a href="#用过的库" class="headerlink" title="用过的库"></a>用过的库</h2><p>这里把自己用过的，并且质量不错的的库做一个汇总</p>
+<a id="more"></a>
+
+<ul>
+<li><p>python conf 用法</p>
+<p><a target="_blank" rel="noopener" href="http://developer.51cto.com/art/201003/189885.htm">http://developer.51cto.com/art/201003/189885.htm</a></p>
+</li>
+<li><p>python内置函数</p>
+<p><a target="_blank" rel="noopener" href="http://python.usyiyi.cn/python_278/library/functions.html">http://python.usyiyi.cn/python_278/library/functions.html</a><br><a target="_blank" rel="noopener" href="http://wangwei007.blog.51cto.com/68019/1100587">http://wangwei007.blog.51cto.com/68019/1100587</a></p>
+</li>
+<li><p>python知识扩展</p>
+<p><a target="_blank" rel="noopener" href="http://pycoders-weekly-chinese.readthedocs.org/en/latest/index.html">http://pycoders-weekly-chinese.readthedocs.org/en/latest/index.html</a></p>
+</li>
+<li><p>something about django</p>
+<p><a target="_blank" rel="noopener" href="http://media.revsys.com/images/django-1.4-cheatsheet.pdf">http://media.revsys.com/images/django-1.4-cheatsheet.pdf</a><br><a target="_blank" rel="noopener" href="http://www.mercurytide.co.uk/media/resources/django-cheat-sheet-a4.pdf">http://www.mercurytide.co.uk/media/resources/django-cheat-sheet-a4.pdf</a><br><a target="_blank" rel="noopener" href="https://github.com/chrisdl/Django-QuerySet-Cheatsheet">https://github.com/chrisdl/Django-QuerySet-Cheatsheet</a></p>
+</li>
+<li><p>django中文文档</p>
+<p><a target="_blank" rel="noopener" href="http://python.usyiyi.cn/django/index.html">http://python.usyiyi.cn/django/index.html</a></p>
+</li>
+<li><p>python shell tab</p>
+<p><a target="_blank" rel="noopener" href="http://blog.csdn.net/loovejava/article/details/11751461">http://blog.csdn.net/loovejava/article/details/11751461</a></p>
+</li>
+<li><p>生成文档<br>reportlib</p>
+</li>
+<li><p>deploy of uwsgi<br><a target="_blank" rel="noopener" href="http://uwsgi-docs.readthedocs.org/en/latest/tutorials/Django_and_nginx.html">http://uwsgi-docs.readthedocs.org/en/latest/tutorials/Django_and_nginx.html</a></p>
+</li>
+</ul>
+<h2 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h2><h3 id="Python-数字"><a href="#Python-数字" class="headerlink" title="Python 数字"></a>Python 数字</h3><p>Python 支持四种不同的数值类型：</p>
+<ul>
+<li>整型(Int) - 通常被称为是整型或整数，是正或负整数，不带小数点。</li>
+<li>长整型(long integers) - 无限大小的整数，整数最后是一个大写或小写的L。</li>
+<li>浮点型(floating point real values) - 浮点型由整数部分与小数部分组成，浮点型也可以使用科学计数法表示（2.5e2 = 2.5 x 102 = 250）</li>
+<li>复数( (complex numbers)) - 复数的虚部以字母J 或 j结尾 。如：2+3i<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">int	long	float	complex</span><br><span class="line">10	51924361L	0.0	3.14j</span><br><span class="line">100	-0x19323L	15.20	45.j</span><br><span class="line">-786	0122L	-21.9	9.322e-36j</span><br><span class="line">080	0xDEFABCECBDAECBFBAEl	32.3+e18	.876j</span><br><span class="line">-0490	535633629843L	-90.	-.6545+0J</span><br><span class="line">-0x260	-052318172735L	-32.54e100	3e+26J</span><br><span class="line">0x69	-4721885298529L	70.2-E12	4.53e-7j</span><br><span class="line">长整型也可以使用小写&quot;L&quot;，但是还是建议您使用大写&quot;L&quot;，避免与数字&quot;1&quot;混淆。Python使用&quot;L&quot;来显示长整型。</span><br><span class="line">Python还支持复数，复数由实数部分和虚数部分构成，可以用a + bj,或者complex(a,b)表示， 复数的实部a和虚部b都是浮点型</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="Python数字类型转换"><a href="#Python数字类型转换" class="headerlink" title="Python数字类型转换"></a>Python数字类型转换</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">int(x [,base ])         将x转换为一个整数  </span><br><span class="line">long(x [,base ])        将x转换为一个长整数  </span><br><span class="line">float(x )               将x转换到一个浮点数  </span><br><span class="line">complex(real [,imag ])  创建一个复数  </span><br><span class="line">str(x )                 将对象 x 转换为字符串  </span><br><span class="line">repr(x )                将对象 x 转换为表达式字符串  </span><br><span class="line">eval(str )              用来计算在字符串中的有效Python表达式,并返回一个对象  </span><br><span class="line">tuple(s )               将序列 s 转换为一个元组  </span><br><span class="line">list(s )                将序列 s 转换为一个列表  </span><br><span class="line">chr(x )                 将一个整数转换为一个字符  </span><br><span class="line">unichr(x )              将一个整数转换为Unicode字符  </span><br><span class="line">ord(x )                 将一个字符转换为它的整数值  </span><br><span class="line">hex(x )                 将一个整数转换为一个十六进制字符串  </span><br><span class="line">oct(x )                 将一个整数转换为一个八进制字符串  </span><br></pre></td></tr></table></figure>
+
+<h3 id="Python数学函数"><a href="#Python数学函数" class="headerlink" title="Python数学函数"></a>Python数学函数</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">函数	返回值 ( 描述 )</span><br><span class="line">abs(x)	返回数字的绝对值，如abs(-10) 返回 10</span><br><span class="line">ceil(x)	返回数字的上入整数，如math.ceil(4.1) 返回 5</span><br><span class="line">cmp(x, y)	如果 x &lt; y 返回 -1, 如果 x &#x3D;&#x3D; y 返回 0, 如果 x &gt; y 返回 1</span><br><span class="line">exp(x)	返回e的x次幂(ex),如math.exp(1) 返回2.718281828459045</span><br><span class="line">fabs(x)	返回数字的绝对值，如math.fabs(-10) 返回10.0</span><br><span class="line">floor(x)	返回数字的下舍整数，如math.floor(4.9)返回 4</span><br><span class="line">log(x)	如math.log(math.e)返回1.0,math.log(100,10)返回2.0</span><br><span class="line">log10(x)	返回以10为基数的x的对数，如math.log10(100)返回 2.0</span><br><span class="line">max(x1, x2,...)	返回给定参数的最大值，参数可以为序列。</span><br><span class="line">min(x1, x2,...)	返回给定参数的最小值，参数可以为序列。</span><br><span class="line">modf(x)	返回x的整数部分与小数部分，两部分的数值符号与x相同，整数部分以浮点型表示。</span><br><span class="line">pow(x, y)	x**y 运算后的值。</span><br><span class="line">round(x [,n])	返回浮点数x的四舍五入值，如给出n值，则代表舍入到小数点后的位数。</span><br><span class="line">sqrt(x)	返回数字x的平方根，数字可以为负数，返回类型为实数，如math.sqrt(4)返回 2+0j</span><br></pre></td></tr></table></figure>
+
+<h3 id="Python随机数函数"><a href="#Python随机数函数" class="headerlink" title="Python随机数函数"></a>Python随机数函数</h3><p>随机数可以用于数学，游戏，安全等领域中，还经常被嵌入到算法中，用以提高算法效率，并提高程序的安全性。<br>Python包含以下常用随机数函数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">函数	描述</span><br><span class="line">choice(seq)	从序列的元素中随机挑选一个元素，比如random.choice(range(10))，从0到9中随机挑选一个整数。</span><br><span class="line">randrange ([start,] stop [,step])	从指定范围内，按指定基数递增的集合中获取一个随机数，基数缺省值为1</span><br><span class="line">random()	随机生成下一个实数，它在[0,1)范围内。</span><br><span class="line">seed([x])	改变随机数生成器的种子seed。如果你不了解其原理，你不必特别去设定seed，Python会帮你选择seed。</span><br><span class="line">shuffle(lst)	将序列的所有元素随机排序</span><br><span class="line">uniform(x, y)	随机生成下一个实数，它在[x,y]范围内。</span><br></pre></td></tr></table></figure>
+<h3 id="Python三角函数"><a href="#Python三角函数" class="headerlink" title="Python三角函数"></a>Python三角函数</h3><p>Python包括以下三角函数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">函数	描述</span><br><span class="line">acos(x)	返回x的反余弦弧度值。</span><br><span class="line">asin(x)	返回x的反正弦弧度值。	</span><br><span class="line">atan(x)	返回x的反正切弧度值。</span><br><span class="line">atan2(y, x)	返回给定的 X 及 Y 坐标值的反正切值。</span><br><span class="line">cos(x)	返回x的弧度的余弦值。</span><br><span class="line">hypot(x, y)	返回欧几里德范数 sqrt(x*x + y*y)。</span><br><span class="line">sin(x)	返回的x弧度的正弦值。</span><br><span class="line">tan(x)	返回x弧度的正切值。</span><br><span class="line">degrees(x)	将弧度转换为角度,如degrees(math.pi&#x2F;2) ， 返回90.0</span><br><span class="line">radians(x)	将角度转换为弧度</span><br></pre></td></tr></table></figure>
+
+<h3 id="Python数学常量"><a href="#Python数学常量" class="headerlink" title="Python数学常量"></a>Python数学常量</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">常量	描述</span><br><span class="line">pi	数学常量 pi（圆周率，一般以π来表示）</span><br><span class="line">e	数学常量 e，e即自然常数（自然常数）。</span><br><span class="line">Python 字符串</span><br></pre></td></tr></table></figure>
+<p>Python不支持单字符类型，单字符也在Python也是作为一个字符串使用。</p>
+<h3 id="Python转义字符"><a href="#Python转义字符" class="headerlink" title="Python转义字符"></a>Python转义字符</h3><p>在需要在字符中使用特殊字符时，python用反斜杠()转义字符。如下表：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">转义字符	描述</span><br><span class="line">\(在行尾时)	续行符</span><br><span class="line">\\	反斜杠符号</span><br><span class="line">\&#39;	单引号</span><br><span class="line">\&quot;	双引号</span><br><span class="line">\a	响铃</span><br><span class="line">\b	退格(Backspace)</span><br><span class="line">\e	转义</span><br><span class="line">\000	空</span><br><span class="line">\n	换行</span><br><span class="line">\v	纵向制表符</span><br><span class="line">\t	横向制表符</span><br><span class="line">\r	回车</span><br><span class="line">\f	换页</span><br><span class="line">\oyy	八进制数，yy代表的字符，例如：\o12代表换行</span><br><span class="line">\xyy	十六进制数，yy代表的字符，例如：\x0a代表换行</span><br><span class="line">\other	其它的字符以普通格式输出</span><br></pre></td></tr></table></figure>
+
+<h3 id="Python字符串运算符"><a href="#Python字符串运算符" class="headerlink" title="Python字符串运算符"></a>Python字符串运算符</h3><p>下表实例变量a值为字符串”Hello”，b变量值为”Python”：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">操作符	描述	实例</span><br><span class="line">+	字符串连接	a + b 输出结果： HelloPython</span><br><span class="line">*	重复输出字符串	a*2 输出结果：HelloHello</span><br><span class="line">[]	通过索引获取字符串中字符	a[1] 输出结果 e</span><br><span class="line">[ : ]	截取字符串中的一部分	a[1:4] 输出结果ell</span><br><span class="line">in	成员运算符 - 如果字符串中包含给定的字符返回 True	H in a 输出结果 1</span><br><span class="line">not in	成员运算符 - 如果字符串中不包含给定的字符返回 True	M not in a 输出结果 1</span><br><span class="line">r&#x2F;R	原始字符串 - 原始字符串：所有的字符串都是直接按照字面的意思来使用，没有转义特殊或不能打印的字符。 原始字符串除在字符串的第一个引号前加上字母&quot;r&quot;（可以大小写）以外，与普通字符串有着几乎完全相同的语法。	print r&#39;\n&#39; prints \n 和 print R&#39;\n&#39;prints \n</span><br><span class="line">%	格式字符串	情看一下章节</span><br></pre></td></tr></table></figure>
+
+<h3 id="Python字符串格式化"><a href="#Python字符串格式化" class="headerlink" title="Python字符串格式化"></a>Python字符串格式化</h3><p>Python 支持格式化字符串的输出 。尽管这样可能会用到非常复杂的表达式，但最基本的用法是将一个值插入到一个有字符串格式符 %s 的字符串中。<br>在 Python 中，字符串格式化使用与 C 中 sprintf 函数一样的语法。<br>如下实例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#!&#x2F;usr&#x2F;bin&#x2F;python</span><br><span class="line"></span><br><span class="line">print &quot;My name is %s and weight is %d kg!&quot; % (&#39;Zara&#39;, 21) </span><br><span class="line">以上实例输出结果：</span><br><span class="line">My name is Zara and weight is 21 kg!</span><br></pre></td></tr></table></figure>
+
+<h3 id="python字符串格式化符号"><a href="#python字符串格式化符号" class="headerlink" title="python字符串格式化符号"></a>python字符串格式化符号</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">符号	描述</span><br><span class="line">%c	 格式化字符及其ASCII码</span><br><span class="line">%s	 格式化字符串</span><br><span class="line">%d	 格式化整数</span><br><span class="line">%u	 格式化无符号整型</span><br><span class="line">%o	 格式化无符号八进制数</span><br><span class="line">%x	 格式化无符号十六进制数</span><br><span class="line">%X	 格式化无符号十六进制数（大写）</span><br><span class="line">%f	 格式化浮点数字，可指定小数点后的精度</span><br><span class="line">%e	 用科学计数法格式化浮点数</span><br><span class="line">%E	 作用同%e，用科学计数法格式化浮点数</span><br><span class="line">%g	 %f和%e的简写</span><br><span class="line">%G	 %f 和 %E 的简写</span><br><span class="line">%p	 用十六进制数格式化变量的地址</span><br></pre></td></tr></table></figure>
+<p>格式化操作符辅助指令:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">符号	功能</span><br><span class="line">*	定义宽度或者小数点精度</span><br><span class="line">-	用做左对齐</span><br><span class="line">+	在正数前面显示加号( + )</span><br><span class="line">&lt;sp&gt;	在正数前面显示空格</span><br><span class="line">#	在八进制数前面显示零(&#39;0&#39;)，在十六进制前面显示&#39;0x&#39;或者&#39;0X&#39;(取决于用的是&#39;x&#39;还是&#39;X&#39;)</span><br><span class="line">0	显示的数字前面填充&#39;0&#39;而不是默认的空格</span><br><span class="line">%	&#39;%%&#39;输出一个单一的&#39;%&#39;</span><br><span class="line">(var)	映射变量(字典参数)</span><br><span class="line">m.n.	m 是显示的最小总宽度,n 是小数点后的位数(如果可用的话)</span><br></pre></td></tr></table></figure>
+<h3 id="Python三引号（triple-quotes）"><a href="#Python三引号（triple-quotes）" class="headerlink" title="Python三引号（triple quotes）"></a>Python三引号（triple quotes）</h3><p>python中三引号可以将复杂的字符串进行复制:<br>python三引号允许一个字符串跨多行，字符串中可以包含换行符、制表符以及其他特殊字符。<br>三引号的语法是一对连续的单引号或者双引号（通常都是成对的用）。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"> &gt;&gt;&gt; hi &#x3D; &#39;&#39;&#39;hi </span><br><span class="line">there&#39;&#39;&#39;</span><br><span class="line">&gt;&gt;&gt; hi   # repr()</span><br><span class="line">&#39;hi\nthere&#39;</span><br><span class="line">&gt;&gt;&gt; print hi  # str()</span><br><span class="line">hi </span><br><span class="line">there  </span><br></pre></td></tr></table></figure>
+<p>三引号让程序员从引号和特殊字符串的泥潭里面解脱出来，自始至终保持一小块字符串的格式是所谓的WYSIWYG（所见即所得）格式的。<br>一个典型的用例是，当你需要一块HTML或者SQL时，这时用字符串组合，特殊字符串转义将会非常的繁琐。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"> errHTML &#x3D; &#39;&#39;&#39;</span><br><span class="line">&lt;HTML&gt;&lt;HEAD&gt;&lt;TITLE&gt;</span><br><span class="line">Friends CGI Demo&lt;&#x2F;TITLE&gt;&lt;&#x2F;HEAD&gt;</span><br><span class="line">&lt;BODY&gt;&lt;H3&gt;ERROR&lt;&#x2F;H3&gt;</span><br><span class="line">&lt;B&gt;%s&lt;&#x2F;B&gt;&lt;P&gt;</span><br><span class="line">&lt;FORM&gt;&lt;INPUT TYPE&#x3D;button VALUE&#x3D;Back</span><br><span class="line">ONCLICK&#x3D;&quot;window.history.back()&quot;&gt;&lt;&#x2F;FORM&gt;</span><br><span class="line">&lt;&#x2F;BODY&gt;&lt;&#x2F;HTML&gt;</span><br><span class="line">&#39;&#39;&#39;</span><br><span class="line">cursor.execute(&#39;&#39;&#39;</span><br><span class="line">CREATE TABLE users (  </span><br><span class="line">login VARCHAR(8), </span><br><span class="line">uid INTEGER,</span><br><span class="line">prid INTEGER)</span><br><span class="line">&#39;&#39;&#39;)</span><br></pre></td></tr></table></figure>
+<h3 id="Unicode-字符串"><a href="#Unicode-字符串" class="headerlink" title="Unicode 字符串"></a>Unicode 字符串</h3><p>Python 中定义一个 Unicode 字符串和定义一个普通字符串一样简单：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; u&#39;Hello World !&#39;</span><br><span class="line">u&#39;Hello World !&#39;</span><br><span class="line">引号前小写的&quot;u&quot;表示这里创建的是一个 Unicode 字符串。如果你想加入一个特殊字符，可以使用 Python 的 Unicode-Escape 编码。如下例所示：</span><br><span class="line">&gt;&gt;&gt; u&#39;Hello\u0020World !&#39;</span><br><span class="line">u&#39;Hello World !&#39;</span><br><span class="line">被替换的 \u0020 标识表示在给定位置插入编码值为 0x0020 的 Unicode 字符（空格符）。</span><br><span class="line">python的字符串内建函数</span><br><span class="line">字符串方法是从python1.6到2.0慢慢加进来的——它们也被加到了Jython中。</span><br><span class="line">这些方法实现了string模块的大部分方法，如下表所示列出了目前字符串内建支持的方法，所有的方法都包含了对Unicode的支持，有一些甚至是专门用于Unicode的。</span><br><span class="line">方法	描述</span><br><span class="line">string.capitalize()</span><br><span class="line">把字符串的第一个字符大写</span><br><span class="line">string.center(width)</span><br><span class="line">返回一个原字符串居中,并使用空格填充至长度 width 的新字符串</span><br><span class="line">string.count(str, beg&#x3D;0, end&#x3D;len(string))</span><br><span class="line">返回 str 在 string 里面出现的次数，如果 beg 或者 end 指定则返回指定范围内 str 出现的次数</span><br><span class="line">string.decode(encoding&#x3D;&#39;UTF-8&#39;, errors&#x3D;&#39;strict&#39;)</span><br><span class="line">以 encoding 指定的编码格式解码 string，如果出错默认报一个 ValueError 的 异 常 ， 除 非 errors 指 定 的 是 &#39;ignore&#39; 或 者&#39;replace&#39;</span><br><span class="line">string.encode(encoding&#x3D;&#39;UTF-8&#39;, errors&#x3D;&#39;strict&#39;)</span><br><span class="line">以 encoding 指定的编码格式编码 string，如果出错默认报一个ValueError 的异常，除非 errors 指定的是&#39;ignore&#39;或者&#39;replace&#39;</span><br><span class="line">string.endswith(obj, beg&#x3D;0, end&#x3D;len(string))</span><br><span class="line">检查字符串是否以 obj 结束，如果beg 或者 end 指定则检查指定的范围内是否以 obj 结束，如果是，返回 True,否则返回 False.</span><br><span class="line">string.expandtabs(tabsize&#x3D;8)</span><br><span class="line">把字符串 string 中的 tab 符号转为空格，默认的空格数 tabsize 是 8.</span><br><span class="line">string.find(str, beg&#x3D;0, end&#x3D;len(string))</span><br><span class="line">检测 str 是否包含在 string 中，如果 beg 和 end 指定范围，则检查是否包含在指定范围内，如果是返回开始的索引值，否则返回-1</span><br><span class="line">string.index(str, beg&#x3D;0, end&#x3D;len(string))</span><br><span class="line">跟find()方法一样，只不过如果str不在 string中会报一个异常.</span><br><span class="line">string.isalnum()</span><br><span class="line">如果 string 至少有一个字符并且所有字符都是字母或数字则返</span><br><span class="line">回 True,否则返回 False</span><br><span class="line">string.isalpha()</span><br><span class="line">如果 string 至少有一个字符并且所有字符都是字母则返回 True,</span><br><span class="line">否则返回 False</span><br><span class="line">string.isdecimal()</span><br><span class="line">如果 string 只包含十进制数字则返回 True 否则返回 False.</span><br><span class="line">string.isdigit()</span><br><span class="line">如果 string 只包含数字则返回 True 否则返回 False.</span><br><span class="line">string.islower()</span><br><span class="line">如果 string 中包含至少一个区分大小写的字符，并且所有这些(区分大小写的)字符都是小写，则返回 True，否则返回 False</span><br><span class="line">string.isnumeric()</span><br><span class="line">如果 string 中只包含数字字符，则返回 True，否则返回 False</span><br><span class="line">string.isspace()</span><br><span class="line">如果 string 中只包含空格，则返回 True，否则返回 False.</span><br><span class="line">string.istitle()</span><br><span class="line">如果 string 是标题化的(见 title())则返回 True，否则返回 False</span><br><span class="line">string.isupper()</span><br><span class="line">如果 string 中包含至少一个区分大小写的字符，并且所有这些(区分大小写的)字符都是大写，则返回 True，否则返回 False</span><br><span class="line">string.join(seq)</span><br><span class="line">Merges (concatenates)以 string 作为分隔符，将 seq 中所有的元素(的字符串表示)合并为一个新的字符串</span><br><span class="line">string.ljust(width)</span><br><span class="line">返回一个原字符串左对齐,并使用空格填充至长度 width 的新字符串</span><br><span class="line">string.lower()</span><br><span class="line">转换 string 中所有大写字符为小写.</span><br><span class="line">string.lstrip()</span><br><span class="line">截掉 string 左边的空格</span><br><span class="line">string.maketrans(intab, outtab])</span><br><span class="line">maketrans() 方法用于创建字符映射的转换表，对于接受两个参数的最简单的调用方式，第一个参数是字符串，表示需要转换的字符，第二个参数也是字符串表示转换的目标。</span><br><span class="line">max(str)</span><br><span class="line">返回字符串 str 中最大的字母。</span><br><span class="line">min(str)</span><br><span class="line">返回字符串 str 中最小的字母。</span><br><span class="line">string.partition(str)</span><br><span class="line">有点像 find()和 split()的结合体,从 str 出现的第一个位置起,把 字 符 串 string 分 成 一 个 3 元 素 的 元 组 (string_pre_str,str,string_post_str),如果 string 中不包含str 则 string_pre_str &#x3D;&#x3D; string.</span><br><span class="line">string.replace(str1, str2,  num&#x3D;string.count(str1))</span><br><span class="line">把 string 中的 str1 替换成 str2,如果 num 指定，则替换不超过 num 次.</span><br><span class="line">string.rfind(str, beg&#x3D;0,end&#x3D;len(string) )</span><br><span class="line">类似于 find()函数，不过是从右边开始查找.</span><br><span class="line">string.rindex( str, beg&#x3D;0,end&#x3D;len(string))</span><br><span class="line">类似于 index()，不过是从右边开始.</span><br><span class="line">string.rjust(width)</span><br><span class="line">返回一个原字符串右对齐,并使用空格填充至长度 width 的新字符串</span><br><span class="line">string.rpartition(str)</span><br><span class="line">类似于 partition()函数,不过是从右边开始查找.</span><br><span class="line">string.rstrip()</span><br><span class="line">删除 string 字符串末尾的空格.</span><br><span class="line">string.split(str&#x3D;&quot;&quot;, num&#x3D;string.count(str))</span><br><span class="line">以 str 为分隔符切片 string，如果 num有指定值，则仅分隔 num 个子字符串</span><br><span class="line">string.splitlines(num&#x3D;string.count(&#39;\n&#39;))</span><br><span class="line">按照行分隔，返回一个包含各行作为元素的列表，如果 num 指定则仅切片 num 个行.</span><br><span class="line">string.startswith(obj, beg&#x3D;0,end&#x3D;len(string))</span><br><span class="line">检查字符串是否是以 obj 开头，是则返回 True，否则返回 False。如果beg 和 end 指定值，则在指定范围内检查.</span><br><span class="line">string.strip([obj])</span><br><span class="line">在 string 上执行 lstrip()和 rstrip()</span><br><span class="line">string.swapcase()</span><br><span class="line">翻转 string 中的大小写</span><br><span class="line">string.title()</span><br><span class="line">返回&quot;标题化&quot;的 string,就是说所有单词都是以大写开始，其余字母均为小写(见 istitle())</span><br><span class="line">string.translate(str, del&#x3D;&quot;&quot;)</span><br><span class="line">根据 str 给出的表(包含 256 个字符)转换 string 的字符,</span><br><span class="line">要过滤掉的字符放到 del 参数中</span><br><span class="line">string.upper()</span><br><span class="line">转换 string 中的小写字母为大写</span><br><span class="line">string.zfill(width)</span><br><span class="line">返回长度为 width 的字符串，原字符串 string 右对齐，前面填充0</span><br><span class="line">string.isdecimal()</span><br><span class="line">isdecimal()方法检查字符串是否只包含十进制字符。这种方法只存在于unicode对象。</span><br></pre></td></tr></table></figure>
+
+<h3 id="Python列表脚本操作符"><a href="#Python列表脚本操作符" class="headerlink" title="Python列表脚本操作符"></a>Python列表脚本操作符</h3><p>列表对 + 和 * 的操作符与字符串相似。+ 号用于组合列表，* 号用于重复列表。<br>如下所示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Python 表达式	结果	描述</span><br><span class="line">len([1, 2, 3])	3	长度</span><br><span class="line">[1, 2, 3] + [4, 5, 6]	[1, 2, 3, 4, 5, 6]	组合</span><br><span class="line">[&#39;Hi!&#39;] * 4	[&#39;Hi!&#39;, &#39;Hi!&#39;, &#39;Hi!&#39;, &#39;Hi!&#39;]	重复</span><br><span class="line">3 in [1, 2, 3]	True	元素是否存在于列表中</span><br><span class="line">for x in [1, 2, 3]: print x,	1 2 3	迭代</span><br></pre></td></tr></table></figure>
+
+<h3 id="Python列表截取"><a href="#Python列表截取" class="headerlink" title="Python列表截取"></a>Python列表截取</h3><p>Python的列表截取与字符串操作类型，如下所示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">L &#x3D; [&#39;spam&#39;, &#39;Spam&#39;, &#39;SPAM!&#39;]</span><br><span class="line">操作：</span><br><span class="line">Python 表达式	结果	描述</span><br><span class="line">L[2]	&#39;SPAM!&#39;	读取列表中第三个元素</span><br><span class="line">L[-2]	&#39;Spam&#39;	读取列表中倒数第二个元素</span><br><span class="line">L[1:]	[&#39;Spam&#39;, &#39;SPAM!&#39;]	从第二个元素开始截取列表</span><br></pre></td></tr></table></figure>
+
+<h3 id="Python列表函数-amp-方法"><a href="#Python列表函数-amp-方法" class="headerlink" title="Python列表函数&amp;方法"></a>Python列表函数&amp;方法</h3><p>Python包含以下函数:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">序号	函数</span><br><span class="line">1	cmp(list1, list2)</span><br><span class="line">比较两个列表的元素</span><br><span class="line">2	len(list)</span><br><span class="line">列表元素个数</span><br><span class="line">3	max(list)</span><br><span class="line">返回列表元素最大值</span><br><span class="line">4	min(list)</span><br><span class="line">返回列表元素最小值</span><br><span class="line">5	list(seq)</span><br></pre></td></tr></table></figure>
+
+<h3 id="将元组转换为列表"><a href="#将元组转换为列表" class="headerlink" title="将元组转换为列表"></a>将元组转换为列表</h3><p>Python包含以下方法:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">序号	方法</span><br><span class="line">1	list.append(obj)</span><br><span class="line">在列表末尾添加新的对象</span><br><span class="line">2	list.count(obj)</span><br><span class="line">统计某个元素在列表中出现的次数</span><br><span class="line">3	list.extend(seq)</span><br><span class="line">在列表末尾一次性追加另一个序列中的多个值（用新列表扩展原来的列表）</span><br><span class="line">4	list.index(obj)</span><br><span class="line">从列表中找出某个值第一个匹配项的索引位置</span><br><span class="line">5	list.insert(index, obj)</span><br><span class="line">将对象插入列表</span><br><span class="line">6	list.pop(obj&#x3D;list[-1])</span><br><span class="line">移除列表中的一个元素（默认最后一个元素），并且返回该元素的值</span><br><span class="line">7	list.remove(obj)</span><br><span class="line">移除列表中某个值的第一个匹配项</span><br><span class="line">8	list.reverse()</span><br><span class="line">反向列表中元素</span><br><span class="line">9	list.sort([func])</span><br><span class="line">对原列表进行排序</span><br><span class="line">Python 字典(Dictionary)</span><br></pre></td></tr></table></figure>
+
+<h3 id="字典"><a href="#字典" class="headerlink" title="字典"></a>字典</h3><p>字典是另一种可变容器模型，且可存储任意类型对象，如其他容器模型。<br>字典由键和对应值成对组成。字典也被称作关联数组或哈希表。<br>基本语法如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">dict &#x3D; &#123;&#39;Alice&#39;: &#39;2341&#39;, &#39;Beth&#39;: &#39;9102&#39;, &#39;Cecil&#39;: &#39;3258&#39;&#125;</span><br><span class="line">也可如此创建字典：</span><br><span class="line">dict1 &#x3D; &#123; &#39;abc&#39;: 456 &#125;;</span><br><span class="line">dict2 &#x3D; &#123; &#39;abc&#39;: 123, 98.6: 37 &#125;;</span><br></pre></td></tr></table></figure>
+<p>每个键与值用冒号隔开（:），每对用逗号，每对用逗号分割，整体放在花括号中（{}）。<br>键必须独一无二，但值则不必。</p>
+<h4 id="访问字典里的值"><a href="#访问字典里的值" class="headerlink" title="访问字典里的值"></a>访问字典里的值</h4><p>把相应的键放入熟悉的方括弧，如下实例:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">#!&#x2F;usr&#x2F;bin&#x2F;python</span><br><span class="line"> </span><br><span class="line">dict &#x3D; &#123;&#39;Name&#39;: &#39;Zara&#39;, &#39;Age&#39;: 7, &#39;Class&#39;: &#39;First&#39;&#125;;</span><br><span class="line"> </span><br><span class="line">print &quot;dict[&#39;Name&#39;]: &quot;, dict[&#39;Name&#39;];</span><br><span class="line">print &quot;dict[&#39;Age&#39;]: &quot;, dict[&#39;Age&#39;];</span><br><span class="line">以上实例输出结果：</span><br><span class="line">dict[&#39;Name&#39;]:  Zara</span><br><span class="line">dict[&#39;Age&#39;]:  7</span><br></pre></td></tr></table></figure>
+<p>如果用字典里没有的键访问数据，会输出错误如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#!&#x2F;usr&#x2F;bin&#x2F;python</span><br><span class="line"> </span><br><span class="line">dict &#x3D; &#123;&#39;Name&#39;: &#39;Zara&#39;, &#39;Age&#39;: 7, &#39;Class&#39;: &#39;First&#39;&#125;;</span><br><span class="line"> </span><br><span class="line">print &quot;dict[&#39;Alice&#39;]: &quot;, dict[&#39;Alice&#39;];</span><br></pre></td></tr></table></figure>
+<p>以上实例输出结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">dict[&#39;Zara&#39;]:</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File &quot;test.py&quot;, line 4, in &lt;module&gt;</span><br><span class="line">    print &quot;dict[&#39;Alice&#39;]: &quot;, dict[&#39;Alice&#39;];</span><br><span class="line">KeyError: &#39;Alice&#39;</span><br></pre></td></tr></table></figure>
+
+<h4 id="修改字典"><a href="#修改字典" class="headerlink" title="修改字典"></a>修改字典</h4><p>向字典添加新内容的方法是增加新的键/值对，修改或删除已有键/值对如下实例:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">#!&#x2F;usr&#x2F;bin&#x2F;python</span><br><span class="line"> </span><br><span class="line">dict &#x3D; &#123;&#39;Name&#39;: &#39;Zara&#39;, &#39;Age&#39;: 7, &#39;Class&#39;: &#39;First&#39;&#125;;</span><br><span class="line"> </span><br><span class="line">dict[&#39;Age&#39;] &#x3D; 8; # update existing entry</span><br><span class="line">dict[&#39;School&#39;] &#x3D; &quot;DPS School&quot;; # Add new entry</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">print &quot;dict[&#39;Age&#39;]: &quot;, dict[&#39;Age&#39;];</span><br><span class="line">print &quot;dict[&#39;School&#39;]: &quot;, dict[&#39;School&#39;];</span><br></pre></td></tr></table></figure>
+<p>以上实例输出结果：<br>dict[‘Age’]:  8<br>dict[‘School’]:  DPS School</p>
+<h4 id="删除字典元素"><a href="#删除字典元素" class="headerlink" title="删除字典元素"></a>删除字典元素</h4><p>能删单一的元素也能清空字典，清空只需一项操作。<br>显示删除一个字典用del命令，如下实例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">#!&#x2F;usr&#x2F;bin&#x2F;python</span><br><span class="line"> </span><br><span class="line">dict &#x3D; &#123;&#39;Name&#39;: &#39;Zara&#39;, &#39;Age&#39;: 7, &#39;Class&#39;: &#39;First&#39;&#125;;</span><br><span class="line"> </span><br><span class="line">del dict[&#39;Name&#39;]; # 删除键是&#39;Name&#39;的条目</span><br><span class="line">dict.clear();     # 清空词典所有条目</span><br><span class="line">del dict ;        # 删除词典</span><br><span class="line"> </span><br><span class="line">print &quot;dict[&#39;Age&#39;]: &quot;, dict[&#39;Age&#39;];</span><br><span class="line">print &quot;dict[&#39;School&#39;]: &quot;, dict[&#39;School&#39;];</span><br></pre></td></tr></table></figure>
+<p>但这会引发一个异常，因为用del后字典不再存在：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">dict[&#39;Age&#39;]:</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File &quot;test.py&quot;, line 8, in &lt;module&gt;</span><br><span class="line">    print &quot;dict[&#39;Age&#39;]: &quot;, dict[&#39;Age&#39;];</span><br><span class="line">TypeError: &#39;type&#39; object is unsubscriptable</span><br><span class="line">注：del()方法后面也会讨论。</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h4 id="字典键的特性"><a href="#字典键的特性" class="headerlink" title="字典键的特性"></a>字典键的特性</h4><p>字典值可以没有限制地取任何python对象，既可以是标准的对象，也可以是用户定义的，但键不行。<br>两个重要的点需要记住：<br>1）不允许同一个键出现两次。创建时如果同一个键被赋值两次，后一个值会被记住，如下实例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#!&#x2F;usr&#x2F;bin&#x2F;python</span><br><span class="line"> </span><br><span class="line">dict &#x3D; &#123;&#39;Name&#39;: &#39;Zara&#39;, &#39;Age&#39;: 7, &#39;Name&#39;: &#39;Manni&#39;&#125;;</span><br><span class="line"> </span><br><span class="line">print &quot;dict[&#39;Name&#39;]: &quot;, dict[&#39;Name&#39;];</span><br></pre></td></tr></table></figure>
+<p>以上实例输出结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dict[&#39;Name&#39;]:  Manni</span><br></pre></td></tr></table></figure>
+<p>2）键必须不可变，所以可以用数，字符串或元组充当，所以用列表就不行，如下实例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#!&#x2F;usr&#x2F;bin&#x2F;python</span><br><span class="line"> </span><br><span class="line">dict &#x3D; &#123;[&#39;Name&#39;]: &#39;Zara&#39;, &#39;Age&#39;: 7&#125;;</span><br><span class="line"> </span><br><span class="line">print &quot;dict[&#39;Name&#39;]: &quot;, dict[&#39;Name&#39;];</span><br></pre></td></tr></table></figure>
+<p>以上实例输出结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Traceback (most recent call last):</span><br><span class="line">  File &quot;test.py&quot;, line 3, in &lt;module&gt;</span><br><span class="line">    dict &#x3D; &#123;[&#39;Name&#39;]: &#39;Zara&#39;, &#39;Age&#39;: 7&#125;;</span><br><span class="line">TypeError: list objects are unhashable</span><br></pre></td></tr></table></figure>
+
+<h4 id="字典内置函数-amp-方法"><a href="#字典内置函数-amp-方法" class="headerlink" title="字典内置函数&amp;方法"></a>字典内置函数&amp;方法</h4><p>Python字典包含了以下内置函数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">序号	函数及描述</span><br><span class="line">1	cmp(dict1, dict2)</span><br><span class="line">比较两个字典元素。</span><br><span class="line">2	len(dict)</span><br><span class="line">计算字典元素个数，即键的总数。</span><br><span class="line">3	str(dict)</span><br><span class="line">输出字典可打印的字符串表示。</span><br><span class="line">4	type(variable)</span><br><span class="line">返回输入的变量类型，如果变量是字典就返回字典类型。</span><br></pre></td></tr></table></figure>
+<p>Python字典包含了以下内置函数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">序号	函数及描述</span><br><span class="line">1	radiansdict.clear()</span><br><span class="line">删除字典内所有元素</span><br><span class="line">2	radiansdict.copy()</span><br><span class="line">返回一个字典的浅复制</span><br><span class="line">3	radiansdict.fromkeys()</span><br><span class="line">创建一个新字典，以序列seq中元素做字典的键，val为字典所有键对应的初始值</span><br><span class="line">4	radiansdict.get(key, default&#x3D;None)</span><br><span class="line">返回指定键的值，如果值不在字典中返回default值</span><br><span class="line">5	radiansdict.has_key(key)</span><br><span class="line">如果键在字典dict里返回true，否则返回false</span><br><span class="line">6	radiansdict.items()</span><br><span class="line">以列表返回可遍历的(键, 值) 元组数组</span><br><span class="line">7	radiansdict.keys()</span><br><span class="line">以列表返回一个字典所有的键</span><br><span class="line">8	radiansdict.setdefault(key, default&#x3D;None)</span><br><span class="line">和get()类似, 但如果键不已经存在于字典中，将会添加键并将值设为default</span><br><span class="line">9	radiansdict.update(dict2)</span><br><span class="line">把字典dict2的键&#x2F;值对更新到dict里</span><br><span class="line">10	radiansdict.values()</span><br><span class="line">以列表返回字典中的所有值</span><br></pre></td></tr></table></figure>
+
+<h3 id="Python-日期和时间"><a href="#Python-日期和时间" class="headerlink" title="Python 日期和时间"></a>Python 日期和时间</h3><p>Python程序能用很多方式处理日期和时间。转换日期格式是一个常见的例行琐事。Python有一个time and calendar模组可以帮忙。</p>
+<h4 id="什么是Tick？"><a href="#什么是Tick？" class="headerlink" title="什么是Tick？"></a>什么是Tick？</h4><p>时间间隔是以秒为单位的浮点小数。<br>每个时间戳都以自从1970年1月1日午夜（历元）经过了多长时间来表示。<br>Python附带的受欢迎的time模块下有很多函数可以转换常见日期格式。如函数time.time()用ticks计时单位返回从12:00am, January 1, 1970(epoch) 开始的记录的当前操作系统时间, 如下实例:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#!&#x2F;usr&#x2F;bin&#x2F;python</span><br><span class="line">import time;  # This is required to include time module.</span><br><span class="line"></span><br><span class="line">ticks &#x3D; time.time()</span><br><span class="line">print &quot;Number of ticks since 12:00am, January 1, 1970:&quot;, ticks</span><br></pre></td></tr></table></figure>
+<p>以上实例输出结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Number of ticks since 12:00am, January 1, 1970: 7186862.73399</span><br></pre></td></tr></table></figure>
+<p>Tick单位最适于做日期运算。但是1970年之前的日期就无法以此表示了。太遥远的日期也不行，UNIX和Windows只支持到2038年某日。</p>
+<h4 id="什么是时间元组？"><a href="#什么是时间元组？" class="headerlink" title="什么是时间元组？"></a>什么是时间元组？</h4><p>很多Python函数用一个元组装起来的9组数字处理时间:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">序号	字段	值</span><br><span class="line">0	4位数年	2008</span><br><span class="line">1	月	1 到 12</span><br><span class="line">2	日	1到31</span><br><span class="line">3	小时	0到23</span><br><span class="line">4	分钟</span><br><span class="line">5	秒	0到61 (60或61 是闰秒)</span><br><span class="line">6	一周的第几日	0到6 (0是周一)</span><br><span class="line">7	一年的第几日	1到366 (儒略历)</span><br><span class="line">8	夏令时	-1, 0, 1, -1是决定是否为夏令时的旗帜</span><br></pre></td></tr></table></figure>
+<p>上述也就是struct_time元组。这种结构具有如下属性：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">序号	属性	值</span><br><span class="line">0	tm_year	2008</span><br><span class="line">1	tm_mon	1 到 12</span><br><span class="line">2	tm_mday	1 到 31</span><br><span class="line">3	tm_hour	0 到 23</span><br><span class="line">4	tm_min	0 到 59</span><br><span class="line">5	tm_sec	0 到 61 (60或61 是闰秒)</span><br><span class="line">6	tm_wday	0到6 (0是周一)</span><br><span class="line">7	tm_yday	1 到 366(儒略历)</span><br><span class="line">8	tm_isdst	-1, 0, 1, -1是决定是否为夏令时的旗帜</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h4 id="获取当前时间"><a href="#获取当前时间" class="headerlink" title="获取当前时间"></a>获取当前时间</h4><p>从返回浮点数的时间辍方式向时间元组转换，只要将浮点数传递给如localtime之类的函数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#!&#x2F;usr&#x2F;bin&#x2F;python</span><br><span class="line">import time;</span><br><span class="line"></span><br><span class="line">localtime &#x3D; time.localtime(time.time())</span><br><span class="line">print &quot;Local current time :&quot;, localtime</span><br></pre></td></tr></table></figure>
+<p>以上实例输出结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Local current time : time.struct_time(tm_year&#x3D;2013, tm_mon&#x3D;7, </span><br><span class="line">tm_mday&#x3D;17, tm_hour&#x3D;21, tm_min&#x3D;26, tm_sec&#x3D;3, tm_wday&#x3D;2, tm_yday&#x3D;198, tm_isdst&#x3D;0)</span><br></pre></td></tr></table></figure>
+
+<h4 id="获取格式化的时间"><a href="#获取格式化的时间" class="headerlink" title="获取格式化的时间"></a>获取格式化的时间</h4><p>你可以根据需求选取各种格式，但是最简单的获取可读的时间模式的函数是</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">asctime():</span><br><span class="line">#!&#x2F;usr&#x2F;bin&#x2F;python</span><br><span class="line">import time;</span><br><span class="line"></span><br><span class="line">localtime &#x3D; time.asctime( time.localtime(time.time()) )</span><br><span class="line">print &quot;Local current time :&quot;, localtime</span><br></pre></td></tr></table></figure>
+<p>以上实例输出结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Local current time : Tue Jan 13 10:17:09 2009</span><br></pre></td></tr></table></figure>
+
+<h4 id="获取某月日历"><a href="#获取某月日历" class="headerlink" title="获取某月日历"></a>获取某月日历</h4><p>Calendar模块有很广泛的方法用来处理年历和月历，例如打印某月的月历：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">#!&#x2F;usr&#x2F;bin&#x2F;python</span><br><span class="line">import calendar</span><br><span class="line"></span><br><span class="line">cal &#x3D; calendar.month(2008, 1)</span><br><span class="line">print &quot;Here is the calendar:&quot;</span><br><span class="line">print cal;</span><br></pre></td></tr></table></figure>
+<p>以上实例输出结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Here is the calendar:</span><br><span class="line">    January 2008</span><br><span class="line">Mo Tu We Th Fr Sa Su</span><br><span class="line">    1  2  3  4  5  6</span><br><span class="line"> 7  8  9 10 11 12 13</span><br><span class="line">14 15 16 17 18 19 20</span><br><span class="line">21 22 23 24 25 26 27</span><br><span class="line">28 29 30 31</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="Time模块"><a href="#Time模块" class="headerlink" title="Time模块"></a>Time模块</h3><p>Time模块包含了以下内置函数，既有时间处理相的，也有转换时间格式的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">序号	函数及描述</span><br><span class="line">1	time.altzone</span><br><span class="line">返回格林威治西部的夏令时地区的偏移秒数。如果该地区在格林威治东部会返回负值（如西欧，包括英国）。对夏令时启用地区才能使用。</span><br><span class="line">2	time.asctime([tupletime])</span><br><span class="line">接受时间元组并返回一个可读的形式为&quot;Tue Dec 11 18:07:14 2008&quot;（2008年12月11日 周二18时07分14秒）的24个字符的字符串。</span><br><span class="line">3	time.clock( )</span><br><span class="line">用以浮点数计算的秒数返回当前的CPU时间。用来衡量不同程序的耗时，比time.time()更有用。</span><br><span class="line">4	time.ctime([secs])</span><br><span class="line">作用相当于asctime(localtime(secs))，未给参数相当于asctime()</span><br><span class="line">5	time.gmtime([secs])</span><br><span class="line">接收时间辍（1970纪元后经过的浮点秒数）并返回格林威治天文时间下的时间元组t。注：t.tm_isdst始终为0</span><br><span class="line">6	time.localtime([secs])</span><br><span class="line">接收时间辍（1970纪元后经过的浮点秒数）并返回当地时间下的时间元组t（t.tm_isdst可取0或1，取决于当地当时是不是夏令时）。</span><br><span class="line">7	time.mktime(tupletime)</span><br><span class="line">接受时间元组并返回时间辍（1970纪元后经过的浮点秒数）。</span><br><span class="line">8	time.sleep(secs)</span><br><span class="line">推迟调用线程的运行，secs指秒数。</span><br><span class="line">9	time.strftime(fmt[,tupletime])</span><br><span class="line">接收以时间元组，并返回以可读字符串表示的当地时间，格式由fmt决定。</span><br><span class="line">10	time.strptime(str,fmt&#x3D;&#39;%a %b %d %H:%M:%S %Y&#39;)</span><br><span class="line">根据fmt的格式把一个时间字符串解析为时间元组。</span><br><span class="line">11	time.time( )</span><br><span class="line">返回当前时间的时间戳（1970纪元后经过的浮点秒数）。</span><br><span class="line">12	time.tzset()</span><br><span class="line">根据环境变量TZ重新初始化时间相关设置。</span><br></pre></td></tr></table></figure>
+<p>Time模块包含了以下2个非常重要的属性：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">序号	属性及描述</span><br><span class="line">1	time.timezone</span><br><span class="line">属性time.timezone是当地时区（未启动夏令时）距离格林威治的偏移秒数（&gt;0，美洲;&lt;&#x3D;0大部分欧洲，亚洲，非洲）。</span><br><span class="line">2	time.tzname</span><br><span class="line">属性time.tzname包含一对根据情况的不同而不同的字符串，分别是带夏令时的本地时区名称，和不带的。</span><br></pre></td></tr></table></figure>
+
+<h3 id="日历（Calendar）模块"><a href="#日历（Calendar）模块" class="headerlink" title="日历（Calendar）模块"></a>日历（Calendar）模块</h3><p>此模块的函数都是日历相关的，例如打印某月的字符月历。<br>星期一是默认的每周第一天，星期天是默认的最后一天。更改设置需调用calendar.setfirstweekday()函数。模块包含了以下内置函数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">序号	函数及描述</span><br><span class="line">1	calendar.calendar(year,w&#x3D;2,l&#x3D;1,c&#x3D;6)</span><br><span class="line">返回一个多行字符串格式的year年年历，3个月一行，间隔距离为c。 每日宽度间隔为w字符。每行长度为21* W+18+2* C。l是每星期行数。</span><br><span class="line">2	calendar.firstweekday( )</span><br><span class="line">返回当前每周起始日期的设置。默认情况下，首次载入caendar模块时返回0，即星期一。</span><br><span class="line">3	calendar.isleap(year)</span><br><span class="line">是闰年返回True，否则为false。</span><br><span class="line">4	calendar.leapdays(y1,y2)</span><br><span class="line">返回在Y1，Y2两年之间的闰年总数。</span><br><span class="line">5	calendar.month(year,month,w&#x3D;2,l&#x3D;1)</span><br><span class="line">返回一个多行字符串格式的year年month月日历，两行标题，一周一行。每日宽度间隔为w字符。每行的长度为7* w+6。l是每星期的行数。</span><br><span class="line">6	calendar.monthcalendar(year,month)</span><br><span class="line">返回一个整数的单层嵌套列表。每个子列表装载代表一个星期的整数。Year年month月外的日期都设为0;范围内的日子都由该月第几日表示，从1开始。</span><br><span class="line">7	calendar.monthrange(year,month)</span><br><span class="line">返回两个整数。第一个是该月的星期几的日期码，第二个是该月的日期码。日从0（星期一）到6（星期日）;月从1到12。</span><br><span class="line">8	calendar.prcal(year,w&#x3D;2,l&#x3D;1,c&#x3D;6)</span><br><span class="line">相当于 print calendar.calendar(year,w,l,c).</span><br><span class="line">9	calendar.prmonth(year,month,w&#x3D;2,l&#x3D;1)</span><br><span class="line">相当于 print calendar.calendar（year，w，l，c）。</span><br><span class="line">10	calendar.setfirstweekday(weekday)</span><br><span class="line">设置每周的起始日期码。0（星期一）到6（星期日）。</span><br><span class="line">11	calendar.timegm(tupletime)</span><br><span class="line">和time.gmtime相反：接受一个时间元组形式，返回该时刻的时间辍（1970纪元后经过的浮点秒数）。</span><br><span class="line">12	calendar.weekday(year,month,day)</span><br><span class="line">返回给定日期的日期码。0（星期一）到6（星期日）。月份为 1（一月） 到 12（12月）。</span><br></pre></td></tr></table></figure>
+
+<h3 id="其他相关模块和函数"><a href="#其他相关模块和函数" class="headerlink" title="其他相关模块和函数"></a>其他相关模块和函数</h3><p>在Python种，其他处理日期和时间的模块还有：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">datetime模块</span><br><span class="line">pytz模块</span><br><span class="line">ateutil模块</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Language/" rel="tag"># Language</a>
+              <a href="/tags/Python/" rel="tag"># Python</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2014/11/20/Git-notes/" rel="prev" title="Git个人总结">
+      <i class="fa fa-chevron-left"></i> Git个人总结
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2016/01/05/Gitlab-install/" rel="next" title="Gitlab安装">
+      Gitlab安装 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%94%A8%E8%BF%87%E7%9A%84%E5%BA%93"><span class="nav-number">1.</span> <span class="nav-text">用过的库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86"><span class="nav-number">2.</span> <span class="nav-text">基础知识</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Python-%E6%95%B0%E5%AD%97"><span class="nav-number">2.1.</span> <span class="nav-text">Python 数字</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Python%E6%95%B0%E5%AD%97%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2"><span class="nav-number">2.2.</span> <span class="nav-text">Python数字类型转换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Python%E6%95%B0%E5%AD%A6%E5%87%BD%E6%95%B0"><span class="nav-number">2.3.</span> <span class="nav-text">Python数学函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Python%E9%9A%8F%E6%9C%BA%E6%95%B0%E5%87%BD%E6%95%B0"><span class="nav-number">2.4.</span> <span class="nav-text">Python随机数函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Python%E4%B8%89%E8%A7%92%E5%87%BD%E6%95%B0"><span class="nav-number">2.5.</span> <span class="nav-text">Python三角函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Python%E6%95%B0%E5%AD%A6%E5%B8%B8%E9%87%8F"><span class="nav-number">2.6.</span> <span class="nav-text">Python数学常量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Python%E8%BD%AC%E4%B9%89%E5%AD%97%E7%AC%A6"><span class="nav-number">2.7.</span> <span class="nav-text">Python转义字符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Python%E5%AD%97%E7%AC%A6%E4%B8%B2%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="nav-number">2.8.</span> <span class="nav-text">Python字符串运算符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Python%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%A0%BC%E5%BC%8F%E5%8C%96"><span class="nav-number">2.9.</span> <span class="nav-text">Python字符串格式化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#python%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%A0%BC%E5%BC%8F%E5%8C%96%E7%AC%A6%E5%8F%B7"><span class="nav-number">2.10.</span> <span class="nav-text">python字符串格式化符号</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Python%E4%B8%89%E5%BC%95%E5%8F%B7%EF%BC%88triple-quotes%EF%BC%89"><span class="nav-number">2.11.</span> <span class="nav-text">Python三引号（triple quotes）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Unicode-%E5%AD%97%E7%AC%A6%E4%B8%B2"><span class="nav-number">2.12.</span> <span class="nav-text">Unicode 字符串</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Python%E5%88%97%E8%A1%A8%E8%84%9A%E6%9C%AC%E6%93%8D%E4%BD%9C%E7%AC%A6"><span class="nav-number">2.13.</span> <span class="nav-text">Python列表脚本操作符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Python%E5%88%97%E8%A1%A8%E6%88%AA%E5%8F%96"><span class="nav-number">2.14.</span> <span class="nav-text">Python列表截取</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Python%E5%88%97%E8%A1%A8%E5%87%BD%E6%95%B0-amp-%E6%96%B9%E6%B3%95"><span class="nav-number">2.15.</span> <span class="nav-text">Python列表函数&amp;方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B0%86%E5%85%83%E7%BB%84%E8%BD%AC%E6%8D%A2%E4%B8%BA%E5%88%97%E8%A1%A8"><span class="nav-number">2.16.</span> <span class="nav-text">将元组转换为列表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AD%97%E5%85%B8"><span class="nav-number">2.17.</span> <span class="nav-text">字典</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AE%BF%E9%97%AE%E5%AD%97%E5%85%B8%E9%87%8C%E7%9A%84%E5%80%BC"><span class="nav-number">2.17.1.</span> <span class="nav-text">访问字典里的值</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9%E5%AD%97%E5%85%B8"><span class="nav-number">2.17.2.</span> <span class="nav-text">修改字典</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%A0%E9%99%A4%E5%AD%97%E5%85%B8%E5%85%83%E7%B4%A0"><span class="nav-number">2.17.3.</span> <span class="nav-text">删除字典元素</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AD%97%E5%85%B8%E9%94%AE%E7%9A%84%E7%89%B9%E6%80%A7"><span class="nav-number">2.17.4.</span> <span class="nav-text">字典键的特性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AD%97%E5%85%B8%E5%86%85%E7%BD%AE%E5%87%BD%E6%95%B0-amp-%E6%96%B9%E6%B3%95"><span class="nav-number">2.17.5.</span> <span class="nav-text">字典内置函数&amp;方法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Python-%E6%97%A5%E6%9C%9F%E5%92%8C%E6%97%B6%E9%97%B4"><span class="nav-number">2.18.</span> <span class="nav-text">Python 日期和时间</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFTick%EF%BC%9F"><span class="nav-number">2.18.1.</span> <span class="nav-text">什么是Tick？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E6%97%B6%E9%97%B4%E5%85%83%E7%BB%84%EF%BC%9F"><span class="nav-number">2.18.2.</span> <span class="nav-text">什么是时间元组？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96%E5%BD%93%E5%89%8D%E6%97%B6%E9%97%B4"><span class="nav-number">2.18.3.</span> <span class="nav-text">获取当前时间</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96%E6%A0%BC%E5%BC%8F%E5%8C%96%E7%9A%84%E6%97%B6%E9%97%B4"><span class="nav-number">2.18.4.</span> <span class="nav-text">获取格式化的时间</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96%E6%9F%90%E6%9C%88%E6%97%A5%E5%8E%86"><span class="nav-number">2.18.5.</span> <span class="nav-text">获取某月日历</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Time%E6%A8%A1%E5%9D%97"><span class="nav-number">2.19.</span> <span class="nav-text">Time模块</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%97%A5%E5%8E%86%EF%BC%88Calendar%EF%BC%89%E6%A8%A1%E5%9D%97"><span class="nav-number">2.20.</span> <span class="nav-text">日历（Calendar）模块</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B6%E4%BB%96%E7%9B%B8%E5%85%B3%E6%A8%A1%E5%9D%97%E5%92%8C%E5%87%BD%E6%95%B0"><span class="nav-number">2.21.</span> <span class="nav-text">其他相关模块和函数</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">田_田</p>
+  <div class="site-description" itemprop="description">创新需要在一切发生之前研究结局!</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">34</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wangzitian0" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wangzitian0" rel="noopener" target="_blank"><i class="github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wangzitian0@gmail.com" title="E-Mail → mailto:wangzitian0@gmail.com" rel="noopener" target="_blank"><i class="envelope fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.linkedin.com/in/wangzitian0" title="LinkedIn → https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;wangzitian0" rel="noopener" target="_blank"><i class="linkedin fa-fw"></i></a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class=""></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">田_田</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a>
+  </div>
+
+        
+
+
+
+
+
+
+<script>
+  (function() {
+    function leancloudSelector(url) {
+      url = encodeURI(url);
+      return document.getElementById(url).querySelector('.leancloud-visitors-count');
+    }
+
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = decodeURI(visitors.id);
+      var title = visitors.dataset.flagTitle;
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            leancloudSelector(url).innerText = counter.time + 1;
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              });
+          } else {
+              leancloudSelector(url).innerText = 'Counter not initialized! More info at console err msg.';
+              console.error('ATTENTION! LeanCloud counter has security bug, see how to solve it here: https://github.com/theme-next/hexo-leancloud-counter-security. \n However, you can still use LeanCloud without security, by setting `security` option to `false`.');
+            
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return decodeURI(element.id);
+      });
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          for (let url of entries) {
+            let target = results.find(item => item.url === url);
+            leancloudSelector(url).innerText = target ? target.time : 0;
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    let { app_id, app_key, server_url } = {"enable":true,"app_id":"itw5YW53yzX17tr3WAdRd9Dd-gzGzoHsz","app_key":"qLjOt8jjizQl0ys5OSdwf10Y","server_url":null,"security":true,"betterPerformance":true};
+    function fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${api_server}/1.1${url}`, {
+          method,
+          headers: {
+            'X-LC-Id'     : app_id,
+            'X-LC-Key'    : app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    }
+
+    let api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(response => response.json())
+        .then(({ api_server }) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="//cdn.jsdelivr.net/npm/algoliasearch@4/dist/algoliasearch-lite.umd.js"></script>
+<script src="//cdn.jsdelivr.net/npm/instantsearch.js@4/dist/instantsearch.production.min.js"></script>
+<script src="/js/algolia-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

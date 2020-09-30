@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/huaji.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/huaji.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/huaji.png">
+  <link rel="mask-icon" href="/images/huaji.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"wangzitian0.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":true,"b2t":false,"scrollpercent":true},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"appID":"1PWF5BJPP1","apiKey":"6a2714c5b665823e7132db2aedb81233","indexName":"wangzitian0.github.io","hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="Web 应用框架，或者简单的说是“Web 框架”，是建立 web 应用的一种方式。在此之前希望已经了解这篇文章的内容 HTTP协议的的最佳实践RESTful。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何理解Web框架">
+<meta property="og:url" content="https://wangzitian0.github.io/2017/06/19/How-to-understand-web-framework/index.html">
+<meta property="og:site_name" content="全栈之路">
+<meta property="og:description" content="Web 应用框架，或者简单的说是“Web 框架”，是建立 web 应用的一种方式。在此之前希望已经了解这篇文章的内容 HTTP协议的的最佳实践RESTful。">
+<meta property="og:locale">
+<meta property="article:published_time" content="2017-06-19T05:21:00.000Z">
+<meta property="article:modified_time" content="2020-09-30T04:59:07.878Z">
+<meta property="article:author" content="田_田">
+<meta property="article:tag" content="HTML">
+<meta property="article:tag" content="Framwork">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://wangzitian0.github.io/2017/06/19/How-to-understand-web-framework/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>如何理解Web框架 | 全栈之路</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?1eeceb0b3f8e550d6211f134646361b6";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="全栈之路" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta custom-logo">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">全栈之路</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">田_田的博客</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="archive fa-fw"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="user fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="tags fa-fw"></i>Tags</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container"></div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="algolia-results">
+  <div id="algolia-stats"></div>
+  <div id="algolia-hits"></div>
+  <div id="algolia-pagination" class="algolia-pagination"></div>
+</div>
+
+      
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://wangzitian0.github.io/2017/06/19/How-to-understand-web-framework/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="田_田">
+      <meta itemprop="description" content="创新需要在一切发生之前研究结局!">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="全栈之路">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          如何理解Web框架
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-06-19 13:21:00" itemprop="dateCreated datePublished" datetime="2017-06-19T13:21:00+08:00">2017-06-19</time>
+            </span>
+
+          
+            <span id="/2017/06/19/How-to-understand-web-framework/" class="post-meta-item leancloud_visitors" data-flag-title="如何理解Web框架" title="Views">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>Web 应用框架，或者简单的说是“Web 框架”，是建立 web 应用的一种方式。在此之前希望已经了解这篇文章的内容 <a href="https://wangzitian0.github.io/2017/06/16/HTTP%E5%8D%8F%E8%AE%AE%E7%9A%84%E7%9A%84%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5RESTful/">HTTP协议的的最佳实践RESTful</a>。</p>
+<a id="more"></a>
+
+<h2 id="为什么会需要框架"><a href="#为什么会需要框架" class="headerlink" title="为什么会需要框架"></a>为什么会需要框架</h2><p>很多人把会一个框架当做 web 工程师的必要条件，但是实际上的理解并不到位。要真的理解框架，需要理解下面的这些东西。<br>web 技术的发展其实是有这样一个路径的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">源码&lt;-&gt;最佳实践&lt;-&gt;设计模式</span><br><span class="line">协议-&gt;SDK-&gt;类库-&gt;框架-&gt;架构</span><br></pre></td></tr></table></figure>
+<h2 id="虚路径"><a href="#虚路径" class="headerlink" title="虚路径"></a>虚路径</h2><h3 id="最佳实践"><a href="#最佳实践" class="headerlink" title="最佳实践"></a>最佳实践</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">最佳实践(best practice)，是一个管理学概念，</span><br><span class="line">认为存在某种技术、方法、过程、活动或机制可以使生产或管理实践的结果达到最优，并减少出错的可能性。</span><br></pre></td></tr></table></figure>
+
+<p>典型的例子如 <a target="_blank" rel="noopener" href="http://coolshell.cn/articles/17416.html">缓存更新的套路</a>。<br>大致是说”先删除缓存，然后再更新数据库，而后续的操作会把数据再装载的缓存中。“是逻辑是错误的。</p>
+<p>两个并发操作，一个是更新操作，另一个是查询操作。更新操作删除缓存后，查询和操作同时发生，且同时艹库，如果是先更新，后查询的没有问题。但是如果先查询完成后更新完成，查询结果被缓存导致缓存中的数据是脏的，而且还一直这样脏下去了。</p>
+<p>最常用最常用的缓存实践，对于绝大多数应用使用这个方案就够了：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">失效：应用程序先从cache取数据，没有得到，则从数据库中取数据，成功后，放到缓存中。</span><br><span class="line">命中：应用程序从cache中取数据，取到后返回。</span><br><span class="line">更新：先把数据存到数据库中，成功后，再让缓存失效。</span><br></pre></td></tr></table></figure>
+
+<p>这种做法还是有可能有脏数据，那就是数据库更新完成之后，缓存失效之前，但是这种数据最多脏这一小会，宏观上可以接受，大部分应用少数几秒的一致性降低不会导致用户体验变差。</p>
+<p>缓存更新的实践是非常老古董的，而且历经长时间考验的策略，从mysql数据库到memcache/redis，很多东西是计算机体系结构里的设计。类似的还有CPU的缓存，硬盘文件系统中的缓存，硬盘上的缓存，数据库中的缓存。</p>
+<p>进一步要求，有的时候这种设计经常某一瞬间穿透缓存，满足不了需求的时候，可以用一个队列来分开读写，把压力强行挡在数据库外面。</p>
+<p>工程学上所谓的Best Practice有些东西需要细想才会发现精巧。</p>
+<h3 id="设计模式"><a href="#设计模式" class="headerlink" title="设计模式"></a>设计模式</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">设计模式（Design pattern）代表了最佳的实践，通常被有经验的面向对象的软件开发人员所采用。</span><br><span class="line">设计模式是软件开发人员在软件开发过程中面临的一般问题的解决方案。</span><br><span class="line">这些解决方案是众多软件开发人员经过相当长的一段时间的试验和错误总结出来的。</span><br></pre></td></tr></table></figure>
+<p>最佳实践进一步抽象就是设计模式，有些东西已经编程语言或者框架已经实现了，所以我们并不需要完完全全了解实现原理，只需看看文档就能使用。只说说我印象深刻的几个：</p>
+<h4 id="观察者模式"><a href="#观察者模式" class="headerlink" title="观察者模式"></a>观察者模式</h4><p>意图：定义对象间的一种一对多的依赖关系，当一个对象的状态发生改变时，所有依赖于它的对象都得到通知并被自动更新。</p>
+<p>几乎大家都知道或者用过 MVC 模式，本质上就是一个观察者模式和其他模式结合的的高级抽象。实质上还是把数据和行为进行分离，M其实也相当于观察者模式中的被观察者，Ｖ相当于观察者。</p>
+<h4 id="代理模式"><a href="#代理模式" class="headerlink" title="代理模式"></a>代理模式</h4><p>意图：创建具有现有对象的对象，以便向外界提供功能接口。为其他对象提供一种代理以控制对这个对象的访问。</p>
+<p>MySQL 设计的时候会有 oneToOneField，提供一个外键来访问某个对象。</p>
+<h4 id="装饰器模式"><a href="#装饰器模式" class="headerlink" title="装饰器模式"></a>装饰器模式</h4><p>意图：动态地给一个对象添加一些额外的职责。就增加功能来说，装饰器模式相比生成子类更为灵活。</p>
+<p>做一个事情前和后分别加点事情，给一个对象添加一些额外的方法，而且可以不改变调用方。不用把新的逻辑注入到原始代码里。</p>
+<h4 id="中介模式"><a href="#中介模式" class="headerlink" title="中介模式"></a>中介模式</h4><p>意图：用一个中介对象来封装一系列的对象交互，中介者使各对象不需要显式地相互引用，从而使其耦合松散，而且可以独立地改变它们之间的交互。</p>
+<p>比如 RPC 框架做一些基础服务，帮助开发者看哪些服务活着，压力如何，然后分配流量，又比如 web 框架里的中间件，所以的请求都需要经过一遍中间件，有效的减少层与层之间的交叉调用。</p>
+<p>其他的去看书吧… 总之，设计模式&amp;最佳实践&amp;代码是相互作用的，相互促进螺旋上升，随着计算机学科的发展大致变成了现在的样子。这几年互联网架构的发展，本质上还是这些模式，但是形式变成了在廉价集群上实现，重点变成了兼容不可靠设备。</p>
+<h2 id="实路径"><a href="#实路径" class="headerlink" title="实路径"></a>实路径</h2><h3 id="协议"><a href="#协议" class="headerlink" title="协议"></a>协议</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">网络传输协议或简称为传送协议（Communications Protocol），是指计算机通信或網路設備的共同语言。 </span><br><span class="line">现在最普及的计算机通信为网络通信，所以“传送协议”一般都指计算机通信的传送协议。</span><br><span class="line">如：TCP&#x2F;IP、NetBEUI、DHCP、FTP等。</span><br></pre></td></tr></table></figure>
+<p>TCP 之类就不说了，资料太多了。拿序列化这件事情来说，有了协议，各种语言才会无障碍通信。内存对象包含各种地址和指针，传输和存储的试试需要去除这种机器相关的影响，只关注数据和数据的关联，转化为字符串，这个过程叫做序列化。字符串变成内存里的可执行可操作的对象，叫做反序列化。</p>
+<p>Json 是序列化协议，XML 是序列化协议，而且对人类友好，数据的结构可以肉眼轻松的看出来。</p>
+<p>ProtoBuf 和 Thrift 也是序列化协议，但是底层使用更高效的二进制协议，而且官方有 gRPC 框架和Thrift RPC框架来帮助开发者做一些诸如服务发现、负载均衡的工作，能够很好的减少前后端之间数据交换、各种基础计算服务调用的麻烦程度。</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="http://jsonapi.org.cn/format/">Json怎么写</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.jianshu.com/p/xNasBo">XML怎么写</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.iloveandroid.net/2015/10/08/studyPtorobuf/">ProtoBuf怎么写</a></li>
+<li><a target="_blank" rel="noopener" href="http://dongxicheng.org/search-engine/thrift-guide/">Thrift怎么写</a></li>
+</ul>
+<p>协议本身制定是为了更好的序列化反序列化，又比如 http 协议，公认的最佳实践是 restful API，可以看看开篇介绍的另一篇博客。</p>
+<p>又比如HTML5的协议，由 RFC 文件来规定，由浏览器厂商来执行。典型的HTML 协议文档可以看 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/Guide/HTML/HTML5">Mozilla的文档</a></p>
+<h3 id="SDK"><a href="#SDK" class="headerlink" title="SDK"></a>SDK</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">软件开发工具包（Software Development Kit, SDK）一般是一些被软件工程师用于为特定的软件包、软件框架、硬件平台、作業系统等建立应用软件的开发工具的集合。</span><br></pre></td></tr></table></figure>
+<p>典型的如 <a target="_blank" rel="noopener" href="https://developer.android.com/studio/index.html">安卓SDK</a></p>
+<p>里面包括很多的工具、API文档、本地编译包、IDE 等等很多东西。根据官方文档的描述，开发必须下载的东西有：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">SDK Tools 必须</span><br><span class="line">SDK Platform-tools 必须</span><br><span class="line">SDK Platform必须至少安装一个版本</span><br><span class="line">System Image建议安装</span><br><span class="line">Android Support建议安装</span><br><span class="line">SDK Samples建议安装</span><br></pre></td></tr></table></figure>
+<p>开源世界目前以 Github 为核心，模式稍微有一些变化。SDK 被拆解到各个地方，比如 npm 来帮助管理各种依赖和版本，然后文档直接放到 Github 相关的文档里，源码直接使用 git 下载而不一定发布打包集成版。</p>
+<h3 id="类库"><a href="#类库" class="headerlink" title="类库"></a>类库</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">类库(Class Library)是一个综合性的面向对象的可重用类型集合，这些类型包括：接口、抽象类和具体类。</span><br></pre></td></tr></table></figure>
+<p>写过 C++ 的人都一定熟悉STL，集成了常用的内存数据结构和常用算法。实现的效率都不错，接口也很通用。有了这些类库，很多重复性的工作被省略。</p>
+<p>写 JavaScript 的程序员有一部分是只会 jQuery 的，由于 jQuery 的封装十分简单，且给每个对象都加入了一些常用的方法，不需要再去记复杂的 api，大大提高了开发效率。</p>
+<p>刚才两个例子都是外部实现的标准组件，STL 根据编译器配置不同可以使用 Boost 或者 SGI 版本，g++ 编译器支持一套 linux 上肯定能跑的 STL。jQuery 干脆直接由程序员自己来引入，本身完全没有放入 JavaScript 体系。</p>
+<p>有一个神奇的存在，那就是 Golang，你可以先看看 <a target="_blank" rel="noopener" href="http://studygolang.com/pkgdoc">Golang Libs 文档</a>，由于 Golang 是一个完全现代化的语言，出现时间晚，因此很多 web 世界用到的东西，直接被官方支持的类库收录和实现了。包括不限于用来控制并发的互斥锁，用来数据共享管道channel，自带的json序列化反序列化工具等等。第三方实现的东西往往没有语言原生就实现靠谱和稳定，正因如此 golang 在 web 开发世界迅速崛起。</p>
+<p>一般来说，我们说一个语言的生态好不好，主要是指它的类库多不多，其次才看对应的文档是否充要&amp;社区是否活跃。</p>
+<h3 id="框架"><a href="#框架" class="headerlink" title="框架"></a>框架</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Web应用框架（Web application framework）是一种开发框架，用来支持动态网站、网络应用程序及网络服务的开发。</span><br></pre></td></tr></table></figure>
+<p>按照我的理解，框架和类库最重要的区别是控制权的不同。</p>
+<p>使用框架像是装饰一颗圣诞树，树干在那个地方且已经定型，你能做的就是往上面装东西，使它能完成装饰的作用。而类库是为了解决重复性工作的方法和工具，装饰圣诞树的时候需要批量给礼物打包、分类、挂上钩子，类库就像是能快速整洁的打包工具、扔进去礼物就会打乱的桶、批量把钢丝捏成钩子的钳子。</p>
+<p>web 开发来说，框架的控制权在框架手上，你是按照框架的体系和规范去往里面添加东西，由它来调用你的代码。类库的控制权在你手中，类库只是帮你封装好了大量实用的函数，帮助你实现自己的目的，你通过调用类库来避免重复造轮子。</p>
+<p>两者都是为了提高自己的研发效率，但是是不同的层面，类库和框架一般都是混合在一起用的。</p>
+<p>框架涉及到一个流派之争Rails Like vs Sinatra Like</p>
+<h4 id="Rails-Like"><a href="#Rails-Like" class="headerlink" title="Rails Like"></a>Rails Like</h4><p>典型代表: Rails(Ruby), Django(Python), Sails(JavaScript), Revel(Golang)</p>
+<ul>
+<li>编程要爽。可以甩锅给工具的事情就不要接，应该专注于造东西，快速的做出 MVP 的产品。例子：写好配置，帮你生成基本的增删改查API，你不需要去想 SQL 怎么写比较优美。</li>
+<li>约定优于配置（CoC），主张大部分都这么做，那框架就这么做吧，有问题你自己去该配置得了。例子：数据库的模型叫做 Problem，那么模板就放problem_tmp，业务放在 ProblemView 里面，你可以填充自动生成的migration文件，然后数据库里存的表名默认使用 problem_migration1。</li>
+<li>主厨精选。吃饭要相信营养大师的选择，web 开发也一样，大师你默认给我个全家桶吧。例子：ORM 直接由框架提供好了，数据库由大师去做匹配，然后支持常见的关系型数据库。</li>
+</ul>
+<h4 id="Sinatra-Like"><a href="#Sinatra-Like" class="headerlink" title="Sinatra Like"></a>Sinatra Like</h4><p>典型代表 Sinatra(Ruby), Flask(Python), Express(JavaScript), Gin(Golang)</p>
+<ul>
+<li>编程要自由。我想怎么用其他的库就怎么用，只要是语言能支持的都可以，这样能够根据我的需要选择最合适的技术。例子：Flask 你可以使用ORM 工具，SQLAlchemy来同时支持MySQL/PostgreSQL/MSSQL/sqlite3 等数据库，也可以使用Flask-PyMongo来支持 mongoDB 这样的 noSQL，总之，想用啥用啥。</li>
+<li>我们不需要令人生厌的模式（WDNNSP）。我只想吃根黄瓜，你非得给我一个果篮，其他水果挺浪费的，还贵。例子：我只是搭建一个 Restful API 服务器，并不需要模板引擎，除了 join 数据没有复杂的操作，因此不需要太复杂的中间件，这种时候 Django 这样的框架远远么有 Flask 灵活。</li>
+<li>我需要一个极速的框架。对于大公司而已，效率是一件非常非常重要的事，有的时候为了效率需要牺牲一部分优美值和愉快值。例子：假设我们要框架返回一个不查库的页面（只用到路由绑定和少数变量模板渲染），gin 这个单机随便扛 2W QPS 请求，同样配置的 Django 做同样的事情只能扛2K QPS。</li>
+</ul>
+<p>两派其实差别并没有想象中大。到了一定程度会变得折中。Rails Like的框架把影响效率的模块换成更快的，但是保留着基本的配置准则。而Sinatra Like的框架写多了代码就会把不该重复的地方抽象成新对象，慢慢会形成优美代码准则。 Django 这样慢吞吞的框架也能撑起 Instagram 这样的巨型公司，Flask 在很多小公司用得非常愉快。</p>
+<h3 id="架构"><a href="#架构" class="headerlink" title="架构"></a>架构</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Architecture is like teenage sex，everybody talks about it，nobody really knows what is it。</span><br></pre></td></tr></table></figure>
+<p>我理解的架构，一方面是根据要解决的问题，对目标系统的边界进行界定，然后切分功能，最后让各个功能可以有一个沟通机制。另一方面是保证性能和可以性作出的设计。</p>
+<p>前者使得每个部分的功能可以相对独立，也就是高内聚低耦合：</p>
+<ul>
+<li>像 Linux 这样的操作系统，需要有好的架构。具体来说，一个精简的不容易出错的内核来负责核心的抽象操作，一系列适应硬件的驱动程序来实际操作，一系列中间层软件包负责集成 API，最后是应用层，只需要关注继承号的 API。</li>
+<li>互联网大型 Web 系统更加需要好的架构。一个核心的数据库来记录一切，各种级别的缓存系统提供高性能的访问，CDN 来负责静态的重复的资源的分发，异步队列来拆解耗时的操作，监控、回滚系统来保证可用性和持续的集成。</li>
+</ul>
+<p>后者如大型互联网应用使用各种开源工具：</p>
+<ul>
+<li>普通 PC 需要知道的几个数据，可能有误差，但是数量级不会错。<ul>
+<li>内存。响应时间可以忽略不计，吞吐量可以到 1e8-1e9 IOPS、读写5Gbps。</li>
+<li>机械硬盘。响应时间需要 5-10 ms，吞吐量可以到 100-300 IOPS，读200Mbps，写50Mbps。</li>
+<li>SSD。响应时间也是需要 5-10 ms，吞吐量可以到 5-10W IOPS，读写400-1000Mbps。</li>
+</ul>
+</li>
+<li>web 后端需要记住的数字<ul>
+<li>关系型数据库，如MySQL 5-10K QPS</li>
+<li>noSQL，事务方面支持差一些，如mongoDB，10-20K QPS</li>
+<li>经典的队列，如RabbitMQ/NSQ  10-30K QPS</li>
+<li>数据结构服务器，如Redis 10-50K QPS</li>
+<li>内存服务器，如Memcached 100-300K QPS</li>
+<li>buffering队列，Kafka 100-300K QPS</li>
+</ul>
+</li>
+</ul>
+<h2 id="框架做了哪些事"><a href="#框架做了哪些事" class="headerlink" title="框架做了哪些事"></a>框架做了哪些事</h2><p>它们接收 HTTP 请求，分派代码，产生 HTML，创建带有内容的 HTTP 响应。事实上，所有主流的服务器端框架都以这种方式工作的（ JavaScript 框架除外）。但愿了解了这些框架的目的，你能够在不同的框架之间选择适合你应用的框架进行开发。</p>
+<h3 id="路由和模板、表单"><a href="#路由和模板、表单" class="headerlink" title="路由和模板、表单"></a>路由和模板、表单</h3><p>围绕建立 web 应用的所有问题中，三个核心问题尤其突出：</p>
+<ul>
+<li>我们如何将请求的 URL 映射到处理它的代码上？</li>
+<li>我们怎样动态地从数据库中取信息构造请求的 HTML 返回给客户端？</li>
+<li>前端产生的数据后端如何拿到，并根据需要进行存储？</li>
+</ul>
+<p>三个问题的答案就是标题，研究一个框架也是先研究这三个问题。</p>
+<p>每个 web 框架都以某种方法来解决这些问题，也有很多不同的解决方案。用例子来说明更容易理解，所以我将针对这些问题讨论 Django 的解决方案。</p>
+<h4 id="路由"><a href="#路由" class="headerlink" title="路由"></a>路由</h4><p>处理请求 URL 到负责生成相关的 HTML 的代码之间映射的过程。核心问题主要有两个，一个是准确的调用对应的代码，另一个是如何将Request 里数据传递给对应的代码。</p>
+<h5 id="Django-中的路由"><a href="#Django-中的路由" class="headerlink" title="Django 中的路由"></a>Django 中的路由</h5><p>urls.py来指定 url 绑定某个函数或者某个 url 根绑定某个模块：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">from django.conf.urls import include, url</span><br><span class="line">from django.contrib import admin</span><br><span class="line">from app1 import views</span><br><span class="line"></span><br><span class="line">urlpatterns &#x3D; [</span><br><span class="line">  url(r&#39;^index&#x2F;$&#39;, views.index),</span><br><span class="line">  # 访问 http:&#x2F;&#x2F;host&#x2F;index ， 框架会帮助调用views模块里的index函数</span><br><span class="line">  url(r&#39;^admin&#x2F;&#39;, admin.site.urls),</span><br><span class="line">  # 访问 http:&#x2F;&#x2F;host&#x2F;admin&#x2F; ，会把admin.site.urls里的集成的路由引入</span><br><span class="line">  url(r&#39;^app1&#x2F;&#39;, include(&#39;app01.urls&#39;)),</span><br><span class="line">  # http:&#x2F;&#x2F;host&#x2F;app1 ， 会把app01模块里的路由引入</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<p>app1/urls.py，用来处理请求的url，使之与views建立映射</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">urlpatterns &#x3D; [</span><br><span class="line">  url(r&#39;index&#x2F;$&#39;, views.index),</span><br><span class="line">  # http:&#x2F;&#x2F;host&#x2F;app1&#x2F;index ，请求先被上面那个文件里的代码分发，框架会帮助调用app1.views模块里的index函数</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<h3 id="传参形式的动态路由"><a href="#传参形式的动态路由" class="headerlink" title="传参形式的动态路由"></a>传参形式的动态路由</h3><p>利用正则表达式的分组方法，将url以参数的形式传递到函数，可以不按顺序排列。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">urlpatterns &#x3D; [</span><br><span class="line">  url(r&#39;^user_list&#x2F;(?P&lt;v1&gt;\d+)&#x2F;(?P&lt;v2&gt;\d+)$&#39;,views.user_list),</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<p>(?P<v1>\d+)<br>这是一个 Django 的正则表达式的分组，P 是指定参数类型，传递的数据相当于一个字典， key=v1, value=\d+。 {“v1”:”\d+”}</p>
+<p>然后将此参数传递到views里对应的函数，可以不按照顺序</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">def user_list(request,v2,v1):</span><br><span class="line">  return HttpResponse(v1+v2)</span><br></pre></td></tr></table></figure>
+<p>参数v1 = (?P<v1>\d+)</p>
+<p>参数v2 = (?P<v2>\d+)</p>
+<h4 id="模板template"><a href="#模板template" class="headerlink" title="模板template"></a>模板template</h4><p>我们可以从不同的来源先收集数据，然后进行处理，最后得到一个数据集。<br>现在是要把数据集变成 HTML 源码。</p>
+<p>典型的代码hello.py</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">def hello(request):</span><br><span class="line">    context          &#x3D; &#123;&#125;</span><br><span class="line">    context[&#39;hello&#39;] &#x3D; &#39;Hello World!&#39;</span><br><span class="line">    return render(request, &#39;hello.html&#39;, context)</span><br></pre></td></tr></table></figure>
+<p>典型的模板 hello.html</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;h1&gt;&#123;&#123; hello &#125;&#125;&lt;&#x2F;h1&gt;</span><br></pre></td></tr></table></figure>
+<p>这时页面会把 py 代码里面对应的字符串填充进 html 模板里面。</p>
+<p>大量经典的模板包括简单的判断语句和循环语句，还包括helper function，你可以在模板当中调用 py 的 函数来生成更加复杂的 html。</p>
+<p>PS：现代的框架流行前后端分离，这个步骤往往在前端完成，后端直接把数据序列化之后传递给前端。</p>
+<h4 id="表单"><a href="#表单" class="headerlink" title="表单"></a>表单</h4><p>表单可以用来前端给后端服务器提交数据。</p>
+<p>request 是一个 Python 的经典库，里面对 http 进行了一个不错的封装，常用的函数和数据都被转换成 Python 对象，我们可以用 Python 的代码来得到一个 request 里面对应的 URL param 和 form data、COOKIES、meta 等等各种数据。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"># 接收请求数据，并返回一条消息</span><br><span class="line">def search(request):  </span><br><span class="line">    request.encoding&#x3D;&#39;utf-8&#39;</span><br><span class="line">    if &#39;q&#39; in request.GET:</span><br><span class="line">        message &#x3D; &#39;你搜索的内容为: &#39; + request.GET[&#39;q&#39;]</span><br><span class="line">    else:</span><br><span class="line">        message &#x3D; &#39;你提交了空表单&#39;</span><br><span class="line">    return HttpResponse(message)</span><br><span class="line">    </span><br><span class="line"># 接收POST请求数据，并且使用post.html模板渲染返回值</span><br><span class="line">def search_post(request):</span><br><span class="line">    ctx &#x3D;&#123;&#125;</span><br><span class="line">    if request.POST:</span><br><span class="line">        ctx[&#39;rlt&#39;] &#x3D; request.POST[&#39;q&#39;]</span><br><span class="line">    return render(request, &quot;post.html&quot;, ctx)</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="数据存储"><a href="#数据存储" class="headerlink" title="数据存储"></a>数据存储</h3><p>很多网站会使用关系型数据库来存储数据。你可以自己使用 SQL 来实现增删改查。这里拿 ORM 来举例</p>
+<h4 id="Django-Model"><a href="#Django-Model" class="headerlink" title="Django Model"></a>Django Model</h4><p>一个典型的 Django 模型 ORM</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">from django.db import models</span><br><span class="line"></span><br><span class="line">class Group(models.Model):</span><br><span class="line">    name &#x3D; models.CharField(max_length&#x3D;128)</span><br><span class="line">    members &#x3D; models.ManyToManyField(Person, through&#x3D;&#39;Membership&#39;)</span><br><span class="line"></span><br><span class="line">    def __str__(self):              # __unicode__ on Python 2</span><br><span class="line">        return self.name</span><br></pre></td></tr></table></figure>
+<p>只需要几行简单的命令，常见的数据库增删改查以及关系型数据库特有的join、order_by等SQL由框架去生成，我们只需要关注它留给我们的 Python API。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Post.objects.create(author&#x3D;me, title&#x3D;&#39;Sample title&#39;, text&#x3D;&#39;Test&#39;)</span><br><span class="line">User.objects.get(username&#x3D;&#39;ola&#39;)</span><br><span class="line">Post.objects.all()</span><br><span class="line">Post.objects.filter(author&#x3D;me)</span><br><span class="line">Post.objects.filter(title__contains&#x3D;&#39;title&#39;)</span><br><span class="line">Post.objects.order_by(&#39;created_date&#39;)</span><br><span class="line">Post.objects.filter(published_date__lte&#x3D;timezone.now()).order_by(&#39;published_date&#39;)</span><br></pre></td></tr></table></figure>
+
+<h4 id="约定优于配置"><a href="#约定优于配置" class="headerlink" title="约定优于配置"></a>约定优于配置</h4><p>django 中有一种叫做ModelForm的东西，当你生成了一个 Model 之后，只需要简单的指定 fields，它会根据 fields 来生成表单。</p>
+<p>按照先读取Model里指定的类型，然后再去Form里面读取选项，最后生成 包含 form 的 HTML 模板。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">class PostForm(forms.ModelForm):</span><br><span class="line"></span><br><span class="line">    class Meta:</span><br><span class="line">        model &#x3D; Post</span><br><span class="line">        fields &#x3D; (&#39;title&#39;, &#39;text&#39;,)</span><br></pre></td></tr></table></figure>
+<p>验证表单&amp;存储数据</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">def post_edit(request, pk):</span><br><span class="line">    post &#x3D; get_object_or_404(Post, pk&#x3D;pk)</span><br><span class="line">    if request.method &#x3D;&#x3D; &quot;POST&quot;:</span><br><span class="line">        form &#x3D; PostForm(request.POST, instance&#x3D;post)</span><br><span class="line">        if form.is_valid():</span><br><span class="line">            post &#x3D; form.save(commit&#x3D;False)</span><br><span class="line">            post.author &#x3D; request.user</span><br><span class="line">            post.published_date &#x3D; timezone.now()</span><br><span class="line">            post.save()</span><br><span class="line">            return redirect(&#39;post_detail&#39;, pk&#x3D;post.pk)</span><br><span class="line">    else:</span><br><span class="line">        form &#x3D; PostForm(instance&#x3D;post)</span><br><span class="line">    return render(request, &#39;blog&#x2F;post_edit.html&#39;, &#123;&#39;form&#39;: form&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>表单的提交一般通过 POST 请求，pk是数据的主键，post是根据 pk 读取的现在的数据库里的数据，PostForm根据request.POST里的 form data进行表单验证，如果合法则保存数据的author和published_date被存进数据库。</p>
+<h4 id="中间件"><a href="#中间件" class="headerlink" title="中间件"></a>中间件</h4><p>事实上，很多请求有相似的需求，比如验证一个人的登陆状态，如果我们每个函数都写一个验证，不符合 DRY 原则也不优美。</p>
+<p>这个时候引入一个概念：中间件。由中间件来负责做这些重复的事情，Django 中间件的具体做法是：</p>
+<p>在请求阶段中，调用视图之前，Django会按照MIDDLEWARE_CLASSES中定义的顺序自顶向下应用中间件。在响应阶段中，调用视图之后，中间件会按照相反的顺序应用，自底向上。</p>
+<p>中间件处理 request实现这两个函数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">process_request()</span><br><span class="line">process_view()</span><br></pre></td></tr></table></figure>
+<p>处理 response 实现这三个函数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">process_exception()（仅当视图抛出异常的时候）</span><br><span class="line">process_template_response()（仅用于模板响应）</span><br><span class="line">process_response()</span><br></pre></td></tr></table></figure>
+<p>你可以想象一下一个典型场景，我需要通过 csrf_token 来唯一辨认用户，现在服务器每次接受请求的时候需要验证这个参数，如果参数不对要直接报错。参数对了，又需要在返回请求的时候在相应的header 里面再次写上 token，这种事情就非常适合由中间件来做。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">MIDDLEWARE_CLASSES &#x3D; (</span><br><span class="line">    &#39;django.contrib.sessions.middleware.SessionMiddleware&#39;,</span><br><span class="line">    &#39;django.middleware.common.CommonMiddleware&#39;,</span><br><span class="line">    &#39;django.middleware.csrf.CsrfViewMiddleware&#39;,</span><br><span class="line">    &#39;django.contrib.auth.middleware.AuthenticationMiddleware&#39;,</span><br><span class="line">    &#39;django.contrib.auth.middleware.SessionAuthenticationMiddleware&#39;,</span><br><span class="line">    &#39;django.contrib.messages.middleware.MessageMiddleware&#39;,</span><br><span class="line">    &#39;django.middleware.clickjacking.XFrameOptionsMiddleware&#39;,</span><br><span class="line">    &#39;django.middleware.security.SecurityMiddleware&#39;,</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p>很多事情中间件都能做，具体的可以去查看你在学的框架文档和源码。</p>
+<h3 id="Serverless-架构"><a href="#Serverless-架构" class="headerlink" title="Serverless 架构"></a>Serverless 架构</h3><p>由于云服务的发展，现在 web 开发常见的需求，很多原来需要消耗人力的特性都可以直接使用云服务。现在的一个趋势是 <a target="_blank" rel="noopener" href="https://serverless.com/framework/docs/providers/aws/">Serverless</a> ，大致意思是就是以函数为基本单位来部署功能。由集群根据这些函数的资源调用历史来分配对应的计算服务。</p>
+<ul>
+<li>数据库存储，基于 Paxos 的 NewSQL 现在几乎每家都支持，可以理解为无限大的 MySQL</li>
+<li>缓存服务器，云服务商实现好集群，我们只需要考虑需要的内存大小，不需要花精力去考虑一致性，得到一个可以按需扩张的超大缓存服务器。</li>
+<li>CDN 存储，前端需要用的视频，css 等文件，可以通过 cdn 网络来快速下发。</li>
+<li>图片存储，云服务的图片存储很好用，url 指定一下大小、格式就能直接返回符合要求的图片</li>
+<li>log 服务，帮助你做 tracking，分析产品的使用情况，收集各个地方产生的 bug/error。</li>
+<li>持续集成，你只需要指定自己的函数依赖的函数对应的版本区间，服务发现会自动去寻找对应的服务生成调用链。</li>
+<li>充分利用资源和硬件特点部署函数，比如大数乘法，我们可以使用 FPGA 来做傅里叶变换，比 CPU 可能要快上一千倍。</li>
+<li>机器学习和大数据分析。AWS 直接开放了对应的接口，只需要按照要求填写一部分 meta data，云服务直接帮你分析结果。</li>
+</ul>
+<p>结论，这个时间点学习架构一定是混合云架构。</p>
+<p>也正是有了这些服务，国外才会有那种十几个人撑起日活几百万的现象级公司。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/HTML/" rel="tag"># HTML</a>
+              <a href="/tags/Framwork/" rel="tag"># Framwork</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2017/06/16/HTTP-best-practice-RESTful/" rel="prev" title="HTTP协议的最佳实践RESTful">
+      <i class="fa fa-chevron-left"></i> HTTP协议的最佳实践RESTful
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2017/06/27/WEB-server-explore/" rel="next" title="WEB 服务器探究">
+      WEB 服务器探究 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BC%9A%E9%9C%80%E8%A6%81%E6%A1%86%E6%9E%B6"><span class="nav-number">1.</span> <span class="nav-text">为什么会需要框架</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%99%9A%E8%B7%AF%E5%BE%84"><span class="nav-number">2.</span> <span class="nav-text">虚路径</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5"><span class="nav-number">2.1.</span> <span class="nav-text">最佳实践</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F"><span class="nav-number">2.2.</span> <span class="nav-text">设计模式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F"><span class="nav-number">2.2.1.</span> <span class="nav-text">观察者模式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F"><span class="nav-number">2.2.2.</span> <span class="nav-text">代理模式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%A3%85%E9%A5%B0%E5%99%A8%E6%A8%A1%E5%BC%8F"><span class="nav-number">2.2.3.</span> <span class="nav-text">装饰器模式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%AD%E4%BB%8B%E6%A8%A1%E5%BC%8F"><span class="nav-number">2.2.4.</span> <span class="nav-text">中介模式</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E8%B7%AF%E5%BE%84"><span class="nav-number">3.</span> <span class="nav-text">实路径</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8D%8F%E8%AE%AE"><span class="nav-number">3.1.</span> <span class="nav-text">协议</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SDK"><span class="nav-number">3.2.</span> <span class="nav-text">SDK</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B1%BB%E5%BA%93"><span class="nav-number">3.3.</span> <span class="nav-text">类库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A1%86%E6%9E%B6"><span class="nav-number">3.4.</span> <span class="nav-text">框架</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Rails-Like"><span class="nav-number">3.4.1.</span> <span class="nav-text">Rails Like</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Sinatra-Like"><span class="nav-number">3.4.2.</span> <span class="nav-text">Sinatra Like</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9E%B6%E6%9E%84"><span class="nav-number">3.5.</span> <span class="nav-text">架构</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A1%86%E6%9E%B6%E5%81%9A%E4%BA%86%E5%93%AA%E4%BA%9B%E4%BA%8B"><span class="nav-number">4.</span> <span class="nav-text">框架做了哪些事</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B7%AF%E7%94%B1%E5%92%8C%E6%A8%A1%E6%9D%BF%E3%80%81%E8%A1%A8%E5%8D%95"><span class="nav-number">4.1.</span> <span class="nav-text">路由和模板、表单</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%B7%AF%E7%94%B1"><span class="nav-number">4.1.1.</span> <span class="nav-text">路由</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Django-%E4%B8%AD%E7%9A%84%E8%B7%AF%E7%94%B1"><span class="nav-number">4.1.1.1.</span> <span class="nav-text">Django 中的路由</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BC%A0%E5%8F%82%E5%BD%A2%E5%BC%8F%E7%9A%84%E5%8A%A8%E6%80%81%E8%B7%AF%E7%94%B1"><span class="nav-number">4.2.</span> <span class="nav-text">传参形式的动态路由</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A8%A1%E6%9D%BFtemplate"><span class="nav-number">4.2.1.</span> <span class="nav-text">模板template</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%A1%A8%E5%8D%95"><span class="nav-number">4.2.2.</span> <span class="nav-text">表单</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8"><span class="nav-number">4.3.</span> <span class="nav-text">数据存储</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Django-Model"><span class="nav-number">4.3.1.</span> <span class="nav-text">Django Model</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BA%A6%E5%AE%9A%E4%BC%98%E4%BA%8E%E9%85%8D%E7%BD%AE"><span class="nav-number">4.3.2.</span> <span class="nav-text">约定优于配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%AD%E9%97%B4%E4%BB%B6"><span class="nav-number">4.3.3.</span> <span class="nav-text">中间件</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Serverless-%E6%9E%B6%E6%9E%84"><span class="nav-number">4.4.</span> <span class="nav-text">Serverless 架构</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">田_田</p>
+  <div class="site-description" itemprop="description">创新需要在一切发生之前研究结局!</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">34</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wangzitian0" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wangzitian0" rel="noopener" target="_blank"><i class="github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wangzitian0@gmail.com" title="E-Mail → mailto:wangzitian0@gmail.com" rel="noopener" target="_blank"><i class="envelope fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.linkedin.com/in/wangzitian0" title="LinkedIn → https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;wangzitian0" rel="noopener" target="_blank"><i class="linkedin fa-fw"></i></a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class=""></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">田_田</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a>
+  </div>
+
+        
+
+
+
+
+
+
+<script>
+  (function() {
+    function leancloudSelector(url) {
+      url = encodeURI(url);
+      return document.getElementById(url).querySelector('.leancloud-visitors-count');
+    }
+
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = decodeURI(visitors.id);
+      var title = visitors.dataset.flagTitle;
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            leancloudSelector(url).innerText = counter.time + 1;
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              });
+          } else {
+              leancloudSelector(url).innerText = 'Counter not initialized! More info at console err msg.';
+              console.error('ATTENTION! LeanCloud counter has security bug, see how to solve it here: https://github.com/theme-next/hexo-leancloud-counter-security. \n However, you can still use LeanCloud without security, by setting `security` option to `false`.');
+            
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return decodeURI(element.id);
+      });
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          for (let url of entries) {
+            let target = results.find(item => item.url === url);
+            leancloudSelector(url).innerText = target ? target.time : 0;
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    let { app_id, app_key, server_url } = {"enable":true,"app_id":"itw5YW53yzX17tr3WAdRd9Dd-gzGzoHsz","app_key":"qLjOt8jjizQl0ys5OSdwf10Y","server_url":null,"security":true,"betterPerformance":true};
+    function fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${api_server}/1.1${url}`, {
+          method,
+          headers: {
+            'X-LC-Id'     : app_id,
+            'X-LC-Key'    : app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    }
+
+    let api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(response => response.json())
+        .then(({ api_server }) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="//cdn.jsdelivr.net/npm/algoliasearch@4/dist/algoliasearch-lite.umd.js"></script>
+<script src="//cdn.jsdelivr.net/npm/instantsearch.js@4/dist/instantsearch.production.min.js"></script>
+<script src="/js/algolia-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

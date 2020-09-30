@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/huaji.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/huaji.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/huaji.png">
+  <link rel="mask-icon" href="/images/huaji.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"wangzitian0.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":true,"b2t":false,"scrollpercent":true},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"appID":"1PWF5BJPP1","apiKey":"6a2714c5b665823e7132db2aedb81233","indexName":"wangzitian0.github.io","hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="embercliThe command line interface for ambitious web applications.为有野心应用设计的命令行。 1npm install -g ember-cli  翻译自https:&#x2F;&#x2F;ember-cli.com&#x2F;，embercli 文档。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Embercli 文档（1）：开始">
+<meta property="og:url" content="https://wangzitian0.github.io/2013/11/07/Embercli1/index.html">
+<meta property="og:site_name" content="全栈之路">
+<meta property="og:description" content="embercliThe command line interface for ambitious web applications.为有野心应用设计的命令行。 1npm install -g ember-cli  翻译自https:&#x2F;&#x2F;ember-cli.com&#x2F;，embercli 文档。">
+<meta property="og:locale">
+<meta property="article:published_time" content="2013-11-07T12:49:00.000Z">
+<meta property="article:modified_time" content="2020-09-30T05:18:00.693Z">
+<meta property="article:author" content="田_田">
+<meta property="article:tag" content="Ember">
+<meta property="article:tag" content="Javascript">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://wangzitian0.github.io/2013/11/07/Embercli1/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>Embercli 文档（1）：开始 | 全栈之路</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?1eeceb0b3f8e550d6211f134646361b6";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="全栈之路" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta custom-logo">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">全栈之路</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">田_田的博客</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="archive fa-fw"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="user fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="tags fa-fw"></i>Tags</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container"></div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="algolia-results">
+  <div id="algolia-stats"></div>
+  <div id="algolia-hits"></div>
+  <div id="algolia-pagination" class="algolia-pagination"></div>
+</div>
+
+      
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://wangzitian0.github.io/2013/11/07/Embercli1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="田_田">
+      <meta itemprop="description" content="创新需要在一切发生之前研究结局!">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="全栈之路">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Embercli 文档（1）：开始
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2013-11-07 20:49:00" itemprop="dateCreated datePublished" datetime="2013-11-07T20:49:00+08:00">2013-11-07</time>
+            </span>
+
+          
+            <span id="/2013/11/07/Embercli1/" class="post-meta-item leancloud_visitors" data-flag-title="Embercli 文档（1）：开始" title="Views">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>embercli<br>The command line interface for ambitious web applications.<br>为有野心应用设计的命令行。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g ember-cli</span><br></pre></td></tr></table></figure>
+
+<p>翻译自<a target="_blank" rel="noopener" href="https://ember-cli.com/%EF%BC%8Cembercli">https://ember-cli.com/，embercli</a> 文档。</p>
+<a id="more"></a>
+
+<h2 id="概括"><a href="#概括" class="headerlink" title="概括"></a>概括</h2><p>Ember CLI 是 <a target="_blank" rel="noopener" href="http://emberjs.com/">Ember.js</a> 命令行提供了一个快速 <a target="_blank" rel="noopener" href="https://github.com/broccolijs/broccoli#broccoli">Broccoli</a>-powered 资源管道，一个非常符合惯例的工程结构，一个方便扩展的 <a target="_blank" rel="noopener" href="http://www.ember-cli.com/extending/#developing-addons-and-blueprints">插件系统</a>. </p>
+<p>Ember CLI的 <a target="_blank" rel="noopener" href="https://ember-cli.com/user-guide/#asset-compilation">资源编译系统</a> 已经支持:</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="http://handlebarsjs.com/">Handlebars</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/tildeio/htmlbars/">HTMLBars</a></li>
+<li><a target="_blank" rel="noopener" href="http://emblemjs.com/">Emblem</a></li>
+<li><a target="_blank" rel="noopener" href="http://lesscss.org/">LESS</a></li>
+<li><a target="_blank" rel="noopener" href="http://sass-lang.com/">Sass</a></li>
+<li><a target="_blank" rel="noopener" href="http://compass-style.org/">Compass</a></li>
+<li><a target="_blank" rel="noopener" href="http://learnboost.github.io/stylus/">Stylus</a></li>
+<li><a target="_blank" rel="noopener" href="http://coffeescript.org/">CoffeeScript</a></li>
+<li><a target="_blank" rel="noopener" href="http://emberscript.com/">EmberScript</a></li>
+<li>Minified JS &amp; CSS</li>
+</ul>
+<p>除了上面这些, Ember CLI的 <a target="_blank" rel="noopener" href="http://www.ember-cli.com/extending/#developing-addons-and-blueprints">插件系统</a><br>提供了一种创建可复用代码单元的方法，用来扩展这个构建工具。查看插件<a target="_blank" rel="noopener" href="http://www.emberaddons.com/">emberaddons</a>.</p>
+<h3 id="模块"><a href="#模块" class="headerlink" title="模块"></a>模块</h3><p>Ember CLI 用 <a target="_blank" rel="noopener" href="https://babeljs.io/">babel</a> 把 <a target="_blank" rel="noopener" href="http://jsmodules.io/">ES2015 module  语法</a> 转化成 AMD (RequireJS-esq) 模块。<br>使用一个定制过的解释器(resolver)，Ember CLI可以在它需要的时候自动导入模块。比如路由器 <code>routes/post.js</code> 会知道使用控制器 <code>controllers/post.js</code> 应该使用模板 <code>templates/post.hbs</code>。<br>如果你的应用需要明确引入一个模块，你不会被自动解析限制，只需 <code>import</code> 一下就好了。</p>
+<h3 id="CLI-的测试"><a href="#CLI-的测试" class="headerlink" title="CLI 的测试"></a>CLI 的测试</h3><p>所有用 Ember CLI 构建的应用默认使用 <a target="_blank" rel="noopener" href="http://qunitjs.com/">QUnit</a>  和 <a target="_blank" rel="noopener" href="https://github.com/rwjblue/ember-qunit">Ember QUnit</a>。尽管这些是默认的，你也可以自由选择其他的，比如 <a target="_blank" rel="noopener" href="https://mochajs.org/">Mocha</a> 和 <a target="_blank" rel="noopener" href="https://github.com/switchfly/ember-cli-mocha/">Ember Mocha</a>。</p>
+<h3 id="依赖管理"><a href="#依赖管理" class="headerlink" title="依赖管理"></a>依赖管理</h3><p>Ember CLI 使用两个包管理了工具：<br><a target="_blank" rel="noopener" href="http://bower.io/">Bower</a>, 用来管理自动更新的前端依赖(包括 jQuery, Ember, and QUnit)<br><a target="_blank" rel="noopener" href="http://npmjs.org/">npm</a>, 用来管理应用的内部依赖。<br>两个包管理工具可以同时用来管理你的依赖。</p>
+<h3 id="运行环境配置"><a href="#运行环境配置" class="headerlink" title="运行环境配置"></a>运行环境配置</h3><p>Ember CLI的运行环境可以通过一个叫做<code>.ember-cli</code>的文件配置。这个长得像 JSON 格式的文件必须放在根目录，命令行选项应该用小驼峰格式。比如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># ~&#x2F;.ember-cli</span><br><span class="line">&#123;</span><br><span class="line">  &quot;skipGit&quot; : true,</span><br><span class="line">  &quot;port&quot; : 999,</span><br><span class="line">  &quot;host&quot; : &quot;0.1.0.1&quot;,</span><br><span class="line">  &quot;liveReload&quot; : true,</span><br><span class="line">  &quot;environment&quot; : &quot;mock-development&quot;,</span><br><span class="line">  &quot;checkForUpdates&quot; : false</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="正文安全策略"><a href="#正文安全策略" class="headerlink" title="正文安全策略"></a>正文安全策略</h3><p><a target="_blank" rel="noopener" href="https://github.com/rwjblue/ember-cli-content-security-policy/">ember-cli-content-security-policy</a><br>插件可以用来启用在现代浏览器里跑开发环境的 <a target="_blank" rel="noopener" href="http://content-security-policy.com/">正文安全策略 headers</a>。启用正文安全策略headers可以帮助缓解几种特定类型的 XSS 工具或者数据注入。<a target="_blank" rel="noopener" href="http://caniuse.com/#feat=contentsecuritypolicy">浏览器支持</a>非常靠谱，<br>所以Ember CLI + Ember-CLI-Content-Security-Policy 插件使得建一个文本安全的应用十分简单。举例来说，生产环境启用<a href="/user-guide/#content-security-policy">headers</a>十分简单。</p>
+<h3 id="社区"><a href="#社区" class="headerlink" title="社区"></a>社区</h3><p>Ember CLI 是一个持续贡献的社区，它有持续的影响力。我们欢迎你提问，PR，修 bug，还有任何可以提高 Ember 开发者开发质量的事情。<a target="_blank" rel="noopener" href="https://ember-cli.com/">https://ember-cli.com/</a></p>
+<h3 id="Node"><a href="#Node" class="headerlink" title="Node"></a>Node</h3><p>现在， Ember CLI 支持 Node (<a target="_blank" rel="noopener" href="https://nodejs.org/en/download/">latest LTS recommended</a>), npm (3.x and above) 还有 yarn。</p>
+<h2 id="用户指南"><a href="#用户指南" class="headerlink" title="用户指南"></a>用户指南</h2><h3 id="先决条件"><a href="#先决条件" class="headerlink" title="先决条件"></a>先决条件</h3><h4 id="Node-1"><a href="#Node-1" class="headerlink" title="Node"></a>Node</h4><p>首先，装好最新的 LTS 版本的 Node。值得注意的是，装 node 别用 sudo，最好是用 nvm 来装 node。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">node -v</span><br><span class="line">npm -v</span><br></pre></td></tr></table></figure>
+
+<h4 id="Ember-CLI"><a href="#Ember-CLI" class="headerlink" title="Ember CLI"></a>Ember CLI</h4><p>装好 node 之后全局装 Ember CLI:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g ember-cli</span><br></pre></td></tr></table></figure>
+<p>装完 <code>ember</code> 命令就可以用了</p>
+<h4 id="Bower"><a href="#Bower" class="headerlink" title="Bower"></a>Bower</h4><p>你要全局装一下<a target="_blank" rel="noopener" href="http://bower.io/">Bower</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g bower</span><br></pre></td></tr></table></figure>
+
+<p>然后你就可以用 <code>bower</code> 命令行了。</p>
+<h4 id="Watchman"><a href="#Watchman" class="headerlink" title="Watchman"></a>Watchman</h4><p>在 *nix 系统, 推荐装 <a target="_blank" rel="noopener" href="https://facebook.github.io/watchman/">Watchman</a> version &gt;= 4.x, 将会用一种更有效率地监控工程文件夹改动的方式。文件观察系统在 OSX 容易报错，Node 的内置 <code>NodeWatcher</code> 在监控大的目录树的时候有问题。<a target="_blank" rel="noopener" href="https://facebook.github.io/watchman/">Watchman</a><br>用其他的方法在这些问题和性能上都表现不俗。你可以通过这个文章查看 FB 的设计思路<br><a target="_blank" rel="noopener" href="https://www.facebook.com/notes/facebook-engineering/watchman-faster-builds-with-large-source-trees/10151457195103920">here</a>.</p>
+<p>OSX:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install watchman</span><br></pre></td></tr></table></figure>
+
+<p>完整的安装指令去查这个文档吧<a target="_blank" rel="noopener" href="https://facebook.github.io/watchman/">Watchman website</a>。注意 <code>npm</code> 有个包不是用来安装的。看到这些提示说明装错了：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">invalid watchman found, version: [2.9.8] did not satisfy [^3.0.0], falling back to NodeWatcher</span><br></pre></td></tr></table></figure>
+
+<p>如果你的 <code>npm</code> 版本由于其他目的需要使用，确认它不在你的<code>PATH</code> ，不然:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm uninstall -g watchman</span><br></pre></td></tr></table></figure>
+
+<p>用这个命令检查它</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">which -a watchman</span><br></pre></td></tr></table></figure>
+
+<p>最好，Watchman没装好的时候，调用不同的命令会触发同一个提示，可以放心的忽略他们：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Could not find watchman, falling back to NodeWatcher for file system events</span><br></pre></td></tr></table></figure>
+
+<h4 id="PhantomJS"><a href="#PhantomJS" class="headerlink" title="PhantomJS"></a>PhantomJS</h4><p>有了 Ember CLI，你可以随便用自动化测试，但是大部分测试服务会要你用或者推荐用 <a target="_blank" rel="noopener" href="http://phantomjs.org/">PhantomJS</a>。注意PhantomJS是 <a target="_blank" rel="noopener" href="https://github.com/airportyh/testem">Testem</a> 和 <a target="_blank" rel="noopener" href="http://karma-runner.github.io/0.12/index.html">Karma</a> 默认的运行程序。</p>
+<p>如果你想用 PhantomJS 跑你的integration测试，它必须被全局安装：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g phantomjs-prebuilt</span><br></pre></td></tr></table></figure>
+
+<h4 id="创建新项目"><a href="#创建新项目" class="headerlink" title="创建新项目"></a>创建新项目</h4><p>运行 <code>new</code> 命令加上你要求的 app 名字来创建一个新项目：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ember new my-new-app</span><br></pre></td></tr></table></figure>
+
+<p>Ember CLI 会创建一个新的 <code>my-new-app</code> 目录，然后生成应用的工程结构。</p>
+<p>生成过程完成后可以开始加载程序：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd my-new-app</span><br><span class="line">ember server</span><br></pre></td></tr></table></figure>
+
+<p>跳转到<code>http://localhost:4200</code> 可以看到你的 app.</p>
+<p>跳转到<code>http://localhost:4200/tests</code> 可以看到你测试的结果</p>
+<h4 id="从一个已有Ember但没用-Ember-CLI-的项目迁移"><a href="#从一个已有Ember但没用-Ember-CLI-的项目迁移" class="headerlink" title="从一个已有Ember但没用 Ember CLI 的项目迁移"></a>从一个已有Ember但没用 Ember CLI 的项目迁移</h4><p>如果你的 app 在用已经废弃的Ember App Kit，这里是一个 <a target="_blank" rel="noopener" href="https://github.com/stefanpenner/ember-app-kit#migrating-to-ember-cli">迁移指南</a>。</p>
+<p>如果 app 全局用了其他的构建管道，如Grunt, Ember-Rails, or Gulp, 你可以试试用<a target="_blank" rel="noopener" href="https://github.com/fivetanley/ember-cli-migrator">Ember CLI migrator</a>。<br>Ember CLI migrator是一个命令行工具，看起来像是一个语法分析器，然后把代码根据 ember cli 的约定重写成 ES6。它会保持你的代码风格，而且保持 git 的历史通过<code>git log --follow</code>。</p>
+<h4 id="复制一个已有的项目"><a href="#复制一个已有的项目" class="headerlink" title="复制一个已有的项目"></a>复制一个已有的项目</h4><p>如果你 checkout 一个已有的 ember cli 工程项目，你需要安装 <code>npm</code> 和 <code>bower</code> 的依赖，然后运行服务：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">git clone git@github.com:me&#x2F;my-app.git</span><br><span class="line">cd my-app</span><br><span class="line">npm install</span><br><span class="line">bower install</span><br><span class="line">ember server</span><br></pre></td></tr></table></figure>
+
+<h3 id="使用-Ember-CLI"><a href="#使用-Ember-CLI" class="headerlink" title="使用 Ember CLI"></a>使用 Ember CLI</h3><table>
+<thead>
+<tr>
+<th align="left">命令</th>
+<th align="left">用途</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>ember</code></td>
+<td align="left">打印可用命令列表</td>
+</tr>
+<tr>
+<td align="left"><code>ember new &lt;app-name&gt;</code></td>
+<td align="left">创建了一个叫<code>&lt;app-name&gt;</code>的文件夹，在里面生成了应用结构。如果 git 可用，目录还会被初始化成一个有初始 commit 的 git 仓库。用 <code>--skip-git</code> 标记可用禁用这个特性。</td>
+</tr>
+<tr>
+<td align="left"><code>ember init</code></td>
+<td align="left">在当前文件夹生成应用结构。</td>
+</tr>
+<tr>
+<td align="left"><code>ember build</code></td>
+<td align="left">构建应用到<code>dist/</code> 目录 (自己指定可用<code>--output-path</code> 标记)。用 <code>--environment</code> 标记来指定构建环境(默认为 <code>development</code>)。用<code>--watch</code>标记来保持运行，改变发生时自动重新构建。</td>
+</tr>
+<tr>
+<td align="left"><code>ember server</code></td>
+<td align="left">开启服务，默认端口是<code>4200</code>。用<code>--proxy</code>标记来转发 ajax 请求到某个地址。比如<code>ember server --proxy http://127.0.0.1:8080</code> 会代理所有ajax请求到运行在<code>http://127.0.0.1:8080</code>的服务商. 别名: <code>ember s</code>, <code>ember serve</code></td>
+</tr>
+<tr>
+<td align="left"><code>ember generate &lt;generator-name&gt; &lt;options&gt;</code></td>
+<td align="left">运行一个指定的生成器。<code>ember help generate</code>可以看有哪些生成器. 别名: <code>ember g</code></td>
+</tr>
+<tr>
+<td align="left"><code>ember destroy &lt;generator-name&gt; &lt;options&gt;</code></td>
+<td align="left">删除<code>generate</code>命令创建的代码。如果代码生成的时候有<code>--pod</code>标记，你需要用同样的标记去跑<code>destroy</code>。别名: <code>ember d</code></td>
+</tr>
+<tr>
+<td align="left"><code>ember test</code></td>
+<td align="left">CI 模式用 Testem 跑测试。你可以通过<code>testem.json</code>文件传递任何参数。默认情况Ember CLI会搜索你的工程根目录。你也可以指定一个<code>config-file</code>. 别名: <code>ember t</code></td>
+</tr>
+<tr>
+<td align="left"><code>ember install &lt;addon-name&gt;</code></td>
+<td align="left">安装插件到工程，并将它保存到<code>package.json</code>，有必要的话命令还会自己跑 <a target="_blank" rel="noopener" href="http://www.ember-cli.com/extending/#generators-and-blueprints">blueprint</a>.</td>
+</tr>
+</tbody></table>
+<h3 id="文件夹布局"><a href="#文件夹布局" class="headerlink" title="文件夹布局"></a>文件夹布局</h3><table>
+<thead>
+<tr>
+<th align="left">文件/目录</th>
+<th align="left">目的</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>app/</code></td>
+<td align="left">包含你Ember应用的代码。Javascript文件在这个文件夹会被编译和连接成一个文件<code>&lt;app-name&gt;.js</code>。这个表格后面有更多信息</td>
+</tr>
+<tr>
+<td align="left"><code>dist/</code></td>
+<td align="left">包括可以分发(优化后且独立)的应用输出。部署这个文件到服务器。</td>
+</tr>
+<tr>
+<td align="left"><code>public/</code></td>
+<td align="left">这个目录包括逐字拷贝的文件。如图和字体等不需要构建的资源文件使用它。</td>
+</tr>
+<tr>
+<td align="left"><code>tests/</code></td>
+<td align="left">包括你的单元和集成测试，同时加上助手函数。</td>
+</tr>
+<tr>
+<td align="left"><code>tmp/</code></td>
+<td align="left">构建时临时应用和调试输出。</td>
+</tr>
+<tr>
+<td align="left"><code>bower_components/</code></td>
+<td align="left"><code>Bower</code> 依赖 (默认值+用户安装的包)。</td>
+</tr>
+<tr>
+<td align="left"><code>node_modules/</code></td>
+<td align="left"><code>npm</code> 依赖 (默认值+用户安装的包)。</td>
+</tr>
+<tr>
+<td align="left"><code>vendor/</code></td>
+<td align="left">你不通过 bower 和 npm 安装的其他的依赖。</td>
+</tr>
+<tr>
+<td align="left"><code>.eslintrc.js</code></td>
+<td align="left"><a target="_blank" rel="noopener" href="http://eslint.org/docs/user-guide/configuring">ESLint</a> 配置</td>
+</tr>
+<tr>
+<td align="left"><code>.gitignore</code></td>
+<td align="left">Git忽略文件的配置。</td>
+</tr>
+<tr>
+<td align="left"><code>ember-cli-build.js</code></td>
+<td align="left">包含构建管道 <a target="_blank" rel="noopener" href="https://github.com/joliss/broccoli">Broccoli</a> 的说明。</td>
+</tr>
+<tr>
+<td align="left"><code>bower.json</code></td>
+<td align="left">Bower 配置和依赖。</td>
+</tr>
+<tr>
+<td align="left"><code>package.json</code></td>
+<td align="left">npm 配置和依赖。主要用来列出资源编译的依赖</td>
+</tr>
+</tbody></table>
+<h3 id="app-文件夹里面的布局"><a href="#app-文件夹里面的布局" class="headerlink" title="app 文件夹里面的布局"></a>app 文件夹里面的布局</h3><table>
+<thead>
+<tr>
+<th align="left">文件/目录</th>
+<th align="left">目的</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>app/app.js</code></td>
+<td align="left">你的应用的入口。这是执行的第一个模块。</td>
+</tr>
+<tr>
+<td align="left"><code>app/index.html</code></td>
+<td align="left">你的单页应用唯一的页面！包括依赖和 ember 应用。</td>
+</tr>
+<tr>
+<td align="left"><code>app/router.js</code></td>
+<td align="left">你的路由配置。这里定义的路由和<code>app/routes/</code>处定义的路由差不多。</td>
+</tr>
+<tr>
+<td align="left"><code>app/styles/</code></td>
+<td align="left">你的样式表，无论是SASS, LESS, Stylus, Compass, 还是朴素 CSS (尽管只允许用一种类型，详情可以看资源编译)。他们都会被编译成<code>&lt;app-name&gt;.css</code>.</td>
+</tr>
+<tr>
+<td align="left"><code>app/templates/</code></td>
+<td align="left">你的 HTMLBars模板。他们会被编译到<code>/dist/assets/&lt;app-name&gt;.js</code>。模板命名和他们的名字一样(i.e. <code>templates/foo/bar.hbs</code> -&gt; <code>foo/bar</code>)。</td>
+</tr>
+<tr>
+<td align="left"><code>app/controllers/</code>, <code>app/models/</code>, etc.</td>
+<td align="left">Ember CLI解释器生成的模块</td>
+</tr>
+</tbody></table>
+<h4 id="app-index-html"><a href="#app-index-html" class="headerlink" title="app/index.html"></a>app/index.html</h4><p><code>app/index.html</code> 文件放置了你的基础架构。它是一个基于 DOM 结构的布局，设置了标题属性，引入了样式表。另外，<code>app/index.html</code>包括多个hook</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123;content-for &#39;head&#39;&#125;&#125;</span><br><span class="line">&#123;&#123;content-for &#39;body&#39;&#125;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>可以被插件注入到应用的<code>head</code> 或 <code>body</code>。这些hook需要留在合适的位置，你也可以安全地忽略你没有操作的插件。</p>
+<h3 id="插件"><a href="#插件" class="headerlink" title="插件"></a>插件</h3><p>插件会在 npm 注册，使用关键词<code>ember-addon</code>。查看完整列表 <a target="_blank" rel="noopener" href="https://www.npmjs.org/browse/keyword/ember-addon">here</a>.</p>
+<h3 id="子路径上开发"><a href="#子路径上开发" class="headerlink" title="子路径上开发"></a>子路径上开发</h3><p>如果你的 app 不是运行在根路由上(<code>/</code>)，而是一个子路径 (比如<br><code>/my-app/</code>)，你的 app 只能在 <code>/my-app/</code>路由上访问，而不能在 <code>/my-app</code>上。有时候这可能很艹蛋。因此，你应该用这个简单的代码片段来确保你的路由去了对的地方：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// index.js</span></span><br><span class="line"><span class="built_in">module</span>.exports = <span class="function"><span class="keyword">function</span>(<span class="params">app</span>) </span>&#123;</span><br><span class="line">  app.get(<span class="string">&#x27;/my-app&#x27;</span>, <span class="function"><span class="keyword">function</span>(<span class="params">req, res, next</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> subpath = <span class="string">&#x27;/my-app/&#x27;</span>;</span><br><span class="line">    <span class="keyword">if</span> (req.path !== subpath) &#123;</span><br><span class="line">      res.redirect(subpath);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      next();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">  &#125;);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>直接把它放到<code>/server</code>文件夹里的<code>index.js</code>里，（这样跑本地服务器的时候才会启用）。这段代码测试这个 url 是不是<code>/my-app/</code>前缀。如果不是会跳转。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Ember/" rel="tag"># Ember</a>
+              <a href="/tags/Javascript/" rel="tag"># Javascript</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2013/10/26/Airbnb-CSS-SASS-Style-Guide/" rel="prev" title="Airbnb CSS / SASS Style Guide">
+      <i class="fa fa-chevron-left"></i> Airbnb CSS / SASS Style Guide
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2013/11/09/Embercli2/" rel="next" title="Embercli 文档（2）：模块、解释器、命名惯例">
+      Embercli 文档（2）：模块、解释器、命名惯例 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A6%82%E6%8B%AC"><span class="nav-number">1.</span> <span class="nav-text">概括</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A8%A1%E5%9D%97"><span class="nav-number">1.1.</span> <span class="nav-text">模块</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CLI-%E7%9A%84%E6%B5%8B%E8%AF%95"><span class="nav-number">1.2.</span> <span class="nav-text">CLI 的测试</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BE%9D%E8%B5%96%E7%AE%A1%E7%90%86"><span class="nav-number">1.3.</span> <span class="nav-text">依赖管理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%90%E8%A1%8C%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE"><span class="nav-number">1.4.</span> <span class="nav-text">运行环境配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%A3%E6%96%87%E5%AE%89%E5%85%A8%E7%AD%96%E7%95%A5"><span class="nav-number">1.5.</span> <span class="nav-text">正文安全策略</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A4%BE%E5%8C%BA"><span class="nav-number">1.6.</span> <span class="nav-text">社区</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Node"><span class="nav-number">1.7.</span> <span class="nav-text">Node</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%94%A8%E6%88%B7%E6%8C%87%E5%8D%97"><span class="nav-number">2.</span> <span class="nav-text">用户指南</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%88%E5%86%B3%E6%9D%A1%E4%BB%B6"><span class="nav-number">2.1.</span> <span class="nav-text">先决条件</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Node-1"><span class="nav-number">2.1.1.</span> <span class="nav-text">Node</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Ember-CLI"><span class="nav-number">2.1.2.</span> <span class="nav-text">Ember CLI</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Bower"><span class="nav-number">2.1.3.</span> <span class="nav-text">Bower</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Watchman"><span class="nav-number">2.1.4.</span> <span class="nav-text">Watchman</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#PhantomJS"><span class="nav-number">2.1.5.</span> <span class="nav-text">PhantomJS</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E6%96%B0%E9%A1%B9%E7%9B%AE"><span class="nav-number">2.1.6.</span> <span class="nav-text">创建新项目</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BB%8E%E4%B8%80%E4%B8%AA%E5%B7%B2%E6%9C%89Ember%E4%BD%86%E6%B2%A1%E7%94%A8-Ember-CLI-%E7%9A%84%E9%A1%B9%E7%9B%AE%E8%BF%81%E7%A7%BB"><span class="nav-number">2.1.7.</span> <span class="nav-text">从一个已有Ember但没用 Ember CLI 的项目迁移</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A4%8D%E5%88%B6%E4%B8%80%E4%B8%AA%E5%B7%B2%E6%9C%89%E7%9A%84%E9%A1%B9%E7%9B%AE"><span class="nav-number">2.1.8.</span> <span class="nav-text">复制一个已有的项目</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-Ember-CLI"><span class="nav-number">2.2.</span> <span class="nav-text">使用 Ember CLI</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E5%A4%B9%E5%B8%83%E5%B1%80"><span class="nav-number">2.3.</span> <span class="nav-text">文件夹布局</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#app-%E6%96%87%E4%BB%B6%E5%A4%B9%E9%87%8C%E9%9D%A2%E7%9A%84%E5%B8%83%E5%B1%80"><span class="nav-number">2.4.</span> <span class="nav-text">app 文件夹里面的布局</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#app-index-html"><span class="nav-number">2.4.1.</span> <span class="nav-text">app&#x2F;index.html</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8F%92%E4%BB%B6"><span class="nav-number">2.5.</span> <span class="nav-text">插件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AD%90%E8%B7%AF%E5%BE%84%E4%B8%8A%E5%BC%80%E5%8F%91"><span class="nav-number">2.6.</span> <span class="nav-text">子路径上开发</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">田_田</p>
+  <div class="site-description" itemprop="description">创新需要在一切发生之前研究结局!</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">34</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wangzitian0" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wangzitian0" rel="noopener" target="_blank"><i class="github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wangzitian0@gmail.com" title="E-Mail → mailto:wangzitian0@gmail.com" rel="noopener" target="_blank"><i class="envelope fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.linkedin.com/in/wangzitian0" title="LinkedIn → https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;wangzitian0" rel="noopener" target="_blank"><i class="linkedin fa-fw"></i></a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class=""></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">田_田</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a>
+  </div>
+
+        
+
+
+
+
+
+
+<script>
+  (function() {
+    function leancloudSelector(url) {
+      url = encodeURI(url);
+      return document.getElementById(url).querySelector('.leancloud-visitors-count');
+    }
+
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = decodeURI(visitors.id);
+      var title = visitors.dataset.flagTitle;
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            leancloudSelector(url).innerText = counter.time + 1;
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              });
+          } else {
+              leancloudSelector(url).innerText = 'Counter not initialized! More info at console err msg.';
+              console.error('ATTENTION! LeanCloud counter has security bug, see how to solve it here: https://github.com/theme-next/hexo-leancloud-counter-security. \n However, you can still use LeanCloud without security, by setting `security` option to `false`.');
+            
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return decodeURI(element.id);
+      });
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          for (let url of entries) {
+            let target = results.find(item => item.url === url);
+            leancloudSelector(url).innerText = target ? target.time : 0;
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    let { app_id, app_key, server_url } = {"enable":true,"app_id":"itw5YW53yzX17tr3WAdRd9Dd-gzGzoHsz","app_key":"qLjOt8jjizQl0ys5OSdwf10Y","server_url":null,"security":true,"betterPerformance":true};
+    function fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${api_server}/1.1${url}`, {
+          method,
+          headers: {
+            'X-LC-Id'     : app_id,
+            'X-LC-Key'    : app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    }
+
+    let api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(response => response.json())
+        .then(({ api_server }) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="//cdn.jsdelivr.net/npm/algoliasearch@4/dist/algoliasearch-lite.umd.js"></script>
+<script src="//cdn.jsdelivr.net/npm/instantsearch.js@4/dist/instantsearch.production.min.js"></script>
+<script src="/js/algolia-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

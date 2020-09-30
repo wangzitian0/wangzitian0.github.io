@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/huaji.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/huaji.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/huaji.png">
+  <link rel="mask-icon" href="/images/huaji.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"wangzitian0.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":true,"b2t":false,"scrollpercent":true},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"appID":"1PWF5BJPP1","apiKey":"6a2714c5b665823e7132db2aedb81233","indexName":"wangzitian0.github.io","hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="embercli翻译自https:&#x2F;&#x2F;ember-cli.com&#x2F;，embercli 文档。 本文原文地址：https:&#x2F;&#x2F;ember-cli.com&#x2F;user-guide&#x2F;#asset-compilationhttps:&#x2F;&#x2F;ember-cli.com&#x2F;user-guide&#x2F;#managing-dependencies">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Embercli 文档（4）：资源编译 + 依赖管理">
+<meta property="og:url" content="https://wangzitian0.github.io/2013/11/13/Embercli4/index.html">
+<meta property="og:site_name" content="全栈之路">
+<meta property="og:description" content="embercli翻译自https:&#x2F;&#x2F;ember-cli.com&#x2F;，embercli 文档。 本文原文地址：https:&#x2F;&#x2F;ember-cli.com&#x2F;user-guide&#x2F;#asset-compilationhttps:&#x2F;&#x2F;ember-cli.com&#x2F;user-guide&#x2F;#managing-dependencies">
+<meta property="og:locale">
+<meta property="article:published_time" content="2013-11-13T03:39:00.000Z">
+<meta property="article:modified_time" content="2020-09-30T04:59:07.877Z">
+<meta property="article:author" content="田_田">
+<meta property="article:tag" content="Ember">
+<meta property="article:tag" content="Javascript">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://wangzitian0.github.io/2013/11/13/Embercli4/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>Embercli 文档（4）：资源编译 + 依赖管理 | 全栈之路</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?1eeceb0b3f8e550d6211f134646361b6";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="全栈之路" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta custom-logo">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">全栈之路</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">田_田的博客</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="archive fa-fw"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="user fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="tags fa-fw"></i>Tags</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container"></div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="algolia-results">
+  <div id="algolia-stats"></div>
+  <div id="algolia-hits"></div>
+  <div id="algolia-pagination" class="algolia-pagination"></div>
+</div>
+
+      
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://wangzitian0.github.io/2013/11/13/Embercli4/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="田_田">
+      <meta itemprop="description" content="创新需要在一切发生之前研究结局!">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="全栈之路">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Embercli 文档（4）：资源编译 + 依赖管理
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2013-11-13 11:39:00" itemprop="dateCreated datePublished" datetime="2013-11-13T11:39:00+08:00">2013-11-13</time>
+            </span>
+
+          
+            <span id="/2013/11/13/Embercli4/" class="post-meta-item leancloud_visitors" data-flag-title="Embercli 文档（4）：资源编译 + 依赖管理" title="Views">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>embercli<br>翻译自<a target="_blank" rel="noopener" href="https://ember-cli.com/%EF%BC%8Cembercli">https://ember-cli.com/，embercli</a> 文档。</p>
+<p>本文原文地址：<br><a target="_blank" rel="noopener" href="https://ember-cli.com/user-guide/#asset-compilation">https://ember-cli.com/user-guide/#asset-compilation</a><br><a target="_blank" rel="noopener" href="https://ember-cli.com/user-guide/#managing-dependencies">https://ember-cli.com/user-guide/#managing-dependencies</a></p>
+<a id="more"></a>
+
+<h2 id="资源编译"><a href="#资源编译" class="headerlink" title="资源编译"></a>资源编译</h2><h3 id="原始资源"><a href="#原始资源" class="headerlink" title="原始资源"></a>原始资源</h3><ul>
+<li><code>public/assets</code> vs <code>app/styles</code></li>
+</ul>
+<p>想要添加图片、字体或者其他资源，直接把他们放在 <code>public/assets</code> 文件夹。比如，把 <code>logo.png</code> 放到 <code>public/assets/images</code>，你可以在模板里面引用它 <code>assets/images/logo.png</code>，或者在样式表里面引用 <code>url(&#39;/assets/images/logo.png&#39;)</code>。</p>
+<p>Ember-CLI 的这个功能来自 <a target="_blank" rel="noopener" href="https://github.com/rickharrison/broccoli-asset-rev">broccoli-asset-rev</a>。请仔细检查所有的选项和使用说明。</p>
+<h3 id="JS-转换"><a href="#JS-转换" class="headerlink" title="JS 转换"></a>JS 转换</h3><p>Ember-cli 会自动转换未来版本的 JS (ES6/ES2015, ES2016 and beyond)到标准的 ES5 JS，通过 <a target="_blank" rel="noopener" href="https://babeljs.io/">Babel JS</a> 和 <a target="_blank" rel="noopener" href="https://github.com/babel/ember-cli-babel">ember-cli-babel</a> 插件，让每个浏览器都可以运行。</p>
+<p>默认的配置可以处理大部分项目的需要，但是你可以提供配置来禁用某些指定的转换，比如你的 app 只在确认能跑 ES6 的浏览器运行，或者约定开启转换某些暂时默认没开的试验性特性。</p>
+<p>你可以在 <code>ember-cli-build.js</code> 里配置 babel 的运行选项。比如，这样可以禁用 ES6/2015 特性：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; ember-cli-build.js</span><br><span class="line">var EmberApp &#x3D; require(&#39;ember-cli&#x2F;lib&#x2F;broccoli&#x2F;ember-app&#39;);</span><br><span class="line"></span><br><span class="line">module.exports &#x3D; function(defaults) &#123;</span><br><span class="line">  var app &#x3D; new EmberApp(defaults, &#123;</span><br><span class="line">    babel: &#123;</span><br><span class="line">      blacklist: [</span><br><span class="line">        &#39;es6.arrowFunctions&#39;,</span><br><span class="line">        &#39;es6.blockScoping&#39;,</span><br><span class="line">        &#39;es6.classes&#39;,</span><br><span class="line">        &#39;es6.destructuring&#39;,</span><br><span class="line">        &#39;es6.parameters&#39;,</span><br><span class="line">        &#39;es6.properties.computed&#39;,</span><br><span class="line">        &#x2F;&#x2F; ...more options</span><br><span class="line">      ]</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">  &#x2F;&#x2F;...</span><br><span class="line">  return app.toTree();</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>这些选项转发自 Babel。Ember-cli 现在用 Babel 5.X，你可以查看这个完整的文档<a target="_blank" rel="noopener" href="https://github.com/babel/babel.github.io/blob/5.0.0/docs/usage/transformers/index.md">all available transformations</a> ，还有选项 <a target="_blank" rel="noopener" href="https://github.com/babel/babel.github.io/blob/5.0.0/docs/usage/options.md">options</a>。</p>
+<p>升级到 Babel 6 的工作正在进行中。你可以查看进度<a target="_blank" rel="noopener" href="https://github.com/ember-cli/ember-cli/issues/5015">track the progress and help</a>。</p>
+<h3 id="混淆-最小化"><a href="#混淆-最小化" class="headerlink" title="混淆/最小化"></a>混淆/最小化</h3><p>编译的 CSS 文件被 <code>broccoli-clean-css</code> 或 <code>broccoli-csso</code> 最小化。你可以传递最小化指定参数给他们，通过你的 ember-cli-build 传递<code>minifyCSS:options</code> 对象。生产环境最小化默认会打开，可以用 <code>minifyCSS:enabled</code> 开关关闭。</p>
+<p>相似地，JS 文件在生产环境默认用 <code>broccoli-uglify-js</code> 最小化。你可以在 ember-cli-build 通过 <code>minifyJS:options</code> 传递定制化参数给最小化器。开关 JS 最小化，只需要加一个布尔参数 <code>minifyJS:enabled</code>。</p>
+<p>举个例子，关掉 CSS 和 JS 的最小化功能，<code>ember-cli-build.js</code>:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; ember-cli-build.js</span><br><span class="line">var EmberApp &#x3D; require(&#39;ember-cli&#x2F;lib&#x2F;broccoli&#x2F;ember-app&#39;);</span><br><span class="line"></span><br><span class="line">module.exports &#x3D; function(defaults) &#123;</span><br><span class="line">  var app &#x3D; new EmberApp(defaults, &#123;</span><br><span class="line">    minifyJS: &#123;</span><br><span class="line">      enabled: false</span><br><span class="line">    &#125;,</span><br><span class="line">    minifyCSS: &#123;</span><br><span class="line">      enabled: false</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">  &#x2F;&#x2F;...</span><br><span class="line">  return app.toTree();</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h4 id="不需要最小化的例外"><a href="#不需要最小化的例外" class="headerlink" title="不需要最小化的例外"></a>不需要最小化的例外</h4><p>去除 <code>dist/assets</code> 里不需要最小化的资源，可以传递参数给 <a target="_blank" rel="noopener" href="https://github.com/ef4/broccoli-uglify-sourcemap">broccoli-uglify-sourcemap</a> ，比如这样：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; ember-cli-build.js</span><br><span class="line">var EmberApp &#x3D; require(&#39;ember-cli&#x2F;lib&#x2F;broccoli&#x2F;ember-app&#39;);</span><br><span class="line"></span><br><span class="line">module.exports &#x3D; function(defaults) &#123;</span><br><span class="line">  var app &#x3D; new EmberApp(defaults, &#123;</span><br><span class="line">    minifyJS: &#123;</span><br><span class="line">      options: &#123;</span><br><span class="line">        exclude: [&quot;**&#x2F;vendor.js&quot;]</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">  &#x2F;&#x2F;...</span><br><span class="line">  return app.toTree();</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>这样会让 <code>vendor.js</code> 的文件不被最小化。</p>
+<h3 id="Source-Maps"><a href="#Source-Maps" class="headerlink" title="Source Maps"></a>Source Maps</h3><p>Ember CLI 支持制作一个 source maps 给你的合并或最小化的 JS 文件。</p>
+<p>Source maps 被 <code>sourcemaps</code> 选项指定配置，默认是不打开的。传递 <code>sourcemaps: &#123;enabled: true&#125;</code> 参数给你的 EmberApp 构造器，会打开 source maps。使用 <code>extensions</code> 选项来添加其他的格式，比如coffeescript 和 CSS：<code>&#123;extensions: [&#39;js&#39;, &#39;css&#39;, &#39;coffee&#39;]&#125;</code>。JS 现在开箱即用，CSS 目前不支持。其他的格式(Sass, Coffee, etc)取决于他们自己的插件。</p>
+<p>默认 ember-cli-build.js:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">import EmberApp from &#39;ember-cli&#x2F;lib&#x2F;broccoli&#x2F;ember-app&#39;;</span><br><span class="line">var app &#x3D; new EmberApp(&#123;</span><br><span class="line">  sourcemaps: &#123;</span><br><span class="line">    enabled: EmberApp.env() !&#x3D;&#x3D; &#39;production&#39;,</span><br><span class="line">    extensions: [&#39;js&#39;]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h3 id="样式表"><a href="#样式表" class="headerlink" title="样式表"></a>样式表</h3><p>Ember CLI 开箱即用朴素的 CSS。你可以添加你的样式到 <code>app/styles/app.css</code>，它会自动编译成 <code>assets/application-name.css</code>。</p>
+<p>比如，添加 bootstrap 到你的工程，你需要这么干：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bower install bootstrap --save</span><br></pre></td></tr></table></figure>
+
+<p>在 <code>ember-cli-build.js</code> 加这段：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">app.import(&#39;bower_components&#x2F;bootstrap&#x2F;dist&#x2F;css&#x2F;bootstrap.css&#39;);</span><br></pre></td></tr></table></figure>
+<p>这会告诉 <a target="_blank" rel="noopener" href="https://github.com/broccolijs/broccoli">Broccoli</a> 我们想要把这个文件合并到 <code>vendor.css</code>。</p>
+<p>要用 CSS 预处理器，你要添加合适的插件 <a target="_blank" rel="noopener" href="https://github.com/broccolijs/broccoli">Broccoli</a>。当使用一个预处理器的时候，Broccoli 可以被编辑成在 <code>app/styles</code> 文件夹查找一个<code>app.less</code>, <code>app.scss</code>, <code>app.sass</code>,<br>或 <code>app.styl</code> 清单文件。清单文件应该引入所有其他的样式表。</p>
+<p>所有处理之后的样式表会被编译成一个文件 <code>assets/application-name.css</code>。</p>
+<p>如果你想改变这个行为，或者想编译成多个输出，你可以调整输出配置。(参见后面的文档)</p>
+<h4 id="CSS"><a href="#CSS" class="headerlink" title="CSS"></a>CSS</h4><p>朴素 CSS 直接用 <code>app.css</code>：</p>
+<ul>
+<li>在 <code>app.css</code> 里写你的样式，或者把你的 CSS 放到不同样式文件，然后在 <code>app.css</code> 通过 <code>@import</code> 引入。</li>
+<li><a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/CSS/@import">CSS <code>@import</code> 语句</a> (e.g. <code>@import &#39;typography.css&#39;;</code>) 必须是合法的 CSS，意味着 <code>@import</code> 语句 <em>必须</em> 在其他规则之前，所以它们必须放在 <code>app.css</code> 的<em>顶部</em>。</li>
+</ul>
+<p>为了处理你的引入文件，用文件对应的内容替换它们，在 <code>ember-cli-build.js</code> 添加：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; ember-cli-build.js</span><br><span class="line">var EmberApp &#x3D; require(&#39;ember-cli&#x2F;lib&#x2F;broccoli&#x2F;ember-app&#39;);</span><br><span class="line"></span><br><span class="line">module.exports &#x3D; function(defaults) &#123;</span><br><span class="line">  var app &#x3D; new EmberApp(defaults, &#123;</span><br><span class="line">    minifyCSS: &#123;</span><br><span class="line">      options: &#123; processImport: true &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">  &#x2F;&#x2F;...</span><br><span class="line">  return app.toTree();</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>会造成如下的改变：</p>
+<ul>
+<li>构建生成环境，<code>@import</code> 语句被对应文件的正文替换，然后最小化，合并到一个 CSS 文件 <code>dist/assets/yourappname-FINGERPRINT_GOES_HERE.css</code>。</li>
+<li>任何独立的 CSS 文件也可以构建，最小化到 <code>dist/assets/</code>，假如你需要单独用这个样式表。</li>
+<li>相关路径会被改变</li>
+</ul>
+<p>例如 <code>app.css</code> ，使用了合法的 <code>@import</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;* @imports must appear at top of stylesheet to be valid CSS *&#x2F;</span><br><span class="line">@import &#39;typography.css&#39;;</span><br><span class="line">@import &#39;forms.css&#39;;</span><br><span class="line"></span><br><span class="line">&#x2F;* Any CSS rules must go *after* any @imports *&#x2F;</span><br><span class="line">.first-css-rule &#123;</span><br><span class="line">  color: red;</span><br><span class="line">&#125;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<h4 id="CSS-预处理器"><a href="#CSS-预处理器" class="headerlink" title="CSS 预处理器"></a>CSS 预处理器</h4><p>为了用后面的预处理器，你需要做的就是安装合适的 NPM 模块。各自文件会被挑选，自动化处理。</p>
+<h4 id="LESS"><a href="#LESS" class="headerlink" title="LESS"></a>LESS</h4><p>为了启用 <a target="_blank" rel="noopener" href="http://lesscss.org/">LESS</a>，你需要加 <a target="_blank" rel="noopener" href="https://github.com/gdub22/ember-cli-less">ember-cli-less</a> 到你的 NPM 模块里。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ember install ember-cli-less</span><br></pre></td></tr></table></figure>
+
+<h4 id="SCSS-SASS"><a href="#SCSS-SASS" class="headerlink" title="SCSS/SASS"></a>SCSS/SASS</h4><p>为了启用 <a target="_blank" rel="noopener" href="http://sass-lang.com/">SCSS/SASS</a>，你需要加 <a target="_blank" rel="noopener" href="https://github.com/aexmachina/ember-cli-sass">ember-cli-sass</a> 插件到你的工程 <em>(配置默认允许 .scss, .sass )</em>.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ember install ember-cli-sass</span><br></pre></td></tr></table></figure>
+
+<p>你可以配置你的 <code>ember-cli-build.js</code> 使用 .sass：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; ember-cli-build.js</span><br><span class="line">var app &#x3D; new EmberApp(defaults, &#123;</span><br><span class="line">  sassOptions: &#123;</span><br><span class="line">    extension: &#39;sass&#39;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h4 id="Compass"><a href="#Compass" class="headerlink" title="Compass"></a>Compass</h4><p>想用 <a target="_blank" rel="noopener" href="http://compass-style.org/">Compass</a>，用 NPM 安装 <a target="_blank" rel="noopener" href="https://github.com/quaertym/ember-cli-compass-compiler">ember-cli-compass-compiler</a> 插件。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ember install ember-cli-compass-compiler</span><br></pre></td></tr></table></figure>
+
+<h4 id="Stylus"><a href="#Stylus" class="headerlink" title="Stylus"></a>Stylus</h4><p>为了使用 <a target="_blank" rel="noopener" href="http://learnboost.github.io/stylus/">Stylus</a>，你需要加 <a target="_blank" rel="noopener" href="https://github.com/drewcovi/ember-cli-stylus">ember-cli-stylus</a> 到你的 NPM 模块：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ember install ember-cli-stylus</span><br></pre></td></tr></table></figure>
+
+<h3 id="CoffeeScript"><a href="#CoffeeScript" class="headerlink" title="CoffeeScript"></a>CoffeeScript</h3><p>为了用 <a target="_blank" rel="noopener" href="http://coffeescript.org/">CoffeeScript</a>，你需要加 <a target="_blank" rel="noopener" href="https://github.com/kimroen/ember-cli-coffeescript">ember-cli-coffeescript</a> 到你的 NPM 模块里：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ember install ember-cli-coffeescript</span><br></pre></td></tr></table></figure>
+
+<p><code>package.json</code> 的改动应该纳入源码版本控制。CoffeeScript 可以在你的源码和测试里面用，只需要用 <code>.coffee</code> 扩展名就好。我们推荐使用版本 &gt;= 1.16.0 的 ember-cli-coffeescript 来避免用 <code>import</code> 和 <code>export</code> 语句。</p>
+<p>注意：早期的编译器版本就明确支持 CoffeeScript，但是现在这个支持被删除了。</p>
+<h3 id="EmberScript"><a href="#EmberScript" class="headerlink" title="EmberScript"></a>EmberScript</h3><p>为了用 <a target="_blank" rel="noopener" href="http://emberscript.com/">EmberScript</a>，你需要加 <a target="_blank" rel="noopener" href="https://github.com/aradabaugh/broccoli-ember-script">broccoli-ember-script</a> 到你的 NPM 模块里：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install broccoli-ember-script --save-dev</span><br></pre></td></tr></table></figure>
+
+<p>注意：ES6 模块转译器不直接支持 Emberscript，要使用 ` 字符，和上面 CoffeeScript的例子差不多。</p>
+<h3 id="Emblem"><a href="#Emblem" class="headerlink" title="Emblem"></a>Emblem</h3><p>要用 <a target="_blank" rel="noopener" href="http://emblemjs.com/">Emblem</a>，跑这个命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ember install ember-cli-emblem</span><br></pre></td></tr></table></figure>
+
+<p>如果你用早期版本的 broccoli-emblem-compiler 插件，你需要选择 ember-cli-emblem。早期版本的 broccoli-emblem-compiler 直接编译成 JS 而不是 Handlebars，因此和现在新版的 HTMLBars 不兼容。</p>
+<h3 id="指纹和-CDN-URLs"><a href="#指纹和-CDN-URLs" class="headerlink" title="指纹和 CDN URLs"></a>指纹和 CDN URLs</h3><p>指纹使用这个插件 <a target="_blank" rel="noopener" href="https://github.com/rickharrison/broccoli-asset-rev">broccoli-asset-rev</a><br>(默认已经包含)。</p>
+<p>在生产环境(e.g. <code>ember build --environment=production</code>)，这个插件会自动化算你的js, css, png, jpg, gif 资源的指纹，添加一个 md5 checksum 到他们的文件名结尾<br>(e.g. <code>assets/yourapp-9c2cbd818d09a4a742406c6cb8219b3b.js</code>)。另外，你的 html, js, css 文件会被重写成新名字。这里有很多参数你可以传递给<code>EmberApp</code>，通过改 <code>ember-cli-build.js</code> 定制你的行为：</p>
+<ul>
+<li><code>enabled</code> - 默认: <code>app.env === &#39;production&#39;</code> - Boolean. 为真的时候启用指纹算法。<strong>生产环境默认为True</strong></li>
+<li><code>exclude</code> - 默认: <code>[]</code> - 一个字符串数组。如果一个文件名被包含，它不会被计算指纹。</li>
+<li><code>ignore</code> - 默认: <code>[]</code> - 一个字符串数组。如果一个文件名被包含，它的内容不会被计算指纹。</li>
+<li><code>extensions</code> - 默认: <code>[&#39;js&#39;, &#39;css&#39;, &#39;png&#39;, &#39;jpg&#39;, &#39;gif&#39;, &#39;map&#39;]</code> - 需要添加 MD5 checksum 的文件类型。</li>
+<li><code>prepend</code> - 默认: <code>&#39;&#39;</code> - 预先在所有资源添加。加 CDN urls 的时候很方便，比如 <code>https://subdomain.cloudfront.net/</code></li>
+<li><code>replaceExtensions</code> - 默认: <code>[&#39;html&#39;, &#39;css&#39;, &#39;js&#39;]</code> - 需要用带 checksum 文件名替换的文件类型。</li>
+<li><code>customHash</code> - 指定了值的时候，追加到指纹文件名而不用 MD5。用 <code>null</code> 可以取代 hash，在用 <code>prepend</code> 的时候非常有用。</li>
+</ul>
+<p>作为一个例子，这个 <code>ember-cli-build</code> 会给除了 fonts/169929 文件夹的所有资源文件都加上一个云前端域名。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; ember-cli-build.js</span><br><span class="line">var app &#x3D; new EmberApp(&#123;</span><br><span class="line">  fingerprint: &#123;</span><br><span class="line">    exclude: [&#39;fonts&#x2F;169929&#39;],</span><br><span class="line">    prepend: &#39;https:&#x2F;&#x2F;subdomain.cloudfront.net&#x2F;&#39;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>最终的结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;script src&#x3D;&quot;assets&#x2F;appname.js&quot;&gt;</span><br><span class="line">background: url(&#39;&#x2F;images&#x2F;foo.png&#39;);</span><br></pre></td></tr></table></figure>
+
+<p>会变成</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;script src&#x3D;&quot;https:&#x2F;&#x2F;subdomain.cloudfront.net&#x2F;assets&#x2F;appname-342b0f87ea609e6d349c7925d86bd597.js&quot;&gt;</span><br><span class="line">background: url(&#39;https:&#x2F;&#x2F;subdomain.cloudfront.net&#x2F;images&#x2F;foo-735d6c098496507e26bb40ecc8c1394d.png&#39;);</span><br></pre></td></tr></table></figure>
+
+<p>在 <code>ember-cli-build.js</code> 里你可以禁用指纹算法:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; ember-cli-build.js</span><br><span class="line">var app &#x3D; new EmberApp(&#123;</span><br><span class="line">  fingerprint: &#123;</span><br><span class="line">    enabled: false</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>或者直接删除你 <code>package.json</code> 的 <code>EmberApp</code> 和  <code>broccoli-asset-rev</code>。</p>
+<h3 id="应用配置"><a href="#应用配置" class="headerlink" title="应用配置"></a>应用配置</h3><p>你 <code>ember-cli-build.js</code> 里的应用配置会被存在 <code>dist/index.html</code> 一个特殊的 meta tag里。</p>
+<p>meta tag的例子</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;meta name&#x3D;&quot;user&#x2F;config&#x2F;environment&quot; content&#x3D;&quot;%7B%22modulePre.your.config&quot;&gt;</span><br></pre></td></tr></table></figure>
+
+<p>这个 meta tag 要求你的 ember 应用正常运行。如果你希望这个 tag 是你编译 js 文件的一部分，你可能需要在 <code>ember-cli-build.js</code> 里用 <code>storeConfigInMeta</code> 标记。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; ember-cli-build.js</span><br><span class="line">var app &#x3D; new EmberApp(&#123;</span><br><span class="line">  storeConfigInMeta: false</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h4 id="编辑输出路径"><a href="#编辑输出路径" class="headerlink" title="编辑输出路径"></a>编辑输出路径</h4><p>编译文件会输出到下面的路径：</p>
+<table>
+<thead>
+<tr>
+<th>资源</th>
+<th>输出文件</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>app/index.html</code></td>
+<td><code>/index.html</code></td>
+</tr>
+<tr>
+<td><code>app/*.js</code></td>
+<td><code>/assets/application-name.js</code></td>
+</tr>
+<tr>
+<td><code>app/styles/app.css</code></td>
+<td><code>/assets/application-name.css</code></td>
+</tr>
+<tr>
+<td>其他在 <code>app/styles</code> 的 CSS 文件</td>
+<td>同样的文件到 <code>/assets</code></td>
+</tr>
+<tr>
+<td>用 <code>app.import()</code> 引入的 JS 文件</td>
+<td><code>/assets/vendor.js</code></td>
+</tr>
+<tr>
+<td>用 <code>app.import()</code> 引入的 CSS 文件</td>
+<td><code>/assets/vendor.css</code></td>
+</tr>
+</tbody></table>
+<p>想要改变这些路径，指定 <code>outputPaths</code> 配置选项。默认的选项：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; ember-cli-build.js</span><br><span class="line">var app &#x3D; new EmberApp(&#123;</span><br><span class="line">  outputPaths: &#123;</span><br><span class="line">    app: &#123;</span><br><span class="line">      html: &#39;index.html&#39;,</span><br><span class="line">      css: &#123;</span><br><span class="line">        &#39;app&#39;: &#39;&#x2F;assets&#x2F;application-name.css&#39;</span><br><span class="line">      &#125;,</span><br><span class="line">      js: &#39;&#x2F;assets&#x2F;application-name.js&#39;</span><br><span class="line">    &#125;,</span><br><span class="line">    vendor: &#123;</span><br><span class="line">      css: &#39;&#x2F;assets&#x2F;vendor.css&#39;,</span><br><span class="line">      js: &#39;&#x2F;assets&#x2F;vendor.js&#39;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>你可以改变这些路径，但是确保更新在 <code>app.outputPaths.app.html</code> 里的路径，它默认是 <code>index.html</code> 和 <code>tests/index.html</code>。如果没改对，你的 app 无法正常的识别资源文件。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; ember-cli-build.js</span><br><span class="line">var app &#x3D; new EmberApp(&#123;</span><br><span class="line">  outputPaths: &#123;</span><br><span class="line">    app: &#123;</span><br><span class="line">      js: &#39;&#x2F;assets&#x2F;main.js&#39;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p><code>outputPaths.app.css</code>选项用了一个 kv 对。<em>key</em> 是输入文件，<em>value</em> 是输出路径。注意，我们不需要包括扩展名，因为每个预处理器有不同的扩展名。</p>
+<p>使用 CSS 预处理器的时候，只有 <code>app/styles/app.scss</code> (or <code>.less</code> etc) 被编译了。如果你需要处理多个文件，你需要加另一个 key：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; ember-cli-build.js</span><br><span class="line">var app &#x3D; new EmberApp(&#123;</span><br><span class="line">  outputPaths: &#123;</span><br><span class="line">    app: &#123;</span><br><span class="line">      css: &#123;</span><br><span class="line">        &#39;app&#39;: &#39;&#x2F;assets&#x2F;application-name.css&#39;,</span><br><span class="line">        &#39;themes&#x2F;alpha&#39;: &#39;&#x2F;assets&#x2F;themes&#x2F;alpha.css&#39;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h4 id="集成"><a href="#集成" class="headerlink" title="集成"></a>集成</h4><p>当 ember 是在另一个项目内的时候，你可能只有一个特定路由的时候想要加载 ember。如果你提前加载了 ember 的 JS 文件，你需要禁用 <code>autoRun</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; ember-cli-build.js</span><br><span class="line">var app &#x3D; new EmberApp(&#123;</span><br><span class="line">  autoRun: false</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>手动跑Ember:<br><code>require(&quot;app-name/app&quot;)[&quot;default&quot;].create(&#123;/* app settings */&#125;);</code></p>
+<h4 id="子资源完整性"><a href="#子资源完整性" class="headerlink" title="子资源完整性"></a>子资源完整性</h4><p>子资源完整性 <a target="_blank" rel="noopener" href="http://www.w3.org/TR/SRI/">SRI integrity</a> 计算由插件 <a target="_blank" rel="noopener" href="https://github.com/jonathanKingston/ember-cli-sri">ember-cli-sri</a> 完成(默认被包含。</p>
+<p>子资源完整性是一个安全性概念，用来检查 JS 和样式用了 CDN 之后是不是有正确的内容。</p>
+<h4 id="为什么"><a href="#为什么" class="headerlink" title="为什么"></a>为什么</h4><p>添加这个到你的应用是问了防止 CDNs 被劫持，从而改变你的 JS 或者 CSS。</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://blog.cloudflare.com/an-introduction-to-javascript-based-ddos/">JavaScript DDoS 预防</a><ul>
+<li>新版 <a target="_blank" rel="noopener" href="http://googleonlinesecurity.blogspot.co.uk/2015/04/a-javascript-based-ddos-attack-as-seen.html">GitHub DDoS attack</a></li>
+</ul>
+</li>
+<li>防治不够信任的服务器的被污染代码</li>
+</ul>
+<h4 id="定制"><a href="#定制" class="headerlink" title="定制"></a>定制</h4><p>定制 SRI 器：<a target="_blank" rel="noopener" href="https://github.com/jonathanKingston/ember-cli-sri">ember-cli-sri</a></p>
+<h2 id="依赖管理"><a href="#依赖管理" class="headerlink" title="依赖管理"></a>依赖管理</h2><h3 id="NPM-和-Bower-配置"><a href="#NPM-和-Bower-配置" class="headerlink" title="NPM 和 Bower 配置"></a>NPM 和 Bower 配置</h3><p>Ember CLI 支持 <a target="_blank" rel="noopener" href="https://www.npmjs.com/">NPM</a> 和 <a target="_blank" rel="noopener" href="http://bower.io/">Bower</a> 管理依赖。</p>
+<p>一个 Ember CLI 生成的项目只有 NPM 依赖，你会发现 <code>package.json</code> 文件在你的工程根目录，没有 <code>bower.json</code>。<br>为了用 Bower，你需要用 <code>bower init</code> 来创建 <code>bower.json</code> 文件。</p>
+<p>NPM 的 <code>package.json</code> 加上 Bower 的 <code>bower.json</code> 允许你声明你的依赖。改变你的依赖需要管理这俩文件，而不是手动的装包。</p>
+<p>执行 <code>npm install</code> 会一键安装 <code>package.json</code> 里的依赖。同样的，执行 <code>bower install</code> 会一键安装 <code>bower.json</code> 里的依赖。</p>
+<p>Ember CLI 默认配置了 git 忽略你的 <code>bower_components</code> 和<br><code>node_modules</code> 文件夹。</p>
+<p>Ember CLI 监控 <code>bower.json</code> 的改变，因此会重新加载你的应用，如果你通过 <code>bower install &lt;dependencies&gt; --save</code>装了新东西。如果你通过 <code>npm install &lt;dependencies&gt; --save</code>装东西，需要重启。</p>
+<p>通过官方文档可以了解更多:</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="http://bower.io/">Bower</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.npmjs.com/">NPM</a></li>
+</ul>
+<p>注意，一般装东西用 <code>ember install</code> 是最容易的，它会保存所有的依赖到正确的文件，然后运行需要的步骤。</p>
+<h3 id="编译资源"><a href="#编译资源" class="headerlink" title="编译资源"></a>编译资源</h3><p>Ember CLI 用 <a target="_blank" rel="noopener" href="https://github.com/broccolijs/broccoli">Broccoli</a> 。</p>
+<p>资源清单在工程根目录的 <code>ember-cli-build.js</code>(不是默认的<code>ember-cli-build.js</code>).</p>
+<p>为了加一个资源，在你调用 <code>app.toTree()</code> 之前指定依赖的资源到你的 <code>ember-cli-build.js</code>。你只能引入在 <code>bower_components</code> 或者 <code>vendor</code> 目录里的资源。以下示例场景说明了这是如何工作的。</p>
+<h4 id="Javascript-资源"><a href="#Javascript-资源" class="headerlink" title="Javascript 资源"></a>Javascript 资源</h4><h5 id="标准-Non-AMD-资源"><a href="#标准-Non-AMD-资源" class="headerlink" title="标准 Non-AMD 资源"></a>标准 Non-AMD 资源</h5><p>首先，提供资料路径，作为唯一的参数 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">app.import(&#39;bower_components&#x2F;moment&#x2F;moment.js&#39;);</span><br></pre></td></tr></table></figure>
+
+<p>文档指定的包，通常是全局变量。这个例子里：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">import Ember from &#39;ember&#39;;</span><br><span class="line">&#x2F;* global moment *&#x2F;</span><br><span class="line">&#x2F;&#x2F; No import for moment, it&#39;s a global called &#96;moment&#96;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; ...</span><br><span class="line">var day &#x3D; moment(&#39;Dec 25, 1995&#39;);</span><br></pre></td></tr></table></figure>
+
+<p>注意: 不要忘了 ESLint，加 <code>/* global MY_GLOBAL */</code> 到你的模块，或者在 <code>.eslintrc.js</code> 的 <code>globals</code> 部分里定义。</p>
+<p>另一种选择是你可以生成一个 ES6 shim，让库可以通过 <code>import</code> 引入。</p>
+<p>首先，生成这个shim：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ember generate vendor-shim moment</span><br></pre></td></tr></table></figure>
+
+<p>然后，提供 vendor 资源路径：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">app.import(&#39;vendor&#x2F;shims&#x2F;moment.js&#39;);</span><br></pre></td></tr></table></figure>
+
+<p>最后，使用这个包，添加合适的 <code>import</code> 语句：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">import moment from &#39;moment&#39;;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; ...</span><br><span class="line">var day &#x3D; moment(&#39;Dec 25, 1995&#39;);</span><br></pre></td></tr></table></figure>
+
+<h5 id="标准-AMD-资源"><a href="#标准-AMD-资源" class="headerlink" title="标准 AMD 资源"></a>标准 AMD 资源</h5><p>提供资源路径作为第一个参数，模块和导出列表作为第二个：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">app.import(&#39;bower_components&#x2F;ic-ajax&#x2F;dist&#x2F;named-amd&#x2F;main.js&#39;);</span><br></pre></td></tr></table></figure>
+
+<p>引入资源。比如，<code>ic-ajax</code>， 使用的时候 <code>ic.ajax.raw</code>:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">import &#123; raw as icAjaxRaw &#125; from &#39;ic-ajax&#39;;</span><br><span class="line">&#x2F;&#x2F;...</span><br><span class="line">icAjaxRaw( &#x2F;* ... *&#x2F; );</span><br></pre></td></tr></table></figure>
+
+<h5 id="标准匿名-AMD-资源"><a href="#标准匿名-AMD-资源" class="headerlink" title="标准匿名 AMD 资源"></a>标准匿名 AMD 资源</h5><p>提供资源路径作为第一个参数，目标模块作为第二个：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">app.import(&#39;bower_components&#x2F;ic-ajax&#x2F;dist&#x2F;amd&#x2F;main.js&#39;, &#123;</span><br><span class="line">  using: [</span><br><span class="line">    &#123; transformation: &#39;amd&#39;, as: &#39;ic-ajax&#39; &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>为了用资源而导入。比如，<code>ic-ajax</code>, 使用的时候 <code>ic.ajax.raw</code>:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">import &#123; raw as icAjaxRaw &#125; from &#39;ic-ajax&#39;;</span><br><span class="line">&#x2F;&#x2F;...</span><br><span class="line">icAjaxRaw( &#x2F;* ... *&#x2F; );</span><br></pre></td></tr></table></figure>
+
+<h5 id="环境指定资源"><a href="#环境指定资源" class="headerlink" title="环境指定资源"></a>环境指定资源</h5><p>如果你在不同的环境需要用不同的资源，指定一个对象作为第一个参数。对象的 key 应该是环境的名字，value 是应该使用的资源文件。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">app.import(&#123;</span><br><span class="line">  development: &#39;bower_components&#x2F;ember&#x2F;ember.js&#39;,</span><br><span class="line">  production:  &#39;bower_components&#x2F;ember&#x2F;ember.prod.js&#39;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>如果你需要引入一个资源，在某个环境，但是其他环境不想引入它，你可以用 <code>app.import</code>，然后用 <code>if</code> 把它包起来。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">if (app.env &#x3D;&#x3D;&#x3D; &#39;development&#39;) &#123;</span><br><span class="line">  app.import(&#39;vendor&#x2F;ember-renderspeed&#x2F;ember-renderspeed.js&#39;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="定制内置资源文件"><a href="#定制内置资源文件" class="headerlink" title="定制内置资源文件"></a>定制内置资源文件</h5><p>这是不标准的方式，但是因为你可能需要用全部的handlebar版本，甚至在生产环境也是，所以支持这种方式。<br>你应该提供一个简单的路径给你的 <code>EmberApp</code> 构造器:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var app &#x3D; new EmberApp(&#123;</span><br><span class="line">  vendorFiles: &#123;</span><br><span class="line">    &#39;handlebars.js&#39;: &#123;</span><br><span class="line">      production: &#39;bower_components&#x2F;handlebars&#x2F;handlebars.js&#39;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>另一种选择是，如果你想避免内置资源自动加载到 <code>vendor.js</code>，你可以把这个值设为 <code>false</code>:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var app &#x3D; new EmberApp(&#123;</span><br><span class="line">  vendorFiles: &#123;</span><br><span class="line">    &#39;handlebars.js&#39;: false</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>注意: 跑你的程序需要某些内置资源的依赖。如果你用上面的方法去指定排除某些东西，你应该用其他方法再重新引入。</p>
+<h5 id="资源文件黑白名单"><a href="#资源文件黑白名单" class="headerlink" title="资源文件黑白名单"></a>资源文件黑白名单</h5><p>你可以限制哪些依赖运行或者不允许被导入到你的 Ember 应用，通过 EmberApp 的构造器选项。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">var app &#x3D; new EmberApp(&#123;</span><br><span class="line">  addons: &#123;</span><br><span class="line">    blacklist: [</span><br><span class="line">      &#39;fastboot-app-server&#39;</span><br><span class="line">    ]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h5 id="测试-Assets"><a href="#测试-Assets" class="headerlink" title="测试 Assets"></a>测试 Assets</h5><p>你在跑测试的时候也许有其他的库(例如 qunit-bdd or sinon)。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; ember-cli-build.js</span><br><span class="line">var EmberApp &#x3D; require(&#39;ember-cli&#x2F;lib&#x2F;broccoli&#x2F;ember-app&#39;),</span><br><span class="line">    isProduction &#x3D; EmberApp.env() &#x3D;&#x3D;&#x3D; &#39;production&#39;;</span><br><span class="line"></span><br><span class="line">var app &#x3D; new EmberApp();</span><br><span class="line"></span><br><span class="line">if ( !isProduction ) &#123;</span><br><span class="line">    app.import( app.bowerDirectory + &#39;&#x2F;sinonjs&#x2F;sinon.js&#39;, &#123; type: &#39;test&#39; &#125; );</span><br><span class="line">    app.import( app.bowerDirectory + &#39;&#x2F;sinon-qunit&#x2F;lib&#x2F;sinon-qunit.js&#39;, &#123; type: &#39;test&#39; &#125; );</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">module.exports &#x3D; app.toTree();</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意:</strong></p>
+<ul>
+<li>确保你传递 <code>&#123; type: &#39;test&#39; &#125;</code> 作为 <code>app.import</code> 的第二个参数。这可以确保你的库被编译成 <code>test-support.js</code> 文件。</li>
+</ul>
+<h4 id="样式"><a href="#样式" class="headerlink" title="样式"></a>样式</h4><h5 id="静态-CSS"><a href="#静态-CSS" class="headerlink" title="静态 CSS"></a>静态 CSS</h5><p>资源文件作为第一个参数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">app.import(&#39;bower_components&#x2F;foundation&#x2F;css&#x2F;foundation.css&#39;);</span><br></pre></td></tr></table></figure>
+
+<p>所有这样添加的的样式资源会被合并成一个文件 <code>/assets/vendor.css</code>。</p>
+<h5 id="动态样式-SCSS-LESS-etc"><a href="#动态样式-SCSS-LESS-etc" class="headerlink" title="动态样式 (SCSS, LESS, etc)"></a>动态样式 (SCSS, LESS, etc)</h5><p>自动生成的树通过实例化提供了可用的动态样式文件。例子如下(在 <code>app/styles/app.scss</code> 里):</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@import &quot;bower_components&#x2F;foundation&#x2F;scss&#x2F;normalize.scss&quot;;</span><br></pre></td></tr></table></figure>
+
+<h4 id="其他资源"><a href="#其他资源" class="headerlink" title="其他资源"></a>其他资源</h4><h5 id="使用-app-import"><a href="#使用-app-import" class="headerlink" title="使用 app.import()"></a>使用 app.import()</h5><p>所有的其他资源，如字体图片，可用被 <code>import()</code> 引入。默认他们会被拷贝到 <code>dist/</code> 文件夹。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">app.import(&#39;bower_components&#x2F;font-awesome&#x2F;fonts&#x2F;fontawesome-webfont.ttf&#39;);</span><br></pre></td></tr></table></figure>
+
+<p>这个例子会创建一个字体在 <code>dist/font-awesome/fonts/fontawesome-webfont.ttf</code>。</p>
+<p>你可以选择告诉 <code>import()</code> 把文件放到一个不同的地方。这个例子是把文件拷贝到 <code>dist/assets/fontawesome-webfont.ttf</code>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">app.import(&#39;bower_components&#x2F;font-awesome&#x2F;fonts&#x2F;fontawesome-webfont.ttf&#39;, &#123;</span><br><span class="line">  destDir: &#39;assets&#39;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>如果你需要在其他资源之前加载某个依赖，你可以设置 <code>prepend</code> 属性为 <code>true</code> 在 <code>import()</code> 的第二格参数。这会预加载依赖到生成目录而不是按默认行为追加。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">app.import(&#39;bower_components&#x2F;es5-shim&#x2F;es5-shim.js&#39;, &#123;</span><br><span class="line">  type: &#39;vendor&#39;,</span><br><span class="line">  prepend: true</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>如果你需要某个资源加载到某个特定文件。你可以提供一个 <code>outputFile</code> 选项给你的导入：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; ember-cli-build.js</span><br><span class="line">app.import(&#39;vendor&#x2F;dependency-1.js&#39;, &#123; outputFile: &#39;assets&#x2F;additional-script.js&#39;&#125;);</span><br><span class="line">app.import(&#39;vendor&#x2F;dependency-2.js&#39;, &#123; outputFile: &#39;assets&#x2F;additional-script.js&#39;&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>作为结果，两个资源会按它们的制定顺序合并成一个到 <code>dist/assets/additional-script.js</code>。</p>
+<p>主要: <code>outputFile</code> 只能被 javascript 和 css 文件使用。</p>
+<h5 id="使用-broccoli-funnel"><a href="#使用-broccoli-funnel" class="headerlink" title="使用 broccoli-funnel"></a>使用 broccoli-funnel</h5><p>有了 <a target="_blank" rel="noopener" href="https://github.com/broccolijs/broccoli-funnel">broccoli-funnel</a>，部分 bower 安装的包可以被用作 as-is 资源。首先确认 Broccoli 包已经装好。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install broccoli-funnel --save-dev</span><br></pre></td></tr></table></figure>
+
+<p>添加这个引用到 <code>ember-cli-build.js</code> 的头部：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var Funnel &#x3D; require(&#39;broccoli-funnel&#39;);</span><br></pre></td></tr></table></figure>
+
+<p>在 <code>ember-cli-build.js</code> 里，我们把资源从一个 bower 依赖和主程树合并：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">module.exports &#x3D; function(defaults) &#123;</span><br><span class="line"></span><br><span class="line">   ...</span><br><span class="line"></span><br><span class="line">   &#x2F;&#x2F; 只拷贝相关文件。例如 WOFF 文件和网页字体样式表</span><br><span class="line"></span><br><span class="line">   var extraAssets &#x3D; new Funnel(&#39;bower_components&#x2F;a-lovely-webfont&#39;, &#123;</span><br><span class="line">      srcDir: &#39;&#x2F;&#39;,</span><br><span class="line">      include: [&#39;**&#x2F;*.woff&#39;, &#39;**&#x2F;stylesheet.css&#39;],</span><br><span class="line">      destDir: &#39;&#x2F;assets&#x2F;fonts&#39;</span><br><span class="line">   &#125;);</span><br><span class="line"></span><br><span class="line">   &#x2F;&#x2F; 提供额外的树给 &#96;toTree&#96; 方法会让这些树合并到最终的输出</span><br><span class="line"></span><br><span class="line">   return app.toTree(extraAssets);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在上面的例子，这些资源从叫做 <code>a-lovely-webfont</code> 的虚构 bower 依赖调用，现在可以在 <code>/assets/fonts/</code> 里找到，可能被关联到 <code>index.html</code>。像这样：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;link rel&#x3D;&quot;stylesheet&quot; href&#x3D;&quot;assets&#x2F;fonts&#x2F;lovelyfont_bold&#x2F;stylesheet.css&quot;&gt;</span><br></pre></td></tr></table></figure>
+
+<p>你可以把这些资源从最终的输出移除，用相似的方式。比如，在输出中排除所有的 <code>.gitkeep</code> 文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 又一次，添加这个引用到 &#96;ember-cli-build.js&#96; 的头部</span><br><span class="line">var Funnel &#x3D; require(&#39;broccoli-funnel&#39;);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 正常的 ember-cli-build 正文</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 选择 toTree() 的输出</span><br><span class="line">var filteredAssets &#x3D; new Funnel(app.toTree(), &#123;</span><br><span class="line">  &#x2F;&#x2F; 排除 gitkeeps 到输出</span><br><span class="line">  exclude: [&#39;**&#x2F;.gitkeep&#39;]</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 输出选择后的树</span><br><span class="line">module.exports &#x3D; filteredAssets;</span><br></pre></td></tr></table></figure>
+
+<p>注意: <a target="_blank" rel="noopener" href="https://github.com/joliss/broccoli-static-compiler">broccoli-static-compiler</a> 已经废弃了。使用 <a target="_blank" rel="noopener" href="https://github.com/broccolijs/broccoli-funnel">broccoli-funnel</a>。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Ember/" rel="tag"># Ember</a>
+              <a href="/tags/Javascript/" rel="tag"># Javascript</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2013/11/09/Embercli3/" rel="prev" title="Embercli 文档（3）：Ember Data + 测试">
+      <i class="fa fa-chevron-left"></i> Embercli 文档（3）：Ember Data + 测试
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2014/01/24/Brave-New-World/" rel="next" title="Brave New World">
+      Brave New World <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B5%84%E6%BA%90%E7%BC%96%E8%AF%91"><span class="nav-number">1.</span> <span class="nav-text">资源编译</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8E%9F%E5%A7%8B%E8%B5%84%E6%BA%90"><span class="nav-number">1.1.</span> <span class="nav-text">原始资源</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JS-%E8%BD%AC%E6%8D%A2"><span class="nav-number">1.2.</span> <span class="nav-text">JS 转换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B7%B7%E6%B7%86-%E6%9C%80%E5%B0%8F%E5%8C%96"><span class="nav-number">1.3.</span> <span class="nav-text">混淆&#x2F;最小化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%8D%E9%9C%80%E8%A6%81%E6%9C%80%E5%B0%8F%E5%8C%96%E7%9A%84%E4%BE%8B%E5%A4%96"><span class="nav-number">1.3.1.</span> <span class="nav-text">不需要最小化的例外</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Source-Maps"><span class="nav-number">1.4.</span> <span class="nav-text">Source Maps</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%B7%E5%BC%8F%E8%A1%A8"><span class="nav-number">1.5.</span> <span class="nav-text">样式表</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#CSS"><span class="nav-number">1.5.1.</span> <span class="nav-text">CSS</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CSS-%E9%A2%84%E5%A4%84%E7%90%86%E5%99%A8"><span class="nav-number">1.5.2.</span> <span class="nav-text">CSS 预处理器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#LESS"><span class="nav-number">1.5.3.</span> <span class="nav-text">LESS</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SCSS-SASS"><span class="nav-number">1.5.4.</span> <span class="nav-text">SCSS&#x2F;SASS</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Compass"><span class="nav-number">1.5.5.</span> <span class="nav-text">Compass</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Stylus"><span class="nav-number">1.5.6.</span> <span class="nav-text">Stylus</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CoffeeScript"><span class="nav-number">1.6.</span> <span class="nav-text">CoffeeScript</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#EmberScript"><span class="nav-number">1.7.</span> <span class="nav-text">EmberScript</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Emblem"><span class="nav-number">1.8.</span> <span class="nav-text">Emblem</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8C%87%E7%BA%B9%E5%92%8C-CDN-URLs"><span class="nav-number">1.9.</span> <span class="nav-text">指纹和 CDN URLs</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BA%94%E7%94%A8%E9%85%8D%E7%BD%AE"><span class="nav-number">1.10.</span> <span class="nav-text">应用配置</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BC%96%E8%BE%91%E8%BE%93%E5%87%BA%E8%B7%AF%E5%BE%84"><span class="nav-number">1.10.1.</span> <span class="nav-text">编辑输出路径</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%9B%86%E6%88%90"><span class="nav-number">1.10.2.</span> <span class="nav-text">集成</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AD%90%E8%B5%84%E6%BA%90%E5%AE%8C%E6%95%B4%E6%80%A7"><span class="nav-number">1.10.3.</span> <span class="nav-text">子资源完整性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88"><span class="nav-number">1.10.4.</span> <span class="nav-text">为什么</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%9A%E5%88%B6"><span class="nav-number">1.10.5.</span> <span class="nav-text">定制</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BE%9D%E8%B5%96%E7%AE%A1%E7%90%86"><span class="nav-number">2.</span> <span class="nav-text">依赖管理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#NPM-%E5%92%8C-Bower-%E9%85%8D%E7%BD%AE"><span class="nav-number">2.1.</span> <span class="nav-text">NPM 和 Bower 配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BC%96%E8%AF%91%E8%B5%84%E6%BA%90"><span class="nav-number">2.2.</span> <span class="nav-text">编译资源</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Javascript-%E8%B5%84%E6%BA%90"><span class="nav-number">2.2.1.</span> <span class="nav-text">Javascript 资源</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%A0%87%E5%87%86-Non-AMD-%E8%B5%84%E6%BA%90"><span class="nav-number">2.2.1.1.</span> <span class="nav-text">标准 Non-AMD 资源</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%A0%87%E5%87%86-AMD-%E8%B5%84%E6%BA%90"><span class="nav-number">2.2.1.2.</span> <span class="nav-text">标准 AMD 资源</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%A0%87%E5%87%86%E5%8C%BF%E5%90%8D-AMD-%E8%B5%84%E6%BA%90"><span class="nav-number">2.2.1.3.</span> <span class="nav-text">标准匿名 AMD 资源</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83%E6%8C%87%E5%AE%9A%E8%B5%84%E6%BA%90"><span class="nav-number">2.2.1.4.</span> <span class="nav-text">环境指定资源</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AE%9A%E5%88%B6%E5%86%85%E7%BD%AE%E8%B5%84%E6%BA%90%E6%96%87%E4%BB%B6"><span class="nav-number">2.2.1.5.</span> <span class="nav-text">定制内置资源文件</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%B5%84%E6%BA%90%E6%96%87%E4%BB%B6%E9%BB%91%E7%99%BD%E5%90%8D%E5%8D%95"><span class="nav-number">2.2.1.6.</span> <span class="nav-text">资源文件黑白名单</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95-Assets"><span class="nav-number">2.2.1.7.</span> <span class="nav-text">测试 Assets</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A0%B7%E5%BC%8F"><span class="nav-number">2.2.2.</span> <span class="nav-text">样式</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%9D%99%E6%80%81-CSS"><span class="nav-number">2.2.2.1.</span> <span class="nav-text">静态 CSS</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8A%A8%E6%80%81%E6%A0%B7%E5%BC%8F-SCSS-LESS-etc"><span class="nav-number">2.2.2.2.</span> <span class="nav-text">动态样式 (SCSS, LESS, etc)</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%B6%E4%BB%96%E8%B5%84%E6%BA%90"><span class="nav-number">2.2.3.</span> <span class="nav-text">其他资源</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-app-import"><span class="nav-number">2.2.3.1.</span> <span class="nav-text">使用 app.import()</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-broccoli-funnel"><span class="nav-number">2.2.3.2.</span> <span class="nav-text">使用 broccoli-funnel</span></a></li></ol></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">田_田</p>
+  <div class="site-description" itemprop="description">创新需要在一切发生之前研究结局!</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">34</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wangzitian0" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wangzitian0" rel="noopener" target="_blank"><i class="github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wangzitian0@gmail.com" title="E-Mail → mailto:wangzitian0@gmail.com" rel="noopener" target="_blank"><i class="envelope fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.linkedin.com/in/wangzitian0" title="LinkedIn → https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;wangzitian0" rel="noopener" target="_blank"><i class="linkedin fa-fw"></i></a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class=""></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">田_田</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a>
+  </div>
+
+        
+
+
+
+
+
+
+<script>
+  (function() {
+    function leancloudSelector(url) {
+      url = encodeURI(url);
+      return document.getElementById(url).querySelector('.leancloud-visitors-count');
+    }
+
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = decodeURI(visitors.id);
+      var title = visitors.dataset.flagTitle;
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            leancloudSelector(url).innerText = counter.time + 1;
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              });
+          } else {
+              leancloudSelector(url).innerText = 'Counter not initialized! More info at console err msg.';
+              console.error('ATTENTION! LeanCloud counter has security bug, see how to solve it here: https://github.com/theme-next/hexo-leancloud-counter-security. \n However, you can still use LeanCloud without security, by setting `security` option to `false`.');
+            
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return decodeURI(element.id);
+      });
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          for (let url of entries) {
+            let target = results.find(item => item.url === url);
+            leancloudSelector(url).innerText = target ? target.time : 0;
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    let { app_id, app_key, server_url } = {"enable":true,"app_id":"itw5YW53yzX17tr3WAdRd9Dd-gzGzoHsz","app_key":"qLjOt8jjizQl0ys5OSdwf10Y","server_url":null,"security":true,"betterPerformance":true};
+    function fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${api_server}/1.1${url}`, {
+          method,
+          headers: {
+            'X-LC-Id'     : app_id,
+            'X-LC-Key'    : app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    }
+
+    let api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(response => response.json())
+        .then(({ api_server }) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="//cdn.jsdelivr.net/npm/algoliasearch@4/dist/algoliasearch-lite.umd.js"></script>
+<script src="//cdn.jsdelivr.net/npm/instantsearch.js@4/dist/instantsearch.production.min.js"></script>
+<script src="/js/algolia-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

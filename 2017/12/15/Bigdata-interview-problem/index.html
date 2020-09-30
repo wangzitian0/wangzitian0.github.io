@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/huaji.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/huaji.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/huaji.png">
+  <link rel="mask-icon" href="/images/huaji.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"wangzitian0.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":true,"b2t":false,"scrollpercent":true},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"appID":"1PWF5BJPP1","apiKey":"6a2714c5b665823e7132db2aedb81233","indexName":"wangzitian0.github.io","hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="先来把网上搜到的大数据面试题归类列出来，然后聊聊方法、总结和方法论。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="大数据面试题">
+<meta property="og:url" content="https://wangzitian0.github.io/2017/12/15/Bigdata-interview-problem/index.html">
+<meta property="og:site_name" content="全栈之路">
+<meta property="og:description" content="先来把网上搜到的大数据面试题归类列出来，然后聊聊方法、总结和方法论。">
+<meta property="og:locale">
+<meta property="article:published_time" content="2017-12-15T03:27:00.000Z">
+<meta property="article:modified_time" content="2020-09-30T04:59:07.876Z">
+<meta property="article:author" content="田_田">
+<meta property="article:tag" content="Interview">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://wangzitian0.github.io/2017/12/15/Bigdata-interview-problem/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>大数据面试题 | 全栈之路</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?1eeceb0b3f8e550d6211f134646361b6";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="全栈之路" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta custom-logo">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">全栈之路</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">田_田的博客</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="archive fa-fw"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="user fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="tags fa-fw"></i>Tags</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container"></div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="algolia-results">
+  <div id="algolia-stats"></div>
+  <div id="algolia-hits"></div>
+  <div id="algolia-pagination" class="algolia-pagination"></div>
+</div>
+
+      
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://wangzitian0.github.io/2017/12/15/Bigdata-interview-problem/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="田_田">
+      <meta itemprop="description" content="创新需要在一切发生之前研究结局!">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="全栈之路">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          大数据面试题
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-12-15 11:27:00" itemprop="dateCreated datePublished" datetime="2017-12-15T11:27:00+08:00">2017-12-15</time>
+            </span>
+
+          
+            <span id="/2017/12/15/Bigdata-interview-problem/" class="post-meta-item leancloud_visitors" data-flag-title="大数据面试题" title="Views">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>先来把网上搜到的大数据面试题归类列出来，然后聊聊方法、总结和方法论。</p>
+<a id="more"></a>
+
+<h2 id="题目汇总"><a href="#题目汇总" class="headerlink" title="题目汇总"></a>题目汇总</h2><h3 id="频率类"><a href="#频率类" class="headerlink" title="频率类"></a>频率类</h3><ul>
+<li>海量1T日志数据，找出某日访问次数最多的那个IP。</li>
+<li>搜索引擎会通过日志文件把用户每次检索使用的所有检索串都记录下来，每个查询串的长度为 1-255 字节，找出最多的 query。</li>
+<li>怎么在海量数据中找出重复次数最多的一个？</li>
+</ul>
+<h3 id="Top-K"><a href="#Top-K" class="headerlink" title="Top K"></a>Top K</h3><ul>
+<li>1G个数中找出最大的100个数。</li>
+<li>有一个1G大小的一个文件，里面每一行是一个词，词的大小不超过16字节，内存限制大小是1M。返回频数最高的100个词。</li>
+<li>海量1T数据分布在多台电脑（可以假设数据为字符串），想个办法高效统计出这批数据的TOP10。</li>
+<li>上千万或上亿数据（有重复），统计其中出现次数最多的前N个数据。</li>
+<li>100G 个 int64 中找出第 K 大的数，1G 内存</li>
+</ul>
+<h3 id="排序类"><a href="#排序类" class="headerlink" title="排序类"></a>排序类</h3><ul>
+<li>有10个文件，每个文件1G，每个文件的每一行存放的都是用户的query，每个文件的query都可能重复，内存1G。要求你按照query的频度排序。</li>
+</ul>
+<h3 id="判重类"><a href="#判重类" class="headerlink" title="判重类"></a>判重类</h3><ul>
+<li>给定a、b两个文件，各存放50亿个url，每个url各占64字节，内存限制是4G，让你找出a、b文件共同的url？</li>
+<li>在10亿个 int 中找出不重复的整数，1G 内存。</li>
+<li>给40亿个单词，没排过序的，然后再给一组 query 词，如何快速query 是否在那40亿个单词中？</li>
+</ul>
+<h3 id="瞎搞类"><a href="#瞎搞类" class="headerlink" title="瞎搞类"></a>瞎搞类</h3><ul>
+<li>一共有N个机器，每个机器上有N个数。每个机器最多存O(N)个数并对它们操作。如何找到N^2个数的中位数。</li>
+</ul>
+<h2 id="背景知识"><a href="#背景知识" class="headerlink" title="背景知识"></a>背景知识</h2><h3 id="内存空间计算方法"><a href="#内存空间计算方法" class="headerlink" title="内存空间计算方法"></a>内存空间计算方法</h3><h4 id="单位大小"><a href="#单位大小" class="headerlink" title="单位大小"></a>单位大小</h4><table>
+<thead>
+<tr>
+<th>Symbol</th>
+<th>Prefix</th>
+<th>SI Meaning</th>
+<th>Binary meaning</th>
+<th>Size difference</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>k</td>
+<td>kilo</td>
+<td>10^3   = 1000^1</td>
+<td>2^10 = 1024^1</td>
+<td>2.40%</td>
+</tr>
+<tr>
+<td>M</td>
+<td>mega</td>
+<td>10^6   = 1000^2</td>
+<td>2^20 = 1024^2</td>
+<td>4.86%</td>
+</tr>
+<tr>
+<td>G</td>
+<td>giga</td>
+<td>10^9   = 1000^3</td>
+<td>2^30 = 1024^3</td>
+<td>7.37%</td>
+</tr>
+<tr>
+<td>T</td>
+<td>tera</td>
+<td>10^12  = 1000^4</td>
+<td>2^40 = 1024^4</td>
+<td>9.95%</td>
+</tr>
+<tr>
+<td>P</td>
+<td>peta</td>
+<td>10^15  = 1000^5</td>
+<td>2^50 = 1024^5</td>
+<td>12.59%</td>
+</tr>
+<tr>
+<td>E</td>
+<td>exa</td>
+<td>10^18  = 1000^6</td>
+<td>2^60 = 1024^6</td>
+<td>15.29%</td>
+</tr>
+<tr>
+<td>Z</td>
+<td>zetta</td>
+<td>10^21 = 1000^7</td>
+<td>2^70 = 1024^7</td>
+<td>18.06%</td>
+</tr>
+<tr>
+<td>Y</td>
+<td>yotta</td>
+<td>10^24 = 1000^8</td>
+<td>2^80 = 1024^8</td>
+<td>20.89%</td>
+</tr>
+</tbody></table>
+<ul>
+<li>程序里的内存默认是指上面表的Binary meaning，而硬盘内存大小一般是指SI Meaning。</li>
+<li>1 bit：基本单元，只能表示0或1</li>
+<li>1 byte：也是 <em>1B</em>，字节，8个bit，表示[0,256)的一个数字。</li>
+<li>一般来说算法只关注复杂度，所以会忽视 size difference，绝大多数时候为了方便都是默认转换使用 10^n 这种形式，更加直观。</li>
+</ul>
+<p>程序语言常用类型大小</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">char ：1个字节</span><br><span class="line">short int : 2个字节</span><br><span class="line">int：  4个字节</span><br><span class="line">unsigned int : 4个字节</span><br><span class="line">float:  4个字节</span><br><span class="line">double:   8个字节</span><br><span class="line">long:   4个字节</span><br><span class="line">long long:  8个字节</span><br><span class="line">unsigned long:  4个字节</span><br><span class="line">需要特殊注意的是：</span><br><span class="line">char*（指针变量）: 4个字节（32位的寻址空间是2^32, 即32个bit，也就是4个字节。同理64位编译器是8个字节）</span><br></pre></td></tr></table></figure>
+
+
+<h4 id="数据结构知识背景"><a href="#数据结构知识背景" class="headerlink" title="数据结构知识背景"></a>数据结构知识背景</h4><ul>
+<li>面试嘛，最难不过二叉树，知乎搜到了一个问题，直接看看吧，有一个大致的介绍<a target="_blank" rel="noopener" href="https://www.zhihu.com/question/20176446">数据结构与算法中，树一般会应用在哪些方面？为什么？</a></li>
+<li>重点，不懂的可以多查查关键词：<ul>
+<li>基础的，栈，队列，链表。</li>
+<li>Heap，堆<ul>
+<li>快速查询 Top 1 类问题，可以快速增删元素。</li>
+</ul>
+</li>
+<li>TRIE，字典树，可以快速查询字符串类的映射，处理前缀问题。<ul>
+<li>加强版，AC 自动机。</li>
+</ul>
+</li>
+<li>Treap，同时维护一个排序树Tree和一个堆Heap。<ul>
+<li>典型的双权树还有 AVL，Splay。</li>
+</ul>
+</li>
+<li>块状链表，神器级别的乱搞大法。<ul>
+<li>普通的线性结构增删改查必有一个或者多个慢，但是它能在 O(sqrt(n))时间复杂度完成多种操作。加强版，莫队算法。</li>
+</ul>
+</li>
+<li>B, B+, B-。<ul>
+<li>最好了解下他们的区别，设计上的区别带来的影响是什么。</li>
+</ul>
+</li>
+<li>KD-tree，用来解决高维度查询问题<ul>
+<li>典型的是查询平面最近点距离。</li>
+</ul>
+</li>
+<li>抽样哈希算法，可以用来校验完整性，用于对象选桶，可以保证分布均匀，同一个对象每次算出来是一样的值。<ul>
+<li><a target="_blank" rel="noopener" href="https://www.byvoid.com/zhs/blog/string-hash-compare">字符串哈希</a> &amp; <a target="_blank" rel="noopener" href="https://baike.baidu.com/item/MD5">MD5</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="业内常用解决方案思路"><a href="#业内常用解决方案思路" class="headerlink" title="业内常用解决方案思路"></a>业内常用解决方案思路</h4><p>虽然一般不会直接问，但是业内的方案可以用来开拓思路。</p>
+<ul>
+<li>Redis 内部5种数据结构的实现方式。</li>
+<li>MapReduce 的基本原理和例子。</li>
+<li>MySQL 如何做到增删改查的复杂度都是<code>O(log n)</code><ul>
+<li>具体可以研究下这个例子，尤其要体会一下批量更新懒标记：<a target="_blank" rel="noopener" href="https://my.oschina.net/XYleung/blog/99604">如何在关系型数据库存树</a></li>
+</ul>
+</li>
+<li>各种语言的类似 Map，HashMap，OrderedMap，Set的实现方式<ul>
+<li>抽象概念是如何增删改查 k-v 对。</li>
+<li>无序列表的实现方式，重点是哈希表。<code>O(1)</code></li>
+<li>有序列表的实现方式，重点是平衡树。<code>O(log n)</code></li>
+<li>需要仔细了解每个结构的基本节点占用多少地址空间</li>
+</ul>
+</li>
+<li>全文索引技术<ul>
+<li>倒排索引，<a target="_blank" rel="noopener" href="https://www.cnblogs.com/zlslch/p/6440114.html">介绍</a>。</li>
+</ul>
+</li>
+</ul>
+<h2 id="题目解答"><a href="#题目解答" class="headerlink" title="题目解答"></a>题目解答</h2><h3 id="频率类-1"><a href="#频率类-1" class="headerlink" title="频率类"></a>频率类</h3><ul>
+<li>海量1T日志数据，1G内存，找出某日访问百度次数最多的那个IP。</li>
+<li>搜索引擎会通过 1T 日志文件把用户每次检索使用的所有检索串都记录下来，每个查询串的长度为 1-255 字节，找出最多的那个query。</li>
+<li>怎么在1T数据中找出重复次数最多的行。</li>
+</ul>
+<h4 id="分析方法"><a href="#分析方法" class="headerlink" title="分析方法"></a>分析方法</h4><p>问题本质：原始数据无序，需要实现一个内存无法完全装下的 Map，key 为查询，value 为频率。</p>
+<p>方法论：把需要统计的东西无依赖分块，处理每个块的时候让Map可以装下。</p>
+<p>基本思路：</p>
+<ol>
+<li>先扫一遍整个文件，将其分块写入 M 个文件/块，确保每个块对应的 key 集内存能装下。</li>
+<li>对每个块进行处理，每次处理分别得到一个 Map。</li>
+<li>记录每次 Map 对应的最大值即可。</li>
+</ol>
+<h4 id="答案"><a href="#答案" class="headerlink" title="答案"></a>答案</h4><p>问题一：</p>
+<ol>
+<li>IP 地址本质可以表示为一个 unsigned int，32bit，按 IP 取模 M 的值将它们写入到 M 个文件，这样同一个 IP 一定会被写到同一个文件内，确保每个块对应的 IP 集内存能装下。</li>
+<li>1T 的数据说明答案需要使用 int64来装；基于哈希表的 Map 基本单元一个额外链表的地址空间和 <code>O(n)</code> 级别的链表头；如果是64位操作系统，地址空间会占用 int64，链表头一个 int64，加起来是 <code>8B+8B*2</code>，表头为什么需要和哈希基本单元数量差不多可以仔细想一想。一个合适的选择是 <code>2 * 10^7</code>（对应的M为216），会占用 <code>24 * 2 *10^7 B</code> 地址，这样可以把内存压榨到一个比较极限（略超一半）的情况。</li>
+<li>遍历第2.步的 Map，记录一个最大值，M 个最大值的答案就是最终答案。</li>
+</ol>
+<p>问题二：<br>几乎和问题一一摸一样。<br>把记录答案的 int64 的 8B 换成长度 256B 的字符串即可。</p>
+<p>问题三：<br>1.和2.的步骤完全一样，3.步骤做一个变换，使用多路归并排序即可，然后就是读文件的时候可以每次读 <code>内存总量/路数</code> 大小的 block。</p>
+<h3 id="Top-K-1"><a href="#Top-K-1" class="headerlink" title="Top K"></a>Top K</h3><ul>
+<li>1G个数中找出最大的100个数。</li>
+<li>有一个1G大小的一个文件，里面每一行是一个词，词的大小不超过16字节，内存限制大小是1M。返回频数最高的100个词。</li>
+<li>海量1T数据分布在多台电脑（可以假设数据为字符串），想个办法高效统计出这批数据的TOP10。</li>
+<li>上千万或上亿数据（有重复），统计其中出现次数最多的前N个数据。</li>
+</ul>
+<h4 id="分析方法-1"><a href="#分析方法-1" class="headerlink" title="分析方法"></a>分析方法</h4><p>问题本质：局部排序。</p>
+<p>方法论：Top K 数字大小问题的经典解法有几种，</p>
+<ul>
+<li>求前 K 大的数，维护一个有 K 个元素的小根堆。（内存必须能装下整个堆）</li>
+<li>类似快速排序的快速分区法，可以很快得到前 K 大的元素。</li>
+<li>多路归并排序。</li>
+<li>求Ranking K加一种分块的方法，将 N 个数字可能存在的范围分成 M 个区间，分别统计数字频次，然后对子区间进行递归处理。如数据<code>1...9</code>九个数字求第5大数字，可以分成3个区块，统计<code>[1...3,4...6,7...9]</code>在区间内出现的频率分别为<code>[3,3,3]</code>，然后子问题转换为：求<code>[4...6]</code>这个区间的第 2 大数字。需要扫描<code>O(log(N)/log(M))</code>次文件。</li>
+</ul>
+<p>基本思路：</p>
+<ol>
+<li>如果 K 不大，内存足够装下，直接使用堆（也可以是其他可以维护有序的数据结构）维护，结构里面始终保持 K 个元素即可。</li>
+<li>如果 K 很大，先进行分块写入到 M 个文件中，确保内存足够单个文件排序。然后使用多路归并排序合并若干块。在操作的时候不要一次读一行，而是一次从一个文件读取多行。甚至可以在文件剩余元素不多的时候提前预读。(请确保 <code>每次读取行数* 行的大小 * 归并路数 &lt; 内存</code>)</li>
+</ol>
+<h4 id="答案-1"><a href="#答案-1" class="headerlink" title="答案"></a>答案</h4><p>问题一：<br>维护一个有 K 个元素的小根堆。</p>
+<p>问题二：<br>0. 最坏情况所有词都不相同，一共拥有约 <code>6.3 * 10^7</code> 个单词。</p>
+<ol>
+<li>同之前频率类的算法，64位机器的哈希基本单元需要空间<code>(16B+8B*2)</code>，1M 内存大约可以装 <code>3 * 10^4</code> 个单词，所以将单词写到大约2500个<code>(6.3 * 10^7 / 3 * 10^4)</code>文件内。</li>
+<li>每个文件使用 Map 分别做词频统计，此时每个文件对应一组 Map（K 为单词，V 为词频），将2500组的 Top 100 词频 KV 对写入到一个新的文件。</li>
+<li>此时，问题已经转换为问题一，求最大的 100 个 V 对应的取值。 </li>
+</ol>
+<p>问题三：<br>0. 唯一的区别在于多台电脑，场景非常像 Hadoop 对应的 MapReduce。</p>
+<ol>
+<li>使用一个均匀的哈希，将每个字符串发送到唯一的电脑上。</li>
+<li>每台电脑统计自己的 Top 10.</li>
+<li>汇总到一台机器，此时转换为问题一。</li>
+</ol>
+<p>问题四：<br>0. 区别在于 N 没有给范围，可能很大。</p>
+<ol>
+<li>操作和问题二几乎一样。</li>
+<li>将用于统计的 Map 完整的 K-V 按照降序对写到一个文件。</li>
+<li>使用多路归并排序，归并之后的前 N 个元素就是答案。</li>
+</ol>
+<p>问题五：</p>
+<ol>
+<li>int64范围大约有 <code>2 * 10^19</code>个数字，我们可以选择方法论中的分块法，分成10^7个块即可。</li>
+<li>之所以不用上面的方法，是因为这个方法可以不需要写入任何内容到磁盘，只需要读三次这个文件。</li>
+</ol>
+<h3 id="排序类-1"><a href="#排序类-1" class="headerlink" title="排序类"></a>排序类</h3><p>偷个懒，直接去看别人的文章吧 </p>
+<ul>
+<li><a target="_blank" rel="noopener" href="http://blog.jobbole.com/11745/">视觉直观感受 7 种常用的排序算法</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.jianshu.com/p/98090954f049">怎样给一个磁盘文件排序</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.epubit.com.cn/article/301">常见的内排序和外排序算法</a></li>
+<li><a target="_blank" rel="noopener" href="http://blog.csdn.net/yangzhongblog/article/details/8184707">补充一个黑科技，Python 实现 sort 的 TimSort，复杂度小于 n log n 的稳定排序算法</a></li>
+</ul>
+<h3 id="判重类-1"><a href="#判重类-1" class="headerlink" title="判重类"></a>判重类</h3><ul>
+<li>给定a、b两个文件，各存放50亿个url，每个url各占64字节，内存限制是4G，让你找出a、b文件共同的url？</li>
+<li>在10亿个 int 中找出不重复的整数，1G 内存。</li>
+<li>给40亿个单词，没排过序的，然后再给一组 query 词，如何尽可能快的判断一个query是否在那40亿个单词中？</li>
+</ul>
+<h4 id="分析方法-2"><a href="#分析方法-2" class="headerlink" title="分析方法"></a>分析方法</h4><p>问题本质： 离在线问题，理应把各种操作抽象成某种数据结构的增删改查。</p>
+<p>基本思路：</p>
+<ol>
+<li>类似词频的分块统计。使用哈希将数据分布到小文件，直接使用 Map 查询。</li>
+<li>充分利用内存空间，直接打01标记，分别表示是否出现过。</li>
+<li>字符串特定结构，TRIE字典树，压缩查询路径的字典树，AC 自动机。</li>
+</ol>
+<h4 id="答案-2"><a href="#答案-2" class="headerlink" title="答案"></a>答案</h4><p>问题一：</p>
+<ol>
+<li>将 A 和 B 分别拆成 M 个小文件A1…Am，B1…Bm，必须使用同一个哈希函数来确保 同一个 url 被分配到同一编号的小文件 Ax 和 Bx 中，请确保每个文件的 url 能在内存中装下。</li>
+<li>对于每一组文件 Ax 和 Bx，使用一个 Set，将 Ax 中的所有 url 加入 Set，然后一次判断 Bx 中的 url 是否在 Set 中。</li>
+<li>将所有答案汇总写到一个文件里。</li>
+</ol>
+<p>问题二：<br>0. 先考虑一个简化版本：在10亿个 int 中找出出现的整数，1G 内存。我们假设可以使用01标记来表示是否出现，计算一下需要的位置有多少，对应的内存是多少，int 对应的数字有 2^32 个 bit 位，除以8之后，也就是需要2^29B 大小，对应的空间约 500M。</p>
+<ol>
+<li>此时回头思考这个问题，可以有一个做法，2bit，表示一个数字是否出现过，一个位置表示是否出现过，另一个位置表示是否出现了重复。<ul>
+<li>另数字初始值全部为0</li>
+<li>一个数如果没有出现过，则把它的第一个标记为打成1</li>
+<li>如果发现一个数已经出现过，则把它的第二个标记为打成1</li>
+<li>统计一遍第一个标记位为1，第二个标记位为0的数字。</li>
+</ul>
+</li>
+<li>上面的思路是很好的思路，但是严格来说是不对的。为什么？我们计算一下空间使用，int 对应的数字有 2^33 个 bit 位，除以8之后，也就是需要2^20B 大小，对应的空间约 1G。但是！但是！但是！1G 不等于2^30B，查看我前面给的表吧。</li>
+<li>加思路。事实上，信息是足够多且有浪费的，第二个标记的初始值是没有意义的。一个位置 Zi，初始为0，如果有数字出现，给它标记为，如果它已经是2，不进行操作。一个 int 有32个位，我们计算一下需要的空间极限，<code>(log 3/log 2)* 2^32</code> bit，这个值小于1G。没想清楚？每一个数字三种状态，总状态数其实只有 <code>3 * 2^32</code>。举个例子，按上一个方案存储3个数字的信息需要6bit，事实上状态只有3^3个，只需要 <code>ln(3^3)/ln(2) = 3.296/0.693 &lt; 5</code>，也就是5个 bit 的信息足够表示这个状态。</li>
+</ol>
+<p>问题三：<br>给两种复杂度是<code>O(length)</code>的方法<br>直接试用哈希，然后对哈希值进行比较，哈希值相同认为字符串相同，否则认为不同。<a target="_blank" rel="noopener" href="http://blog.csdn.net/u012926924/article/details/50717407">数学论证</a><br>建一个 TRIE，字典树可以依次去按照字符串的第0，1，2，3…个字符依次查询子集，几乎只有单纯的寻址工作，效率非常高。</p>
+<p>另外，然后倒排索引也是一种答案，在生产环境应该是效率非常高的，因为网站的80%的流量会落在20%的 query 上，但是十分不严谨。</p>
+<h3 id="瞎搞类-1"><a href="#瞎搞类-1" class="headerlink" title="瞎搞类"></a>瞎搞类</h3><ul>
+<li>一共有N个机器，每个机器上有N个数。每个机器最多存O(N)个数并对它们操作。如何找到N^2个数的中位数。</li>
+</ul>
+<h4 id="基本思路"><a href="#基本思路" class="headerlink" title="基本思路"></a>基本思路</h4><p>有一部分题目是几种模型的结合或者没有什么特别的模型，但是只要用好分类的思想，让它形成可以分治的计算任务就可以做</p>
+<h4 id="答案-3"><a href="#答案-3" class="headerlink" title="答案"></a>答案</h4><p>问题一：这个题目网上有很多人抄某个哥们的解答，但是那个解答有问题，一个是不通用算法，一个太慢了。另外，N 台机器跑 O(log N)的算法，复杂度还是<code>O(log N)</code>，很多答案都没有充分利用这点。<br>方法1，转换为上面的第 K 大问题，每台机器先自己排序<code>O(N*log(N))</code>，然后直接多路并归排序，找到第 <code>N*N/2</code> 大的数字就是答案。<code>O(N*N*log(N*N))</code><br>方法2，先每台机器数据排升序<code>O(N*log(N))</code>，接下来二分中位数的大小<code>O(log(MaxNumber))</code>。分别查询每一台机器查询小于中位值的数字个数，如果个数小于<code>N*N/2</code>，拉高下界，否则拉低上限，直到数字个数和刚好等于<code>N*N/2</code>，由于每台机器去查询。复杂度<code>O(N*log(N))+O(log(MaxNumber))*(O(log N) + O(N))</code>后面的三个 O 实际意义分别是二分中位数复杂度，二分查找数字复杂度，数组并发求和复杂度，总复杂度应该是<code>O(N*log(max(N,MaxNumber)))</code></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>欢迎大家给我补充相关的题目，以及讨论有没有更好的做法。<br>做完这些题目，我的感觉是应该就能理解为什么要有 MapReduce 这种框架了，将数据计算过程拆成 Map 和 Reduce 确实是一种很巧妙的设计。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Interview/" rel="tag"># Interview</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2017/06/28/What-is-fullstack-engineer/" rel="prev" title="什么是全栈工程师？">
+      <i class="fa fa-chevron-left"></i> 什么是全栈工程师？
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2017/12/23/Autopilot-tech/" rel="next" title="无人驾驶技术简介">
+      无人驾驶技术简介 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE%E6%B1%87%E6%80%BB"><span class="nav-number">1.</span> <span class="nav-text">题目汇总</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A2%91%E7%8E%87%E7%B1%BB"><span class="nav-number">1.1.</span> <span class="nav-text">频率类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Top-K"><span class="nav-number">1.2.</span> <span class="nav-text">Top K</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8E%92%E5%BA%8F%E7%B1%BB"><span class="nav-number">1.3.</span> <span class="nav-text">排序类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%A4%E9%87%8D%E7%B1%BB"><span class="nav-number">1.4.</span> <span class="nav-text">判重类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9E%8E%E6%90%9E%E7%B1%BB"><span class="nav-number">1.5.</span> <span class="nav-text">瞎搞类</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%83%8C%E6%99%AF%E7%9F%A5%E8%AF%86"><span class="nav-number">2.</span> <span class="nav-text">背景知识</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%86%85%E5%AD%98%E7%A9%BA%E9%97%B4%E8%AE%A1%E7%AE%97%E6%96%B9%E6%B3%95"><span class="nav-number">2.1.</span> <span class="nav-text">内存空间计算方法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8D%95%E4%BD%8D%E5%A4%A7%E5%B0%8F"><span class="nav-number">2.1.1.</span> <span class="nav-text">单位大小</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%9F%A5%E8%AF%86%E8%83%8C%E6%99%AF"><span class="nav-number">2.1.2.</span> <span class="nav-text">数据结构知识背景</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%9A%E5%86%85%E5%B8%B8%E7%94%A8%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%E6%80%9D%E8%B7%AF"><span class="nav-number">2.1.3.</span> <span class="nav-text">业内常用解决方案思路</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE%E8%A7%A3%E7%AD%94"><span class="nav-number">3.</span> <span class="nav-text">题目解答</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A2%91%E7%8E%87%E7%B1%BB-1"><span class="nav-number">3.1.</span> <span class="nav-text">频率类</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%86%E6%9E%90%E6%96%B9%E6%B3%95"><span class="nav-number">3.1.1.</span> <span class="nav-text">分析方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AD%94%E6%A1%88"><span class="nav-number">3.1.2.</span> <span class="nav-text">答案</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Top-K-1"><span class="nav-number">3.2.</span> <span class="nav-text">Top K</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%86%E6%9E%90%E6%96%B9%E6%B3%95-1"><span class="nav-number">3.2.1.</span> <span class="nav-text">分析方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AD%94%E6%A1%88-1"><span class="nav-number">3.2.2.</span> <span class="nav-text">答案</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8E%92%E5%BA%8F%E7%B1%BB-1"><span class="nav-number">3.3.</span> <span class="nav-text">排序类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%A4%E9%87%8D%E7%B1%BB-1"><span class="nav-number">3.4.</span> <span class="nav-text">判重类</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%86%E6%9E%90%E6%96%B9%E6%B3%95-2"><span class="nav-number">3.4.1.</span> <span class="nav-text">分析方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AD%94%E6%A1%88-2"><span class="nav-number">3.4.2.</span> <span class="nav-text">答案</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9E%8E%E6%90%9E%E7%B1%BB-1"><span class="nav-number">3.5.</span> <span class="nav-text">瞎搞类</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E6%80%9D%E8%B7%AF"><span class="nav-number">3.5.1.</span> <span class="nav-text">基本思路</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AD%94%E6%A1%88-3"><span class="nav-number">3.5.2.</span> <span class="nav-text">答案</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">田_田</p>
+  <div class="site-description" itemprop="description">创新需要在一切发生之前研究结局!</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">34</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wangzitian0" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wangzitian0" rel="noopener" target="_blank"><i class="github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wangzitian0@gmail.com" title="E-Mail → mailto:wangzitian0@gmail.com" rel="noopener" target="_blank"><i class="envelope fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.linkedin.com/in/wangzitian0" title="LinkedIn → https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;wangzitian0" rel="noopener" target="_blank"><i class="linkedin fa-fw"></i></a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class=""></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">田_田</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a>
+  </div>
+
+        
+
+
+
+
+
+
+<script>
+  (function() {
+    function leancloudSelector(url) {
+      url = encodeURI(url);
+      return document.getElementById(url).querySelector('.leancloud-visitors-count');
+    }
+
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = decodeURI(visitors.id);
+      var title = visitors.dataset.flagTitle;
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            leancloudSelector(url).innerText = counter.time + 1;
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              });
+          } else {
+              leancloudSelector(url).innerText = 'Counter not initialized! More info at console err msg.';
+              console.error('ATTENTION! LeanCloud counter has security bug, see how to solve it here: https://github.com/theme-next/hexo-leancloud-counter-security. \n However, you can still use LeanCloud without security, by setting `security` option to `false`.');
+            
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return decodeURI(element.id);
+      });
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          for (let url of entries) {
+            let target = results.find(item => item.url === url);
+            leancloudSelector(url).innerText = target ? target.time : 0;
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    let { app_id, app_key, server_url } = {"enable":true,"app_id":"itw5YW53yzX17tr3WAdRd9Dd-gzGzoHsz","app_key":"qLjOt8jjizQl0ys5OSdwf10Y","server_url":null,"security":true,"betterPerformance":true};
+    function fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${api_server}/1.1${url}`, {
+          method,
+          headers: {
+            'X-LC-Id'     : app_id,
+            'X-LC-Key'    : app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    }
+
+    let api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(response => response.json())
+        .then(({ api_server }) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="//cdn.jsdelivr.net/npm/algoliasearch@4/dist/algoliasearch-lite.umd.js"></script>
+<script src="//cdn.jsdelivr.net/npm/instantsearch.js@4/dist/instantsearch.production.min.js"></script>
+<script src="/js/algolia-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

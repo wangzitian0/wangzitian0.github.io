@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/huaji.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/huaji.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/huaji.png">
+  <link rel="mask-icon" href="/images/huaji.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"wangzitian0.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":true,"b2t":false,"scrollpercent":true},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"appID":"1PWF5BJPP1","apiKey":"6a2714c5b665823e7132db2aedb81233","indexName":"wangzitian0.github.io","hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="逛 github 的时候发现这个项目了，提供了一个不错的 spec，后续的工作围绕它的 spec 来做：realworld">
+<meta property="og:type" content="article">
+<meta property="og:title" content="从零到一建站（2）">
+<meta property="og:url" content="https://wangzitian0.github.io/2013/07/12/zero-to-one-2/index.html">
+<meta property="og:site_name" content="全栈之路">
+<meta property="og:description" content="逛 github 的时候发现这个项目了，提供了一个不错的 spec，后续的工作围绕它的 spec 来做：realworld">
+<meta property="og:locale">
+<meta property="article:published_time" content="2013-07-12T05:49:00.000Z">
+<meta property="article:modified_time" content="2020-09-30T04:59:07.882Z">
+<meta property="article:author" content="田_田">
+<meta property="article:tag" content="HTML">
+<meta property="article:tag" content="zero2one">
+<meta property="article:tag" content="golang">
+<meta property="article:tag" content="gin">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://wangzitian0.github.io/2013/07/12/zero-to-one-2/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>从零到一建站（2） | 全栈之路</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?1eeceb0b3f8e550d6211f134646361b6";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="全栈之路" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta custom-logo">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">全栈之路</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">田_田的博客</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="archive fa-fw"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="user fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="tags fa-fw"></i>Tags</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container"></div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="algolia-results">
+  <div id="algolia-stats"></div>
+  <div id="algolia-hits"></div>
+  <div id="algolia-pagination" class="algolia-pagination"></div>
+</div>
+
+      
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://wangzitian0.github.io/2013/07/12/zero-to-one-2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="田_田">
+      <meta itemprop="description" content="创新需要在一切发生之前研究结局!">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="全栈之路">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          从零到一建站（2）
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2013-07-12 13:49:00" itemprop="dateCreated datePublished" datetime="2013-07-12T13:49:00+08:00">2013-07-12</time>
+            </span>
+
+          
+            <span id="/2013/07/12/zero-to-one-2/" class="post-meta-item leancloud_visitors" data-flag-title="从零到一建站（2）" title="Views">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>逛 github 的时候发现这个项目了，提供了一个不错的 spec，后续的工作围绕它的 spec 来做：<a target="_blank" rel="noopener" href="https://github.com/gothinkster/realworld">realworld</a></p>
+<a id="more"></a>
+
+<h2 id="Fork-form-realworld"><a href="#Fork-form-realworld" class="headerlink" title="Fork form realworld"></a>Fork form realworld</h2><p>这是官方提供的 <a target="_blank" rel="noopener" href="https://github.com/gothinkster/realworld/tree/master/spec">spec</a></p>
+<p>现在 fork 这个项目，然后重命名成 golang-gin-starter-kit，然后参考上一篇文章，建立 go 的项目。</p>
+<h2 id="做一些小的实验"><a href="#做一些小的实验" class="headerlink" title="做一些小的实验"></a>做一些小的实验</h2><p>所有的实验我的是先在单个文件中实现，然后将他们的逻辑分散到各个不同的文件里面去。</p>
+<h3 id="建立DB连接池"><a href="#建立DB连接池" class="headerlink" title="建立DB连接池"></a>建立DB连接池</h3><p>我依旧打算使用 gorm，关于连接池的说法 <a target="_blank" rel="noopener" href="https://github.com/jinzhu/gorm/issues/246">GORM Pooling</a></p>
+<p>先在单个文件里面使用中间件，中间件来添加数据库连接：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">type Todo struct &#123;</span><br><span class="line">	Title     string &#96;form:&quot;title&quot; json:&quot;title&quot; binding:&quot;exists,required&quot;&#96;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func ApiMiddleware() gin.HandlerFunc &#123;</span><br><span class="line">	db, err :&#x3D; gorm.Open(&quot;sqlite3&quot;, &quot;gorm.db&quot;)</span><br><span class="line">	if err !&#x3D; nil &#123;</span><br><span class="line">		fmt.Println(&quot;db err: &quot;,err)</span><br><span class="line">	&#125;</span><br><span class="line">	&#x2F;&#x2F;defer db.Close()</span><br><span class="line">	return func(c *gin.Context) &#123;</span><br><span class="line">		c.Set(&quot;DB&quot;, db)</span><br><span class="line">		c.Next()</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func InitDB() &#123;</span><br><span class="line">	db, err :&#x3D; gorm.Open(&quot;sqlite3&quot;, &quot;gorm.db&quot;)</span><br><span class="line">	if err !&#x3D; nil &#123;</span><br><span class="line">		log.Fatal(err)</span><br><span class="line">	&#125;</span><br><span class="line">	defer db.Close()</span><br><span class="line"></span><br><span class="line">	db.AutoMigrate(&amp;Todo&#123;&#125;)</span><br><span class="line">	&#x2F;&#x2F;todo :&#x3D; Todo&#123;</span><br><span class="line">	&#x2F;&#x2F;	Title: &quot;heheda&quot;,</span><br><span class="line">	&#x2F;&#x2F;&#125;</span><br><span class="line">	&#x2F;&#x2F;db.Save(&amp;todo)</span><br><span class="line">	&#x2F;&#x2F;db.First(&amp;todo)</span><br><span class="line">	&#x2F;&#x2F;fmt.Println(&quot;db: &quot;,todo)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func main() &#123;</span><br><span class="line">	r :&#x3D; gin.Default()</span><br><span class="line">	InitDB()</span><br><span class="line"></span><br><span class="line">	r.Use(ApiMiddleware())</span><br><span class="line"></span><br><span class="line">	r.GET(&quot;&#x2F;ping&quot;, func(c *gin.Context) &#123;</span><br><span class="line">		db :&#x3D; c.MustGet(&quot;DB&quot;).(*gorm.DB) &#x2F;&#x2F; MustGet returns an interface so you have to type cast it first :)</span><br><span class="line">		var todo Todo</span><br><span class="line">		db.First(&amp;todo)</span><br><span class="line">		c.JSON(200, gin.H&#123;</span><br><span class="line">			&quot;message&quot;: &quot;pong&quot;,</span><br><span class="line">			&quot;todo&quot;: todo,</span><br><span class="line">		&#125;)</span><br><span class="line">	&#125;)</span><br><span class="line">	r.Run() &#x2F;&#x2F; listen and serve on 0.0.0.0:8080</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>完成之后拆分成两个文件：<br>文件1：<br>storage/database.go</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">package storage</span><br><span class="line"></span><br><span class="line">import (</span><br><span class="line">    &quot;gopkg.in&#x2F;gin-gonic&#x2F;gin.v1&quot;</span><br><span class="line">    &quot;github.com&#x2F;jinzhu&#x2F;gorm&quot;</span><br><span class="line">    &quot;fmt&quot;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">func DatabaseConnection() *gorm.DB &#123;</span><br><span class="line">    db, err :&#x3D; gorm.Open(&quot;sqlite3&quot;, &quot;gorm.db&quot;)</span><br><span class="line">    if err !&#x3D; nil &#123;</span><br><span class="line">        fmt.Println(&quot;db err: &quot;,err)</span><br><span class="line">    &#125;</span><br><span class="line">    return db</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func ApiMiddleware(db *gorm.DB) gin.HandlerFunc &#123;</span><br><span class="line">    return func(c *gin.Context) &#123;</span><br><span class="line">        c.Set(&quot;DB&quot;, db)</span><br><span class="line">        c.Next()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>文件2：<br>hello.go</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import (</span><br><span class="line">	&quot;gopkg.in&#x2F;gin-gonic&#x2F;gin.v1&quot;</span><br><span class="line">	&quot;github.com&#x2F;jinzhu&#x2F;gorm&quot;</span><br><span class="line">	&quot;golang-gin-starter-kit&#x2F;storage&quot;</span><br><span class="line">	_ &quot;github.com&#x2F;jinzhu&#x2F;gorm&#x2F;dialects&#x2F;sqlite&quot;</span><br><span class="line">	&quot;fmt&quot;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">type Todo struct &#123;</span><br><span class="line">	gorm.Model</span><br><span class="line">	Title     string &#96;form:&quot;title&quot; json:&quot;title&quot; binding:&quot;exists,required&quot;&#96;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func main() &#123;</span><br><span class="line">	r :&#x3D; gin.Default()</span><br><span class="line"></span><br><span class="line">	db :&#x3D; storage.DatabaseConnection()</span><br><span class="line">	defer db.Close()</span><br><span class="line">	r.Use(storage.ApiMiddleware(db))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	db.AutoMigrate(&amp;Todo&#123;&#125;)</span><br><span class="line">	todo :&#x3D; Todo&#123;</span><br><span class="line">		Title: &quot;heheda2&quot;,</span><br><span class="line">	&#125;</span><br><span class="line">	db.Save(&amp;todo)</span><br><span class="line">	fmt.Println(&quot;db: &quot;,todo)</span><br><span class="line"></span><br><span class="line">	r.GET(&quot;&#x2F;ping&quot;, func(c *gin.Context) &#123;</span><br><span class="line">		db :&#x3D; c.MustGet(&quot;DB&quot;).(*gorm.DB) &#x2F;&#x2F; MustGet returns an interface so you have to type cast it first :)</span><br><span class="line">		var todo Todo</span><br><span class="line">		db.First(&amp;todo)</span><br><span class="line">		c.JSON(200, gin.H&#123;</span><br><span class="line">			&quot;message&quot;: &quot;pong&quot;,</span><br><span class="line">			&quot;todo&quot;: todo,</span><br><span class="line">		&#125;)</span><br><span class="line">	&#125;)</span><br><span class="line">	r.Run() &#x2F;&#x2F; listen and serve on 0.0.0.0:8080</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>此时控制台可以看到数据 <code>heheda2</code><br>fresh 启动命令server之后 <code>curl http://localhost:8080/ping</code>可以看到东西，说明中间件正常运行。</p>
+<h3 id="数据绑定"><a href="#数据绑定" class="headerlink" title="数据绑定"></a>数据绑定</h3><p>这个部分我看了一下gin的反射实现机制，具体的文档在这里：<br><a target="_blank" rel="noopener" href="https://github.com/go-playground/validator/tree/v8.18.1">go-playground/validator</a></p>
+<p>gin 本身用的就是validation.v8做校验器，然后 golang 反射包对应的 struct tag 改成了<code>binding</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">type Todo struct &#123;</span><br><span class="line">    ID        int</span><br><span class="line">	Title     string     &#96;form:&quot;title&quot; json:&quot;title&quot; binding:&quot;exists,alphanum,min&#x3D;8,max&#x3D;255&quot;&#96;</span><br><span class="line">	Email     string     &#96;form:&quot;email&quot; json:&quot;email&quot; binding:&quot;exists,email&quot;&#96;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;main:</span><br><span class="line"></span><br><span class="line">func (todo Todo) Response() (interface&#123;&#125;)&#123;</span><br><span class="line">    return map[string]interface&#123;&#125;&#123;</span><br><span class="line">        &quot;id&quot;: todo.ID,</span><br><span class="line">        &quot;title&quot;: todo.Title,</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">	r.POST(&quot;&#x2F;ping&quot;, func(c *gin.Context) &#123;</span><br><span class="line">		db :&#x3D; c.MustGet(&quot;DB&quot;).(*gorm.DB) &#x2F;&#x2F; MustGet returns an interface so you have to type cast it first :)</span><br><span class="line">		var todo Todo</span><br><span class="line">		if err :&#x3D; c.Bind(&amp;todo); err !&#x3D; nil &#123;</span><br><span class="line">            fmt.Println(&quot;before bind&quot;,err)</span><br><span class="line">			errs :&#x3D; err.(validator.ValidationErrors)</span><br><span class="line">            var res []interface&#123;&#125;</span><br><span class="line">			for _, v :&#x3D; range errs &#123;</span><br><span class="line">				&#x2F;&#x2F; can translate each error one at a time.</span><br><span class="line">				fmt.Println(v.Value)</span><br><span class="line">                res &#x3D; append(res, v.Field)</span><br><span class="line">			&#125;</span><br><span class="line">            c.JSON(http.StatusBadRequest, gin.H&#123;&quot;Data invalid&quot; : res&#125;)</span><br><span class="line">            return</span><br><span class="line"></span><br><span class="line">		&#125;</span><br><span class="line">		fmt.Println(&quot;after bind&quot;,todo)</span><br><span class="line">		if err :&#x3D; db.Save(&amp;todo).Error; err !&#x3D; nil &#123;</span><br><span class="line">			c.JSON(http.StatusBadRequest, gin.H&#123;&quot;Database error&quot; : err&#125;)</span><br><span class="line">			return</span><br><span class="line">		&#125;</span><br><span class="line">		c.JSON(http.StatusCreated, todo.Response())</span><br><span class="line">	&#125;)</span><br></pre></td></tr></table></figure>
+<p>alphanum 这个 tag 的意思是数字和字母，这个时候用 postman 测试，如果输入不是字母和数字就会返回StatusBadRequest。</p>
+<h3 id="整体源代码"><a href="#整体源代码" class="headerlink" title="整体源代码"></a>整体源代码</h3><p>此时已经可以正常运行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;column对应数据库存的数据的名称</span><br><span class="line">type User struct &#123;</span><br><span class="line">    gorm.Model</span><br><span class="line">    Username      string      &#96;gorm:&quot;column:username&quot;&#96;</span><br><span class="line">    Email         string      &#96;gorm:&quot;column:email&quot;&#96;</span><br><span class="line">    Bio           string      &#96;gorm:&quot;column:bio&quot;&#96;</span><br><span class="line">    Image         string      &#96;gorm:&quot;column:image&quot;&#96;</span><br><span class="line">    Salt          string      &#96;gorm:&quot;column:salt&quot;&#96;</span><br><span class="line">    PasswordHash  string      &#96;gorm:&quot;column:password&quot;&#96;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;password加盐加密之后存数据库，校验的时候直接对比加密后的值</span><br><span class="line">func (u *User) setPassword(password string)&#123;</span><br><span class="line">    passwordHash :&#x3D; password + &quot;salt&quot;</span><br><span class="line">    u.PasswordHash &#x3D; passwordHash</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func (u *User) checkPassword(password string) bool&#123;</span><br><span class="line">    passwordHash :&#x3D; password + &quot;salt&quot;</span><br><span class="line">    return passwordHash &#x3D;&#x3D; u.PasswordHash</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 需求里面的 spec 非常有奇怪的嵌套，这里进行一些 binding 的测试</span><br><span class="line">type RegistrationForm struct &#123;</span><br><span class="line">    User struct &#123;</span><br><span class="line">        Username      string      &#96;json:&quot;username&quot;&#96;</span><br><span class="line">        Email         string      &#96;json:&quot;email&quot;&#96;</span><br><span class="line">        Password      string      &#96;json:&quot;password&quot;&#96;</span><br><span class="line">    &#125; &#96;json:&quot;user&quot;&#96;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">type LoginForm struct &#123;</span><br><span class="line">    User struct &#123;</span><br><span class="line">        Email         string      &#96;json:&quot;email&quot;&#96;</span><br><span class="line">        Password      string      &#96;json:&quot;password&quot;&#96;</span><br><span class="line">    &#125; &#96;json:&quot;user&quot;&#96;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 大致测试一下整个流程是不是通的</span><br><span class="line">func (User) Registration(c *gin.Context) &#123;</span><br><span class="line">    db :&#x3D; c.MustGet(&quot;DB&quot;).(*gorm.DB)</span><br><span class="line">    var form RegistrationForm</span><br><span class="line">    if err :&#x3D; c.Bind(&amp;form); err !&#x3D; nil &#123;</span><br><span class="line">        c.JSON(http.StatusBadRequest, gin.H&#123;&quot;Data binding error&quot; : err&#125;)</span><br><span class="line">        return</span><br><span class="line">    &#125;</span><br><span class="line">    var user User</span><br><span class="line">    user.Username &#x3D; form.User.Username</span><br><span class="line">    user.Email &#x3D; form.User.Email</span><br><span class="line">    user.setPassword(form.User.Password)</span><br><span class="line">    if err :&#x3D; db.Save(&amp;user).Error; err !&#x3D; nil &#123;</span><br><span class="line">        c.JSON(http.StatusBadRequest, gin.H&#123;&quot;Database error&quot; : err&#125;)</span><br><span class="line">        return</span><br><span class="line">    &#125;</span><br><span class="line">    c.JSON(http.StatusCreated, gin.H&#123;&quot;user&quot;:user&#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func (User) Login(c *gin.Context) &#123;</span><br><span class="line">    db :&#x3D; c.MustGet(&quot;DB&quot;).(*gorm.DB)</span><br><span class="line">    var form LoginForm</span><br><span class="line">    if err :&#x3D; c.Bind(&amp;form); err !&#x3D; nil &#123;</span><br><span class="line">        c.JSON(http.StatusBadRequest, gin.H&#123;&quot;Data binding error&quot; : err&#125;)</span><br><span class="line">        return</span><br><span class="line">    &#125;</span><br><span class="line">    var user User</span><br><span class="line"></span><br><span class="line">    if err :&#x3D; db.Where(&amp;User&#123; Email: form.User.Email&#125;).First(&amp;user).Error; err !&#x3D; nil &#123;</span><br><span class="line">        c.JSON(http.StatusForbidden, gin.H&#123;&quot;Database error&quot; : err&#125;)</span><br><span class="line">        return</span><br><span class="line">    &#125;</span><br><span class="line">    fmt.Println(&quot;user from DB: &quot;,user)</span><br><span class="line"></span><br><span class="line">    if valid :&#x3D; user.checkPassword(form.User.Password); !valid &#123;</span><br><span class="line">        c.JSON(http.StatusForbidden, gin.H&#123;&quot;Error&quot; : &quot;password error!&quot;&#125;)</span><br><span class="line">        return</span><br><span class="line">    &#125;</span><br><span class="line">    c.JSON(http.StatusOK, gin.H&#123;&quot;user&quot;:user&#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; main.go</span><br><span class="line"></span><br><span class="line">    v1 :&#x3D; r.Group(&quot;&#x2F;api&#x2F;v1&#x2F;users&quot;)</span><br><span class="line">    &#123;</span><br><span class="line">        user :&#x3D; new(User)</span><br><span class="line">        v1.POST(&quot;&#x2F;&quot;, user.Registration)</span><br><span class="line">        v1.POST(&quot;&#x2F;login&quot;, user.Login)</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>此时应该有的效果</p>
+<p>POST <a target="_blank" rel="noopener" href="http://localhost:8080/api/v1/users">http://localhost:8080/api/v1/users</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;user&quot;:&#123;</span><br><span class="line">    &quot;username&quot;: &quot;Jacob&quot;,</span><br><span class="line">    &quot;email&quot;: &quot;wzt@gg.cn&quot;,</span><br><span class="line">    &quot;password&quot;: &quot;jakejake&quot;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>返回：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;user&quot;: &#123;</span><br><span class="line">        &quot;ID&quot;: 1,</span><br><span class="line">        &quot;CreatedAt&quot;: &quot;2017-07-16T14:02:37.381339679+08:00&quot;,</span><br><span class="line">        &quot;UpdatedAt&quot;: &quot;2017-07-16T14:02:37.381339679+08:00&quot;,</span><br><span class="line">        &quot;DeletedAt&quot;: null,</span><br><span class="line">        &quot;Username&quot;: &quot;Jacob&quot;,</span><br><span class="line">        &quot;Email&quot;: &quot;wzt@gg.cn&quot;,</span><br><span class="line">        &quot;Bio&quot;: &quot;&quot;,</span><br><span class="line">        &quot;Image&quot;: &quot;&quot;,</span><br><span class="line">        &quot;Salt&quot;: &quot;&quot;,</span><br><span class="line">        &quot;PasswordHash&quot;: &quot;jakejakesalt&quot;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>POST <a target="_blank" rel="noopener" href="http://localhost:8080/api/v1/users/login">http://localhost:8080/api/v1/users/login</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;user&quot;:&#123;</span><br><span class="line">    &quot;email&quot;: &quot;wzt@gg.cn&quot;,</span><br><span class="line">    &quot;password&quot;: &quot;jakejake&quot;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>返回：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;user&quot;: &#123;</span><br><span class="line">        &quot;ID&quot;: 1,</span><br><span class="line">        &quot;CreatedAt&quot;: &quot;2017-07-16T14:02:37.381339679+08:00&quot;,</span><br><span class="line">        &quot;UpdatedAt&quot;: &quot;2017-07-16T14:02:37.381339679+08:00&quot;,</span><br><span class="line">        &quot;DeletedAt&quot;: null,</span><br><span class="line">        &quot;Username&quot;: &quot;Jacob&quot;,</span><br><span class="line">        &quot;Email&quot;: &quot;wzt@gg.cn&quot;,</span><br><span class="line">        &quot;Bio&quot;: &quot;&quot;,</span><br><span class="line">        &quot;Image&quot;: &quot;&quot;,</span><br><span class="line">        &quot;Salt&quot;: &quot;&quot;,</span><br><span class="line">        &quot;PasswordHash&quot;: &quot;jakejakesalt&quot;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>POST <a target="_blank" rel="noopener" href="http://localhost:8080/api/v1/users/login">http://localhost:8080/api/v1/users/login</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;user&quot;:&#123;</span><br><span class="line">    &quot;email&quot;: &quot;wzt@gg.cn&quot;,</span><br><span class="line">    &quot;password&quot;: &quot;jakejakex&quot;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>返回：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;Error&quot;: &quot;password error!&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="模块划分"><a href="#模块划分" class="headerlink" title="模块划分"></a>模块划分</h3><p>模块划分一般来说有两种模式，按照功能划分，按照应用结构划分</p>
+<ul>
+<li><p>按照功能划分</p>
+<ul>
+<li>建立的文件夹叫 routers models views</li>
+<li>每个文件夹内用应用的名字命名文件 users.go articles.go</li>
+<li>定义结构体、对象、接口的时候，使用<code>功能.应用-模块</code></li>
+<li>访问的时候 models.User routers.userLogin</li>
+</ul>
+</li>
+<li><p>按照应用结构划分</p>
+<ul>
+<li>建立的文件夹叫 users articles</li>
+<li>每个文件夹内用应用的名字命名文件 routers.go models.go views.go</li>
+<li>定义结构体、对象、接口的时候，使用<code>应用.模块-功能</code></li>
+<li>访问的时候 users.UserModel users.Login</li>
+<li>中间件之类单独放一个文件夹</li>
+</ul>
+</li>
+</ul>
+<p>我使用第二种划分方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">├── BACKEND_INSTRUCTIONS.md</span><br><span class="line">├── FRONTEND_INSTRUCTIONS.md</span><br><span class="line">├── MOBILE_INSTRUCTIONS.md</span><br><span class="line">├── bak.hello.gogo</span><br><span class="line">├── gorm.db</span><br><span class="line">├── hello.go</span><br><span class="line">├── logo.png</span><br><span class="line">├── readme.md</span><br><span class="line">├── storage</span><br><span class="line">│   └── database.go</span><br><span class="line">├── tmp</span><br><span class="line">│   └── runner-build</span><br><span class="line">└── users</span><br><span class="line">    ├── models.go</span><br><span class="line">    ├── routers.go</span><br><span class="line">    └── validators.go</span><br></pre></td></tr></table></figure>
+<p>models.go<br>放入 orm 模型定义相关的东西<br>routers.go<br>放入处理的逻辑，路由绑定关系<br>validators.go<br>表单、json 数据校验器<br>serializers.go<br>将来可能再加上，放入序列化的定义</p>
+<p>此时，代码大致变成了这样： <a target="_blank" rel="noopener" href="https://github.com/wangzitian0/golang-gin-starter-kit/tree/v0.01">github</a></p>
+<h2 id="实现-SPEC"><a href="#实现-SPEC" class="headerlink" title="实现 SPEC"></a>实现 SPEC</h2><p>有了刚才的若干试验，此时可以用刚才的手脚架正式开始加入 feature</p>
+<h3 id="数据库模型生成与密码保存"><a href="#数据库模型生成与密码保存" class="headerlink" title="数据库模型生成与密码保存"></a>数据库模型生成与密码保存</h3><p>常识部分我搜了一个介绍<a target="_blank" rel="noopener" href="http://www.freebuf.com/articles/web/28527.html">如何安全的存储用户的密码</a></p>
+<p>这里选择 <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Bcrypt#Algorithm">bcrypt</a>，它本身就是一个加了盐的算法，然后我们重写之前的生成密码和校验密码的方法。</p>
+<p>另外，给模型加入tag <code>json:&quot;balabala&quot;</code>和<code>json:&quot;-&quot;</code>，这样默认的序列化会给对象加上相关的属性。</p>
+<p>image 的 string变成一个指针，这样生成的字符串就可以是null，而不是一个<br>字符串；<a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/31048557/assigning-null-to-json-fields-instead-of-empty-strings-in-golang">marshal null</a></p>
+<p>此时 users/models.go变成：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">package users</span><br><span class="line"></span><br><span class="line">import (</span><br><span class="line">    &quot;golang.org&#x2F;x&#x2F;crypto&#x2F;bcrypt&quot;</span><br><span class="line">    &quot;golang-gin-starter-kit&#x2F;common&quot;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">type UserModel struct &#123;</span><br><span class="line">    ID            uint        &#96;json:&quot;id&quot; gorm:&quot;primary_key&quot;&#96;</span><br><span class="line">    Username      string      &#96;json:&quot;username&quot; gorm:&quot;column:username&quot;&#96;</span><br><span class="line">    Email         string      &#96;json:&quot;email&quot; gorm:&quot;column:email;unique_index&quot;&#96;</span><br><span class="line">    Bio           string      &#96;json:&quot;bio&quot; gorm:&quot;column:bio&quot;&#96;</span><br><span class="line">    Image         *string     &#96;json:&quot;image&quot; gorm:&quot;column:image&quot;&#96;</span><br><span class="line">    PasswordHash  string      &#96;json:&quot;-&quot; gorm:&quot;column:password&quot;&#96;</span><br><span class="line">    JWT           string      &#96;json:&quot;jwt&quot; gorm:&quot;column:-&quot;&#96;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func (u *UserModel) setJWT()error&#123;</span><br><span class="line">    token, err :&#x3D; common.GenToken(u.ID)</span><br><span class="line">    u.JWT &#x3D; token</span><br><span class="line">    return err</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func (u *UserModel) setPassword(password string) error&#123;</span><br><span class="line">    bytePassword :&#x3D; []byte(password)</span><br><span class="line">    passwordHash, err :&#x3D; bcrypt.GenerateFromPassword(bytePassword, bcrypt.DefaultCost)</span><br><span class="line">    if err!&#x3D;nil &#123;</span><br><span class="line">        return err</span><br><span class="line">    &#125;</span><br><span class="line">    u.PasswordHash &#x3D; string(passwordHash)</span><br><span class="line">    err &#x3D; u.setJWT()</span><br><span class="line">    return err</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func (u *UserModel) checkPassword(password string) error&#123;</span><br><span class="line">    bytePassword :&#x3D; []byte(password)</span><br><span class="line">    byteHashedPassword :&#x3D; []byte(u.PasswordHash)</span><br><span class="line">    err :&#x3D; u.setJWT()</span><br><span class="line">    if err!&#x3D;nil &#123;</span><br><span class="line">        return err</span><br><span class="line">    &#125;</span><br><span class="line">    return bcrypt.CompareHashAndPassword(byteHashedPassword, bytePassword)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Auth-中间件"><a href="#Auth-中间件" class="headerlink" title="Auth 中间件"></a>Auth 中间件</h3><p>这里的选型是 jwt，介绍可以看这个文章<a target="_blank" rel="noopener" href="http://blog.leapoahead.com/2015/09/06/understanding-jwt/">JSON Web Token</a>,以及 oauth 的介绍<a target="_blank" rel="noopener" href="http://www.ruanyifeng.com/blog/2014/05/oauth_2_0.html">理解OAuth 2.0</a></p>
+<p>具体实现参考这个中间件<a target="_blank" rel="noopener" href="https://github.com/gin-gonic/contrib/blob/master/jwt/example/example.go">gin-jwt</a>，但是这个地方有一些坑，他的header引入的是这一个gin<code>&quot;github.com/gin-gonic/gin&quot;</code>,而我使用的是发布版<code>&quot;gopkg.in/gin-gonic/gin.v1&quot;</code></p>
+<p>common/utils.go</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">const NBSecretPassword &#x3D; &quot;heheda&quot;;</span><br><span class="line"></span><br><span class="line">func GenToken(id uint) (string, error)&#123;</span><br><span class="line">    token :&#x3D; jwt.New(jwt.GetSigningMethod(&quot;HS256&quot;))</span><br><span class="line">    &#x2F;&#x2F; Set some claims</span><br><span class="line">    token.Claims &#x3D; jwt.MapClaims&#123;</span><br><span class="line">        &quot;Id&quot;:  id,</span><br><span class="line">        &quot;exp&quot;: time.Now().Add(time.Hour * 24).Unix(),</span><br><span class="line">    &#125;</span><br><span class="line">    &#x2F;&#x2F; Sign and get the complete encoded token as a string</span><br><span class="line">    return token.SignedString([]byte(NBSecretPassword))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>直接在models的checkPassword里边加入生成JWT token的代码，之所以把生成的逻辑添加在这个地方，是因为每次登陆的时候都需要运行这段逻辑，另外，由于中间件可以从token里面直接解析出过期的时间，重复生成token是没有关系的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">func (u *UserModel) checkPassword(password string) error&#123;</span><br><span class="line">    bytePassword :&#x3D; []byte(password)</span><br><span class="line">    byteHashedPassword :&#x3D; []byte(u.PasswordHash)</span><br><span class="line">    token, err :&#x3D; common.GenToken(u.ID)</span><br><span class="line">    if err!&#x3D;nil &#123;</span><br><span class="line">        return err</span><br><span class="line">    &#125;</span><br><span class="line">    u.JWT &#x3D; token</span><br><span class="line">    return bcrypt.CompareHashAndPassword(byteHashedPassword, bytePassword)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>middlewares/auth-jwt.go</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">package middlewares</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">import (</span><br><span class="line">    &quot;gopkg.in&#x2F;gin-gonic&#x2F;gin.v1&quot;</span><br><span class="line">    &quot;github.com&#x2F;dgrijalva&#x2F;jwt-go&quot;</span><br><span class="line">    &quot;github.com&#x2F;dgrijalva&#x2F;jwt-go&#x2F;request&quot;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">func Auth(secret string) gin.HandlerFunc &#123;</span><br><span class="line">    return func(c *gin.Context) &#123;</span><br><span class="line">        _, err :&#x3D; request.ParseFromRequest(c.Request, request.OAuth2Extractor, func(token *jwt.Token) (interface&#123;&#125;, error) &#123;</span><br><span class="line">            b :&#x3D; ([]byte(secret))</span><br><span class="line">            return b, nil</span><br><span class="line">        &#125;)</span><br><span class="line"></span><br><span class="line">        if err !&#x3D; nil &#123;</span><br><span class="line">            c.AbortWithError(401, err)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>hello.go</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; main:</span><br><span class="line"></span><br><span class="line">    r :&#x3D; gin.Default()</span><br><span class="line">    testAuth :&#x3D; r.Group(&quot;&#x2F;api&#x2F;v1&#x2F;ping&quot;)</span><br><span class="line">    testAuth.Use(middlewares.Auth(common.NBSecretPassword))</span><br><span class="line"></span><br><span class="line">    testAuth.GET(&quot;&#x2F;&quot;, func(c *gin.Context) &#123;</span><br><span class="line">        c.JSON(200, gin.H&#123;</span><br><span class="line">            &quot;message&quot;: &quot;pong&quot;,</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>接着使用 postman 测试，过期时间设置为半分钟，先使用login接口登陆，此时的返回值应该长成这样：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;user&quot;: &#123;</span><br><span class="line">        &quot;id&quot;: 1,</span><br><span class="line">        &quot;username&quot;: &quot;Jacob&quot;,</span><br><span class="line">        &quot;email&quot;: &quot;wzt@gg.cn&quot;,</span><br><span class="line">        &quot;bio&quot;: &quot;&quot;,</span><br><span class="line">        &quot;image&quot;: null,</span><br><span class="line">        &quot;jwt&quot;: &quot;eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJZCI6MSwiZXhwIjoxNTAwMjE3NzQzfQ.gJHBLwohyfPMub7_gbOE_jI_y9hYej4NauJKO-Gelio&quot;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>header 中加入这个键值对 <code>Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJZCI6MSwiZXhwIjoxNTAwMjE3NzQzfQ.gJHBLwohyfPMub7_gbOE_jI_y9hYej4NauJKO-Gelio</code></p>
+<p>此时应该能够看到一个返回值pong，我们正在半分钟之后再进行尝试，此时的返回值是401。</p>
+<p>中间件完成</p>
+<h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><p><a target="_blank" rel="noopener" href="http://tabalt.net/blog/golang-testing/">基本介绍+通用教程</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/gin-gonic/gin/pull/37">gin testing docs</a></p>
+<h3 id="测试文件结构"><a href="#测试文件结构" class="headerlink" title="测试文件结构"></a>测试文件结构</h3><p>首先介绍<code>m *testing.M</code>，这是整个文件的入口，如果我们需要 setup 和 teardown，我们可以把相关的东西放到这个里面。<code>m.Run()</code>用来运行其他的测试<code>t *testing.T</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">func TestMain(m *testing.M) &#123;</span><br><span class="line"></span><br><span class="line">    test_db, _ &#x3D; gorm.Open(&quot;sqlite3&quot;, &quot;.&#x2F;..&#x2F;gorm_test.db&quot;)</span><br><span class="line">    test_db.AutoMigrate(&amp;UserModel&#123;&#125;)</span><br><span class="line">    &#x2F;&#x2F;fmt.Println(&quot;before&quot;)</span><br><span class="line">    exitVal :&#x3D; m.Run()</span><br><span class="line">    &#x2F;&#x2F;fmt.Println(&quot;after&quot;)</span><br><span class="line">    test_db.Close()</span><br><span class="line">    os.Remove(&quot;.&#x2F;..&#x2F;gorm_test.db&quot;)</span><br><span class="line"></span><br><span class="line">    os.Exit(exitVal)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="最佳实践"><a href="#最佳实践" class="headerlink" title="最佳实践"></a>最佳实践</h3><p>个人认为的最佳实践是把相关参数和正则放到一个数字/dict 里面，然后用一个函数去依次执行相关的函数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">var routerRegistrationTests &#x3D; []struct &#123;</span><br><span class="line">    bodyData        string</span><br><span class="line">    expectedCode    int</span><br><span class="line">    responseRegexg  string</span><br><span class="line">    msg             string</span><br><span class="line">&#125;&#123;</span><br><span class="line">    &#123;</span><br><span class="line">        &#96;&#123;&quot;user&quot;:&#123;&quot;username&quot;: &quot;wangzitian0&quot;,&quot;email&quot;: &quot;wzt@gg.cn&quot;,&quot;password&quot;: &quot;jakejxke&quot;&#125;&#125;&#96;,</span><br><span class="line">        http.StatusCreated,</span><br><span class="line">        &#96;&#123;&quot;user&quot;:&#123;&quot;id&quot;:1,&quot;username&quot;:&quot;wangzitian0&quot;,&quot;email&quot;:&quot;wzt@gg.cn&quot;,&quot;bio&quot;:&quot;&quot;,&quot;image&quot;:null,&quot;token&quot;:&quot;([a-zA-Z0-9-_.]&#123;115&#125;)&quot;&#125;&#125;&#96;,</span><br><span class="line">        &quot;valid data and should return 200&quot;,</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">        &#96;&#123;&quot;user&quot;:&#123;&quot;username&quot;: &quot;u&quot;,&quot;email&quot;: &quot;wzt@gg.cn&quot;,&quot;password&quot;: &quot;jakejxke&quot;&#125;&#125;&#96;,</span><br><span class="line">        http.StatusUnprocessableEntity,</span><br><span class="line">        &#96;&#123;&quot;errors&quot;:&#123;&quot;Username&quot;:&quot;&#123;min: 8&#125;&quot;&#125;&#125;&#96;,</span><br><span class="line">        &quot;short username should return error&quot;,</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">        &#96;&#123;&quot;user&quot;:&#123;&quot;username&quot;: &quot;wangzitian0&quot;,&quot;email&quot;: &quot;wzt@gg.cn&quot;,&quot;password&quot;: &quot;j&quot;&#125;&#125;&#96;,</span><br><span class="line">        http.StatusUnprocessableEntity,</span><br><span class="line">        &#96;&#123;&quot;errors&quot;:&#123;&quot;Password&quot;:&quot;&#123;min: 8&#125;&quot;&#125;&#125;&#96;,</span><br><span class="line">        &quot;short password should return error&quot;,</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">        &#96;&#123;&quot;user&quot;:&#123;&quot;username&quot;: &quot;wangzitian0&quot;,&quot;email&quot;: &quot;wztgg.cn&quot;,&quot;password&quot;: &quot;jakejxke&quot;&#125;&#125;&#96;,</span><br><span class="line">        http.StatusUnprocessableEntity,</span><br><span class="line">        &#96;&#123;&quot;errors&quot;:&#123;&quot;Email&quot;:&quot;&#123;key: email&#125;&quot;&#125;&#125;&#96;,</span><br><span class="line">        &quot;email invalid should return error&quot;,</span><br><span class="line">    &#125;,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func TestRouter_Registration(t *testing.T) &#123;</span><br><span class="line">    assert :&#x3D; assert.New(t)</span><br><span class="line"></span><br><span class="line">    r :&#x3D; gin.New()</span><br><span class="line">    usersGroup :&#x3D; r.Group(&quot;&#x2F;p&quot;)</span><br><span class="line">    usersGroup.Use(middlewares.DatabaseMiddleware(test_db))</span><br><span class="line">    UsersRegister(usersGroup)</span><br><span class="line">    for _, testData :&#x3D; range routerRegistrationTests&#123;</span><br><span class="line">        bodyData :&#x3D; testData.bodyData</span><br><span class="line">        req, err :&#x3D; http.NewRequest(&quot;POST&quot;, &quot;&#x2F;p&#x2F;&quot;, bytes.NewBufferString(bodyData))</span><br><span class="line">        req.Header.Set(&quot;Content-Type&quot;, &quot;application&#x2F;json&quot;)</span><br><span class="line"></span><br><span class="line">        assert.NoError(err)</span><br><span class="line">        w :&#x3D; httptest.NewRecorder()</span><br><span class="line">        r.ServeHTTP(w, req)</span><br><span class="line"></span><br><span class="line">        assert.Equal(testData.expectedCode, w.Code, &quot;code - &quot; + testData.msg)</span><br><span class="line">        assert.Regexp(testData.responseRegexg, w.Body.String(),&quot;regexp - %v\n &quot; + testData.msg)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="解释"><a href="#解释" class="headerlink" title="解释"></a>解释</h3><p>核心是这一段代码，req 是一个 net/http 包生成的请求，现在模拟用户的请求，把它放到 req 里面，r 可以是一个 gin的路由，httptest.NewRecorder()包装了一个虚拟的请求，只要运行r.ServeHTTP(w, req)，就相当于在浏览器 curl 了相关地址。<br>后续我们可以 assert 相关的变量参数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">req, err :&#x3D; http.NewRequest()</span><br><span class="line"></span><br><span class="line">w :&#x3D; httptest.NewRecorder()</span><br><span class="line"></span><br><span class="line">r.ServeHTTP(w, req)</span><br></pre></td></tr></table></figure>
+<h3 id="杂七杂八"><a href="#杂七杂八" class="headerlink" title="杂七杂八"></a>杂七杂八</h3><h4 id="assert"><a href="#assert" class="headerlink" title="assert"></a>assert</h4><p><a href="github.com/stretchr/testify/">github.com/stretchr/testify/</a>这个库封装了很多东西，我这边主要是它用 assert。具体来说，<code>t *testing.T</code> 包含了报错的要素，现在<code>assert := assert.New(t)</code>把它传递给了这个库，然后后续用的时候可以少打参数。<br>最好用还是这个 assert：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">assert.Regexp(x, y, msg)</span><br></pre></td></tr></table></figure>
+
+<h4 id="os"><a href="#os" class="headerlink" title="os"></a>os</h4><p>想用golang来删除文件，查到了这个:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">os.Remove(&quot;.&#x2F;..&#x2F;gorm_test.db&quot;)</span><br><span class="line"></span><br><span class="line">test_db, _ &#x3D; gorm.Open(&quot;sqlite3&quot;, &quot;.&#x2F;..&#x2F;gorm_test.db&quot;)</span><br></pre></td></tr></table></figure>
+<p>发现一个问题，在根目录和子目录它对应的文件不同，后续需要找一个 config 的方案，给工程指定一个 env 变量。</p>
+<h4 id="Bearer-Token"><a href="#Bearer-Token" class="headerlink" title="Bearer Token"></a>Bearer Token</h4><p>jwt-go 提供的 token 形式是 <code>Authorization: Bearer &lt;token&gt;</code>，但是 spec 里面需要的形式是<code>Authorization: Token &lt;token&gt;</code>。另外，我希望从 jwt-token 中读出 user_id 放进中间件，我选择仿照 oauth2 的接口直接重写中间件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line">package middlewares</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">import (</span><br><span class="line">    &quot;net&#x2F;http&quot;</span><br><span class="line">    &quot;gopkg.in&#x2F;gin-gonic&#x2F;gin.v1&quot;</span><br><span class="line">    &quot;github.com&#x2F;dgrijalva&#x2F;jwt-go&quot;</span><br><span class="line">    &quot;github.com&#x2F;dgrijalva&#x2F;jwt-go&#x2F;request&quot;</span><br><span class="line">    &quot;golang-gin-starter-kit&#x2F;common&quot;</span><br><span class="line">    &quot;strings&quot;</span><br><span class="line">)</span><br><span class="line">&#x2F;&#x2F; Strips &#39;Bearer &#39; prefix from bearer token string</span><br><span class="line">func stripBearerPrefixFromTokenString(tok string) (string, error) &#123;</span><br><span class="line">    &#x2F;&#x2F; Should be a bearer token</span><br><span class="line">    if len(tok) &gt; 5 &amp;&amp; strings.ToUpper(tok[0:6]) &#x3D;&#x3D; &quot;TOKEN &quot; &#123;</span><br><span class="line">        return tok[6:], nil</span><br><span class="line">    &#125;</span><br><span class="line">    return tok, nil</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; Extract bearer token from Authorization header</span><br><span class="line">&#x2F;&#x2F; Uses PostExtractionFilter to strip &quot;Bearer &quot; prefix from header</span><br><span class="line">var AuthorizationHeaderExtractor &#x3D; &amp;request.PostExtractionFilter&#123;</span><br><span class="line">    request.HeaderExtractor&#123;&quot;Authorization&quot;&#125;,</span><br><span class="line">    stripBearerPrefixFromTokenString,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; Extractor for OAuth2 access tokens.  Looks in &#39;Authorization&#39;</span><br><span class="line">&#x2F;&#x2F; header then &#39;access_token&#39; argument for a token.</span><br><span class="line">var MyAuth2Extractor &#x3D; &amp;request.MultiExtractor&#123;</span><br><span class="line">    AuthorizationHeaderExtractor,</span><br><span class="line">    request.ArgumentExtractor&#123;&quot;access_token&quot;&#125;,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">func Auth() gin.HandlerFunc &#123;</span><br><span class="line">    return func(c *gin.Context) &#123;</span><br><span class="line">        token, err :&#x3D; request.ParseFromRequest(c.Request, MyAuth2Extractor, func(token *jwt.Token) (interface&#123;&#125;, error) &#123;</span><br><span class="line">            b :&#x3D; ([]byte(common.NBSecretPassword))</span><br><span class="line">            return b, nil</span><br><span class="line">        &#125;)</span><br><span class="line">        if err !&#x3D; nil &#123;</span><br><span class="line">            c.AbortWithError(http.StatusUnauthorized, err)</span><br><span class="line">            return</span><br><span class="line">        &#125;</span><br><span class="line">        if claims, ok :&#x3D; token.Claims.(jwt.MapClaims); ok &amp;&amp; token.Valid &#123;</span><br><span class="line">            my_user_id :&#x3D; uint64(claims[&quot;id&quot;].(float64))</span><br><span class="line">            &#x2F;&#x2F;fmt.Println(my_user_id,claims[&quot;id&quot;])</span><br><span class="line">            c.Set(&quot;my_user_id&quot;, my_user_id)</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            c.Set(&quot;my_user_id&quot;, uint64(0))</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>这里单独提一下<code>c.AbortWithError</code>这个函数。一旦使用它就应该马上 return，如果再使用其他 response 类函数如<code>c.JSON()</code>会panic。</p>
+<h4 id="bind-error"><a href="#bind-error" class="headerlink" title="bind error"></a>bind error</h4><p>这个查了很久的文档和源码，gin 本身使用的 validater 是 <a target="_blank" rel="noopener" href="http://godoc.org/gopkg.in/go-playground/validator.v8">go-playground/validator.v8</a>，它本身的实现是基于反射，给了很多的域，但是这些域是没法拿到其他 struct tag的，比如<code>json:&quot;field0&quot;</code>，我们没法从它的信息中得到field0这个字符串。如果非要拿，可以用reflect.Type得到名称之后再去取完整的 struct tag，然后再从中 Get 相关映射值。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">type FieldError struct &#123;</span><br><span class="line">	FieldNamespace string</span><br><span class="line">	NameNamespace  string</span><br><span class="line">	Field          string</span><br><span class="line">	Name           string</span><br><span class="line">	Tag            string</span><br><span class="line">	ActualTag      string</span><br><span class="line">	Kind           reflect.Kind</span><br><span class="line">	Type           reflect.Type</span><br><span class="line">	Param          string</span><br><span class="line">	Value          interface&#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>另外是我希望嵌套 json 直接 bind 到结构体，事实证明可以嵌套，对应域的后面加上 tag 即可。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#123;&quot;user&quot;:&#123;&quot;email&quot;:&quot;john@jacob.com&quot;, &quot;password&quot;:&quot;johnnyjacob&quot;&#125;&#125;</span><br><span class="line"></span><br><span class="line">type LoginValidator struct &#123;</span><br><span class="line">    User struct &#123;</span><br><span class="line">        Email         string      &#96;form:&quot;email&quot; json:&quot;email&quot; binding:&quot;exists,email&quot;&#96;</span><br><span class="line">        Password      string      &#96;form:&quot;password&quot;json:&quot;password&quot; binding:&quot;exists,min&#x3D;8,max&#x3D;255&quot;&#96;</span><br><span class="line">    &#125; &#96;json:&quot;user&quot;&#96;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>spec 表单错误要求返回422，但是 bind 错误之后直接返回400了，还不能改写，所以我重写了这个函数，把 must 变成 should，自己接管错误检测。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">func Bind(c *gin.Context, obj interface&#123;&#125;) error &#123;</span><br><span class="line">    b :&#x3D; binding.Default(c.Request.Method, c.ContentType())</span><br><span class="line">    return c.ShouldBindWith(obj, b)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h4 id="巧用-struct-tag"><a href="#巧用-struct-tag" class="headerlink" title="巧用 struct tag"></a>巧用 struct tag</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">PasswordHash  string      &#96;json:&quot;-&quot; gorm:&quot;column:password;not null&quot;&#96;</span><br><span class="line">Token         string      &#96;json:&quot;token&quot; gorm:&quot;column:-&quot;&#96;</span><br></pre></td></tr></table></figure>
+<p>一部分不希望被序列化，一部分不希望持久化，可以用减号来避免操作。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Image         *string     &#96;json:&quot;image&quot; gorm:&quot;column:image&quot;&#96;</span><br></pre></td></tr></table></figure>
+<p>如果希望字符串出现类似于 “hehe”:null 的空值，那么需要使用指针。指针的 nil 和 “” 是两个不同的值。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Image         string      &#96;form:&quot;image&quot; json:&quot;image&quot; binding:&quot;omitempty,url&quot;&#96;</span><br></pre></td></tr></table></figure>
+<p>omitempty 是个特殊值，可以让你为空，或者为某种特定串。<br>具体可以仔细研究下文档<a target="_blank" rel="noopener" href="https://golang.org/pkg/encoding/json/#Marshal">golang Marshal</a></p>
+<h4 id="状态码"><a href="#状态码" class="headerlink" title="状态码"></a>状态码</h4><p>长知识了，状态码很多，表单错误最标准的返回应该是422<br>具体可以参考 net/http/status.go 里面的完整描述。</p>
+<h4 id="postman-真好用"><a href="#postman-真好用" class="headerlink" title="postman 真好用"></a>postman 真好用</h4><p><a target="_blank" rel="noopener" href="https://github.com/gothinkster/realworld/tree/master/api#profile">spec of realworld</a>这个文档里面给了一份脚本，这才是 postman 的正确姿势：</p>
+<ul>
+<li>可以加入、根据 response 来修改环境的变量，如得到 token 之后写到一个环境变量里面</li>
+<li>可以自动化跑一个组的 request</li>
+<li>可以在返回值里面加入 assert，这样基本上不用肉眼看。</li>
+<li>以前我用的是假的 postman。</li>
+</ul>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>截止到目前，没有任何的数据库关系。<a target="_blank" rel="noopener" href="https://martinfowler.com/articles/richardsonMaturityModel.html">restful level2</a>的部分已经基本上和我想要的差不多了。因为要和 spec 完全对齐，所以这篇文章的代码和最终的有很多地方有差别，正式的代码可以看下面的github链接。<br>还差的东西：</p>
+<ul>
+<li>加上全局的 config</li>
+<li>多对多关系，外键，等等还没有使用</li>
+<li>github 的 badge</li>
+<li>commit 之后自动 build</li>
+<li>缓存系统、session 之类</li>
+<li>没有文档</li>
+</ul>
+<p>至此 <a target="_blank" rel="noopener" href="https://github.com/wangzitian0/golang-gin-starter-kit/tree/v0.04">v0.04</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/HTML/" rel="tag"># HTML</a>
+              <a href="/tags/zero2one/" rel="tag"># zero2one</a>
+              <a href="/tags/golang/" rel="tag"># golang</a>
+              <a href="/tags/gin/" rel="tag"># gin</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2013/06/29/zero-to-one-1/" rel="prev" title="从零到一建站（1）">
+      <i class="fa fa-chevron-left"></i> 从零到一建站（1）
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2013/07/26/zero-to-one-3/" rel="next" title="从零到一建站（3）">
+      从零到一建站（3） <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Fork-form-realworld"><span class="nav-number">1.</span> <span class="nav-text">Fork form realworld</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%81%9A%E4%B8%80%E4%BA%9B%E5%B0%8F%E7%9A%84%E5%AE%9E%E9%AA%8C"><span class="nav-number">2.</span> <span class="nav-text">做一些小的实验</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BB%BA%E7%AB%8BDB%E8%BF%9E%E6%8E%A5%E6%B1%A0"><span class="nav-number">2.1.</span> <span class="nav-text">建立DB连接池</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E7%BB%91%E5%AE%9A"><span class="nav-number">2.2.</span> <span class="nav-text">数据绑定</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B4%E4%BD%93%E6%BA%90%E4%BB%A3%E7%A0%81"><span class="nav-number">2.3.</span> <span class="nav-text">整体源代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A8%A1%E5%9D%97%E5%88%92%E5%88%86"><span class="nav-number">2.4.</span> <span class="nav-text">模块划分</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0-SPEC"><span class="nav-number">3.</span> <span class="nav-text">实现 SPEC</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E6%A8%A1%E5%9E%8B%E7%94%9F%E6%88%90%E4%B8%8E%E5%AF%86%E7%A0%81%E4%BF%9D%E5%AD%98"><span class="nav-number">3.1.</span> <span class="nav-text">数据库模型生成与密码保存</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Auth-%E4%B8%AD%E9%97%B4%E4%BB%B6"><span class="nav-number">3.2.</span> <span class="nav-text">Auth 中间件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95"><span class="nav-number">4.</span> <span class="nav-text">测试</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84"><span class="nav-number">4.1.</span> <span class="nav-text">测试文件结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5"><span class="nav-number">4.2.</span> <span class="nav-text">最佳实践</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%A3%E9%87%8A"><span class="nav-number">4.3.</span> <span class="nav-text">解释</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB"><span class="nav-number">4.4.</span> <span class="nav-text">杂七杂八</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#assert"><span class="nav-number">4.4.1.</span> <span class="nav-text">assert</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#os"><span class="nav-number">4.4.2.</span> <span class="nav-text">os</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Bearer-Token"><span class="nav-number">4.4.3.</span> <span class="nav-text">Bearer Token</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#bind-error"><span class="nav-number">4.4.4.</span> <span class="nav-text">bind error</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B7%A7%E7%94%A8-struct-tag"><span class="nav-number">4.4.5.</span> <span class="nav-text">巧用 struct tag</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%8A%B6%E6%80%81%E7%A0%81"><span class="nav-number">4.4.6.</span> <span class="nav-text">状态码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#postman-%E7%9C%9F%E5%A5%BD%E7%94%A8"><span class="nav-number">4.4.7.</span> <span class="nav-text">postman 真好用</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">4.5.</span> <span class="nav-text">总结</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">田_田</p>
+  <div class="site-description" itemprop="description">创新需要在一切发生之前研究结局!</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">34</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wangzitian0" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wangzitian0" rel="noopener" target="_blank"><i class="github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wangzitian0@gmail.com" title="E-Mail → mailto:wangzitian0@gmail.com" rel="noopener" target="_blank"><i class="envelope fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.linkedin.com/in/wangzitian0" title="LinkedIn → https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;wangzitian0" rel="noopener" target="_blank"><i class="linkedin fa-fw"></i></a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class=""></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">田_田</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a>
+  </div>
+
+        
+
+
+
+
+
+
+<script>
+  (function() {
+    function leancloudSelector(url) {
+      url = encodeURI(url);
+      return document.getElementById(url).querySelector('.leancloud-visitors-count');
+    }
+
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = decodeURI(visitors.id);
+      var title = visitors.dataset.flagTitle;
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            leancloudSelector(url).innerText = counter.time + 1;
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              });
+          } else {
+              leancloudSelector(url).innerText = 'Counter not initialized! More info at console err msg.';
+              console.error('ATTENTION! LeanCloud counter has security bug, see how to solve it here: https://github.com/theme-next/hexo-leancloud-counter-security. \n However, you can still use LeanCloud without security, by setting `security` option to `false`.');
+            
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return decodeURI(element.id);
+      });
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          for (let url of entries) {
+            let target = results.find(item => item.url === url);
+            leancloudSelector(url).innerText = target ? target.time : 0;
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    let { app_id, app_key, server_url } = {"enable":true,"app_id":"itw5YW53yzX17tr3WAdRd9Dd-gzGzoHsz","app_key":"qLjOt8jjizQl0ys5OSdwf10Y","server_url":null,"security":true,"betterPerformance":true};
+    function fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${api_server}/1.1${url}`, {
+          method,
+          headers: {
+            'X-LC-Id'     : app_id,
+            'X-LC-Key'    : app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    }
+
+    let api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(response => response.json())
+        .then(({ api_server }) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="//cdn.jsdelivr.net/npm/algoliasearch@4/dist/algoliasearch-lite.umd.js"></script>
+<script src="//cdn.jsdelivr.net/npm/instantsearch.js@4/dist/instantsearch.production.min.js"></script>
+<script src="/js/algolia-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

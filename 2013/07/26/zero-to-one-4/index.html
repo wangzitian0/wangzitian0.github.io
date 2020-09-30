@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/huaji.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/huaji.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/huaji.png">
+  <link rel="mask-icon" href="/images/huaji.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"wangzitian0.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":true,"b2t":false,"scrollpercent":true},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"appID":"1PWF5BJPP1","apiKey":"6a2714c5b665823e7132db2aedb81233","indexName":"wangzitian0.github.io","hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="之前去美国出差，这个项目被耽搁了俩月，现在重新开始搞。被人吐槽了，所以我要重新梳理一下这些代码，做得更加符合 golang 的国际规范一点。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="从零到一建站（4）">
+<meta property="og:url" content="https://wangzitian0.github.io/2013/07/26/zero-to-one-4/index.html">
+<meta property="og:site_name" content="全栈之路">
+<meta property="og:description" content="之前去美国出差，这个项目被耽搁了俩月，现在重新开始搞。被人吐槽了，所以我要重新梳理一下这些代码，做得更加符合 golang 的国际规范一点。">
+<meta property="og:locale">
+<meta property="og:image" content="https://travis-ci.org/wangzitian0/golang-gin-starter-kit.svg?branch=master">
+<meta property="og:image" content="https://codecov.io/gh/wangzitian0/golang-gin-starter-kit/branch/master/graph/badge.svg">
+<meta property="article:published_time" content="2013-07-26T09:58:00.000Z">
+<meta property="article:modified_time" content="2020-09-30T04:59:07.882Z">
+<meta property="article:author" content="田_田">
+<meta property="article:tag" content="HTML">
+<meta property="article:tag" content="zero2one">
+<meta property="article:tag" content="golang">
+<meta property="article:tag" content="gin">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://travis-ci.org/wangzitian0/golang-gin-starter-kit.svg?branch=master">
+
+<link rel="canonical" href="https://wangzitian0.github.io/2013/07/26/zero-to-one-4/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>从零到一建站（4） | 全栈之路</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?1eeceb0b3f8e550d6211f134646361b6";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="全栈之路" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta custom-logo">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">全栈之路</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">田_田的博客</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="archive fa-fw"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="user fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="tags fa-fw"></i>Tags</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container"></div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="algolia-results">
+  <div id="algolia-stats"></div>
+  <div id="algolia-hits"></div>
+  <div id="algolia-pagination" class="algolia-pagination"></div>
+</div>
+
+      
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://wangzitian0.github.io/2013/07/26/zero-to-one-4/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="田_田">
+      <meta itemprop="description" content="创新需要在一切发生之前研究结局!">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="全栈之路">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          从零到一建站（4）
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2013-07-26 17:58:00" itemprop="dateCreated datePublished" datetime="2013-07-26T17:58:00+08:00">2013-07-26</time>
+            </span>
+
+          
+            <span id="/2013/07/26/zero-to-one-4/" class="post-meta-item leancloud_visitors" data-flag-title="从零到一建站（4）" title="Views">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>之前去美国出差，这个项目被耽搁了俩月，现在重新开始搞。被人吐槽了，所以我要重新梳理一下这些代码，做得更加符合 golang 的国际规范一点。</p>
+<a id="more"></a>
+<p>被人吐槽：</p>
+<blockquote>
+<p>Hey there! This is great code to go off of but I think it would be more helpful if comments were added to their appropriate places, which is also go fmt compliant. Thoughts?</p>
+</blockquote>
+<h1 id="Go-tools"><a href="#Go-tools" class="headerlink" title="Go tools"></a>Go tools</h1><h2 id="go-fmt"><a href="#go-fmt" class="headerlink" title="go fmt"></a>go fmt</h2><p>第一件事是 go fmt，可以直接帮助 fmt 所有代码，本身我使用 intellij 了，应该代码本身已经没有编译问题，但是之前确实没有注意 fmt。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">go fmt .&#x2F;...</span><br></pre></td></tr></table></figure>
+
+<h2 id="go-doc"><a href="#go-doc" class="headerlink" title="go doc"></a>go doc</h2><p>我去研究了一下 golang 加注释的方式 <a target="_blank" rel="noopener" href="https://github.com/golang/go/tree/master/src/fmt">go fmt</a>，大致是几部分，一个是 doc.go 文件，另一个部分是每个函数前的注释，会被生成成这个样子<a target="_blank" rel="noopener" href="https://golang.org/pkg/fmt/">go fmt doc</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">godoc -http&#x3D;:6600</span><br></pre></td></tr></table></figure>
+<p>跑起来，然后进入<a target="_blank" rel="noopener" href="http://localhost:6600/pkg/%EF%BC%8C%E6%89%BE%E5%88%B0%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8C%85%E5%B0%B1%E8%83%BD%E7%9C%8B%E5%88%B0%E5%AE%9E%E6%97%B6%E7%BC%96%E8%AF%91%E7%9A%84">http://localhost:6600/pkg/，找到自己的包就能看到实时编译的</a> doc 了。</p>
+<h2 id="go-test"><a href="#go-test" class="headerlink" title="go test"></a>go test</h2><p>这个基本不变，但是我之前最开始的几个 test 挂了一大半……现在逐渐把它做规范</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">go fmt .&#x2F;...</span><br></pre></td></tr></table></figure>
+
+<h1 id="gogogo"><a href="#gogogo" class="headerlink" title="gogogo"></a>gogogo</h1><h2 id="从-users-模块开始改造"><a href="#从-users-模块开始改造" class="headerlink" title="从 users 模块开始改造"></a>从 users 模块开始改造</h2><h3 id="goc-go"><a href="#goc-go" class="headerlink" title="goc.go"></a>goc.go</h3><p>在里面加一些东西，注释需要加在 package 语句的上面。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;*</span><br><span class="line">The user module containing the user CRU operation.</span><br><span class="line"></span><br><span class="line">model.go: definition of orm based data model</span><br><span class="line">routers.go: router binding and core logic</span><br><span class="line">serializers.go: definition the schema of return data</span><br><span class="line">validators.go: definition the validator of form data</span><br><span class="line">*&#x2F;</span><br><span class="line">package users</span><br></pre></td></tr></table></figure>
+<h3 id="models-go"><a href="#models-go" class="headerlink" title="models.go"></a>models.go</h3><p>加上一些基本注释，还有方法函数的使用说明之类</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; Models should only be concerned with database schema, more strict checking should be put in validator.</span><br><span class="line">&#x2F;&#x2F;</span><br><span class="line">&#x2F;&#x2F; More detail you can find here: http:&#x2F;&#x2F;jinzhu.me&#x2F;gorm&#x2F;models.html#model-definition</span><br><span class="line">&#x2F;&#x2F;</span><br><span class="line">&#x2F;&#x2F; HINT: If you want to split null and &quot;&quot;, you should use *string instead of string.</span><br><span class="line">type UserModel struct &#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; You could update properties of an UserModel to database returning with error info.</span><br><span class="line">&#x2F;&#x2F;  err :&#x3D; db.Model(userModel).Update(UserModel&#123;Username: &quot;wangzitian0&quot;&#125;).Error</span><br><span class="line">func (model *UserModel) Update(data interface&#123;&#125;) error &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="middlewares-go"><a href="#middlewares-go" class="headerlink" title="middlewares.go"></a>middlewares.go</h3><p>这个部分和我最开始的想法稍微有一些不一样，因为现在已经把有 token 的用户的 user_model 直接读到 context 里面，所以和 users 这个模块无法分割，会形成交叉依赖，所以现在直接把两个模块合成一个。</p>
+<h3 id="tests-go"><a href="#tests-go" class="headerlink" title="tests.go"></a>tests.go</h3><p>大致就是把测试放到一个数组里面，然后依次去跑。<br>然后就是关于如何初始化和结束一个测试，大致有两种：<br>一种是文件级别的：<a target="_blank" rel="noopener" href="https://golang.org/pkg/testing/#hdr-Main">Set up &amp; Tear down</a>，会在每一个 test 文件开始执行的前后执行，类似于装饰器。<br>一种是用例级别的：<a target="_blank" rel="noopener" href="https://medium.com/@sebdah/go-best-practices-testing-3448165a0e18">关于Golang测试的最佳实践</a>，直接在循环内部的开始处和结束处写Set up &amp; Tear down的条件就好。</p>
+<p>然后 golang 本身支持函数式编程，在定义数组的时候可以直接传递函数进去，然后在后面想调用的时候可以直接调用这个函数。比如可以手写Setup(), Teardown()两个函数传递进去。典型的一个例子是我可以不清空有状态的集合，这样若干组 test 连成一个 combine 。</p>
+<p>同时，可以加一些数字来做 switch，在需要的时候只 assert 自己需要的变量和类型。</p>
+<p>这个话题很多，可以参考我的代码。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">var someTests &#x3D; []struct &#123;</span><br><span class="line">	init           func(*http.Request)</span><br><span class="line">	url            string</span><br><span class="line">	msg            string</span><br><span class="line">&#125;&#123;</span><br><span class="line">	&#123;</span><br><span class="line">		func(req *http.Request) &#123;</span><br><span class="line">			resetDBWithMock()</span><br><span class="line">		&#125;,</span><br><span class="line">		&quot;&#x2F;users&#x2F;&quot;,</span><br><span class="line">		&quot;POST&quot;,</span><br><span class="line">		&quot;valid data and should return StatusCreated&quot;,</span><br><span class="line">	&#125;,</span><br></pre></td></tr></table></figure>
+
+<h2 id="Travis-CI"><a href="#Travis-CI" class="headerlink" title="Travis CI"></a>Travis CI</h2><p>关于持续集成的基础知识可以去搜一下，大致就是可以在 git 本身在提交前后都有一堆的 hook，然后 CI 系统可以帮你自动跑一些东西，跑的前后都会有相应的 hook。Travis CI是 github 支持最好的持续集成网站。<br>这个部分我反复提交了很多很多次才成功，只贴最后的结果。大致做的事情是在3个不同的 go 版本环境分别检测 gofmt 是不是符合规范，然后运行一遍所有的 test，最后上传覆盖率文件到codecov。<br>然后在相应的网站去找自动生成的 badge，贴到自己的 markdown 里面就好了：</p>
+<p><a target="_blank" rel="noopener" href="https://travis-ci.org/wangzitian0/golang-gin-starter-kit"><img src="https://travis-ci.org/wangzitian0/golang-gin-starter-kit.svg?branch=master" alt="Build Status"></a><br><a target="_blank" rel="noopener" href="https://codecov.io/gh/wangzitian0/golang-gin-starter-kit"><img src="https://codecov.io/gh/wangzitian0/golang-gin-starter-kit/branch/master/graph/badge.svg" alt="codecov"></a></p>
+<p>.travis.yml</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">language: go</span><br><span class="line"></span><br><span class="line">go:</span><br><span class="line">  - 1.7</span><br><span class="line">  - 1.8.x</span><br><span class="line">  - master</span><br><span class="line"></span><br><span class="line">go_import_path: github.com&#x2F;wangzitian0&#x2F;golang-gin-starter-kit</span><br><span class="line"></span><br><span class="line">services:</span><br><span class="line">  - sqlite3</span><br><span class="line"></span><br><span class="line">install:</span><br><span class="line">  - go get -u github.com&#x2F;wangzitian0&#x2F;golang-gin-starter-kit</span><br><span class="line">  - go get -u github.com&#x2F;kardianos&#x2F;govendor</span><br><span class="line">  - govendor sync</span><br><span class="line">script:</span><br><span class="line">#  - go test -v .&#x2F;...</span><br><span class="line">  - bash .&#x2F;scripts&#x2F;gofmt.sh</span><br><span class="line">  - bash .&#x2F;scripts&#x2F;coverage.sh</span><br><span class="line"></span><br><span class="line">after_success:</span><br><span class="line">  - bash &lt;(curl -s https:&#x2F;&#x2F;codecov.io&#x2F;bash)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="https://github.com/wangzitian0/golang-gin-starter-kit/tree/0.0.3">https://github.com/wangzitian0/golang-gin-starter-kit/tree/0.0.3</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/HTML/" rel="tag"># HTML</a>
+              <a href="/tags/zero2one/" rel="tag"># zero2one</a>
+              <a href="/tags/golang/" rel="tag"># golang</a>
+              <a href="/tags/gin/" rel="tag"># gin</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2013/07/26/zero-to-one-3/" rel="prev" title="从零到一建站（3）">
+      <i class="fa fa-chevron-left"></i> 从零到一建站（3）
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2013/07/28/Airbnb-JavaScript-Style-Guide/" rel="next" title="Airbnb JavaScript Style Guide (1)">
+      Airbnb JavaScript Style Guide (1) <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Go-tools"><span class="nav-number">1.</span> <span class="nav-text">Go tools</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#go-fmt"><span class="nav-number">1.1.</span> <span class="nav-text">go fmt</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#go-doc"><span class="nav-number">1.2.</span> <span class="nav-text">go doc</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#go-test"><span class="nav-number">1.3.</span> <span class="nav-text">go test</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#gogogo"><span class="nav-number">2.</span> <span class="nav-text">gogogo</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%8E-users-%E6%A8%A1%E5%9D%97%E5%BC%80%E5%A7%8B%E6%94%B9%E9%80%A0"><span class="nav-number">2.1.</span> <span class="nav-text">从 users 模块开始改造</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#goc-go"><span class="nav-number">2.1.1.</span> <span class="nav-text">goc.go</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#models-go"><span class="nav-number">2.1.2.</span> <span class="nav-text">models.go</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#middlewares-go"><span class="nav-number">2.1.3.</span> <span class="nav-text">middlewares.go</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#tests-go"><span class="nav-number">2.1.4.</span> <span class="nav-text">tests.go</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Travis-CI"><span class="nav-number">2.2.</span> <span class="nav-text">Travis CI</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">田_田</p>
+  <div class="site-description" itemprop="description">创新需要在一切发生之前研究结局!</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">34</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wangzitian0" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wangzitian0" rel="noopener" target="_blank"><i class="github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wangzitian0@gmail.com" title="E-Mail → mailto:wangzitian0@gmail.com" rel="noopener" target="_blank"><i class="envelope fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.linkedin.com/in/wangzitian0" title="LinkedIn → https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;wangzitian0" rel="noopener" target="_blank"><i class="linkedin fa-fw"></i></a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class=""></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">田_田</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a>
+  </div>
+
+        
+
+
+
+
+
+
+<script>
+  (function() {
+    function leancloudSelector(url) {
+      url = encodeURI(url);
+      return document.getElementById(url).querySelector('.leancloud-visitors-count');
+    }
+
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = decodeURI(visitors.id);
+      var title = visitors.dataset.flagTitle;
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            leancloudSelector(url).innerText = counter.time + 1;
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              });
+          } else {
+              leancloudSelector(url).innerText = 'Counter not initialized! More info at console err msg.';
+              console.error('ATTENTION! LeanCloud counter has security bug, see how to solve it here: https://github.com/theme-next/hexo-leancloud-counter-security. \n However, you can still use LeanCloud without security, by setting `security` option to `false`.');
+            
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return decodeURI(element.id);
+      });
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          for (let url of entries) {
+            let target = results.find(item => item.url === url);
+            leancloudSelector(url).innerText = target ? target.time : 0;
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    let { app_id, app_key, server_url } = {"enable":true,"app_id":"itw5YW53yzX17tr3WAdRd9Dd-gzGzoHsz","app_key":"qLjOt8jjizQl0ys5OSdwf10Y","server_url":null,"security":true,"betterPerformance":true};
+    function fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${api_server}/1.1${url}`, {
+          method,
+          headers: {
+            'X-LC-Id'     : app_id,
+            'X-LC-Key'    : app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    }
+
+    let api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(response => response.json())
+        .then(({ api_server }) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="//cdn.jsdelivr.net/npm/algoliasearch@4/dist/algoliasearch-lite.umd.js"></script>
+<script src="//cdn.jsdelivr.net/npm/instantsearch.js@4/dist/instantsearch.production.min.js"></script>
+<script src="/js/algolia-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
